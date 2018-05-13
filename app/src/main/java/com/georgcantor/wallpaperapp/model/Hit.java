@@ -79,7 +79,8 @@ public class Hit implements Parcelable {
             instance.id = ((int) in.readValue((int.class.getClassLoader())));
             instance.userImageURL = ((String) in.readValue((String.class.getClassLoader())));
             instance.imageHeight = ((int) in.readValue((int.class.getClassLoader())));
-            instance.additionalProperties = ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
+            instance.additionalProperties =
+                    ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
             return instance;
         }
 
@@ -88,6 +89,7 @@ public class Hit implements Parcelable {
         }
 
     };
+
     private final static long serialVersionUID = -1966043808408472832L;
 
     public int getPreviewHeight() {
@@ -285,5 +287,4 @@ public class Hit implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
 }
