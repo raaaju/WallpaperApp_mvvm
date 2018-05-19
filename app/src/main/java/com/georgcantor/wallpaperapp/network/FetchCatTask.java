@@ -13,17 +13,19 @@ import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 
-public class FetchNavTask extends AsyncTask<Void, Void, Pic> {
+public class FetchCatTask extends AsyncTask<Void, Void, Pic> {
 
     private Pic picResult = new Pic();
     private Context context;
     private AsyncResponse output;
     private int index;
+    private String type;
 
-    public FetchNavTask(Context context, AsyncResponse output, int index) {
+    public FetchCatTask(Context context, AsyncResponse output, int index, String type) {
         this.context = context;
         this.output = output;
         this.index = index;
+        this.type = type;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class FetchNavTask extends AsyncTask<Void, Void, Pic> {
 
         ApiService client = retrofit.create(ApiService.class);
         Call<Pic> call;
-        call = client.getLatestPic(index);
+        call = client.getCatPic(type, index);
         call.enqueue(new Callback<Pic>() {
             @Override
             public void onResponse(retrofit2.Response<Pic> response) {

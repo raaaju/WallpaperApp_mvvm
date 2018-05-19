@@ -23,23 +23,23 @@ public class WallpService {
         if (networkUtilities.isInternetConnectionPresent()) {
             switch (type) {
                 case "latest":
-                    FetchNavTask fwt = new FetchNavTask(context, output, index);
-                    fwt.execute();
+                    FetchNavTask fetchNavTask = new FetchNavTask(context, output, index);
+                    fetchNavTask.execute();
                     break;
 
                 case "popular":
-                    FetchWallpTask fnt = new FetchWallpTask(context, output, index);
-                    fnt.execute();
+                    FetchWallpTask fetchWallpTask = new FetchWallpTask(context, output, index);
+                    fetchWallpTask.execute();
                     break;
 
                 case "editors_choice":
-                    FetchEditTask fet = new FetchEditTask(context, output, index);
-                    fet.execute();
+                    FetchEditTask fetchEditTask = new FetchEditTask(context, output, index);
+                    fetchEditTask.execute();
                     break;
 
                 default:
-                    FetchCatTask fct = new FetchCatTask(context, output, index, type);
-                    fct.execute();
+                    FetchCatTask fetchCatTask = new FetchCatTask(context, output, index, type);
+                    fetchCatTask.execute();
                     break;
             }
         }

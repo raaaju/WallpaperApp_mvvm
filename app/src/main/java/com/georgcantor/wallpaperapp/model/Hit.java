@@ -53,7 +53,7 @@ public class Hit implements Parcelable {
     @SimpleSQLColumn("col_imageHeight")
     private int imageHeight;
 
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     public final static Parcelable.Creator<Hit> CREATOR = new Creator<Hit>() {
 
