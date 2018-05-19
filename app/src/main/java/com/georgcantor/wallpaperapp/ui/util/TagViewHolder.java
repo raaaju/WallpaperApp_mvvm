@@ -12,6 +12,6 @@ public class TagViewHolder extends RecyclerView.ViewHolder {
 
     public TagViewHolder(View itemView) {
         super(itemView);
-        tag = (TextView) itemView.findViewById(R.id.tag_item);
+        tag = itemView.findViewById(R.id.tag_item);
     }
 }
