@@ -91,4 +91,6 @@
     <string name="image_jpg">image/jpg</string>
     <string name="mimeType">mimeType</string>
     <string name="widget_item">widget item</string>
+    <string name="about"> <b>Developer:</b> \t Alex Kirillov \n\nHigher School Of Economics \n\n<b>Email:</b>\n\n cupsman1986@gmail.com
+    </string>
 </resources>
