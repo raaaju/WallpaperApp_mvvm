@@ -22,13 +22,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AboutActivity" />
-        <activity android:name=".ui.CollectionActivity" />
-        <activity android:name=".ui.LicenseActivity" />
-        <activity android:name=".ui.SelectCategory" />
-        <activity android:name=".ui.PicDetail" />
+        <activity
+            android:name=".ui.PicDetail"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_detail_name"
+            android:theme="@style/AppDetailTheme" />
+        <activity
+            android:name=".ui.SelectCategory"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_detail_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.NavActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_detail_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.CollectionActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_detail_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.LicenseActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_detail_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/app_detail_name"
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".ui.widget.StackWidgetService" />
+        <provider
+            android:name=".PicProvider"
+            android:authorities="com.example.android.capstone" />
     </application>
 
 </manifest>

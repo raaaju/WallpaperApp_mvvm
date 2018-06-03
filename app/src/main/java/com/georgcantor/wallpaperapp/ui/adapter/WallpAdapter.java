@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.model.Pic;
+import com.georgcantor.wallpaperapp.ui.PicDetail;
 import com.georgcantor.wallpaperapp.ui.util.WallpViewHolder;
 import com.squareup.picasso.Picasso;
 

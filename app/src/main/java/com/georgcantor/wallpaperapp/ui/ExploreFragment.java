@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Category;
+import com.georgcantor.wallpaperapp.ui.adapter.ExploreAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,6 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MyApplication.getInstance().trackScreenView(getResources().getString(R.string.explorefragment));
     }
 
     @Override

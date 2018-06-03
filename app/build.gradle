@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions.includeCompileClasspath = true
+        }
     }
     buildTypes {
         release {
@@ -33,7 +36,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'ckm.simple:simple_sql_provider_annotation:1.0.6'
-    implementation 'ckm.simple:simple_sql_provider_processor:1.0.6'
+    implementation 'com.squareup:javapoet:1.9.0'
+    implementation 'ckm.simple:simple_sql_provider_annotation:1.0.7'
+    implementation 'ckm.simple:simple_sql_provider_processor:1.0.7'
     implementation 'jp.wasabeef:picasso-transformations:2.1.0'
 }

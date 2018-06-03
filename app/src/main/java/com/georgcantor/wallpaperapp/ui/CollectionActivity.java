@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
+import com.georgcantor.wallpaperapp.model.WallDownloadTable;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.ui.adapter.CollectionAdapter;
 

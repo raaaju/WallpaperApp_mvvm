@@ -23,9 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
+import com.georgcantor.wallpaperapp.model.WallDownloadTable;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter;
 import com.squareup.picasso.Picasso;
@@ -91,13 +91,16 @@ public class PicDetail extends AppCompatActivity {
         user_image = findViewById(R.id.user_image);
         downloads = findViewById(R.id.down);
         recyclerView = findViewById(R.id.tagsRv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
         tagAdapter = new TagAdapter(this);
         tagAdapter.setTagList(tags);
         recyclerView.setAdapter(tagAdapter);
-        file = new File(Environment.getExternalStoragePublicDirectory("/" + getResources().getString(R.string.app_name)), hit.getId() + getResources().getString(R.string.jpg));
-        if (getIntent().hasExtra(origin)) {
+        file = new File(Environment.getExternalStoragePublicDirectory("/"
+                + getResources().getString(R.string.app_name)), hit.getId()
+                + getResources().getString(R.string.jpg));
 
+        if (getIntent().hasExtra(origin)) {
             Picasso.with(this)
                     .load(file)
                     .placeholder(R.drawable.plh)
@@ -222,7 +225,6 @@ public class PicDetail extends AppCompatActivity {
             if (downloadReceiver != null)
                 unregisterReceiver(downloadReceiver);
         } catch (Exception e) {
-            MyApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
         super.onDestroy();
