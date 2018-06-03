@@ -1,13 +1,11 @@
 package com.georgcantor.wallpaperapp.ui;
 
+import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -33,29 +31,28 @@ public class CollectionActivity extends AppCompatActivity {
     public int column_no;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_select_category);
-        Toolbar toolbar = findViewById(R.id.toolbar_category);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_category);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.collection_string);
-        recyclerView_coll = findViewById(R.id.SelCatRecView);
+        recyclerView_coll = (RecyclerView) findViewById(R.id.SelCatRecView);
         recyclerView_coll.setHasFixedSize(true);
-
         checkScreenSize();
-        StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
         recyclerView_coll.setLayoutManager(staggeredGridLayoutManager);
         collectionAdapter = new CollectionAdapter(this);
-
-        getSupportLoaderManager().initLoader(LOADER_ID, null, contactsLoader);
+        getSupportLoaderManager().initLoader(LOADER_ID, null,
+                (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) contactsLoader);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
     }
 
     @Override
@@ -63,34 +60,37 @@ public class CollectionActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
+
         return super.onOptionsItemSelected(item);
     }
+
 
     private LoaderManager.LoaderCallbacks<Cursor> contactsLoader =
             new LoaderManager.LoaderCallbacks<Cursor>() {
 
-                @NonNull
                 @Override
-                public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+                public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
                     CursorLoader cursorLoader = new CursorLoader(CollectionActivity.this,
-                            WallDownloadTable.CONTENT_URI,
-                            null,
-                            null,
-                            null,
-                            null
+                            WallDownloadTable.CONTENT_URI, // URI
+                            null, // projection fields
+                            null, // the selection criteria
+                            null, // the selection args
+                            null // the sort order
                     );
-                    return cursorLoader();
+
+                    return cursorLoader;
                 }
 
                 @Override
-                public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+                public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
                     result = WallDownloadTable.getRows(cursor, true);
                     collectionAdapter.setHitList(result);
                     recyclerView_coll.setAdapter(collectionAdapter);
                 }
 
                 @Override
-                public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+                public void onLoaderReset(Loader<Cursor> loader) {
                     result = new ArrayList<>();
                     collectionAdapter.setHitList(result);
                     recyclerView_coll.setAdapter(collectionAdapter);
@@ -104,6 +104,7 @@ public class CollectionActivity extends AppCompatActivity {
 
         switch (screenSize) {
             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+
                 column_no = 4;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_UNDEFINED:
