@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AboutActivity" />
+        <activity android:name=".ui.CollectionActivity" />
 
         <service android:name=".ui.widget.StackWidgetService" />
     </application>
