@@ -10,10 +10,6 @@
             android:id="@+id/nav_editor"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/editor" />
-        <item
-            android:id="@+id/nav_collection"
-            android:icon="@drawable/ic_menu_collect"
-            android:title="@string/collection" />
 
     </group>
 

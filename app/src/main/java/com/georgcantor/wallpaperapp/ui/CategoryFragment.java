@@ -12,23 +12,23 @@ import android.view.ViewGroup;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Category;
-import com.georgcantor.wallpaperapp.ui.adapter.ExploreAdapter;
+import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExploreFragment extends Fragment {
+public class CategoryFragment extends Fragment {
 
     public RecyclerView recyclerView;
     public List<Category> categoryList = new ArrayList<>();
-    public ExploreAdapter exploreAdapter;
+    public CategoryAdapter categoryAdapter;
     public int column_no;
 
-    public ExploreFragment() {
+    public CategoryFragment() {
     }
 
-    public static ExploreFragment newInstance() {
-        ExploreFragment fragment = new ExploreFragment();
+    public static CategoryFragment newInstance() {
+        CategoryFragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -47,16 +47,16 @@ public class ExploreFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_explore, container, false);
+        View view = inflater.inflate(R.layout.fragment_category, container, false);
         recyclerView = view.findViewById(R.id.expRecView);
         recyclerView.setHasFixedSize(true);
         checkScreenSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), column_no));
-        exploreAdapter = new ExploreAdapter(getActivity());
+        categoryAdapter = new CategoryAdapter(getActivity());
 
         populate();
-        exploreAdapter.setCategoryList(categoryList);
-        recyclerView.setAdapter(exploreAdapter);
+        categoryAdapter.setCategoryList(categoryList);
+        recyclerView.setAdapter(categoryAdapter);
         return view;
     }
 

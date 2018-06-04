@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+        viewPager.setOffscreenPageLimit(3);
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -72,10 +73,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_editor) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.editor_small));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_collection) {
-            Intent intent = new Intent(this, CollectionActivity.class);
             this.startActivity(intent);
 
         } else if (id == R.id.nav_about) {

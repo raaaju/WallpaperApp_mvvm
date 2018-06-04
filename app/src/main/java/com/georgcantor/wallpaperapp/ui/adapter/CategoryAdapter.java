@@ -16,12 +16,12 @@ import com.georgcantor.wallpaperapp.ui.util.ExploreViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExploreAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
 
     private List<Category> categoryList;
     private Context context;
 
-    public ExploreAdapter(Context context) {
+    public CategoryAdapter(Context context) {
         this.context = context;
         this.categoryList = new ArrayList<>();
     }

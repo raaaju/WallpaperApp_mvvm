@@ -2,15 +2,20 @@ package com.georgcantor.wallpaperapp.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.georgcantor.wallpaperapp.ui.DiscoverFragment;
-import com.georgcantor.wallpaperapp.ui.ExploreFragment;
+import com.georgcantor.wallpaperapp.MyApplication;
+import com.georgcantor.wallpaperapp.R;
+import com.georgcantor.wallpaperapp.ui.CategoryFragment;
+import com.georgcantor.wallpaperapp.ui.LatestFragment;
+import com.georgcantor.wallpaperapp.ui.PopularFragment;
 
-public class PagerAdapter extends FragmentPagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
 
-    final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[]{"Discover", "Explore"};
+    private String tabTitles[] = new String[]{MyApplication.getInstance().getResources()
+            .getString(R.string.popular_tab), MyApplication.getInstance().getResources()
+            .getString(R.string.latest_tab), MyApplication.getInstance().getResources()
+            .getString(R.string.category_tab)};
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -18,15 +23,20 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return 3;
     }
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0)
-            return DiscoverFragment.newInstance();
-        else
-            return ExploreFragment.newInstance();
+        switch (position) {
+            case 0:
+                return PopularFragment.newInstance();
+            case 1:
+                return LatestFragment.newInstance();
+            case 2:
+                return CategoryFragment.newInstance();
+        }
+        return null;
     }
 
     @Override
