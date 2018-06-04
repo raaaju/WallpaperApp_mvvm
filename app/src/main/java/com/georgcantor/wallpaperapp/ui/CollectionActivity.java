@@ -1,11 +1,11 @@
 package com.georgcantor.wallpaperapp.ui;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -41,15 +41,12 @@ public class CollectionActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.collection_string);
         recyclerView_coll = findViewById(R.id.SelCatRecView);
         recyclerView_coll.setHasFixedSize(true);
-
         checkScreenSize();
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
         recyclerView_coll.setLayoutManager(staggeredGridLayoutManager);
         collectionAdapter = new CollectionAdapter(this);
-
-        getSupportLoaderManager().initLoader(LOADER_ID, null,
-                (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) contactsLoader);
+        getSupportLoaderManager().initLoader(LOADER_ID, null, contactsLoader);
     }
 
     @Override
@@ -62,23 +59,22 @@ public class CollectionActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
     private LoaderManager.LoaderCallbacks<Cursor> contactsLoader =
             new LoaderManager.LoaderCallbacks<Cursor>() {
-
                 @Override
                 public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                    return new CursorLoader(CollectionActivity.this,
+                    CursorLoader cursorLoader = new CursorLoader(CollectionActivity.this,
                             WallDownloadTable.CONTENT_URI,
                             null,
                             null,
                             null,
                             null
                     );
+                    return cursorLoader;
                 }
 
                 @Override
