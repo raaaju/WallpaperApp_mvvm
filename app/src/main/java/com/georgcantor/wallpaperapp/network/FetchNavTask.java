@@ -10,8 +10,9 @@ import com.georgcantor.wallpaperapp.model.Pic;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchNavTask extends AsyncTask<Void, Void, Pic> {
 
@@ -38,9 +39,9 @@ public class FetchNavTask extends AsyncTask<Void, Void, Pic> {
         call = client.getLatestPic(index);
         call.enqueue(new Callback<Pic>() {
             @Override
-            public void onResponse(retrofit2.Response<Pic> response) {
+            public void onResponse(Call<Pic> call, Response<Pic> response) {
                 try {
-                    if (!response.isSuccess()) {
+                    if (!response.isSuccessful()) {
                         Log.d(context.getResources().getString(R.string.No_Success),
                                 response.errorBody().string());
                     } else {
@@ -55,7 +56,7 @@ public class FetchNavTask extends AsyncTask<Void, Void, Pic> {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Pic> call, Throwable t) {
                 Toast toast = Toast.makeText(context, context.getResources()
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT);
                 toast.show();
