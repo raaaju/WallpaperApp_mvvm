@@ -35,16 +35,19 @@ public class CollectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_select_category);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_category);
+        Toolbar toolbar = findViewById(R.id.toolbar_category);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.collection_string);
-        recyclerView_coll = (RecyclerView) findViewById(R.id.SelCatRecView);
+        recyclerView_coll = findViewById(R.id.SelCatRecView);
         recyclerView_coll.setHasFixedSize(true);
+
         checkScreenSize();
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
         recyclerView_coll.setLayoutManager(staggeredGridLayoutManager);
         collectionAdapter = new CollectionAdapter(this);
+
         getSupportLoaderManager().initLoader(LOADER_ID, null,
                 (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) contactsLoader);
     }
@@ -52,7 +55,6 @@ public class CollectionActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 
     @Override
@@ -70,16 +72,13 @@ public class CollectionActivity extends AppCompatActivity {
 
                 @Override
                 public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
-                    CursorLoader cursorLoader = new CursorLoader(CollectionActivity.this,
-                            WallDownloadTable.CONTENT_URI, // URI
-                            null, // projection fields
-                            null, // the selection criteria
-                            null, // the selection args
-                            null // the sort order
+                    return new CursorLoader(CollectionActivity.this,
+                            WallDownloadTable.CONTENT_URI,
+                            null,
+                            null,
+                            null,
+                            null
                     );
-
-                    return cursorLoader;
                 }
 
                 @Override
@@ -98,13 +97,11 @@ public class CollectionActivity extends AppCompatActivity {
             };
 
     public void checkScreenSize() {
-
         int screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
 
         switch (screenSize) {
             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-
                 column_no = 4;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_UNDEFINED:
