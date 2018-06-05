@@ -29,7 +29,6 @@ public class FetchBlueTask extends AsyncTask<Void, Void, Pic> {
 
     @Override
     protected Pic doInBackground(Void... params) {
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getResources().getString(R.string.pixabay_api_link))
                 .addConverterFactory(GsonConverterFactory.create())
