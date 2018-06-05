@@ -16,7 +16,7 @@ import com.georgcantor.wallpaperapp.network.WallpService;
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter;
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
-public class SelectCategory extends AppCompatActivity implements AsyncResponse {
+public class SelectCatActivity extends AppCompatActivity implements AsyncResponse {
 
     public static final String EXTRA_CAT = "category";
     public WallpAdapter catAdapter;

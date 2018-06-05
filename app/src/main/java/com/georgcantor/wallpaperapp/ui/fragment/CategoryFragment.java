@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui;
+package com.georgcantor.wallpaperapp.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

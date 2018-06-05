@@ -36,7 +36,7 @@ import java.util.List;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-public class PicDetail extends AppCompatActivity {
+public class PicDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_PIC = "picture";
     public static final String origin = "caller";
@@ -193,6 +193,10 @@ public class PicDetail extends AppCompatActivity {
     private long DownloadData(Uri uri) {
         long downloadReference;
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+
+        String name = Environment.getExternalStorageDirectory().getAbsolutePath();
+        name += "/YourDirectoryName/" ;
+
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(tags.get(0) + getResources().getString(R.string.down));
         request.setDescription(getResources().getString(R.string.down_canvas));

@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui;
+package com.georgcantor.wallpaperapp.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.georgcantor.wallpaperapp.network.WallpService;
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter;
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
-public class PopularFragment extends Fragment implements AsyncResponse {
+public class LatestFragment extends Fragment implements AsyncResponse {
 
     public WallpAdapter wallpAdapter;
     public RecyclerView recyclerView;
@@ -28,11 +28,11 @@ public class PopularFragment extends Fragment implements AsyncResponse {
     public WallpService wallpService;
     public int column_no;
 
-    public PopularFragment() {
+    public LatestFragment() {
     }
 
-    public static PopularFragment newInstance() {
-        PopularFragment fragment = new PopularFragment();
+    public static LatestFragment newInstance() {
+        LatestFragment fragment = new LatestFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -55,8 +55,8 @@ public class PopularFragment extends Fragment implements AsyncResponse {
         if (!networkUtilities.isInternetConnectionPresent()) {
             return inflater.inflate(R.layout.fragment_no_internet, container, false);
         } else {
-            View view = inflater.inflate(R.layout.fragment_popular, container, false);
-            recyclerView = view.findViewById(R.id.discRecView);
+            View view = inflater.inflate(R.layout.fragment_latest, container, false);
+            recyclerView = view.findViewById(R.id.latestRecView);
             recyclerView.setHasFixedSize(true);
 
             checkScreenSize();
@@ -85,7 +85,7 @@ public class PopularFragment extends Fragment implements AsyncResponse {
     }
 
     private void loadNextDataFromApi(int offset) {
-        String type = getResources().getString(R.string.popular);
+        String type = getResources().getString(R.string.latest_small);
         wallpService = new WallpService(networkUtilities, getActivity(), this, offset, type);
         wallpService.loadWallp();
     }

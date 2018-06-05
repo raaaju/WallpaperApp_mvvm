@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -28,9 +29,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         TextView myTitle = (TextView) toolbar.getChildAt(0);
-        Typeface tf = Typeface.createFromAsset(getAssets(),
-                getResources().getString(R.string.font_name));
-        myTitle.setTypeface(tf, Typeface.BOLD);
+        Typeface tf = Typeface.createFromAsset(getAssets(), getResources()
+                .getString(R.string.font_name));
+        if (Build.VERSION.SDK_INT >= 16) {
+            myTitle.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
+        } else {
+            myTitle.setTypeface(tf, Typeface.BOLD);
+        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);

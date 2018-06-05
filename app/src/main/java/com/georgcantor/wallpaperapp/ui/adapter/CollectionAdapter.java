@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
-import com.georgcantor.wallpaperapp.ui.PicDetail;
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity;
 import com.georgcantor.wallpaperapp.ui.util.WallpViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -41,9 +41,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<WallpViewHolder> {
             @Override
             public void onClick(View v) {
                 int position = rcv.getAdapterPosition();
-                Intent intent = new Intent(context, PicDetail.class);
-                intent.putExtra(PicDetail.EXTRA_PIC, hit.get(position));
-                intent.putExtra(PicDetail.origin, R.string.collection_string);
+                Intent intent = new Intent(context, PicDetailActivity.class);
+                intent.putExtra(PicDetailActivity.EXTRA_PIC, hit.get(position));
+                intent.putExtra(PicDetailActivity.origin, R.string.collection_string);
                 context.startActivity(intent);
             }
         });

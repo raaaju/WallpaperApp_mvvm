@@ -34,7 +34,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginLeft="@dimen/margin2"
-                    android:layout_marginRight="@dimen/margin2" />
+                    android:layout_marginRight="@dimen/margin2"
+                    android:fontFamily="cursive" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
@@ -107,6 +108,7 @@
                             android:layout_marginLeft="@dimen/margin4"
                             android:layout_marginRight="@dimen/margin4"
                             android:layout_marginTop="@dimen/margin"
+                            android:fontFamily="cursive"
                             android:padding="@dimen/text_padding2"
                             android:text="@string/by"
                             android:textSize="@dimen/text_size2" />
@@ -117,6 +119,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/margin"
+                            android:fontFamily="cursive"
                             android:padding="@dimen/text_padding2"
                             android:textSize="@dimen/text_size2" />
                     </LinearLayout>
@@ -146,6 +149,7 @@
                                 android:layout_marginLeft="@dimen/margin2"
                                 android:layout_marginRight="@dimen/margin2"
                                 android:layout_marginTop="@dimen/margin"
+                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:text="@string/downloads"
                                 android:textSize="@dimen/text_size0" />
@@ -158,6 +162,7 @@
                                 android:layout_marginLeft="@dimen/margin0"
                                 android:layout_marginRight="@dimen/margin0"
                                 android:layout_marginTop="@dimen/margin"
+                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:textSize="@dimen/text_size0" />
                         </LinearLayout>
@@ -174,6 +179,7 @@
                                 android:layout_marginLeft="@dimen/margin2"
                                 android:layout_marginRight="@dimen/margin2"
                                 android:layout_marginTop="@dimen/margin"
+                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:text="@string/favourite"
                                 android:textSize="@dimen/text_size0" />
@@ -186,6 +192,7 @@
                                 android:layout_marginLeft="@dimen/margin0"
                                 android:layout_marginRight="@dimen/margin0"
                                 android:layout_marginTop="@dimen/margin"
+                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:textSize="@dimen/text_size0" />
                         </LinearLayout>

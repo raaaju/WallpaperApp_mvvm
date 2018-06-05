@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Category;
-import com.georgcantor.wallpaperapp.ui.SelectCategory;
+import com.georgcantor.wallpaperapp.ui.SelectCatActivity;
 import com.georgcantor.wallpaperapp.ui.util.ExploreViewHolder;
 
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
             @Override
             public void onClick(View view) {
                 int position = rcv.getAdapterPosition();
-                Intent intent = new Intent(context, SelectCategory.class);
-                intent.putExtra(SelectCategory.EXTRA_CAT,
+                Intent intent = new Intent(context, SelectCatActivity.class);
+                intent.putExtra(SelectCatActivity.EXTRA_CAT,
                         categoryList.get(position).getCategory_draw_id());
                 context.startActivity(intent);
             }
