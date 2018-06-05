@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_latest"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/latest" />
+
         <item
             android:id="@+id/nav_editor"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/editors_choice"
             android:title="@string/editor" />
+
+        <item
+            android:id="@+id/nav_red_color"
+            android:icon="@drawable/red_icon"
+            android:title="@string/red_walp" />
+
+        <item
+            android:id="@+id/nav_blue_color"
+            android:icon="@drawable/blue_icon"
+            android:title="@string/blue_walp" />
 
     </group>
 
@@ -17,11 +25,11 @@
         <menu>
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_info"
+                android:icon="@drawable/info_icon"
                 android:title="@string/about_us" />
             <item
                 android:id="@+id/nav_license"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/licence_icon"
                 android:title="@string/license" />
         </menu>
     </item>

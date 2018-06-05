@@ -120,4 +120,8 @@
     <string name="popular_tab">Popular</string>
     <string name="category_tab">Category</string>
     <string name="latest_tab">Latest</string>
+    <string name="red_color">red_color</string>
+    <string name="red_walp">Red Wallpapers</string>
+    <string name="blue_walp">Blue Wallpapers</string>
+    <string name="blue_color">blue_color</string>
 </resources>

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
         ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(3);
@@ -70,14 +71,19 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_latest) {
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.latest_small));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_editor) {
+        if (id == R.id.nav_editor) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.editor_small));
+            this.startActivity(intent);
+
+        } else if (id == R.id.nav_red_color) {
+            Intent intent = new Intent(this, NavActivity.class);
+            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.red_color));
+            this.startActivity(intent);
+
+        } else if (id == R.id.nav_blue_color) {
+            Intent intent = new Intent(this, NavActivity.class);
+            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.blue_color));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_about) {

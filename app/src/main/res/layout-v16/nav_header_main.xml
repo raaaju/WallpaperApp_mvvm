@@ -18,7 +18,7 @@
         android:layout_height="@dimen/nav_image"
         android:contentDescription="@string/navigation"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/ic_launcher" />
+        app:srcCompat="@mipmap/launcher" />
 
     <TextView
         android:layout_width="match_parent"

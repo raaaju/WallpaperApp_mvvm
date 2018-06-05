@@ -21,4 +21,10 @@ public interface ApiService {
 
     @GET("?key=" + BuildConfig.API_KEY + "&editors_choice=true")
     Call<Pic> getEditorPic(@Query("page") int index);
+
+    @GET("?key=" + BuildConfig.API_KEY + "&colors=red")
+    Call<Pic> getRedPic(@Query("page") int index);
+
+    @GET("?key=" + BuildConfig.API_KEY + "&colors=blue")
+    Call<Pic> getBluePic(@Query("page") int index);
 }
