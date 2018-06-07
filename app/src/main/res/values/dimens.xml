@@ -27,4 +27,5 @@
     <dimen name="widget_item_height">150dp</dimen>
     <dimen name="widget_item_width">220dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="tv_name_margin">10dp</dimen>
 </resources>

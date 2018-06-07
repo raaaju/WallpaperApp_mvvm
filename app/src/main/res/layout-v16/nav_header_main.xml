@@ -23,6 +23,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tv_name_margin"
+        android:layout_marginStart="@dimen/tv_name_margin"
         android:fontFamily="cursive"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/app_name"
