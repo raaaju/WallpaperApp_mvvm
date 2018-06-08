@@ -86,6 +86,16 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.blue_color));
             this.startActivity(intent);
 
+        } else if (id == R.id.nav_black_color) {
+            Intent intent = new Intent(this, NavActivity.class);
+            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.black_color));
+            this.startActivity(intent);
+
+        } else if (id == R.id.nav_yellow_color) {
+            Intent intent = new Intent(this, NavActivity.class);
+            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.yellow_color));
+            this.startActivity(intent);
+
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             this.startActivity(intent);

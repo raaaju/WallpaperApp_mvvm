@@ -11,13 +11,23 @@
 
         <item
             android:id="@+id/nav_red_color"
-            android:icon="@drawable/red_icon"
+            android:icon="@drawable/red_square"
             android:title="@string/red_walp" />
 
         <item
             android:id="@+id/nav_blue_color"
-            android:icon="@drawable/blue_icon"
+            android:icon="@drawable/blue_square"
             android:title="@string/blue_walp" />
+
+        <item
+            android:id="@+id/nav_black_color"
+            android:icon="@drawable/black_square"
+            android:title="@string/black_walp" />
+
+        <item
+            android:id="@+id/nav_yellow_color"
+            android:icon="@drawable/yellow_square"
+            android:title="@string/yellow_walp" />
 
     </group>
 

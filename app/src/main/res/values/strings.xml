@@ -120,5 +120,9 @@
     <string name="red_color">red_color</string>
     <string name="red_walp">Red Wallpapers</string>
     <string name="blue_walp">Blue Wallpapers</string>
+    <string name="black_walp">Black Wallpapers</string>
     <string name="blue_color">blue_color</string>
+    <string name="black_color">black_color</string>
+    <string name="yellow_color">yellow_color</string>
+    <string name="yellow_walp">Yellow Wallpapers</string>
 </resources>

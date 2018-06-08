@@ -47,6 +47,16 @@ public class WallpService {
                     fetchBlueTask.execute();
                     break;
 
+                case "black_color":
+                    FetchBlackTask fetchBlackTask = new FetchBlackTask(context, output, index);
+                    fetchBlackTask.execute();
+                    break;
+
+                case "yellow_color":
+                    FetchYellowTask fetchYellowTask = new FetchYellowTask(context, output, index);
+                    fetchYellowTask.execute();
+                    break;
+
                 default:
                     FetchCatTask fetchCatTask = new FetchCatTask(context, output, index, type);
                     fetchCatTask.execute();

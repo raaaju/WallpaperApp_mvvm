@@ -27,4 +27,10 @@ public interface ApiService {
 
     @GET("?key=" + BuildConfig.API_KEY + "&colors=blue")
     Call<Pic> getBluePic(@Query("page") int index);
+
+    @GET("?key=" + BuildConfig.API_KEY + "&colors=black")
+    Call<Pic> getBlackPic(@Query("page") int index);
+
+    @GET("?key=" + BuildConfig.API_KEY + "&colors=yellow")
+    Call<Pic> getYellowPic(@Query("page") int index);
 }

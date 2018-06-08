@@ -121,5 +121,7 @@
     <string name="red_color">red_color</string>
     <string name="red_walp">Красные обои</string>
     <string name="blue_walp">Голубые обои</string>
+    <string name="black_walp">Черные обои</string>
     <string name="blue_color">blue_color</string>
+    <string name="yellow_walp">Желтые обои</string>
 </resources>
