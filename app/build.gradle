@@ -6,8 +6,8 @@ android {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 1
-        versionName '1.0.1'
+        versionCode 2
+        versionName '1.0.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions.includeCompileClasspath = true
@@ -23,6 +23,12 @@ android {
         it.buildConfigField 'String', 'API_KEY', "\"9179624-180dd31b7b27ed73810aeeb72\""
     }
     productFlavors {
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 }
 

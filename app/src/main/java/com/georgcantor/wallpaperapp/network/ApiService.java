@@ -9,20 +9,20 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @GET("?key=" + BuildConfig.API_KEY + "&order=popular")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=mercedes-benz")
     Call<Pic> getPopularPic(@Query("page") int index);
 
     @GET("?key=" + BuildConfig.API_KEY)
     Call<Pic> getCatPic(@Query("category") String category,
                         @Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&order=latest")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=bmw")
     Call<Pic> getLatestPic(@Query("page") int index);
 
     @GET("?key=" + BuildConfig.API_KEY + "&editors_choice=true")
     Call<Pic> getEditorPic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&colors=red")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=bmw")
     Call<Pic> getRedPic(@Query("page") int index);
 
     @GET("?key=" + BuildConfig.API_KEY + "&colors=blue")
