@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Pic;
@@ -27,6 +29,7 @@ public class LatestFragment extends Fragment implements AsyncResponse {
     public EndlessRecyclerViewScrollListener scrollListener;
     public WallpService wallpService;
     public int column_no;
+    public ImageView ivNoInternet;
 
     public LatestFragment() {
     }
@@ -52,29 +55,39 @@ public class LatestFragment extends Fragment implements AsyncResponse {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        if (!networkUtilities.isInternetConnectionPresent()) {
-            return inflater.inflate(R.layout.fragment_no_internet, container, false);
-        } else {
-            View view = inflater.inflate(R.layout.fragment_latest, container, false);
-            recyclerView = view.findViewById(R.id.latestRecView);
-            recyclerView.setHasFixedSize(true);
+        View view = inflater.inflate(R.layout.fragment_latest, container, false);
+        recyclerView = view.findViewById(R.id.latestRecView);
+        recyclerView.setHasFixedSize(true);
 
-            checkScreenSize();
-            StaggeredGridLayoutManager staggeredGridLayoutManager =
-                    new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(staggeredGridLayoutManager);
-            scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    loadNextDataFromApi(page);
-                }
-            };
-            scrollListener.resetState();
-            recyclerView.addOnScrollListener(scrollListener);
-            wallpAdapter = new WallpAdapter(getActivity());
-            recyclerView.setAdapter(wallpAdapter);
-            return view;
+        ivNoInternet = view.findViewById(R.id.iv_no_internet);
+        if (!networkUtilities.isInternetConnectionPresent()) {
+            ivNoInternet.setVisibility(View.VISIBLE);
         }
+
+        final SwipeRefreshLayout mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadNextDataFromApi(1);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        checkScreenSize();
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadNextDataFromApi(page);
+            }
+        };
+        scrollListener.resetState();
+        recyclerView.addOnScrollListener(scrollListener);
+        wallpAdapter = new WallpAdapter(getActivity());
+        recyclerView.setAdapter(wallpAdapter);
+        return view;
     }
 
     @Override
