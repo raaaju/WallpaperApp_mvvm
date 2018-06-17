@@ -6,27 +6,27 @@
 
         <item
             android:id="@+id/nav_editor"
-            android:icon="@drawable/editors_choice"
+            android:icon="@drawable/porsche"
             android:title="@string/editor" />
 
         <item
             android:id="@+id/nav_red_color"
-            android:icon="@drawable/red_square"
+            android:icon="@drawable/audi"
             android:title="@string/red_walp" />
 
         <item
             android:id="@+id/nav_blue_color"
-            android:icon="@drawable/blue_square"
+            android:icon="@drawable/bugatti"
             android:title="@string/blue_walp" />
 
         <item
             android:id="@+id/nav_black_color"
-            android:icon="@drawable/black_square"
+            android:icon="@drawable/ferrari"
             android:title="@string/black_walp" />
 
         <item
             android:id="@+id/nav_yellow_color"
-            android:icon="@drawable/yellow_square"
+            android:icon="@drawable/lambo"
             android:title="@string/yellow_walp" />
 
     </group>

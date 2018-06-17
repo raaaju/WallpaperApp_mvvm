@@ -17,7 +17,7 @@
     <string name="explore_item">Category item</string>
     <string name="latest">Latest</string>
     <string name="latest_small">latest</string>
-    <string name="editor">Editor\'s Choice</string>
+    <string name="editor">Porsche</string>
     <string name="editor_small">editors_choice</string>
     <string name="about_us">About Us</string>
     <string name="license">License</string>
@@ -114,15 +114,15 @@
         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
         See the License for the specific language governing permissions and
         limitations under the License.</string>
-    <string name="popular_tab">Popular</string>
+    <string name="popular_tab">Mercedes-Benz</string>
     <string name="category_tab">Category</string>
-    <string name="latest_tab">Latest</string>
+    <string name="latest_tab">BMW</string>
     <string name="red_color">red_color</string>
-    <string name="red_walp">Red Wallpapers</string>
-    <string name="blue_walp">Blue Wallpapers</string>
-    <string name="black_walp">Black Wallpapers</string>
+    <string name="red_walp">Audi</string>
+    <string name="blue_walp">Bugatti</string>
+    <string name="black_walp">Ferrari</string>
     <string name="blue_color">blue_color</string>
     <string name="black_color">black_color</string>
     <string name="yellow_color">yellow_color</string>
-    <string name="yellow_walp">Yellow Wallpapers</string>
+    <string name="yellow_walp">Lamborghini</string>
 </resources>

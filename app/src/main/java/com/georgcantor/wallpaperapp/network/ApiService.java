@@ -19,18 +19,18 @@ public interface ApiService {
     @GET("?key=" + BuildConfig.API_KEY + "&q=bmw")
     Call<Pic> getLatestPic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&editors_choice=true")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=porsche")
     Call<Pic> getEditorPic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&q=bmw")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=audi")
     Call<Pic> getRedPic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&colors=blue")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=bugatti")
     Call<Pic> getBluePic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&colors=black")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=ferrari")
     Call<Pic> getBlackPic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&colors=yellow")
+    @GET("?key=" + BuildConfig.API_KEY + "&q=lamborghini")
     Call<Pic> getYellowPic(@Query("page") int index);
 }

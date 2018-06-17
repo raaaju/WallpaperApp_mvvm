@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Обои</string>
+    <string name="app_name">Mercedes-Benz &amp; BMW Обои</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="app_detail_name"> </string>
@@ -18,7 +18,6 @@
     <string name="explore_item">Category item</string>
     <string name="latest">Последние</string>
     <string name="latest_small">latest</string>
-    <string name="editor">Выбор пользователей</string>
     <string name="editor_small">editors_choice</string>
     <string name="about_us">О нас</string>
     <string name="license">Лицензия</string>
@@ -115,13 +114,14 @@
         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
         See the License for the specific language governing permissions and
         limitations under the License.</string>
-    <string name="popular_tab">Популярное</string>
+    <string name="popular_tab">Mercedes-Benz</string>
     <string name="category_tab">Категории</string>
-    <string name="latest_tab">Последнее</string>
+    <string name="latest_tab">BMW</string>
+    <string name="editor">Porsche</string>
     <string name="red_color">red_color</string>
-    <string name="red_walp">Красные обои</string>
-    <string name="blue_walp">Голубые обои</string>
-    <string name="black_walp">Черные обои</string>
+    <string name="red_walp">Audi</string>
+    <string name="blue_walp">Bugatti</string>
+    <string name="black_walp">Ferrari</string>
     <string name="blue_color">blue_color</string>
-    <string name="yellow_walp">Желтые обои</string>
+    <string name="yellow_walp">Lamborghini</string>
 </resources>
