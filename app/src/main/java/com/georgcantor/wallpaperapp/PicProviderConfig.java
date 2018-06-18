@@ -5,7 +5,7 @@ import ckm.simple.sql_provider.annotation.ProviderConfig;
 import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
 
 @SimpleSQLConfig(name = "WallpaperProvider", authority = "com.georgcantor.wallpaperapp",
-        database = "wallDownload.db", version = 6)
+        database = "wallDownload.db", version = 11)
 public class PicProviderConfig implements ProviderConfig {
 
     @Override
