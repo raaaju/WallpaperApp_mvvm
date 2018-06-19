@@ -47,11 +47,6 @@
             android:label="@string/app_detail_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.CollectionActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_detail_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.LicenseActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_detail_name"
@@ -61,10 +56,6 @@
             android:label="@string/app_detail_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <provider
-            android:name=".WallpaperProvider"
-            android:authorities="com.georgcantor.wallpaperapp"
-            android:exported="false" />
     </application>
 
 </manifest>

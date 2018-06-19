@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
-import com.georgcantor.wallpaperapp.model.WallDownloadTable;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter;
 import com.squareup.picasso.Picasso;
@@ -41,7 +40,7 @@ public class PicDetailActivity extends AppCompatActivity {
     public static final String EXTRA_PIC = "picture";
     public static final String origin = "caller";
     private Hit hit;
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tags = new ArrayList<>();
     int first = 0;
     public NetworkUtilities networkUtilities;
     public RecyclerView recyclerView;
@@ -101,7 +100,7 @@ public class PicDetailActivity extends AppCompatActivity {
             isCallerCollection = true;
         } else {
             Picasso.with(this)
-                    .load(hit.getWebformatURL())
+                    .load(hit.getFullHDURL())
                     .placeholder(R.drawable.plh)
                     .into(wallp);
         }
@@ -150,8 +149,7 @@ public class PicDetailActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_down) {
             if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
                 if (!fileExistance()) {
-                    String uri = hit.getWebformatURL();
-                    uri = uri.replaceAll("_640", "_960");
+                    String uri = hit.getImageURL();
                     Uri image_uri = Uri.parse(uri);
                     downloadData(image_uri);
                     item.setEnabled(false);
@@ -197,9 +195,6 @@ public class PicDetailActivity extends AppCompatActivity {
                 + getResources().getString(R.string.app_name), hit.getId()
                 + getResources().getString(R.string.jpg));
         downloadReference = downloadManager.enqueue(request);
-        getContentResolver().insert(WallDownloadTable.CONTENT_URI,
-                WallDownloadTable.getContentValues(hit, false));
-        getContentResolver().notifyChange(WallDownloadTable.CONTENT_URI, null);
 
         return downloadReference;
     }
