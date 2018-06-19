@@ -41,13 +41,6 @@ public class PicDetailActivity extends AppCompatActivity {
     public static final String EXTRA_PIC = "picture";
     public static final String origin = "caller";
     private Hit hit;
-    private ImageView wallp;
-    private TextView tag_title;
-    private TextView fav;
-    private TextView downloads;
-    private ImageView user_image;
-    private String title;
-    private TextView user_id;
     private List<String> tags = new ArrayList<String>();
     int first = 0;
     public NetworkUtilities networkUtilities;
@@ -57,7 +50,7 @@ public class PicDetailActivity extends AppCompatActivity {
     public boolean isCallerCollection = false;
     private Menu menu;
     private File file;
-    private int permissionCheck1, MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 102;
+    private int permissionCheck1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +58,7 @@ public class PicDetailActivity extends AppCompatActivity {
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_pic_detail);
         Toolbar toolbar = findViewById(R.id.toolbar_detail);
-        tag_title = findViewById(R.id.toolbar_title);
+        TextView tagTitle = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         permissionCheck1 = ContextCompat.checkSelfPermission(this,
@@ -76,7 +69,7 @@ public class PicDetailActivity extends AppCompatActivity {
         } else {
             throw new IllegalArgumentException("Detail activity must receive a Hit parcelable");
         }
-        title = hit.getTags();
+        String title = hit.getTags();
         while (title.contains(",")) {
             String f = title.substring(0, title.indexOf(","));
             tags.add(f);
@@ -84,12 +77,12 @@ public class PicDetailActivity extends AppCompatActivity {
             title = title.substring(++first);
         }
         tags.add(title);
-        tag_title.setText(tags.get(0));
-        wallp = findViewById(R.id.wallpaper_detail);
-        fav = findViewById(R.id.fav);
-        user_id = findViewById(R.id.user_name);
-        user_image = findViewById(R.id.user_image);
-        downloads = findViewById(R.id.down);
+        tagTitle.setText(tags.get(0));
+        ImageView wallp = findViewById(R.id.wallpaper_detail);
+        TextView fav = findViewById(R.id.fav);
+        TextView userId = findViewById(R.id.user_name);
+        ImageView userImage = findViewById(R.id.user_image);
+        TextView downloads = findViewById(R.id.down);
         recyclerView = findViewById(R.id.tagsRv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
@@ -112,25 +105,25 @@ public class PicDetailActivity extends AppCompatActivity {
                     .placeholder(R.drawable.plh)
                     .into(wallp);
         }
-        user_id.setText(hit.getUser());
+        userId.setText(hit.getUser());
         downloads.setText(String.valueOf(hit.getDownloads()));
         fav.setText(String.valueOf(hit.getFavorites()));
         if (!networkUtilities.isInternetConnectionPresent()) {
             Picasso.with(this)
                     .load(R.drawable.memb)
                     .transform(new CropCircleTransformation())
-                    .into(user_image);
+                    .into(userImage);
         } else {
             if (!hit.getUserImageURL().isEmpty()) {
                 Picasso.with(this)
                         .load(hit.getUserImageURL())
                         .transform(new CropCircleTransformation())
-                        .into(user_image);
+                        .into(userImage);
             } else {
                 Picasso.with(this)
                         .load(R.drawable.memb)
                         .transform(new CropCircleTransformation())
-                        .into(user_image);
+                        .into(userImage);
             }
         }
         IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
@@ -160,7 +153,7 @@ public class PicDetailActivity extends AppCompatActivity {
                     String uri = hit.getWebformatURL();
                     uri = uri.replaceAll("_640", "_960");
                     Uri image_uri = Uri.parse(uri);
-                    DownloadData(image_uri);
+                    downloadData(image_uri);
                     item.setEnabled(false);
                 } else {
                     Toast toast = Toast.makeText(this, getResources()
@@ -190,12 +183,12 @@ public class PicDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private long DownloadData(Uri uri) {
+    private long downloadData(Uri uri) {
         long downloadReference;
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
         String name = Environment.getExternalStorageDirectory().getAbsolutePath();
-        name += "/YourDirectoryName/" ;
+        name += "/YourDirectoryName/";
 
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(tags.get(0) + getResources().getString(R.string.down));
@@ -240,6 +233,7 @@ public class PicDetailActivity extends AppCompatActivity {
 
     public void checkPermisson() {
         if (permissionCheck1 != PackageManager.PERMISSION_GRANTED) {
+            int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 102;
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
         }
