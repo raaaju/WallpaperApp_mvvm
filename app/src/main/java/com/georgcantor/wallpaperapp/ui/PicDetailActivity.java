@@ -19,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -49,17 +52,27 @@ public class PicDetailActivity extends AppCompatActivity {
     public boolean isCallerCollection = false;
     private Menu menu;
     private File file;
+    private TextView tagTitle;
     private int permissionCheck1;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_pic_detail);
+        progressBar = findViewById(R.id.progressBarDetail);
+        progressBar.setVisibility(View.VISIBLE);
+
         Toolbar toolbar = findViewById(R.id.toolbar_detail);
-        TextView tagTitle = findViewById(R.id.toolbar_title);
+        tagTitle = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        initView();
+    }
+
+    private void initView() {
         permissionCheck1 = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -102,8 +115,22 @@ public class PicDetailActivity extends AppCompatActivity {
             Picasso.with(this)
                     .load(hit.getFullHDURL())
                     .placeholder(R.drawable.plh)
-                    .into(wallp);
+                    .into(wallp, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(PicDetailActivity.this,
+                                    getString(R.string.something_went_wrong),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
+
         userId.setText(hit.getUser());
         downloads.setText(String.valueOf(hit.getDownloads()));
         fav.setText(String.valueOf(hit.getFavorites()));
