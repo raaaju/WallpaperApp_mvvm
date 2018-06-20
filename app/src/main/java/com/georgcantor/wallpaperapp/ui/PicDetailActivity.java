@@ -174,6 +174,7 @@ public class PicDetailActivity extends AppCompatActivity {
             finish();
         }
         if (item.getItemId() == R.id.action_down) {
+            progressBar.setVisibility(View.VISIBLE);
             if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
                 if (!fileExistance()) {
                     String uri = hit.getImageURL();
@@ -184,6 +185,7 @@ public class PicDetailActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(this, getResources()
                             .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
                     toast.show();
+                    progressBar.setVisibility(View.GONE);
                 }
             } else {
                 checkPermisson();
@@ -235,6 +237,7 @@ public class PicDetailActivity extends AppCompatActivity {
             isDownloaded = true;
             MenuItem menuItem = menu.findItem(R.id.action_down);
             menuItem.setEnabled(true);
+            progressBar.setVisibility(View.GONE);
         }
     };
 
