@@ -43,7 +43,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<WallpViewHolder> {
                 int position = rcv.getAdapterPosition();
                 Intent intent = new Intent(context, PicDetailActivity.class);
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, hit.get(position));
-                intent.putExtra(PicDetailActivity.origin, R.string.collection_string);
+                intent.putExtra(PicDetailActivity.ORIGIN, R.string.collection_string);
                 context.startActivity(intent);
             }
         });

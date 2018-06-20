@@ -2,30 +2,30 @@ package com.georgcantor.wallpaperapp.model;
 
 public class Category {
 
-    private String category_name;
-    private String category_draw_id;
+    private String categoryName;
+    private String categoryDrawId;
 
     public Category() {
     }
 
-    public Category(String category_name, String category_draw_id) {
-        setCategory_name(category_name);
-        setCategory_draw_id(category_draw_id);
+    public Category(String categoryName, String categoryDrawId) {
+        setCategoryName(categoryName);
+        setCategoryDrawId(categoryDrawId);
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_draw_id(String category_draw_id) {
-        this.category_draw_id = category_draw_id;
+    public void setCategoryDrawId(String categoryDrawId) {
+        this.categoryDrawId = categoryDrawId;
     }
 
-    public String getCategory_draw_id() {
-        return category_draw_id;
+    public String getCategoryDrawId() {
+        return categoryDrawId;
     }
 }

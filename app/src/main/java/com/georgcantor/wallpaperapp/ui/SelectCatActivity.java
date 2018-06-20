@@ -20,10 +20,10 @@ public class SelectCatActivity extends AppCompatActivity implements AsyncRespons
 
     public static final String EXTRA_CAT = "category";
     public WallpAdapter catAdapter;
-    public RecyclerView recyclerView_cat;
+    public RecyclerView recyclerViewCat;
     public NetworkUtilities networkUtilities;
     private String type;
-    public int column_no;
+    public int columnNo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,13 +37,13 @@ public class SelectCatActivity extends AppCompatActivity implements AsyncRespons
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(type);
             loadNextDataFromApi(1);
-            recyclerView_cat = findViewById(R.id.SelCatRecView);
-            recyclerView_cat.setHasFixedSize(true);
+            recyclerViewCat = findViewById(R.id.SelCatRecView);
+            recyclerViewCat.setHasFixedSize(true);
 
             checkScreenSize();
             StaggeredGridLayoutManager staggeredGridLayoutManager =
-                    new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
-            recyclerView_cat.setLayoutManager(staggeredGridLayoutManager);
+                    new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
+            recyclerViewCat.setLayoutManager(staggeredGridLayoutManager);
             EndlessRecyclerViewScrollListener scrollListener_cat =
                     new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
                         @Override
@@ -51,9 +51,9 @@ public class SelectCatActivity extends AppCompatActivity implements AsyncRespons
                             loadNextDataFromApi(page);
                         }
                     };
-            recyclerView_cat.addOnScrollListener(scrollListener_cat);
+            recyclerViewCat.addOnScrollListener(scrollListener_cat);
             catAdapter = new WallpAdapter(this);
-            recyclerView_cat.setAdapter(catAdapter);
+            recyclerViewCat.setAdapter(catAdapter);
         } else
             setContentView(R.layout.fragment_no_internet);
     }
@@ -90,22 +90,22 @@ public class SelectCatActivity extends AppCompatActivity implements AsyncRespons
 
         switch (screenSize) {
             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-                column_no = 4;
+                columnNo = 4;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_UNDEFINED:
-                column_no = 3;
+                columnNo = 3;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_LARGE:
-                column_no = 3;
+                columnNo = 3;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-                column_no = 2;
+                columnNo = 2;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_SMALL:
-                column_no = 2;
+                columnNo = 2;
                 break;
             default:
-                column_no = 2;
+                columnNo = 2;
         }
     }
 }

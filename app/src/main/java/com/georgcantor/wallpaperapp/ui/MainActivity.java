@@ -29,12 +29,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         TextView myTitle = (TextView) toolbar.getChildAt(0);
-        Typeface tf = Typeface.createFromAsset(getAssets(), getResources()
+        Typeface typeface = Typeface.createFromAsset(getAssets(), getResources()
                 .getString(R.string.font_name));
         if (Build.VERSION.SDK_INT >= 16) {
             myTitle.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
         } else {
-            myTitle.setTypeface(tf, Typeface.BOLD);
+            myTitle.setTypeface(typeface, Typeface.BOLD);
         }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,27 +73,27 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_editor) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.editor_small));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.editor_small));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_red_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.red_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.red_color));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_blue_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.blue_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.blue_color));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_black_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.black_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.black_color));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_yellow_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.Extra_id, getResources().getString(R.string.yellow_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.yellow_color));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_about) {

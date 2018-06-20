@@ -37,7 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
                 int position = rcv.getAdapterPosition();
                 Intent intent = new Intent(context, SelectCatActivity.class);
                 intent.putExtra(SelectCatActivity.EXTRA_CAT,
-                        categoryList.get(position).getCategory_draw_id());
+                        categoryList.get(position).getCategoryDrawId());
                 context.startActivity(intent);
             }
         });
@@ -48,9 +48,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
     public void onBindViewHolder(@NonNull ExploreViewHolder holder, int position) {
         Category category = categoryList.get(position);
         int id = context.getResources().getIdentifier(context.getResources()
-                        .getString(R.string.package_drawable) + category.getCategory_draw_id(),
+                        .getString(R.string.package_drawable) + category.getCategoryDrawId(),
                 null, null);
-        holder.category_name.setText(category.getCategory_name());
+        holder.category_name.setText(category.getCategoryName());
         holder.category.setImageResource(id);
     }
 

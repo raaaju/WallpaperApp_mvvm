@@ -41,7 +41,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 public class PicDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_PIC = "picture";
-    public static final String origin = "caller";
+    public static final String ORIGIN = "caller";
     private Hit hit;
     private List<String> tags = new ArrayList<>();
     int first = 0;
@@ -105,7 +105,7 @@ public class PicDetailActivity extends AppCompatActivity {
                 + getResources().getString(R.string.app_name)), hit.getId()
                 + getResources().getString(R.string.jpg));
 
-        if (getIntent().hasExtra(origin)) {
+        if (getIntent().hasExtra(ORIGIN)) {
             Picasso.with(this)
                     .load(file)
                     .placeholder(R.drawable.plh)
