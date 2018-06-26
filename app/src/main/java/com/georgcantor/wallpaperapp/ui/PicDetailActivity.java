@@ -220,9 +220,11 @@ public class PicDetailActivity extends AppCompatActivity {
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(tags.get(0) + getResources().getString(R.string.down));
         request.setDescription(getResources().getString(R.string.down_canvas));
-        request.setDestinationInExternalPublicDir("/"
-                + getResources().getString(R.string.app_name), hit.getId()
-                + getResources().getString(R.string.jpg));
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            request.setDestinationInExternalPublicDir("/"
+                    + getResources().getString(R.string.app_name), hit.getId()
+                    + getResources().getString(R.string.jpg));
+        }
         downloadReference = downloadManager.enqueue(request);
 
         return downloadReference;

@@ -73,27 +73,27 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_editor) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.editor_small));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.porsche));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_red_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.red_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.audi));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_blue_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.blue_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.bugatti));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_black_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.black_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.ferrari));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_yellow_color) {
             Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.yellow_color));
+            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.lamborghini));
             this.startActivity(intent);
 
         } else if (id == R.id.nav_about) {

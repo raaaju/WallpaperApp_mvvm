@@ -19,7 +19,6 @@
     <string name="explore_item">Category item</string>
     <string name="latest">Последние</string>
     <string name="latest_small">latest</string>
-    <string name="editor_small">editors_choice</string>
     <string name="about_us">О нас</string>
     <string name="license">Лицензия</string>
     <string name="info">Инфо</string>
@@ -119,10 +118,8 @@
     <string name="category_tab">Категории</string>
     <string name="latest_tab">BMW</string>
     <string name="editor">Porsche</string>
-    <string name="red_color">red_color</string>
     <string name="red_walp">Audi</string>
     <string name="blue_walp">Bugatti</string>
     <string name="black_walp">Ferrari</string>
-    <string name="blue_color">blue_color</string>
     <string name="yellow_walp">Lamborghini</string>
 </resources>

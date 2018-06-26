@@ -35,7 +35,7 @@
         <menu>
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/info_icon"
+                android:icon="@drawable/ic_info"
                 android:title="@string/about_us" />
             <item
                 android:id="@+id/nav_license"

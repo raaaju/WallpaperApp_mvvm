@@ -32,27 +32,27 @@ public class WallpService {
                     fetchWallpTask.execute();
                     break;
 
-                case "editors_choice":
+                case "Porsche":
                     FetchEditTask fetchEditTask = new FetchEditTask(context, output, index);
                     fetchEditTask.execute();
                     break;
 
-                case "red_color":
+                case "Audi":
                     FetchRedTask fetchRedTask = new FetchRedTask(context, output, index);
                     fetchRedTask.execute();
                     break;
 
-                case "blue_color":
+                case "Bugatti":
                     FetchBlueTask fetchBlueTask = new FetchBlueTask(context, output, index);
                     fetchBlueTask.execute();
                     break;
 
-                case "black_color":
+                case "Ferrari":
                     FetchBlackTask fetchBlackTask = new FetchBlackTask(context, output, index);
                     fetchBlackTask.execute();
                     break;
 
-                case "yellow_color":
+                case "Lamborghini":
                     FetchYellowTask fetchYellowTask = new FetchYellowTask(context, output, index);
                     fetchYellowTask.execute();
                     break;
