@@ -30,32 +30,32 @@ public class SelectCatActivity extends AppCompatActivity implements AsyncRespons
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
         type = getIntent().getStringExtra(EXTRA_CAT);
-        if (networkUtilities.isInternetConnectionPresent()) {
-            setContentView(R.layout.activity_select_category);
-            Toolbar toolbar = findViewById(R.id.toolbar_category);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(type);
-            loadNextDataFromApi(1);
-            recyclerViewCat = findViewById(R.id.SelCatRecView);
-            recyclerViewCat.setHasFixedSize(true);
+//        if (networkUtilities.isInternetConnectionPresent()) {
+        setContentView(R.layout.activity_select_category);
+        Toolbar toolbar = findViewById(R.id.toolbar_category);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(type);
+        loadNextDataFromApi(1);
+        recyclerViewCat = findViewById(R.id.SelCatRecView);
+        recyclerViewCat.setHasFixedSize(true);
 
-            checkScreenSize();
-            StaggeredGridLayoutManager staggeredGridLayoutManager =
-                    new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
-            recyclerViewCat.setLayoutManager(staggeredGridLayoutManager);
-            EndlessRecyclerViewScrollListener scrollListener_cat =
-                    new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
-                        @Override
-                        public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                            loadNextDataFromApi(page);
-                        }
-                    };
-            recyclerViewCat.addOnScrollListener(scrollListener_cat);
-            catAdapter = new WallpAdapter(this);
-            recyclerViewCat.setAdapter(catAdapter);
-        } else
-            setContentView(R.layout.fragment_no_internet);
+        checkScreenSize();
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
+        recyclerViewCat.setLayoutManager(staggeredGridLayoutManager);
+        EndlessRecyclerViewScrollListener scrollListener_cat =
+                new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        loadNextDataFromApi(page);
+                    }
+                };
+        recyclerViewCat.addOnScrollListener(scrollListener_cat);
+        catAdapter = new WallpAdapter(this);
+        recyclerViewCat.setAdapter(catAdapter);
+//        } else
+//            setContentView(R.layout.fragment_no_internet);
     }
 
     @Override

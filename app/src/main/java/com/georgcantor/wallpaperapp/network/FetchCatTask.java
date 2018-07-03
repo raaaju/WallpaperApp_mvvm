@@ -5,14 +5,21 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Pic;
+import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor;
+import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor;
 
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchCatTask extends AsyncTask<Void, Void, Pic> {
 
@@ -32,12 +39,18 @@ public class FetchCatTask extends AsyncTask<Void, Void, Pic> {
     @Override
     protected Pic doInBackground(Void... params) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(context.getResources().getString(R.string.pixabay_api_link))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
+        httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
+        httpClient.cache(new Cache(new File(MyApplication.getInstance()
+                .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
+        httpClient.readTimeout(60, TimeUnit.SECONDS);
+        httpClient.connectTimeout(60, TimeUnit.SECONDS);
+        httpClient.addInterceptor(logging);
 
-        ApiService client = retrofit.create(ApiService.class);
+        ApiService client = ApiClient.getClient(httpClient).create(ApiService.class);
         Call<Pic> call;
         call = client.getCatPic(type, index);
         call.enqueue(new Callback<Pic>() {
