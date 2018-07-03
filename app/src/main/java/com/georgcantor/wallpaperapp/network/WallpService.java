@@ -20,25 +20,25 @@ public class WallpService {
     }
 
     public void loadWallp() {
-        if (networkUtilities.isInternetConnectionPresent()) {
+//        if (networkUtilities.isInternetConnectionPresent()) {
             switch (type) {
                 case "latest":
-                    FetchNavTask fetchNavTask = new FetchNavTask(context, output, index);
+                    FetchBmwTask fetchNavTask = new FetchBmwTask(context, output, index);
                     fetchNavTask.execute();
                     break;
 
                 case "popular":
-                    FetchWallpTask fetchWallpTask = new FetchWallpTask(context, output, index);
+                    FetchMercedesTask fetchWallpTask = new FetchMercedesTask(context, output, index);
                     fetchWallpTask.execute();
                     break;
 
                 case "Porsche":
-                    FetchEditTask fetchEditTask = new FetchEditTask(context, output, index);
+                    FetchPorscheTask fetchEditTask = new FetchPorscheTask(context, output, index);
                     fetchEditTask.execute();
                     break;
 
                 case "Audi":
-                    FetchRedTask fetchRedTask = new FetchRedTask(context, output, index);
+                    FetchAudiTask fetchRedTask = new FetchAudiTask(context, output, index);
                     fetchRedTask.execute();
                     break;
 
@@ -48,12 +48,12 @@ public class WallpService {
                     break;
 
                 case "Ferrari":
-                    FetchBlackTask fetchBlackTask = new FetchBlackTask(context, output, index);
+                    FetchFerrariTask fetchBlackTask = new FetchFerrariTask(context, output, index);
                     fetchBlackTask.execute();
                     break;
 
                 case "Lamborghini":
-                    FetchYellowTask fetchYellowTask = new FetchYellowTask(context, output, index);
+                    FetchLamboTask fetchYellowTask = new FetchLamboTask(context, output, index);
                     fetchYellowTask.execute();
                     break;
 
@@ -63,5 +63,5 @@ public class WallpService {
                     break;
             }
         }
-    }
+//    }
 }

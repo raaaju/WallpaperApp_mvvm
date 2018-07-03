@@ -31,7 +31,7 @@ public class NavActivity extends AppCompatActivity implements AsyncResponse {
         networkUtilities = new NetworkUtilities(this);
         type = getIntent().getStringExtra(EXTRA_ID);
 
-        if (networkUtilities.isInternetConnectionPresent()) {
+//        if (networkUtilities.isInternetConnectionPresent()) {
             setContentView(R.layout.activity_select_category);
             Toolbar toolbar = findViewById(R.id.toolbar_category);
             setSupportActionBar(toolbar);
@@ -55,8 +55,8 @@ public class NavActivity extends AppCompatActivity implements AsyncResponse {
             recyclerViewNav.addOnScrollListener(scrollListener_nav);
             navAdapter = new WallpAdapter(this);
             recyclerViewNav.setAdapter(navAdapter);
-        } else
-            setContentView(R.layout.fragment_no_internet);
+//        } else
+//            setContentView(R.layout.fragment_no_internet);
     }
 
     @Override

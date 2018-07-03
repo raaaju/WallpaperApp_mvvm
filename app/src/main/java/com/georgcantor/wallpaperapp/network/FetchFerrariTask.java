@@ -21,14 +21,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FetchWallpTask extends AsyncTask<Void, Void, Pic> {
+public class FetchFerrariTask extends AsyncTask<Void, Void, Pic> {
 
     private Pic picResult = new Pic();
     private Context context;
     private AsyncResponse output;
     private int index;
 
-    public FetchWallpTask(Context context, AsyncResponse output, int index) {
+    public FetchFerrariTask(Context context, AsyncResponse output, int index) {
         this.context = context;
         this.output = output;
         this.index = index;
@@ -50,7 +50,7 @@ public class FetchWallpTask extends AsyncTask<Void, Void, Pic> {
 
         ApiService client = ApiClient.getClient(httpClient).create(ApiService.class);
         Call<Pic> call;
-        call = client.getPopularPic(index);
+        call = client.getFerrariPic(index);
         call.enqueue(new Callback<Pic>() {
             @Override
             public void onResponse(Call<Pic> call, Response<Pic> response) {
