@@ -28,6 +28,7 @@
     <string name="pixabay_link">https://pixabay.com</string>
     <string name="collection_string">collection</string>
     <string name="jpg">.jpg</string>
+    <string name="choose_format">Выберите разрешение изображения</string>
     <string name="popular">popular</string>
     <string name="package_drawable">com.georgcantor.wallpaperapp:drawable/</string>
     <string name="Animals">Животные</string>

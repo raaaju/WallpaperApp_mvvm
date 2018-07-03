@@ -34,7 +34,7 @@
             android:name=".ui.PicDetailActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_detail_name"
-            android:theme="@style/AppDetailTheme" />
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".ui.SelectCatActivity"
             android:configChanges="orientation|screenSize"

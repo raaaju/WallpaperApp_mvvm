@@ -82,6 +82,7 @@
     <string name="down_canvas">Downloading from Canvas Vision</string>
     <string name="down_complete">.jpg Download Complete</string>
     <string name="down">.jpg Download</string>
+    <string name="choose_format">Select an image resolution</string>
     <string name="widget">widget</string>
     <string name="Loading_view">Loading view</string>
     <string name="URI">URI:</string>
