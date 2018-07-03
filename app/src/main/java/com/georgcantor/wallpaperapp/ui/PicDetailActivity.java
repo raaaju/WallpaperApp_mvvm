@@ -176,74 +176,79 @@ public class PicDetailActivity extends AppCompatActivity {
             finish();
         }
         if (item.getItemId() == R.id.action_down) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.download);
-            builder.setIcon(R.drawable.ic_download);
-            builder.setMessage(R.string.choose_format);
+            if (networkUtilities.isInternetConnectionPresent()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.download);
+                builder.setIcon(R.drawable.ic_download);
+                builder.setMessage(R.string.choose_format);
 
-            builder.setPositiveButton("HD", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                        if (!fileExistance()) {
-                            String uri = hit.getWebformatURL();
-                            Uri image_uri = Uri.parse(uri);
-                            downloadData(image_uri);
-                            item.setEnabled(false);
+                builder.setPositiveButton("HD", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
+                            if (!fileExistance()) {
+                                String uri = hit.getWebformatURL();
+                                Uri image_uri = Uri.parse(uri);
+                                downloadData(image_uri);
+                                item.setEnabled(false);
+                            } else {
+                                Toast toast = Toast.makeText(getApplicationContext(), getResources()
+                                        .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
+                                toast.show();
+                                progressBar.setVisibility(View.GONE);
+                            }
                         } else {
-                            Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                    .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                            toast.show();
-                            progressBar.setVisibility(View.GONE);
+                            checkPermisson();
                         }
-                    } else {
-                        checkPermisson();
                     }
-                }
-            });
+                });
 
-            builder.setNeutralButton("4K", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                        if (!fileExistance()) {
-                            String uri = hit.getImageURL();
-                            Uri image_uri = Uri.parse(uri);
-                            downloadData(image_uri);
-                            item.setEnabled(false);
+                builder.setNeutralButton("4K", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
+                            if (!fileExistance()) {
+                                String uri = hit.getImageURL();
+                                Uri image_uri = Uri.parse(uri);
+                                downloadData(image_uri);
+                                item.setEnabled(false);
+                            } else {
+                                Toast toast = Toast.makeText(getApplicationContext(), getResources()
+                                        .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
+                                toast.show();
+                                progressBar.setVisibility(View.GONE);
+                            }
                         } else {
-                            Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                    .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                            toast.show();
-                            progressBar.setVisibility(View.GONE);
+                            checkPermisson();
                         }
-                    } else {
-                        checkPermisson();
                     }
-                }
-            });
+                });
 
-            builder.setNegativeButton("FullHD", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                        if (!fileExistance()) {
-                            String uri = hit.getFullHDURL();
-                            Uri image_uri = Uri.parse(uri);
-                            downloadData(image_uri);
-                            item.setEnabled(false);
+                builder.setNegativeButton("FullHD", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
+                            if (!fileExistance()) {
+                                String uri = hit.getFullHDURL();
+                                Uri image_uri = Uri.parse(uri);
+                                downloadData(image_uri);
+                                item.setEnabled(false);
+                            } else {
+                                Toast toast = Toast.makeText(getApplicationContext(), getResources()
+                                        .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
+                                toast.show();
+                                progressBar.setVisibility(View.GONE);
+                            }
                         } else {
-                            Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                    .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                            toast.show();
-                            progressBar.setVisibility(View.GONE);
+                            checkPermisson();
                         }
-                    } else {
-                        checkPermisson();
                     }
-                }
-            });
-            builder.create().show();
+                });
+                builder.create().show();
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.no_internet),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
         if (item.getItemId() == R.id.action_set) {
             if (fileExistance()) {
