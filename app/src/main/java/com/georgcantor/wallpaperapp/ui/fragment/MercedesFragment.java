@@ -21,7 +21,7 @@ import com.georgcantor.wallpaperapp.network.WallpService;
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter;
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
-public class PopularFragment extends Fragment implements AsyncResponse {
+public class MercedesFragment extends Fragment implements AsyncResponse {
 
     public WallpAdapter wallpAdapter;
     public RecyclerView recyclerView;
@@ -31,11 +31,11 @@ public class PopularFragment extends Fragment implements AsyncResponse {
     public int column_no;
     public ImageView ivNoInternet;
 
-    public PopularFragment() {
+    public MercedesFragment() {
     }
 
-    public static PopularFragment newInstance() {
-        PopularFragment fragment = new PopularFragment();
+    public static MercedesFragment newInstance() {
+        MercedesFragment fragment = new MercedesFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

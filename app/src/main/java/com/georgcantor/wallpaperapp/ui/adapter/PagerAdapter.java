@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment;
-import com.georgcantor.wallpaperapp.ui.fragment.LatestFragment;
-import com.georgcantor.wallpaperapp.ui.fragment.PopularFragment;
+import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment;
+import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -30,9 +30,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return PopularFragment.newInstance();
+                return MercedesFragment.newInstance();
             case 1:
-                return LatestFragment.newInstance();
+                return BmwFragment.newInstance();
             case 2:
                 return CategoryFragment.newInstance();
         }
