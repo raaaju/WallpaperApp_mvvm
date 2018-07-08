@@ -55,7 +55,9 @@
             android:name=".ui.AboutActivity"
             android:label="@string/app_detail_name"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".ui.SearchActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

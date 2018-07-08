@@ -127,4 +127,6 @@
     <string name="bugatti">Bugatti</string>
     <string name="lamborghini">Lamborghini</string>
     <string name="ferrari">Ferrari</string>
+    <string name="search">Search</string>
+    <string name="type_and_search">Type and Search</string>
 </resources>

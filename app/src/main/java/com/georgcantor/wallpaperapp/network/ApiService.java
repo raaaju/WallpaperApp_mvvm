@@ -33,4 +33,8 @@ public interface ApiService {
 
     @GET("?key=" + BuildConfig.API_KEY + "&q=lamborghini")
     Call<Pic> getLamboPic(@Query("page") int index);
+
+    @GET("?key=" + BuildConfig.API_KEY)
+    Call<Pic> getSearchResults(@Query("q") String query,
+                               @Query("page") int index);
 }
