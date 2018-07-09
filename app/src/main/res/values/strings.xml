@@ -129,4 +129,6 @@
     <string name="ferrari">Ferrari</string>
     <string name="search">Search</string>
     <string name="type_and_search">Type and Search</string>
+    <string name="cancel">Cancel</string>
+    <string name="allow_app_use_mic">Do you want to allow the app to use a microphone?</string>
 </resources>
