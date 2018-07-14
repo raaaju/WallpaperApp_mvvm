@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mercedes-Benz &amp; BMW Wallpapers</string>
+    <string name="app_name">Wallpapers</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="app_detail_name"> </string>
@@ -131,4 +131,5 @@
     <string name="type_and_search">Type and Search</string>
     <string name="cancel">Cancel</string>
     <string name="allow_app_use_mic">Do you want to allow the app to use a microphone?</string>
+    <string name="press_back">Press BACK again to exit</string>
 </resources>

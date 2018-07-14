@@ -124,4 +124,5 @@
     <string name="black_walp">Ferrari</string>
     <string name="yellow_walp">Lamborghini</string>
     <string name="allow_app_use_mic">Разрешить приложению использовать микрофон?</string>
+    <string name="press_back">Нажмите еще раз чтобы выйти</string>
 </resources>

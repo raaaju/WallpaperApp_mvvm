@@ -2,7 +2,7 @@ package com.georgcantor.wallpaperapp.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,22 +20,22 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     private List<Hit> hits;
     private Context mContext;
-    private int lastPosition = -1;
 
     public DataAdapter(Context mContext, List<Hit> hits) {
         this.mContext = mContext;
         this.hits = hits;
     }
 
+    @NonNull
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_row, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Hit hit = hits.get(position);
 
         Picasso.with(mContext)
@@ -44,12 +45,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         holder.img_card_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri webpage = Uri.parse(hits.get(position).getImageURL());
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                int position = holder.getAdapterPosition();
+                Intent intent = new Intent(mContext, PicDetailActivity.class);
+                intent.putExtra(PicDetailActivity.EXTRA_PIC, hits.get(position));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (intent.resolveActivity(mContext.getPackageManager()) != null) {
-                    mContext.startActivity(intent);
-                }
+                mContext.startActivity(intent);
             }
         });
     }
