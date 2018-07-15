@@ -16,21 +16,21 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private List<Hit> hits;
     private Context mContext;
 
-    public DataAdapter(Context mContext, List<Hit> hits) {
+    public SearchAdapter(Context mContext, List<Hit> hits) {
         this.mContext = mContext;
         this.hits = hits;
     }
 
     @NonNull
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.wallp_item, parent, false);
+                .inflate(R.layout.search_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,9 +40,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         Picasso.with(mContext)
                 .load(hit.getWebformatURL())
-                .into(holder.discWallp);
+                .into(holder.searchView);
 
-        holder.discWallp.setOnClickListener(new View.OnClickListener() {
+        holder.searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
@@ -59,13 +59,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return hits.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
+        DynamicHeightImageView searchView;
 
-        public DynamicHeightImageView discWallp;
-
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
-            discWallp = view.findViewById(R.id.wallpView);
+            searchView = view.findViewById(R.id.search_view);
         }
     }
 }

@@ -37,7 +37,7 @@ import com.georgcantor.wallpaperapp.network.ApiClient;
 import com.georgcantor.wallpaperapp.network.ApiService;
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor;
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor;
-import com.georgcantor.wallpaperapp.ui.adapter.DataAdapter;
+import com.georgcantor.wallpaperapp.ui.adapter.SearchAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -143,7 +143,7 @@ public class SearchActivity extends AppCompatActivity {
                         hits = response.body().getHits();
                         mRecyclerViewSearch.setVisibility(View.VISIBLE);
                         mTxvNoResultsFound.setVisibility(View.GONE);
-                        mRecyclerViewSearch.setAdapter(new DataAdapter(getApplicationContext(), hits));
+                        mRecyclerViewSearch.setAdapter(new SearchAdapter(getApplicationContext(), hits));
                         mSwipeRefreshSearch.setRefreshing(false);
                         mSwipeRefreshSearch.setEnabled(false);
                     } else if (response.body().getTotal() == 0) {
