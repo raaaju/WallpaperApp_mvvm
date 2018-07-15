@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -58,12 +60,14 @@ public class SearchActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshSearch;
     private RecyclerView mRecyclerViewSearch;
     private List<Hit> hits = new ArrayList<>();
+    public int columnNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         createToolbar();
+        checkScreenSize();
         initViews();
 
         mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -105,6 +109,9 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerViewSearch = findViewById(R.id.search_recycler_view);
         mTxvNoResultsFound = findViewById(R.id.tv_no_results);
         mRecyclerViewSearch.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerViewSearch.setLayoutManager(staggeredGridLayoutManager);
     }
 
     private void searchEverything(final String search) {
@@ -155,6 +162,31 @@ public class SearchActivity extends AppCompatActivity {
                 mSwipeRefreshSearch.setEnabled(false);
             }
         });
+    }
+
+    public void checkScreenSize() {
+        int screenSize = getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch (screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                columnNo = 4;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_UNDEFINED:
+                columnNo = 3;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                columnNo = 3;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                columnNo = 2;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                columnNo = 2;
+                break;
+            default:
+                columnNo = 2;
+        }
     }
 
     @Override

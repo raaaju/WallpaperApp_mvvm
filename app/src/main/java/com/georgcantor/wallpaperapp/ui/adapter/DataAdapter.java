@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity;
+import com.georgcantor.wallpaperapp.ui.util.DynamicHeightImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public DataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_row, parent, false);
+                .inflate(R.layout.wallp_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,9 +40,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         Picasso.with(mContext)
                 .load(hit.getWebformatURL())
-                .into(holder.img_card_main);
+                .into(holder.discWallp);
 
-        holder.img_card_main.setOnClickListener(new View.OnClickListener() {
+        holder.discWallp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
@@ -60,11 +60,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView img_card_main;
+
+        public DynamicHeightImageView discWallp;
 
         public ViewHolder(View view) {
             super(view);
-            img_card_main = view.findViewById(R.id.img_card_main);
+            discWallp = view.findViewById(R.id.wallpView);
         }
     }
 }
