@@ -11,15 +11,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,26 +51,119 @@ public class PicDetailActivity extends AppCompatActivity {
     public TagAdapter tagAdapter;
     public boolean isDownloaded = false;
     public boolean isCallerCollection = false;
-    private Menu menu;
     private File file;
     private TextView tagTitle;
     private int permissionCheck1;
     private ProgressBar progressBar;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_pic_detail);
+        fab = findViewById(R.id.fab_download);
+
         progressBar = findViewById(R.id.progressBarDetail);
         progressBar.setVisibility(View.VISIBLE);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_detail);
         tagTitle = findViewById(R.id.toolbar_title);
-//        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!fileExistance()) {
+                    if (networkUtilities.isInternetConnectionPresent()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PicDetailActivity.this);
+                        builder.setTitle(R.string.download);
+                        builder.setIcon(R.drawable.ic_download);
+                        builder.setMessage(R.string.choose_format);
+
+                        builder.setPositiveButton("HD", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
+                                    if (!fileExistance()) {
+                                        String uri = hit.getWebformatURL();
+                                        Uri image_uri = Uri.parse(uri);
+                                        downloadData(image_uri);
+                                        fab.setImageDrawable(getApplicationContext().getResources()
+                                                .getDrawable(R.drawable.ic_photo));
+                                    } else {
+                                        Toast toast = Toast.makeText(getApplicationContext(), getResources()
+                                                .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
+                                        toast.show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                } else {
+                                    checkPermisson();
+                                }
+                            }
+                        });
+
+                        builder.setNeutralButton("4K", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
+                                    if (!fileExistance()) {
+                                        String uri = hit.getImageURL();
+                                        Uri image_uri = Uri.parse(uri);
+                                        downloadData(image_uri);
+                                        fab.setImageDrawable(getApplicationContext().getResources()
+                                                .getDrawable(R.drawable.ic_photo));
+                                    } else {
+                                        Toast toast = Toast.makeText(getApplicationContext(), getResources()
+                                                .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
+                                        toast.show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                } else {
+                                    checkPermisson();
+                                }
+                            }
+                        });
+
+                        builder.setNegativeButton("FullHD", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
+                                    if (!fileExistance()) {
+                                        String uri = hit.getFullHDURL();
+                                        Uri image_uri = Uri.parse(uri);
+                                        downloadData(image_uri);
+                                        fab.setImageDrawable(getApplicationContext().getResources()
+                                                .getDrawable(R.drawable.ic_photo));
+                                    } else {
+                                        Toast toast = Toast.makeText(getApplicationContext(), getResources()
+                                                .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
+                                        toast.show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                } else {
+                                    checkPermisson();
+                                }
+                            }
+                        });
+                        builder.create().show();
+                    } else {
+                        Toast.makeText(PicDetailActivity.this, getResources().getString(R.string.no_internet),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Uri sendUri2 = Uri.fromFile(file);
+                    Log.d(getResources().getString(R.string.URI), sendUri2.toString());
+                    Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
+                    intent.setDataAndType(sendUri2, getResources().getString(R.string.image_jpg));
+                    intent.putExtra(getResources().getString(R.string.mimeType),
+                            getResources().getString(R.string.image_jpg));
+                    startActivityForResult(Intent.createChooser(intent,
+                            getResources().getString(R.string.Set_As)), 200);
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -106,6 +198,10 @@ public class PicDetailActivity extends AppCompatActivity {
         file = new File(Environment.getExternalStoragePublicDirectory("/"
                 + getResources().getString(R.string.app_name)), hit.getId()
                 + getResources().getString(R.string.jpg));
+        if (fileExistance()) {
+            fab.setImageDrawable(getApplicationContext().getResources()
+                    .getDrawable(R.drawable.ic_photo));
+        }
 
         if (getIntent().hasExtra(ORIGIN)) {
             Picasso.with(this)
@@ -159,112 +255,11 @@ public class PicDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!isCallerCollection) {
-            this.menu = menu;
-            getMenuInflater().inflate(R.menu.menu_details, menu);
-        } else {
-            this.menu = menu;
-            getMenuInflater().inflate(R.menu.menu_details_collection, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        if (item.getItemId() == R.id.action_down) {
-            if (networkUtilities.isInternetConnectionPresent()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.download);
-                builder.setIcon(R.drawable.ic_download);
-                builder.setMessage(R.string.choose_format);
-
-                builder.setPositiveButton("HD", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                            if (!fileExistance()) {
-                                String uri = hit.getWebformatURL();
-                                Uri image_uri = Uri.parse(uri);
-                                downloadData(image_uri);
-                                item.setEnabled(false);
-                            } else {
-                                Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                        .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                                toast.show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        } else {
-                            checkPermisson();
-                        }
-                    }
-                });
-
-                builder.setNeutralButton("4K", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                            if (!fileExistance()) {
-                                String uri = hit.getImageURL();
-                                Uri image_uri = Uri.parse(uri);
-                                downloadData(image_uri);
-                                item.setEnabled(false);
-                            } else {
-                                Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                        .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                                toast.show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        } else {
-                            checkPermisson();
-                        }
-                    }
-                });
-
-                builder.setNegativeButton("FullHD", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                            if (!fileExistance()) {
-                                String uri = hit.getFullHDURL();
-                                Uri image_uri = Uri.parse(uri);
-                                downloadData(image_uri);
-                                item.setEnabled(false);
-                            } else {
-                                Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                        .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                                toast.show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        } else {
-                            checkPermisson();
-                        }
-                    }
-                });
-                builder.create().show();
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.no_internet),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-        if (item.getItemId() == R.id.action_set) {
-            if (fileExistance()) {
-                Uri sendUri2 = Uri.fromFile(file);
-                Log.d(getResources().getString(R.string.URI), sendUri2.toString());
-                Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-                intent.setDataAndType(sendUri2, getResources().getString(R.string.image_jpg));
-                intent.putExtra(getResources().getString(R.string.mimeType),
-                        getResources().getString(R.string.image_jpg));
-                startActivityForResult(Intent.createChooser(intent,
-                        getResources().getString(R.string.Set_As)), 200);
-            } else {
-                Toast toast = Toast.makeText(this,
-                        getResources().getString(R.string.first_down), Toast.LENGTH_LONG);
-                toast.show();
-            }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -296,8 +291,6 @@ public class PicDetailActivity extends AppCompatActivity {
                     .getString(R.string.down_complete), Toast.LENGTH_SHORT);
             toast.show();
             isDownloaded = true;
-            MenuItem menuItem = menu.findItem(R.id.action_down);
-            menuItem.setEnabled(true);
             progressBar.setVisibility(View.GONE);
         }
     };
