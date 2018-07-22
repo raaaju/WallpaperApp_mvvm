@@ -5,29 +5,44 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_editor"
-            android:icon="@drawable/porsche"
-            android:title="@string/editor" />
-
-        <item
-            android:id="@+id/nav_red_color"
-            android:icon="@drawable/audi"
-            android:title="@string/red_walp" />
-
-        <item
-            android:id="@+id/nav_blue_color"
+            android:id="@+id/nav_aston"
             android:icon="@drawable/bugatti"
-            android:title="@string/blue_walp" />
+            android:title="@string/aston_walp" />
 
         <item
-            android:id="@+id/nav_black_color"
+            android:id="@+id/nav_audi"
+            android:icon="@drawable/audi"
+            android:title="@string/audi_walp" />
+
+        <item
+            android:id="@+id/nav_bentley"
+            android:icon="@drawable/bugatti"
+            android:title="@string/bentley_walp" />
+
+        <item
+            android:id="@+id/nav_bugatti"
+            android:icon="@drawable/bugatti"
+            android:title="@string/bugatti_walp" />
+
+        <item
+            android:id="@+id/nav_ferrari"
             android:icon="@drawable/ferrari"
-            android:title="@string/black_walp" />
+            android:title="@string/ferrari_walp" />
 
         <item
-            android:id="@+id/nav_yellow_color"
+            android:id="@+id/nav_lambo"
             android:icon="@drawable/lambo"
-            android:title="@string/yellow_walp" />
+            android:title="@string/lambo_walp" />
+
+        <item
+            android:id="@+id/nav_mclaren"
+            android:icon="@drawable/lambo"
+            android:title="@string/mclaren_walp" />
+
+        <item
+            android:id="@+id/nav_porsche"
+            android:icon="@drawable/porsche"
+            android:title="@string/porsche_walp" />
 
     </group>
 

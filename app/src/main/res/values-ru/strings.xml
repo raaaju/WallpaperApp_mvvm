@@ -117,11 +117,14 @@
     <string name="popular_tab">Mercedes-Benz</string>
     <string name="category_tab">Категории</string>
     <string name="latest_tab">BMW</string>
-    <string name="editor">Porsche</string>
-    <string name="red_walp">Audi</string>
-    <string name="blue_walp">Bugatti</string>
-    <string name="black_walp">Ferrari</string>
-    <string name="yellow_walp">Lamborghini</string>
+    <string name="aston_walp">Aston Martin</string>
+    <string name="bentley_walp">Bentley</string>
+    <string name="lambo_walp">Lamborghini</string>
+    <string name="mclaren_walp">McLaren</string>
+    <string name="porsche_walp">Porsche</string>
+    <string name="audi_walp">Audi</string>
+    <string name="bugatti_walp">Bugatti</string>
+    <string name="ferrari_walp">Ferrari</string>
     <string name="allow_app_use_mic">Разрешить приложению использовать микрофон?</string>
     <string name="press_back">Нажмите еще раз чтобы выйти</string>
 </resources>

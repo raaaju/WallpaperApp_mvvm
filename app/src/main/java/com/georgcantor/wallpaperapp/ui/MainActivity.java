@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -84,30 +85,30 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_editor) {
+        if (id == R.id.nav_porsche) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.porsche));
             this.startActivity(intent);
 
-        } else if (id == R.id.nav_red_color) {
+        } else if (id == R.id.nav_audi) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.audi));
             this.startActivity(intent);
 
-        } else if (id == R.id.nav_blue_color) {
+        } else if (id == R.id.nav_bugatti) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.bugatti));
             this.startActivity(intent);
 
-        } else if (id == R.id.nav_black_color) {
+        } else if (id == R.id.nav_ferrari) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.ferrari));
             this.startActivity(intent);
 
-        } else if (id == R.id.nav_yellow_color) {
+        } else if (id == R.id.nav_lambo) {
             Intent intent = new Intent(this, NavActivity.class);
             intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.lamborghini));
             this.startActivity(intent);
