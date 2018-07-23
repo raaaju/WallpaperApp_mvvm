@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Pic;
 import com.georgcantor.wallpaperapp.network.ApiClient;
@@ -30,11 +31,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SelectCatActivity extends AppCompatActivity {
+public class FetchActivity extends AppCompatActivity {
 
-    public static final String EXTRA_CAT = "category";
+    public static final String FETCH_TYPE = "fetch_type";
     public WallpAdapter catAdapter;
-    public RecyclerView recyclerViewCat;
+    public RecyclerView recyclerView;
     public NetworkUtilities networkUtilities;
     private String type;
     public int columnNo;
@@ -46,21 +47,20 @@ public class SelectCatActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
-        type = getIntent().getStringExtra(EXTRA_CAT);
-//        if (networkUtilities.isInternetConnectionPresent()) {
-        setContentView(R.layout.activity_select_category);
-        Toolbar toolbar = findViewById(R.id.toolbar_category);
+        type = getIntent().getStringExtra(FETCH_TYPE);
+        setContentView(R.layout.activity_fetch);
+        Toolbar toolbar = findViewById(R.id.toolbar_fetch);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(type);
         loadNextDataFromApi(1);
-        recyclerViewCat = findViewById(R.id.SelCatRecView);
-        recyclerViewCat.setHasFixedSize(true);
+        recyclerView = findViewById(R.id.fetchRecView);
+        recyclerView.setHasFixedSize(true);
 
         checkScreenSize();
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
-        recyclerViewCat.setLayoutManager(staggeredGridLayoutManager);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
         EndlessRecyclerViewScrollListener scrollListener_cat =
                 new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
                     @Override
@@ -68,11 +68,9 @@ public class SelectCatActivity extends AppCompatActivity {
                         loadNextDataFromApi(page);
                     }
                 };
-        recyclerViewCat.addOnScrollListener(scrollListener_cat);
+        recyclerView.addOnScrollListener(scrollListener_cat);
         catAdapter = new WallpAdapter(this);
-        recyclerViewCat.setAdapter(catAdapter);
-//        } else
-//            setContentView(R.layout.fragment_no_internet);
+        recyclerView.setAdapter(catAdapter);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class SelectCatActivity extends AppCompatActivity {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
         httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
-        httpClient.cache(new Cache(new File(SelectCatActivity.this
+        httpClient.cache(new Cache(new File(FetchActivity.this
                 .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.connectTimeout(60, TimeUnit.SECONDS);
@@ -94,7 +92,7 @@ public class SelectCatActivity extends AppCompatActivity {
 
         ApiService client = ApiClient.getClient(httpClient).create(ApiService.class);
         Call<Pic> call;
-        call = client.getCatPic(type, index);
+        call = client.getSearchResults(type, index);
         call.enqueue(new Callback<Pic>() {
             @Override
             public void onResponse(Call<Pic> call, Response<Pic> response) {

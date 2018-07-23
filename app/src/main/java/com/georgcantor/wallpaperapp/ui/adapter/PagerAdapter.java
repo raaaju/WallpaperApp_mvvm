@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
-import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment;
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment;
+import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment;
 import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {

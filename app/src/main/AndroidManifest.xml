@@ -42,11 +42,6 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.NavActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_detail_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.LicenseActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_detail_name"
@@ -54,6 +49,12 @@
         <activity
             android:name=".ui.AboutActivity"
             android:label="@string/app_detail_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.FetchActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_detail_name"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.SearchActivity"

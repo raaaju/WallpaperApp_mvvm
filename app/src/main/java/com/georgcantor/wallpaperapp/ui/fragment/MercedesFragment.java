@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.fragment;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,28 +9,50 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
+import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.model.Pic;
-import com.georgcantor.wallpaperapp.network.AsyncResponse;
+import com.georgcantor.wallpaperapp.network.ApiClient;
+import com.georgcantor.wallpaperapp.network.ApiService;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
-import com.georgcantor.wallpaperapp.network.WallpService;
+import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor;
+import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor;
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter;
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
-public class MercedesFragment extends Fragment implements AsyncResponse {
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MercedesFragment extends Fragment {
 
     public WallpAdapter wallpAdapter;
     public RecyclerView recyclerView;
     public NetworkUtilities networkUtilities;
     public EndlessRecyclerViewScrollListener scrollListener;
-    public WallpService wallpService;
     public int column_no;
     public ImageView ivNoInternet;
+    private Pic picResult = new Pic();
+    private Context context;
+    private int index;
+    private List<Hit> hits = new ArrayList<>();
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public MercedesFragment() {
     }
@@ -55,8 +78,8 @@ public class MercedesFragment extends Fragment implements AsyncResponse {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_popular, container, false);
-        recyclerView = view.findViewById(R.id.discRecView);
+        View view = inflater.inflate(R.layout.fragment_mercedes, container, false);
+        recyclerView = view.findViewById(R.id.mercRecView);
         recyclerView.setHasFixedSize(true);
 
         ivNoInternet = view.findViewById(R.id.iv_no_internet);
@@ -64,7 +87,7 @@ public class MercedesFragment extends Fragment implements AsyncResponse {
             ivNoInternet.setVisibility(View.VISIBLE);
         }
 
-        final SwipeRefreshLayout mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,17 +113,46 @@ public class MercedesFragment extends Fragment implements AsyncResponse {
         return view;
     }
 
-    @Override
-    public void processFinish(Pic output) {
-        if (output.getHits() != null) {
-            wallpAdapter.setPicList(output);
-        }
-    }
+    private void loadNextDataFromApi(int index) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
+        httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
+        httpClient.cache(new Cache(new File(MyApplication.getInstance()
+                .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
+        httpClient.readTimeout(60, TimeUnit.SECONDS);
+        httpClient.connectTimeout(60, TimeUnit.SECONDS);
+        httpClient.addInterceptor(logging);
 
-    private void loadNextDataFromApi(int offset) {
-        String type = getResources().getString(R.string.popular);
-        wallpService = new WallpService(networkUtilities, getActivity(), this, offset, type);
-        wallpService.loadWallp();
+        ApiService client = ApiClient.getClient(httpClient).create(ApiService.class);
+        Call<Pic> call;
+        call = client.getMercedesPic(index);
+        call.enqueue(new Callback<Pic>() {
+            @Override
+            public void onResponse(Call<Pic> call, Response<Pic> response) {
+                try {
+                    if (!response.isSuccessful()) {
+                        Log.d(context.getResources().getString(R.string.No_Success),
+                                response.errorBody().string());
+                    } else {
+                        picResult = response.body();
+                        if (picResult != null) {
+                            wallpAdapter.setPicList(picResult);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pic> call, Throwable t) {
+                Toast toast = Toast.makeText(context, context.getResources()
+                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
     }
 
     private void checkScreenSize() {

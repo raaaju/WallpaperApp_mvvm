@@ -6,7 +6,7 @@
 
         <item
             android:id="@+id/nav_aston"
-            android:icon="@drawable/bugatti"
+            android:icon="@drawable/aston_martin"
             android:title="@string/aston_walp" />
 
         <item
@@ -16,7 +16,7 @@
 
         <item
             android:id="@+id/nav_bentley"
-            android:icon="@drawable/bugatti"
+            android:icon="@drawable/bentley"
             android:title="@string/bentley_walp" />
 
         <item
@@ -36,7 +36,7 @@
 
         <item
             android:id="@+id/nav_mclaren"
-            android:icon="@drawable/lambo"
+            android:icon="@drawable/mclaren"
             android:title="@string/mclaren_walp" />
 
         <item

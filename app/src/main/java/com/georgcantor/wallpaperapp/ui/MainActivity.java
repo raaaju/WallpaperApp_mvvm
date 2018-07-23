@@ -86,40 +86,63 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_porsche) {
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.porsche));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_audi) {
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.audi));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_bugatti) {
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.bugatti));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_ferrari) {
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.ferrari));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_lambo) {
-            Intent intent = new Intent(this, NavActivity.class);
-            intent.putExtra(NavActivity.EXTRA_ID, getResources().getString(R.string.lamborghini));
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_about) {
-            Intent intent = new Intent(this, AboutActivity.class);
-            this.startActivity(intent);
-
-        } else if (id == R.id.nav_license) {
-            Intent intent = new Intent(this, LicenseActivity.class);
-            this.startActivity(intent);
+        switch (item.getItemId()) {
+            case R.id.nav_aston:
+                Intent intent_aston = new Intent(this, FetchActivity.class);
+                intent_aston.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.aston_walp));
+                this.startActivity(intent_aston);
+                break;
+            case R.id.nav_bentley:
+                Intent intent_bentley = new Intent(this, FetchActivity.class);
+                intent_bentley.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.bentley_walp));
+                this.startActivity(intent_bentley);
+                break;
+            case R.id.nav_porsche:
+                Intent intent_porsche = new Intent(this, FetchActivity.class);
+                intent_porsche.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.porsche));
+                this.startActivity(intent_porsche);
+                break;
+            case R.id.nav_audi:
+                Intent intent_audi = new Intent(this, FetchActivity.class);
+                intent_audi.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.audi));
+                this.startActivity(intent_audi);
+                break;
+            case R.id.nav_bugatti:
+                Intent intent_bugatti = new Intent(this, FetchActivity.class);
+                intent_bugatti.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.bugatti));
+                this.startActivity(intent_bugatti);
+                break;
+            case R.id.nav_mclaren:
+                Intent intent_mclaren = new Intent(this, FetchActivity.class);
+                intent_mclaren.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.mclaren_walp));
+                this.startActivity(intent_mclaren);
+                break;
+            case R.id.nav_ferrari:
+                Intent intent_ferrari = new Intent(this, FetchActivity.class);
+                intent_ferrari.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.ferrari));
+                this.startActivity(intent_ferrari);
+                break;
+            case R.id.nav_lambo:
+                Intent intent_lambo = new Intent(this, FetchActivity.class);
+                intent_lambo.putExtra(FetchActivity.FETCH_TYPE,
+                        getResources().getString(R.string.lamborghini));
+                this.startActivity(intent_lambo);
+                break;
+            case R.id.nav_about:
+                Intent intent_about = new Intent(this, AboutActivity.class);
+                this.startActivity(intent_about);
+                break;
+            case R.id.nav_license:
+                Intent intent_license = new Intent(this, LicenseActivity.class);
+                this.startActivity(intent_license);
+                break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
