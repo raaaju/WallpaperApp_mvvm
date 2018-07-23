@@ -19,21 +19,6 @@ public interface ApiService {
     @GET("?key=" + BuildConfig.API_KEY + "&q=bmw")
     Call<Pic> getBmwPic(@Query("page") int index);
 
-    @GET("?key=" + BuildConfig.API_KEY + "&q=porsche")
-    Call<Pic> getPorschePic(@Query("page") int index);
-
-    @GET("?key=" + BuildConfig.API_KEY + "&q=audi")
-    Call<Pic> getAudiPic(@Query("page") int index);
-
-    @GET("?key=" + BuildConfig.API_KEY + "&q=bugatti")
-    Call<Pic> getBugattiPic(@Query("page") int index);
-
-    @GET("?key=" + BuildConfig.API_KEY + "&q=ferrari")
-    Call<Pic> getFerrariPic(@Query("page") int index);
-
-    @GET("?key=" + BuildConfig.API_KEY + "&q=lamborghini")
-    Call<Pic> getLamboPic(@Query("page") int index);
-
     @GET("?key=" + BuildConfig.API_KEY)
     Call<Pic> getSearchResults(@Query("q") String query,
                                @Query("page") int index);
