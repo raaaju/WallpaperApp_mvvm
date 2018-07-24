@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Pic;
 import com.georgcantor.wallpaperapp.network.ApiClient;
@@ -39,15 +39,12 @@ public class SelectCatActivity extends AppCompatActivity {
     private String type;
     public int columnNo;
     private Pic picResult = new Pic();
-    private Context context;
-    private int index;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
         type = getIntent().getStringExtra(EXTRA_CAT);
-//        if (networkUtilities.isInternetConnectionPresent()) {
         setContentView(R.layout.activity_select_category);
         Toolbar toolbar = findViewById(R.id.toolbar_category);
         setSupportActionBar(toolbar);
@@ -71,8 +68,6 @@ public class SelectCatActivity extends AppCompatActivity {
         recyclerViewCat.addOnScrollListener(scrollListener_cat);
         catAdapter = new WallpAdapter(this);
         recyclerViewCat.setAdapter(catAdapter);
-//        } else
-//            setContentView(R.layout.fragment_no_internet);
     }
 
     @Override
@@ -100,7 +95,7 @@ public class SelectCatActivity extends AppCompatActivity {
             public void onResponse(Call<Pic> call, Response<Pic> response) {
                 try {
                     if (!response.isSuccessful()) {
-                        Log.d(context.getResources().getString(R.string.No_Success),
+                        Log.d(getResources().getString(R.string.No_Success),
                                 response.errorBody().string());
                     } else {
                         picResult = response.body();
@@ -115,9 +110,8 @@ public class SelectCatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Pic> call, Throwable t) {
-                Toast toast = Toast.makeText(context, context.getResources()
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(SelectCatActivity.this, getResources()
+                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show();
             }
         });
     }

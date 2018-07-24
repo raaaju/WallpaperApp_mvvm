@@ -77,7 +77,7 @@
     <string name="image_downloaded">Image Already Downloaded</string>
     <string name="Set_As">Set As</string>
     <string name="first_down">Please Download First</string>
-    <string name="down_canvas">Downloading from Canvas Vision</string>
+    <string name="down_wallpapers">Downloading from 4K Wallpapers</string>
     <string name="down_complete">.jpg Download Complete</string>
     <string name="down">.jpg Download</string>
     <string name="choose_format">Select an image resolution</string>

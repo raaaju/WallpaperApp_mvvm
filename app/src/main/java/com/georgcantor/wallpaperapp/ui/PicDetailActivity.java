@@ -77,7 +77,8 @@ public class PicDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!fileExistance()) {
                     if (networkUtilities.isInternetConnectionPresent()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(PicDetailActivity.this);
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(PicDetailActivity.this);
                         builder.setTitle(R.string.download);
                         builder.setIcon(R.drawable.ic_download);
                         builder.setMessage(R.string.choose_format);
@@ -93,9 +94,9 @@ public class PicDetailActivity extends AppCompatActivity {
                                         fab.setImageDrawable(getApplicationContext().getResources()
                                                 .getDrawable(R.drawable.ic_photo));
                                     } else {
-                                        Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                                .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                                        toast.show();
+                                        Toast.makeText(PicDetailActivity.this, getResources()
+                                                        .getString(R.string.image_downloaded),
+                                                Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 } else {
@@ -115,9 +116,9 @@ public class PicDetailActivity extends AppCompatActivity {
                                         fab.setImageDrawable(getApplicationContext().getResources()
                                                 .getDrawable(R.drawable.ic_photo));
                                     } else {
-                                        Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                                .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                                        toast.show();
+                                        Toast.makeText(PicDetailActivity.this, getResources()
+                                                        .getString(R.string.image_downloaded),
+                                                Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 } else {
@@ -137,9 +138,9 @@ public class PicDetailActivity extends AppCompatActivity {
                                         fab.setImageDrawable(getApplicationContext().getResources()
                                                 .getDrawable(R.drawable.ic_photo));
                                     } else {
-                                        Toast toast = Toast.makeText(getApplicationContext(), getResources()
-                                                .getString(R.string.image_downloaded), Toast.LENGTH_SHORT);
-                                        toast.show();
+                                        Toast.makeText(PicDetailActivity.this, getResources()
+                                                        .getString(R.string.image_downloaded),
+                                                Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 } else {
@@ -149,8 +150,8 @@ public class PicDetailActivity extends AppCompatActivity {
                         });
                         builder.create().show();
                     } else {
-                        Toast.makeText(PicDetailActivity.this, getResources().getString(R.string.no_internet),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PicDetailActivity.this, getResources()
+                                .getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Uri sendUri2 = Uri.fromFile(file);
@@ -273,7 +274,7 @@ public class PicDetailActivity extends AppCompatActivity {
 
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setTitle(tags.get(0) + getResources().getString(R.string.down));
-        request.setDescription(getResources().getString(R.string.down_canvas));
+        request.setDescription(getResources().getString(R.string.down_wallpapers));
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             request.setDestinationInExternalPublicDir("/"
                     + getResources().getString(R.string.app_name), hit.getId()

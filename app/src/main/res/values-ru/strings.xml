@@ -79,7 +79,7 @@
     <string name="image_downloaded">Изображение уже загружено</string>
     <string name="Set_As">Установить как</string>
     <string name="first_down">Необходимо сначала загрузить</string>
-    <string name="down_canvas">Downloading from Canvas Vision</string>
+    <string name="down_wallpapers">Загружается из 4K Wallpapers</string>
     <string name="down_complete">.jpg Download Complete</string>
     <string name="down">.jpg Download</string>
     <string name="widget">widget</string>

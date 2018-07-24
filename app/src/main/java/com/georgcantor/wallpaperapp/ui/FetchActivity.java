@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +39,6 @@ public class FetchActivity extends AppCompatActivity {
     private String type;
     public int columnNo;
     private Pic picResult = new Pic();
-    private Context context;
-    private int index;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +95,7 @@ public class FetchActivity extends AppCompatActivity {
             public void onResponse(Call<Pic> call, Response<Pic> response) {
                 try {
                     if (!response.isSuccessful()) {
-                        Log.d(context.getResources().getString(R.string.No_Success),
+                        Log.d(getResources().getString(R.string.No_Success),
                                 response.errorBody().string());
                     } else {
                         picResult = response.body();
@@ -113,9 +110,8 @@ public class FetchActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Pic> call, Throwable t) {
-                Toast toast = Toast.makeText(context, context.getResources()
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(FetchActivity.this, getResources()
+                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show();
             }
         });
     }
