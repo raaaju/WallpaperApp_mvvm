@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.georgcantor.wallpaperapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,10 +48,6 @@
             android:label="@string/app_detail_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.AboutActivity"
-            android:label="@string/app_detail_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.FetchActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_detail_name"
@@ -59,6 +56,16 @@
         <activity
             android:name=".ui.SearchActivity"
             android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/title_about_the_app"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

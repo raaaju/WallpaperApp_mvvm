@@ -6,7 +6,7 @@
     <string name="app_detail_name"> </string>
     <string name="action_settings">Настройки</string>
     <string name="add_widget">Add widget</string>
-    <string name="powered_by">Powered By:</string>
+    <string name="powered_by">Powered By: www.pixabay.com</string>
     <string name="by">By:</string>
     <string name="downloads">Downloads:</string>
     <string name="favourite">Favourites:</string>
@@ -127,4 +127,7 @@
     <string name="ferrari_walp">Ferrari</string>
     <string name="allow_app_use_mic">Разрешить приложению использовать микрофон?</string>
     <string name="press_back">Нажмите еще раз чтобы выйти</string>
+    <string name="try_my_other_app">Другие приложения разработчика:</string>
+    <string name="tv_made_by">Разработчик приложения:</string>
+    <string name="title_about_the_app">О приложении</string>
 </resources>

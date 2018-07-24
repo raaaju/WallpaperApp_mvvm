@@ -28,4 +28,9 @@
     <dimen name="widget_item_width">220dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="tv_name_margin">10dp</dimen>
+    <dimen name="app_bar_layout_height">300dp</dimen>
+    <dimen name="card_layout_margin">12dp</dimen>
+    <dimen name="card_layout_corner_radius">0dp</dimen>
+    <dimen name="card_layout_elevation">2dp</dimen>
+    <dimen name="tv_card_layout_margin">16dp</dimen>
 </resources>

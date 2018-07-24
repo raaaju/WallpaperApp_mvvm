@@ -5,7 +5,7 @@
     <string name="app_detail_name"> </string>
     <string name="action_settings">Settings</string>
     <string name="add_widget">Add widget</string>
-    <string name="powered_by">Powered By:</string>
+    <string name="powered_by">Powered By: www.pixabay.com</string>
     <string name="by">By:</string>
     <string name="downloads">Downloads:</string>
     <string name="favourite">Favourites:</string>
@@ -134,4 +134,9 @@
     <string name="cancel">Cancel</string>
     <string name="allow_app_use_mic">Do you want to allow the app to use a microphone?</string>
     <string name="press_back">Press BACK again to exit</string>
+    <string name="alex_kirillov">Alex Kirillov</string>
+    <string name="ad_free_news">Ad-free Offline News</string>
+    <string name="try_my_other_app">Try my other App</string>
+    <string name="tv_made_by">App developed by</string>
+    <string name="title_about_the_app">About The App</string>
 </resources>
