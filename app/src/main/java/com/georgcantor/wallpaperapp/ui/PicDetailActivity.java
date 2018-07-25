@@ -265,8 +265,8 @@ public class PicDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_fav, menu);
-        if (isFavorite) {
-            menu.getItem(0).setIcon(R.drawable.ic_star_red_24dp);
+        if (db.containFav(String.valueOf(hit.getPreviewURL()))) {
+            menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp);
         }
         return true;
     }
@@ -276,11 +276,20 @@ public class PicDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
             case R.id.action_add_to_fav:
-                addToFavorite(String.valueOf(hit.getWebformatURL()));
-                item.setIcon(R.drawable.ic_star_red_24dp);
-                isFavorite = true;
-                return true;
+                if (!db.containFav(String.valueOf(hit.getPreviewURL()))) {
+                    addToFavorite(String.valueOf(hit.getPreviewURL()));
+                    item.setIcon(R.drawable.ic_star_red_24dp);
+                    Toast.makeText(this, "Add to favorites", Toast.LENGTH_SHORT).show();
+                    isFavorite = true;
+                } else {
+                    db.deleteFromFavorites(String.valueOf(hit.getPreviewURL()));
+                    item.setIcon(R.drawable.ic_star_border_black_24dp);
+                    Toast.makeText(this, "Delete from favorites", Toast.LENGTH_SHORT).show();
+                    isFavorite = false;
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

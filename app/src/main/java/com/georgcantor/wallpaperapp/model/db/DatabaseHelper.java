@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.model.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -71,4 +72,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return count;
     }
+
+    public void deleteFromFavorites(String imageUrl) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Favorite.TABLE_NAME, Favorite.COLUMN_URL + " = ?",
+                new String[]{imageUrl});
+        db.close();
+    }
+
+    public boolean containFav(String imageUrl) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT  * FROM " + Favorite.TABLE_NAME + " WHERE "
+                + Favorite.COLUMN_URL + " = " + DatabaseUtils.sqlEscapeString(imageUrl);
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()) {
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
 }
+

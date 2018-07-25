@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.db.Favorite;
@@ -30,10 +31,20 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.favorite_list_row, parent, false);
-        return new MyViewHolder(itemView);
+        final MyViewHolder rcv = new MyViewHolder(itemView);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = rcv.getAdapterPosition();
+                Favorite photo = favoriteList.get(position);
+                String url = photo.getImageUrl();
+                Toast.makeText(context, url, Toast.LENGTH_LONG).show();
+            }
+        });
+        return rcv;
     }
 
     @Override
@@ -44,6 +55,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
                 .load(favorite.getImageUrl())
                 .placeholder(R.drawable.plh)
                 .into(holder.imageView);
+
     }
 
     @Override
