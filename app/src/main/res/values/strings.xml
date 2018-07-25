@@ -139,4 +139,6 @@
     <string name="try_my_other_app">Try my other App</string>
     <string name="tv_made_by">App developed by</string>
     <string name="title_about_the_app">About The App</string>
+    <string name="msg_no_history">The list is empty</string>
+    <string name="favorites">Favorites</string>
 </resources>

@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
+import com.georgcantor.wallpaperapp.model.db.DatabaseHelper;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter;
 import com.squareup.picasso.Callback;
@@ -49,13 +51,16 @@ public class PicDetailActivity extends AppCompatActivity {
     public NetworkUtilities networkUtilities;
     public RecyclerView recyclerView;
     public TagAdapter tagAdapter;
-    public boolean isDownloaded = false;
-    public boolean isCallerCollection = false;
     private File file;
+    private Menu menu;
     private TextView tagTitle;
     private int permissionCheck1;
     private ProgressBar progressBar;
     private FloatingActionButton fab;
+    private DatabaseHelper db;
+    public boolean isDownloaded = false;
+    public boolean isCallerCollection = false;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +68,11 @@ public class PicDetailActivity extends AppCompatActivity {
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_pic_detail);
         fab = findViewById(R.id.fab_download);
+        this.menu = menu;
 
         progressBar = findViewById(R.id.progressBarDetail);
         progressBar.setVisibility(View.VISIBLE);
+        db = new DatabaseHelper(this);
 
         tagTitle = findViewById(R.id.toolbar_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -256,10 +263,23 @@ public class PicDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_fav, menu);
+        if (isFavorite) {
+            menu.getItem(0).setIcon(R.drawable.ic_star_red_24dp);
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+            case R.id.action_add_to_fav:
+                addToFavorite(String.valueOf(hit.getWebformatURL()));
+                item.setIcon(R.drawable.ic_star_red_24dp);
+                isFavorite = true;
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -317,5 +337,9 @@ public class PicDetailActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
         }
+    }
+
+    public void addToFavorite(String imageUrl) {
+        db.insertToFavorites(imageUrl);
     }
 }

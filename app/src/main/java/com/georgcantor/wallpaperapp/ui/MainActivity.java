@@ -86,6 +86,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_favorites:
+                startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+                break;
             case R.id.nav_aston:
                 Intent intent_aston = new Intent(this, FetchActivity.class);
                 intent_aston.putExtra(FetchActivity.FETCH_TYPE,

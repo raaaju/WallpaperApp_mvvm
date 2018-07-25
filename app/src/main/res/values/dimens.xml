@@ -33,4 +33,7 @@
     <dimen name="card_layout_corner_radius">0dp</dimen>
     <dimen name="card_layout_elevation">2dp</dimen>
     <dimen name="tv_card_layout_margin">16dp</dimen>
+    <dimen name="timestamp">15sp</dimen>
+    <dimen name="margin_top_no_history">122dp</dimen>
+    <dimen name="msg_no_history">28sp</dimen>
 </resources>
