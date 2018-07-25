@@ -52,7 +52,6 @@ public class PicDetailActivity extends AppCompatActivity {
     public RecyclerView recyclerView;
     public TagAdapter tagAdapter;
     private File file;
-    private Menu menu;
     private TextView tagTitle;
     private int permissionCheck1;
     private ProgressBar progressBar;
@@ -60,7 +59,6 @@ public class PicDetailActivity extends AppCompatActivity {
     private DatabaseHelper db;
     public boolean isDownloaded = false;
     public boolean isCallerCollection = false;
-    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,6 @@ public class PicDetailActivity extends AppCompatActivity {
         networkUtilities = new NetworkUtilities(this);
         setContentView(R.layout.activity_pic_detail);
         fab = findViewById(R.id.fab_download);
-        this.menu = menu;
 
         progressBar = findViewById(R.id.progressBarDetail);
         progressBar.setVisibility(View.VISIBLE);
@@ -281,13 +278,11 @@ public class PicDetailActivity extends AppCompatActivity {
                 if (!db.containFav(String.valueOf(hit.getPreviewURL()))) {
                     addToFavorite(String.valueOf(hit.getPreviewURL()));
                     item.setIcon(R.drawable.ic_star_red_24dp);
-                    Toast.makeText(this, "Add to favorites", Toast.LENGTH_SHORT).show();
-                    isFavorite = true;
+                    Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show();
                 } else {
                     db.deleteFromFavorites(String.valueOf(hit.getPreviewURL()));
                     item.setIcon(R.drawable.ic_star_border_black_24dp);
-                    Toast.makeText(this, "Delete from favorites", Toast.LENGTH_SHORT).show();
-                    isFavorite = false;
+                    Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

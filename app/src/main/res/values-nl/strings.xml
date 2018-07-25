@@ -43,4 +43,6 @@
     <string name="try_my_other_app">Probieren Sie meine andere App aus</string>
     <string name="tv_made_by">App entwickelt von</string>
     <string name="title_about_the_app">Über die App</string>
+    <string name="add_to_fav_toast">Zu Favoriten hinzugefügt</string>
+    <string name="del_from_fav_toast">Aus den Favoriten entfernt</string>
 </resources>

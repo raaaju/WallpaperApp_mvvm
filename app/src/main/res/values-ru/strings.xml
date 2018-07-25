@@ -131,4 +131,6 @@
     <string name="tv_made_by">Разработчик приложения:</string>
     <string name="title_about_the_app">О приложении</string>
     <string name="msg_no_history">Список пуст</string>
+    <string name="add_to_fav_toast">Добавлено в избранное</string>
+    <string name="del_from_fav_toast">Удалено из избранного</string>
 </resources>

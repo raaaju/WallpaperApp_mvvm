@@ -141,4 +141,6 @@
     <string name="title_about_the_app">About The App</string>
     <string name="msg_no_history">The list is empty</string>
     <string name="favorites">Favorites</string>
+    <string name="add_to_fav_toast">Added to favorites</string>
+    <string name="del_from_fav_toast">Removed from favorites</string>
 </resources>
