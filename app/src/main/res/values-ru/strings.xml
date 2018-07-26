@@ -137,4 +137,7 @@
     <string name="cancel_dialog">Отмена</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="add_to_favorites">Добавить в избранное</string>
+    <string name="share">Поделиться</string>
+    <string name="choose_share">Выберите</string>
 </resources>

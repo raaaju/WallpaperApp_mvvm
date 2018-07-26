@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -285,6 +286,18 @@ public class PicDetailActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.action_share:
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                    String sAux = hit.getImageURL();
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, getString(R.string.choose_share)));
+                } catch (AndroidRuntimeException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show();
+                }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -5,9 +5,15 @@
     tools:context=".ui.PicDetailActivity">
 
     <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_add_to_fav"
         android:icon="@drawable/ic_star_border_black_24dp"
-        android:title="@string/cancel"
+        android:title="@string/add_to_favorites"
         app:showAsAction="ifRoom" />
 
 </menu>

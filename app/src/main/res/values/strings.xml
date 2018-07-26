@@ -147,4 +147,7 @@
     <string name="cancel_dialog">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="share">Share</string>
+    <string name="choose_share">Choose one</string>
 </resources>
