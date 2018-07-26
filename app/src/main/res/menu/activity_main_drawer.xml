@@ -5,11 +5,6 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_email_black_24dp"
-            android:title="@string/favorites" />
-
-        <item
             android:id="@+id/nav_aston"
             android:icon="@drawable/aston_martin"
             android:title="@string/aston_walp" />
@@ -48,6 +43,11 @@
             android:id="@+id/nav_porsche"
             android:icon="@drawable/porsche"
             android:title="@string/porsche_walp" />
+
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_star_border_black_24dp"
+            android:title="@string/favorites" />
 
     </group>
 
