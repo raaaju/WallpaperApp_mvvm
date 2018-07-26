@@ -1,6 +1,9 @@
 package com.georgcantor.wallpaperapp.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.georgcantor.wallpaperapp.R;
+import com.georgcantor.wallpaperapp.model.db.DatabaseHelper;
 import com.georgcantor.wallpaperapp.model.db.Favorite;
+import com.georgcantor.wallpaperapp.ui.FavoriteActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -22,6 +27,7 @@ public class FavoriteAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private ArrayList<Favorite> favoriteArrayList;
+    private DatabaseHelper db;
 
     public FavoriteAdapter(Context context, int layout, ArrayList<Favorite> favoriteArrayList) {
         this.context = context;
@@ -50,7 +56,7 @@ public class FavoriteAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, final View view, ViewGroup viewGroup) {
         View row = view;
         ViewHolder holder = new ViewHolder();
 
@@ -72,6 +78,40 @@ public class FavoriteAdapter extends BaseAdapter {
                 .load(favorite.getImageUrl())
                 .placeholder(R.drawable.plh)
                 .into(holder.imageView);
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Favorite photo = favoriteArrayList.get(position);
+                final String url = photo.getImageUrl();
+                db = new DatabaseHelper(context);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(R.string.del_from_fav_dialog);
+
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        db.deleteFromFavorites(url);
+                        Intent intent = new Intent(context, FavoriteActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                    }
+                });
+
+                builder.setNeutralButton(R.string.cancel_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+                builder.create().show();
+            }
+        });
 
         return row;
     }

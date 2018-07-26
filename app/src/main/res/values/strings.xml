@@ -143,4 +143,8 @@
     <string name="favorites">Favorites</string>
     <string name="add_to_fav_toast">Added to favorites</string>
     <string name="del_from_fav_toast">Removed from favorites</string>
+    <string name="del_from_fav_dialog">Remove from favorites?</string>
+    <string name="cancel_dialog">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
