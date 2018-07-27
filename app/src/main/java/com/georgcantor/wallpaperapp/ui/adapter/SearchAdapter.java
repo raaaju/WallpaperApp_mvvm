@@ -19,10 +19,10 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private List<Hit> hits;
-    private Context mContext;
+    private Context context;
 
     public SearchAdapter(Context mContext, List<Hit> hits) {
-        this.mContext = mContext;
+        this.context = mContext;
         this.hits = hits;
     }
 
@@ -38,7 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Hit hit = hits.get(position);
 
-        Picasso.with(mContext)
+        Picasso.with(context)
                 .load(hit.getWebformatURL())
                 .into(holder.searchView);
 
@@ -46,10 +46,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
-                Intent intent = new Intent(mContext, PicDetailActivity.class);
+                Intent intent = new Intent(context, PicDetailActivity.class);
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, hits.get(position));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
+                context.startActivity(intent);
             }
         });
     }

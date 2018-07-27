@@ -19,10 +19,8 @@ import java.util.List;
 
 public class CategoryFragment extends Fragment {
 
-    public RecyclerView recyclerView;
-    public List<Category> categoryList = new ArrayList<>();
-    public CategoryAdapter categoryAdapter;
-    public int column_no;
+    private List<Category> categoryList = new ArrayList<>();
+    private int column_no;
 
     public CategoryFragment() {
     }
@@ -48,11 +46,11 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
-        recyclerView = view.findViewById(R.id.expRecView);
+        RecyclerView recyclerView = view.findViewById(R.id.expRecView);
         recyclerView.setHasFixedSize(true);
         checkScreenSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), column_no));
-        categoryAdapter = new CategoryAdapter(getActivity());
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity());
 
         populate();
         categoryAdapter.setCategoryList(categoryList);

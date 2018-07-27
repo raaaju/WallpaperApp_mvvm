@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui.fragment;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
-import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.model.Pic;
 import com.georgcantor.wallpaperapp.network.ApiClient;
 import com.georgcantor.wallpaperapp.network.ApiService;
@@ -29,8 +27,6 @@ import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter;
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -42,16 +38,10 @@ import retrofit2.Response;
 
 public class BmwFragment extends Fragment {
 
-    public WallpAdapter wallpAdapter;
-    public RecyclerView recyclerView;
-    public NetworkUtilities networkUtilities;
-    public EndlessRecyclerViewScrollListener scrollListener;
-    public int column_no;
-    public ImageView ivNoInternet;
+    private WallpAdapter wallpAdapter;
+    private NetworkUtilities networkUtilities;
+    private int column_no;
     private Pic picResult = new Pic();
-    private Context context;
-    private int index;
-    private List<Hit> hits = new ArrayList<>();
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public BmwFragment() {
@@ -79,10 +69,10 @@ public class BmwFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_bmw, container, false);
-        recyclerView = view.findViewById(R.id.bmwRecView);
+        RecyclerView recyclerView = view.findViewById(R.id.bmwRecView);
         recyclerView.setHasFixedSize(true);
 
-        ivNoInternet = view.findViewById(R.id.iv_no_internet);
+        ImageView ivNoInternet = view.findViewById(R.id.iv_no_internet);
         if (!networkUtilities.isInternetConnectionPresent()) {
             ivNoInternet.setVisibility(View.VISIBLE);
         }
@@ -100,7 +90,7 @@ public class BmwFragment extends Fragment {
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(column_no, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadNextDataFromApi(page);
@@ -133,7 +123,7 @@ public class BmwFragment extends Fragment {
             public void onResponse(Call<Pic> call, Response<Pic> response) {
                 try {
                     if (!response.isSuccessful()) {
-                        Log.d(context.getResources().getString(R.string.No_Success),
+                        Log.d(getContext().getResources().getString(R.string.No_Success),
                                 response.errorBody().string());
                     } else {
                         picResult = response.body();
@@ -148,9 +138,8 @@ public class BmwFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Pic> call, Throwable t) {
-                Toast toast = Toast.makeText(context, context.getResources()
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(getContext(), getContext().getResources()
+                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show();
             }
         });
     }

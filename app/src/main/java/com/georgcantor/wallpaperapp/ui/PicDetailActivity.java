@@ -298,6 +298,7 @@ public class PicDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show();
                 }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -358,5 +359,11 @@ public class PicDetailActivity extends AppCompatActivity {
 
     public void addToFavorite(String imageUrl) {
         db.insertToFavorites(imageUrl);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 }

@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -34,11 +35,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Activity activity = (Activity) context;
                 int position = rcv.getAdapterPosition();
                 Intent intent = new Intent(context, SelectCatActivity.class);
                 intent.putExtra(SelectCatActivity.EXTRA_CAT,
                         categoryList.get(position).getCategoryDrawId());
                 context.startActivity(intent);
+                activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
         return rcv;

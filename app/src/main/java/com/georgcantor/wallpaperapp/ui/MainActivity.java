@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_search:
                 openSearchActivity();
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -91,59 +92,70 @@ public class MainActivity extends AppCompatActivity
                 intent_aston.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.aston_walp));
                 this.startActivity(intent_aston);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_bentley:
                 Intent intent_bentley = new Intent(this, FetchActivity.class);
                 intent_bentley.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.bentley_walp));
                 this.startActivity(intent_bentley);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_porsche:
                 Intent intent_porsche = new Intent(this, FetchActivity.class);
                 intent_porsche.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.porsche));
                 this.startActivity(intent_porsche);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_audi:
                 Intent intent_audi = new Intent(this, FetchActivity.class);
                 intent_audi.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.audi));
                 this.startActivity(intent_audi);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_bugatti:
                 Intent intent_bugatti = new Intent(this, FetchActivity.class);
                 intent_bugatti.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.bugatti));
                 this.startActivity(intent_bugatti);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_mclaren:
                 Intent intent_mclaren = new Intent(this, FetchActivity.class);
                 intent_mclaren.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.mclaren_walp));
                 this.startActivity(intent_mclaren);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_ferrari:
                 Intent intent_ferrari = new Intent(this, FetchActivity.class);
                 intent_ferrari.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.ferrari));
                 this.startActivity(intent_ferrari);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_lambo:
                 Intent intent_lambo = new Intent(this, FetchActivity.class);
                 intent_lambo.putExtra(FetchActivity.FETCH_TYPE,
                         getResources().getString(R.string.lamborghini));
                 this.startActivity(intent_lambo);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_favorites:
                 startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_about:
                 Intent intent_about = new Intent(this, AboutActivity.class);
                 this.startActivity(intent_about);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_license:
                 Intent intent_license = new Intent(this, LicenseActivity.class);
                 this.startActivity(intent_license);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

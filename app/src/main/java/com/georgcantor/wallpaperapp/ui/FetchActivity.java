@@ -73,6 +73,7 @@ public class FetchActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 
     public void loadNextDataFromApi(int index) {
@@ -120,6 +121,7 @@ public class FetchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
         }
         return super.onOptionsItemSelected(item);
     }
