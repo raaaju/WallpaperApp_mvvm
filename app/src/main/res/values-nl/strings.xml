@@ -38,7 +38,7 @@
     <string name="Set_As">Festlegen als</string>
     <string name="first_down">Bitte zuerst herunterladen</string>
     <string name="category_tab">Kategorie</string>
-    <string name="allow_app_use_mic">Möchten Sie zulassen, dass die App ein Mikrofon verwendet?</string>
+    <string name="allow_app_use_mic">Für Sprachanfragen benötigen Sie diese Berechtigung. Ermöglichen?</string>
     <string name="press_back">Drücken Sie erneut ZURÜCK, um den Vorgang zu beenden</string>
     <string name="try_my_other_app">Probieren Sie meine andere App aus</string>
     <string name="tv_made_by">App entwickelt von</string>
@@ -49,4 +49,5 @@
     <string name="cancel_dialog">Stornieren</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="you_need_perm_toast">Um Bilder speichern zu können, benötigen Sie diese Berechtigung</string>
 </resources>

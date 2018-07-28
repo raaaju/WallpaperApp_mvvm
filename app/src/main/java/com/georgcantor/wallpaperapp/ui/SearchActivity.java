@@ -31,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.R;
-import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.model.Pic;
 import com.georgcantor.wallpaperapp.network.ApiClient;
 import com.georgcantor.wallpaperapp.network.ApiService;
@@ -43,7 +42,6 @@ import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -61,11 +59,8 @@ public class SearchActivity extends AppCompatActivity {
     private EditText mEdtSearch;
     private TextView mTxvNoResultsFound;
     private SwipeRefreshLayout mSwipeRefreshSearch;
-    private RecyclerView recyclerView;
     public NetworkUtilities networkUtilities;
-    private List<Hit> hits = new ArrayList<>();
     public int columnNo;
-    private String type;
     private Pic picResult = new Pic();
     public WallpAdapter wallpAdapter;
     public int index = 1;
@@ -74,7 +69,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         networkUtilities = new NetworkUtilities(this);
-        type = getIntent().getStringExtra(FETCH_TYPE);
         setContentView(R.layout.activity_search);
         mEdtSearch = findViewById(R.id.editText_search);
         mTxvNoResultsFound = findViewById(R.id.tv_no_results);
@@ -82,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
 
         createToolbar();
 
-        recyclerView = findViewById(R.id.search_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.search_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         checkScreenSize();
@@ -243,7 +237,7 @@ public class SearchActivity extends AppCompatActivity {
     public void speak() {
         try {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak something...");
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speak_something));
             startActivityForResult(intent, REQUEST_CODE);
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,24 +265,27 @@ public class SearchActivity extends AppCompatActivity {
     private void startPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.allow_app_use_mic);
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
-                finish();
-            }
-        });
+        builder.setPositiveButton(getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                        finish();
+                    }
+                });
 
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
+        builder.setNegativeButton(getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
 
-        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
+        builder.setNeutralButton(getResources().getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
         builder.create().show();
     }
 

@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -80,7 +83,13 @@ public class PicDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!fileExistance()) {
+                if (!fileIsExist()) {
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        checkPermisson();
+                        if (permissionCheck1 != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                    }
                     if (networkUtilities.isInternetConnectionPresent()) {
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(PicDetailActivity.this);
@@ -92,7 +101,7 @@ public class PicDetailActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                                    if (!fileExistance()) {
+                                    if (!fileIsExist()) {
                                         String uri = hit.getWebformatURL();
                                         Uri image_uri = Uri.parse(uri);
                                         downloadData(image_uri);
@@ -104,8 +113,6 @@ public class PicDetailActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
-                                } else {
-                                    checkPermisson();
                                 }
                             }
                         });
@@ -114,7 +121,7 @@ public class PicDetailActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                                    if (!fileExistance()) {
+                                    if (!fileIsExist()) {
                                         String uri = hit.getImageURL();
                                         Uri image_uri = Uri.parse(uri);
                                         downloadData(image_uri);
@@ -126,8 +133,6 @@ public class PicDetailActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
-                                } else {
-                                    checkPermisson();
                                 }
                             }
                         });
@@ -136,7 +141,7 @@ public class PicDetailActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
-                                    if (!fileExistance()) {
+                                    if (!fileIsExist()) {
                                         String uri = hit.getFullHDURL();
                                         Uri image_uri = Uri.parse(uri);
                                         downloadData(image_uri);
@@ -148,8 +153,6 @@ public class PicDetailActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
-                                } else {
-                                    checkPermisson();
                                 }
                             }
                         });
@@ -158,6 +161,7 @@ public class PicDetailActivity extends AppCompatActivity {
                         Toast.makeText(PicDetailActivity.this, getResources()
                                 .getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
                     }
+
                 } else {
                     Uri sendUri2 = Uri.fromFile(file);
                     Log.d(getResources().getString(R.string.URI), sendUri2.toString());
@@ -204,7 +208,7 @@ public class PicDetailActivity extends AppCompatActivity {
         file = new File(Environment.getExternalStoragePublicDirectory("/"
                 + getResources().getString(R.string.app_name)), hit.getId()
                 + getResources().getString(R.string.jpg));
-        if (fileExistance()) {
+        if (fileIsExist()) {
             fab.setImageDrawable(getApplicationContext().getResources()
                     .getDrawable(R.drawable.ic_photo));
         }
@@ -345,9 +349,21 @@ public class PicDetailActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public boolean fileExistance() {
+    public boolean fileIsExist() {
         return file.exists();
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    public boolean permissionAllowed() {
+//        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+//                PackageManager.PERMISSION_GRANTED) {
+//            return true;
+//        } else {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+//            return false;
+//        }
+//    }
 
     public void checkPermisson() {
         if (permissionCheck1 != PackageManager.PERMISSION_GRANTED) {
@@ -355,6 +371,33 @@ public class PicDetailActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            restartActivity();
+        } else {
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+            finish();
+            Toast.makeText(this, R.string.you_need_perm_toast, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void restartActivity() {
+        hit = getIntent().getParcelableExtra(EXTRA_PIC);
+        Intent intent = new Intent(PicDetailActivity.this,
+                PicDetailActivity.class);
+        intent.putExtra(EXTRA_PIC, hit);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public void addToFavorite(String imageUrl) {

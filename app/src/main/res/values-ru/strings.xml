@@ -30,6 +30,7 @@
     <string name="choose_format">Выберите разрешение изображения</string>
     <string name="popular">popular</string>
     <string name="package_drawable">com.georgcantor.wallpaperapp:drawable/</string>
+    <string name="type_and_search">Введите слово или фразу</string>
     <string name="Animals">Животные</string>
     <string name="animals">animals</string>
     <string name="Textures">Текстуры</string>
@@ -125,7 +126,7 @@
     <string name="audi_walp">Audi</string>
     <string name="bugatti_walp">Bugatti</string>
     <string name="ferrari_walp">Ferrari</string>
-    <string name="allow_app_use_mic">Разрешить приложению использовать микрофон?</string>
+    <string name="allow_app_use_mic">Для голосовых запросов необходимо это разрешение. Разрешить?</string>
     <string name="press_back">Нажмите еще раз чтобы выйти</string>
     <string name="try_my_other_app">Другие приложения разработчика:</string>
     <string name="tv_made_by">Разработчик приложения:</string>
@@ -137,7 +138,10 @@
     <string name="cancel_dialog">Отмена</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="cancel">Отмена</string>
     <string name="add_to_favorites">Добавить в избранное</string>
     <string name="share">Поделиться</string>
     <string name="choose_share">Выберите</string>
+    <string name="you_need_perm_toast">Чтобы сохранять изображения необходимо это разрешение</string>
+    <string name="speak_something">Говорите…</string>
 </resources>
