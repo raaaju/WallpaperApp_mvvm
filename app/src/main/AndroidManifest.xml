@@ -58,6 +58,7 @@
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.AboutActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_about_the_app"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"

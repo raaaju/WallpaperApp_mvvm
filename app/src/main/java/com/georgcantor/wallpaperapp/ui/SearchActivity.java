@@ -16,10 +16,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,16 +28,18 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.georgcantor.wallpaperapp.MyApplication;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.model.Pic;
 import com.georgcantor.wallpaperapp.network.ApiClient;
 import com.georgcantor.wallpaperapp.network.ApiService;
+import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor;
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor;
-import com.georgcantor.wallpaperapp.ui.adapter.SearchAdapter;
+import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter;
+import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,20 +57,38 @@ public class SearchActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 111;
     private static final int PERMISSION_REQUEST_CODE = 222;
+    public static final String FETCH_TYPE = "fetch_type";
     private EditText mEdtSearch;
     private TextView mTxvNoResultsFound;
     private SwipeRefreshLayout mSwipeRefreshSearch;
-    private RecyclerView mRecyclerViewSearch;
+    private RecyclerView recyclerView;
+    public NetworkUtilities networkUtilities;
     private List<Hit> hits = new ArrayList<>();
     public int columnNo;
+    private String type;
+    private Pic picResult = new Pic();
+    public WallpAdapter wallpAdapter;
+    public int index = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        networkUtilities = new NetworkUtilities(this);
+        type = getIntent().getStringExtra(FETCH_TYPE);
         setContentView(R.layout.activity_search);
+        mEdtSearch = findViewById(R.id.editText_search);
+        mTxvNoResultsFound = findViewById(R.id.tv_no_results);
+        mSwipeRefreshSearch = findViewById(R.id.swipe_refresh_layout_search);
+
         createToolbar();
+
+        recyclerView = findViewById(R.id.search_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
         checkScreenSize();
-        initViews();
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -77,14 +97,23 @@ public class SearchActivity extends AppCompatActivity {
                     InputMethodManager mgr =
                             (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    searchEverything(mEdtSearch.getText().toString().trim());
+                    searchEverything(mEdtSearch.getText().toString().trim(), index);
                     return true;
                 }
                 return false;
             }
         });
-        mSwipeRefreshSearch.setEnabled(false);
-        mSwipeRefreshSearch.setColorSchemeResources(R.color.colorPrimary);
+
+        EndlessRecyclerViewScrollListener scrollListener_cat =
+                new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        searchEverything(mEdtSearch.getText().toString().trim(), page);
+                    }
+                };
+        recyclerView.addOnScrollListener(scrollListener_cat);
+        wallpAdapter = new WallpAdapter(this);
+        recyclerView.setAdapter(wallpAdapter);
     }
 
     private void createToolbar() {
@@ -98,32 +127,21 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
-    private void initViews() {
-        mEdtSearch = findViewById(R.id.editText_search);
-        mSwipeRefreshSearch = findViewById(R.id.swipe_refresh_layout_search);
-        mRecyclerViewSearch = findViewById(R.id.search_recycler_view);
-        mTxvNoResultsFound = findViewById(R.id.tv_no_results);
-        mRecyclerViewSearch.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-        StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerViewSearch.setLayoutManager(staggeredGridLayoutManager);
-    }
-
-    private void searchEverything(final String search) {
+    public void searchEverything(final String search, int index) {
         mSwipeRefreshSearch.setEnabled(true);
         mSwipeRefreshSearch.setRefreshing(true);
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
         httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
-        httpClient.cache(new Cache(new File(MyApplication.getInstance()
+        httpClient.cache(new Cache(new File(SearchActivity.this
                 .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.connectTimeout(60, TimeUnit.SECONDS);
@@ -131,33 +149,32 @@ public class SearchActivity extends AppCompatActivity {
 
         ApiService client = ApiClient.getClient(httpClient).create(ApiService.class);
         Call<Pic> call;
-        call = client.getSearchResults(search, 1);
+        call = client.getSearchResults(search, index);
         call.enqueue(new Callback<Pic>() {
             @Override
-            public void onResponse(@NonNull Call<Pic> call, @NonNull Response<Pic> response) {
-                if (response.isSuccessful() && response.body().getHits() != null) {
-                    if (response.body().getTotal() != 0) {
-                        if (!hits.isEmpty()) {
-                            hits.clear();
+            public void onResponse(Call<Pic> call, Response<Pic> response) {
+                try {
+                    if (!response.isSuccessful()) {
+                        Log.d(getResources().getString(R.string.No_Success),
+                                response.errorBody().string());
+                    } else {
+                        picResult = response.body();
+                        if (picResult != null) {
+                            wallpAdapter.setPicList(picResult);
+                            mTxvNoResultsFound.setVisibility(View.GONE);
+                            mSwipeRefreshSearch.setRefreshing(false);
+                            mSwipeRefreshSearch.setEnabled(false);
                         }
-                        hits = response.body().getHits();
-                        mRecyclerViewSearch.setVisibility(View.VISIBLE);
-                        mTxvNoResultsFound.setVisibility(View.GONE);
-                        mRecyclerViewSearch.setAdapter(new SearchAdapter(getApplicationContext(), hits));
-                        mSwipeRefreshSearch.setRefreshing(false);
-                        mSwipeRefreshSearch.setEnabled(false);
-                    } else if (response.body().getTotal() == 0) {
-                        mSwipeRefreshSearch.setRefreshing(false);
-                        mSwipeRefreshSearch.setEnabled(false);
-                        mTxvNoResultsFound.setVisibility(View.VISIBLE);
-                        mRecyclerViewSearch.setVisibility(View.GONE);
-                        mTxvNoResultsFound.setText("No Results found for \"" + search + "\".");
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Pic> call, @NonNull Throwable t) {
+            public void onFailure(Call<Pic> call, Throwable t) {
+                Toast.makeText(SearchActivity.this, getResources()
+                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show();
                 mSwipeRefreshSearch.setRefreshing(false);
                 mSwipeRefreshSearch.setEnabled(false);
             }
@@ -198,11 +215,9 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_cancel:
-                mEdtSearch.setText("");
-                mEdtSearch.requestFocus();
-                InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                mgr.showSoftInput(mEdtSearch, InputMethodManager.SHOW_IMPLICIT);
-                mRecyclerViewSearch.setVisibility(View.GONE);
+                Intent intent = new Intent(this, SearchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             case R.id.action_voice_search:
                 checkPermission();
@@ -282,7 +297,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             ArrayList<String> arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            searchEverything(String.valueOf(arrayList));
+            searchEverything(String.valueOf(arrayList), index);
+            mEdtSearch.setText(String.valueOf(arrayList));
         }
     }
 
