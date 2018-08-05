@@ -76,13 +76,7 @@ public class SearchActivity extends AppCompatActivity {
 
         createToolbar();
 
-        RecyclerView recyclerView = findViewById(R.id.search_recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        checkScreenSize();
-        StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        initViews();
 
         mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -97,17 +91,6 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        EndlessRecyclerViewScrollListener scrollListener_cat =
-                new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
-                    @Override
-                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                        searchEverything(mEdtSearch.getText().toString().trim(), page);
-                    }
-                };
-        recyclerView.addOnScrollListener(scrollListener_cat);
-        wallpAdapter = new WallpAdapter(this);
-        recyclerView.setAdapter(wallpAdapter);
     }
 
     private void createToolbar() {
@@ -125,6 +108,27 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    private void initViews() {
+        RecyclerView recyclerView = findViewById(R.id.search_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        checkScreenSize();
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        EndlessRecyclerViewScrollListener scrollListener_cat =
+                new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        searchEverything(mEdtSearch.getText().toString().trim(), page);
+                    }
+                };
+        recyclerView.addOnScrollListener(scrollListener_cat);
+        wallpAdapter = new WallpAdapter(this);
+        recyclerView.setAdapter(wallpAdapter);
     }
 
     public void searchEverything(final String search, int index) {
@@ -159,6 +163,7 @@ public class SearchActivity extends AppCompatActivity {
                             mSwipeRefreshSearch.setRefreshing(false);
                             mSwipeRefreshSearch.setEnabled(false);
                         }
+                        mEdtSearch.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -209,9 +214,7 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_cancel:
-                Intent intent = new Intent(this, SearchActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                resetActivity();
                 break;
             case R.id.action_voice_search:
                 checkPermission();
@@ -219,6 +222,12 @@ public class SearchActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void resetActivity() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private void checkPermission() {
