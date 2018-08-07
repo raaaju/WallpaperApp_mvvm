@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.ui.adapter.PagerAdapter;
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (!UtilityMethods.isNetworkAvailable()) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    getResources().getString(R.string.check_internet), Snackbar.LENGTH_LONG).show();
+        }
         TextView myTitle = (TextView) toolbar.getChildAt(0);
         Typeface typeface = Typeface.createFromAsset(getAssets(), getResources()
                 .getString(R.string.font_name));

@@ -55,7 +55,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 111;
     private static final int PERMISSION_REQUEST_CODE = 222;
-    public static final String FETCH_TYPE = "fetch_type";
     private EditText mEdtSearch;
     private TextView mTxvNoResultsFound;
     private SwipeRefreshLayout mSwipeRefreshSearch;
@@ -64,6 +63,7 @@ public class SearchActivity extends AppCompatActivity {
     private Pic picResult = new Pic();
     public WallpAdapter wallpAdapter;
     public int index = 1;
+    private boolean voiceInvisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +163,8 @@ public class SearchActivity extends AppCompatActivity {
                             mSwipeRefreshSearch.setRefreshing(false);
                             mSwipeRefreshSearch.setEnabled(false);
                         }
+                        invalidateOptionsMenu();
+                        voiceInvisible = true;
                         mEdtSearch.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
@@ -222,6 +224,13 @@ public class SearchActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_voice_search);
+        item.setVisible(!voiceInvisible);
+        return true;
     }
 
     private void resetActivity() {

@@ -50,4 +50,5 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="you_need_perm_toast">Um Bilder speichern zu können, benötigen Sie diese Berechtigung</string>
+    <string name="check_internet">Überprüfen Sie die Internetverbindung</string>
 </resources>

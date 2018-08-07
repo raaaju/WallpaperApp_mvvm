@@ -117,7 +117,8 @@ public class PicDetailActivity extends AppCompatActivity {
                             }
                         });
 
-                        builder.setNeutralButton("4K", new DialogInterface.OnClickListener() {
+                        builder.setNeutralButton(hit.getImageWidth() + " x "
+                                + hit.getImageHeight(), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 if (permissionCheck1 == PackageManager.PERMISSION_GRANTED) {
@@ -352,18 +353,6 @@ public class PicDetailActivity extends AppCompatActivity {
     public boolean fileIsExist() {
         return file.exists();
     }
-
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    public boolean permissionAllowed() {
-//        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-//                PackageManager.PERMISSION_GRANTED) {
-//            return true;
-//        } else {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-//            return false;
-//        }
-//    }
 
     public void checkPermisson() {
         if (permissionCheck1 != PackageManager.PERMISSION_GRANTED) {
