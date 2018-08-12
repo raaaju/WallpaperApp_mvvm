@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "favorite_db";
 
     public DatabaseHelper(Context context) {
@@ -30,10 +30,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertToFavorites(String imageUrl) {
+    public long insertToFavorites(String imageUrl, String hdUrl) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Favorite.COLUMN_URL, imageUrl);
+        values.put(Favorite.COLUMN_HD_URL, hdUrl);
 
         long id = db.insert(Favorite.TABLE_NAME, null, values);
         db.close();
@@ -54,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Favorite favorite = new Favorite();
                 favorite.setId(cursor.getInt(cursor.getColumnIndex(Favorite.COLUMN_ID)));
                 favorite.setImageUrl(cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_URL)));
+                favorite.setHdUrl(cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_HD_URL)));
                 favorite.setTimestamp(cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_TIMESTAMP)));
 
                 favoriteList.add(favorite);

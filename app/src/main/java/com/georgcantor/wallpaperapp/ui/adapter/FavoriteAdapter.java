@@ -1,9 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper;
 import com.georgcantor.wallpaperapp.model.db.Favorite;
-import com.georgcantor.wallpaperapp.ui.FavoriteActivity;
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -83,35 +81,46 @@ public class FavoriteAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Favorite photo = favoriteArrayList.get(position);
-                final String url = photo.getImageUrl();
-                db = new DatabaseHelper(context);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage(R.string.del_from_fav_dialog);
-
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        db.deleteFromFavorites(url);
-                        Intent intent = new Intent(context, FavoriteActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(intent);
-                    }
-                });
-
-                builder.setNeutralButton(R.string.cancel_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-
-                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-                builder.create().show();
+                final String hdUrl = photo.getHdUrl();
+                Intent intent = new Intent(context, PicDetailActivity.class);
+                intent.putExtra(PicDetailActivity.EXTRA_PIC, hdUrl);
+                context.startActivity(intent);
             }
         });
+
+//        holder.imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Favorite photo = favoriteArrayList.get(position);
+//                final String url = photo.getImageUrl();
+//                db = new DatabaseHelper(context);
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setMessage(R.string.del_from_fav_dialog);
+//
+//                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        db.deleteFromFavorites(url);
+//                        Intent intent = new Intent(context, FavoriteActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        context.startActivity(intent);
+//                    }
+//                });
+//
+//                builder.setNeutralButton(R.string.cancel_dialog, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                    }
+//                });
+//
+//                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                    }
+//                });
+//                builder.create().show();
+//            }
+//        });
 
         return row;
     }

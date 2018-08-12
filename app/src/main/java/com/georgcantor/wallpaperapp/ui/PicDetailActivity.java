@@ -282,7 +282,7 @@ public class PicDetailActivity extends AppCompatActivity {
                 break;
             case R.id.action_add_to_fav:
                 if (!db.containFav(String.valueOf(hit.getPreviewURL()))) {
-                    addToFavorite(String.valueOf(hit.getPreviewURL()));
+                    addToFavorite(String.valueOf(hit.getPreviewURL()), String.valueOf(hit.getWebformatURL()));
                     item.setIcon(R.drawable.ic_star_red_24dp);
                     Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show();
                 } else {
@@ -389,8 +389,8 @@ public class PicDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addToFavorite(String imageUrl) {
-        db.insertToFavorites(imageUrl);
+    public void addToFavorite(String imageUrl, String hdUrl) {
+        db.insertToFavorites(imageUrl, hdUrl);
     }
 
     @Override
