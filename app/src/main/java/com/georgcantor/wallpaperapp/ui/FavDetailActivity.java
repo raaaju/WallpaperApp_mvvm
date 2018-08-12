@@ -30,6 +30,8 @@ public class FavDetailActivity extends AppCompatActivity {
         previewURL = getIntent().getStringExtra("preview");
         hdUrl = getIntent().getStringExtra("hd");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ImageView wallp = findViewById(R.id.wallpaper_detail_fav);
 
         Picasso.with(this)
@@ -43,8 +45,7 @@ public class FavDetailActivity extends AppCompatActivity {
                     @Override
                     public void onError() {
                         Toast.makeText(FavDetailActivity.this,
-                                getString(R.string.something_went_wrong),
-                                Toast.LENGTH_SHORT).show();
+                                getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -98,7 +99,10 @@ public class FavDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(FavDetailActivity.this, FavoriteActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 }

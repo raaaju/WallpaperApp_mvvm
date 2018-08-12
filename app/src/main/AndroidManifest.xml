@@ -72,7 +72,10 @@
         <activity
             android:name=".ui.FavoriteActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.FavDetailActivity"></activity>
+        <activity
+            android:name=".ui.FavDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.Light" />
     </application>
 
 </manifest>
