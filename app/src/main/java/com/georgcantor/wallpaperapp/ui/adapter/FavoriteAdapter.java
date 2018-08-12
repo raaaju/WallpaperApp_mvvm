@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper;
 import com.georgcantor.wallpaperapp.model.db.Favorite;
-import com.georgcantor.wallpaperapp.ui.PicDetailActivity;
+import com.georgcantor.wallpaperapp.ui.FavDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -81,9 +81,11 @@ public class FavoriteAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Favorite photo = favoriteArrayList.get(position);
+                final String url = photo.getImageUrl();
                 final String hdUrl = photo.getHdUrl();
-                Intent intent = new Intent(context, PicDetailActivity.class);
-                intent.putExtra(PicDetailActivity.EXTRA_PIC, hdUrl);
+                Intent intent = new Intent(context, FavDetailActivity.class);
+                intent.putExtra("preview", url);
+                intent.putExtra("hd", hdUrl);
                 context.startActivity(intent);
             }
         });
