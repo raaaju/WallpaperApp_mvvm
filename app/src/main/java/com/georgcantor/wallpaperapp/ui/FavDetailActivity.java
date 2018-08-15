@@ -32,7 +32,7 @@ public class FavDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ImageView wallp = findViewById(R.id.wallpaper_detail_fav);
+        final ImageView wallp = findViewById(R.id.wallpaper_detail_fav);
 
         Picasso.with(this)
                 .load(hdUrl)
@@ -44,8 +44,12 @@ public class FavDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(FavDetailActivity.this,
-                                getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(FavDetailActivity.this,
+//                                getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        Picasso.with(getApplicationContext())
+                                .load(previewURL)
+                                .placeholder(R.drawable.plh)
+                                .into(wallp);
                     }
                 });
     }
