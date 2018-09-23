@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.ui.adapter.PagerAdapter;
-import com.georgcantor.wallpaperapp.ui.fragment.LicenseFragment;
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods;
 
 public class MainActivity extends AppCompatActivity
@@ -43,8 +41,9 @@ public class MainActivity extends AppCompatActivity
                     getResources().getString(R.string.check_internet), Snackbar.LENGTH_LONG).show();
         }
         TextView myTitle = (TextView) toolbar.getChildAt(0);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), getResources()
-                .getString(R.string.font_name));
+//        Typeface typeface = Typeface.createFromAsset(getAssets(), getResources()
+//                .getString(R.string.font_name));
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Regular.ttf");
         if (Build.VERSION.SDK_INT >= 16) {
             myTitle.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
         } else {
@@ -161,18 +160,9 @@ public class MainActivity extends AppCompatActivity
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
             case R.id.nav_license:
-                Fragment fragment = getSupportFragmentManager()
-                        .findFragmentById(R.id.fragment_license_container);
-                if (fragment != null) {
-                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                }
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_license_container, new LicenseFragment())
-                        .addToBackStack(null)
-                        .commit();
-//                Intent intent_license = new Intent(this, LicenseActivity.class);
-//                this.startActivity(intent_license);
-//                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+                Intent intent_license = new Intent(this, LicenseActivity.class);
+                this.startActivity(intent_license);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
