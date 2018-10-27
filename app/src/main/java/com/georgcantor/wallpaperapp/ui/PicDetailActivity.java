@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.ui;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,25 +18,28 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AndroidRuntimeException;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.georgcantor.wallpaperapp.BuildConfig;
 import com.georgcantor.wallpaperapp.R;
 import com.georgcantor.wallpaperapp.model.Hit;
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper;
 import com.georgcantor.wallpaperapp.network.NetworkUtilities;
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter;
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -63,6 +67,7 @@ public class PicDetailActivity extends AppCompatActivity {
     private DatabaseHelper db;
     public boolean isDownloaded = false;
     public boolean isCallerCollection = false;
+    private String pathOfFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,17 +169,48 @@ public class PicDetailActivity extends AppCompatActivity {
                     }
 
                 } else {
+                    checkWallpPermisson();
                     Uri sendUri2 = Uri.fromFile(file);
-                    Log.d(getResources().getString(R.string.URI), sendUri2.toString());
-                    Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-                    intent.setDataAndType(sendUri2, getResources().getString(R.string.image_jpg));
-                    intent.putExtra(getResources().getString(R.string.mimeType),
-                            getResources().getString(R.string.image_jpg));
-                    startActivityForResult(Intent.createChooser(intent,
-                            getResources().getString(R.string.Set_As)), 200);
+                    pathOfFile = UtilityMethods.getPath(getApplicationContext(), sendUri2);
+                    setAsWallpaper(pathOfFile);
+//                    Log.d(getResources().getString(R.string.URI), sendUri2.toString());
+//                    Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
+//                    intent.setDataAndType(sendUri2, getResources().getString(R.string.image_jpg));
+//                    intent.putExtra(getResources().getString(R.string.mimeType),
+//                            getResources().getString(R.string.image_jpg));
+//                    startActivityForResult(Intent.createChooser(intent,
+//                            getResources().getString(R.string.Set_As)), 200);
                 }
             }
         });
+    }
+
+    private void setAsWallpaper(String pathOfFile) {
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_ATTACH_DATA);
+            File file = new File(pathOfFile);
+
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            intent.setDataAndType(FileProvider.getUriForFile(getApplicationContext(),
+                    BuildConfig.APPLICATION_ID + ".provider", file), getMimeType(pathOfFile));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getApplicationContext(),
+                    "Exception generated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private static String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
     }
 
     private void initView() {
@@ -359,6 +395,13 @@ public class PicDetailActivity extends AppCompatActivity {
             int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 102;
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+        }
+    }
+
+    public void checkWallpPermisson() {
+        if (permissionCheck1 != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
+                    .SET_WALLPAPER}, 103);
         }
     }
 
