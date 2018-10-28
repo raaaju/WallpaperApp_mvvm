@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.ui;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.app.WallpaperManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +27,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AndroidRuntimeException;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +49,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,7 +178,11 @@ public class PicDetailActivity extends AppCompatActivity {
                     checkWallpPermisson();
                     Uri sendUri2 = Uri.fromFile(file);
                     pathOfFile = UtilityMethods.getPath(getApplicationContext(), sendUri2);
-                    setAsWallpaper(pathOfFile);
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        setAsWallpaper6(pathOfFile);
+                    } else {
+                        setAsWallpaper(pathOfFile);
+                    }
 //                    Log.d(getResources().getString(R.string.URI), sendUri2.toString());
 //                    Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
 //                    intent.setDataAndType(sendUri2, getResources().getString(R.string.image_jpg));
@@ -183,6 +193,27 @@ public class PicDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            // Calculate ratios of height and width to requested height and width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+
+        return inSampleSize;
     }
 
     private void setAsWallpaper(String pathOfFile) {
@@ -203,6 +234,33 @@ public class PicDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void setAsWallpaper6(String pathOfFile) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels << 1; // best wallpaper width is twice screen width
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(pathOfFile, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        Bitmap decodedSampleBitmap = BitmapFactory.decodeFile(pathOfFile, options);
+
+        WallpaperManager wm = WallpaperManager.getInstance(this);
+        try {
+            wm.setBitmap(decodedSampleBitmap);
+            Toast.makeText(PicDetailActivity.this,
+                    getString(R.string.wallpaper_is_install), Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Log.e("this", "Cannot set image as wallpaper", e);
+        }
+    }
 
     private static String getMimeType(String url) {
         String type = null;
