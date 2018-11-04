@@ -1,13 +1,22 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
+    signingConfigs {
+        Wallpapers {
+            keyAlias 'key0'
+            keyPassword 'cupsmana16'
+            storeFile file('D:/Alex/wallpapers.jks')
+            storePassword 'cupsmana16'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 19
-        versionName '1.0.19'
+        versionCode 20
+        versionName '1.1.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -46,4 +55,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup:javapoet:1.9.0'
     implementation 'jp.wasabeef:picasso-transformations:2.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
