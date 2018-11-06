@@ -23,6 +23,9 @@
     <string name="info">Info</string>
     <string name="set_as">Set As</string>
     <string name="download">Download</string>
+    <string name="update_dialog_title">A new version of the application is available in the GooglePlay. Want to update?</string>
+    <string name="update_dialog_yes">Yes</string>
+    <string name="update_dialog_no">No</string>
     <string name="user_name">image provided by</string>
     <string name="pixabay_link">https://pixabay.com</string>
     <string name="collection_string">collection</string>

@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -19,13 +20,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.PagerAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var currentVersion: String
     private var doubleTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewPager.offscreenPageLimit = 3
         val tabLayout = findViewById<TabLayout>(R.id.sliding_tabs)
         tabLayout.setupWithViewPager(viewPager)
+
+        try {
+            currentVersion = packageManager.getPackageInfo(packageName, 0).versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+//        GetVersionCode().execute()
     }
 
     public override fun onStart() {
@@ -176,4 +185,64 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
+
+//    internal inner class GetVersionCode : AsyncTask<Void, String, String>() {
+//
+//        override fun doInBackground(vararg voids: Void): String? {
+//            var newVersion: String? = null
+//            try {
+//                val document = Jsoup.connect(
+//                        "https://play.google.com/store/apps/details?id="
+//                                + this@MainActivity.packageName + "&hl=en")
+//                        .timeout(30000)
+//                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+//                        .referrer("http://www.google.com")
+//                        .get()
+//                if (document != null) {
+//                    val element = document
+//                            .getElementsContainingOwnText("Current Version")
+//                    for (elem in element) {
+//                        if (elem.siblingElements() != null) {
+//                            val sibElements = elem.siblingElements()
+//                            for (sibElement in sibElements) {
+//                                newVersion = sibElement.text()
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//            return newVersion
+//        }
+//
+//        override fun onPostExecute(onlineVersion: String?) {
+//            super.onPostExecute(onlineVersion)
+//
+//            if (onlineVersion != null && !onlineVersion.isEmpty()) {
+//                if (java.lang.Float.valueOf(currentVersion) < java.lang.Float.valueOf(onlineVersion)) {
+//                    showUpdateDialog()
+//                }
+//            }
+//            Log.d("update", "Current version " + currentVersion
+//                    + "playStore version " + onlineVersion)
+//        }
+//    }
+//
+//    private fun showUpdateDialog() {
+//        val builder = AlertDialog.Builder(this@MainActivity)
+//        builder.setIcon(R.drawable.ic_update_black_24dp)
+//        builder.setMessage(R.string.update_dialog_title)
+//
+//        builder.setPositiveButton(R.string.update_dialog_yes) { _, _ ->
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(
+//                    "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp&hl=en"))
+//            startActivity(intent)
+//        }
+//
+//        builder.setNegativeButton(R.string.update_dialog_no) { _, _ ->
+//        }
+//        builder.create().show()
+//    }
 }
