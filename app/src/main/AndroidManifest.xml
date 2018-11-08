@@ -72,10 +72,6 @@
         <activity
             android:name=".ui.FavoriteActivity"
             android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".ui.FavDetailActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.Light" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
