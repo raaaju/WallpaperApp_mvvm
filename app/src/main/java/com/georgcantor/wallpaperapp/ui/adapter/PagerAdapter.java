@@ -32,7 +32,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return MercedesFragment.newInstance();
             case 1:
-                return BmwFragment.newInstance();
+                return BmwFragment.Companion.newInstance();
             case 2:
                 return CategoryFragment.newInstance();
         }
