@@ -34,7 +34,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return BmwFragment.Companion.newInstance();
             case 2:
-                return CategoryFragment.newInstance();
+                return CategoryFragment.Companion.newInstance();
         }
         return null;
     }
