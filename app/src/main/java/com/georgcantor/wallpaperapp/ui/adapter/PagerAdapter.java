@@ -30,7 +30,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return MercedesFragment.newInstance();
+                return MercedesFragment.Companion.newInstance();
             case 1:
                 return BmwFragment.Companion.newInstance();
             case 2:
