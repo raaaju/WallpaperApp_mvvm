@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
         if (!UtilityMethods.isNetworkAvailable()) {
             Snackbar.make(findViewById<View>(android.R.id.content),
                     resources.getString(R.string.check_internet), Snackbar.LENGTH_LONG).show()
@@ -85,11 +86,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 openSearchActivity()
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
     private fun openSearchActivity() {
         startActivity(Intent(this, SearchActivity::class.java))
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -116,38 +119,38 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_audi -> {
-                val intent_audi = Intent(this, FetchActivity::class.java)
-                intent_audi.putExtra(FetchActivity.FETCH_TYPE,
+                val intentAudi = Intent(this, FetchActivity::class.java)
+                intentAudi.putExtra(FetchActivity.FETCH_TYPE,
                         resources.getString(R.string.audi))
-                this.startActivity(intent_audi)
+                this.startActivity(intentAudi)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_bugatti -> {
-                val intent_bugatti = Intent(this, FetchActivity::class.java)
-                intent_bugatti.putExtra(FetchActivity.FETCH_TYPE,
+                val intentBugatti = Intent(this, FetchActivity::class.java)
+                intentBugatti.putExtra(FetchActivity.FETCH_TYPE,
                         resources.getString(R.string.bugatti))
-                this.startActivity(intent_bugatti)
+                this.startActivity(intentBugatti)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_mclaren -> {
-                val intent_mclaren = Intent(this, FetchActivity::class.java)
-                intent_mclaren.putExtra(FetchActivity.FETCH_TYPE,
+                val intentMclaren = Intent(this, FetchActivity::class.java)
+                intentMclaren.putExtra(FetchActivity.FETCH_TYPE,
                         resources.getString(R.string.mclaren_walp))
-                this.startActivity(intent_mclaren)
+                this.startActivity(intentMclaren)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_ferrari -> {
-                val intent_ferrari = Intent(this, FetchActivity::class.java)
-                intent_ferrari.putExtra(FetchActivity.FETCH_TYPE,
+                val intentFerrari = Intent(this, FetchActivity::class.java)
+                intentFerrari.putExtra(FetchActivity.FETCH_TYPE,
                         resources.getString(R.string.ferrari))
-                this.startActivity(intent_ferrari)
+                this.startActivity(intentFerrari)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_lambo -> {
-                val intent_lambo = Intent(this, FetchActivity::class.java)
-                intent_lambo.putExtra(FetchActivity.FETCH_TYPE,
+                val intentLambo = Intent(this, FetchActivity::class.java)
+                intentLambo.putExtra(FetchActivity.FETCH_TYPE,
                         resources.getString(R.string.lamborghini))
-                this.startActivity(intent_lambo)
+                this.startActivity(intentLambo)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_favorites -> {
@@ -155,13 +158,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_about -> {
-                val intent_about = Intent(this, AboutActivity::class.java)
-                this.startActivity(intent_about)
+                val intentAbout = Intent(this, AboutActivity::class.java)
+                this.startActivity(intentAbout)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_license -> {
-                val intent_license = Intent(this, LicenseActivity::class.java)
-                this.startActivity(intent_license)
+                val intentLicense = Intent(this, LicenseActivity::class.java)
+                this.startActivity(intentLicense)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
         }
