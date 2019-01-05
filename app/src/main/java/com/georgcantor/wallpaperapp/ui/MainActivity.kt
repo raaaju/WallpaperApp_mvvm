@@ -64,8 +64,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onStart()
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.KITKAT) {
+            val searchItem = menu?.findItem(R.id.action_search)
+            searchItem?.isVisible = false
+        }
+
+        return true
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
         return true
     }
 
@@ -73,7 +83,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.action_search -> {
                 openSearchActivity()
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -158,6 +167,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
+
         return true
     }
 
