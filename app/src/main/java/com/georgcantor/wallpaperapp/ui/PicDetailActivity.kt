@@ -12,11 +12,13 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AndroidRuntimeException
@@ -52,19 +54,14 @@ class PicDetailActivity : AppCompatActivity() {
 
         fun calculateInSampleSize(options: BitmapFactory.Options,
                                   reqWidth: Int, reqHeight: Int): Int {
-            // Raw height and width of image
             val height = options.outHeight
             val width = options.outWidth
             var inSampleSize = 1
 
             if (height > reqHeight || width > reqWidth) {
-                // Calculate ratios of height and width to requested height and width
                 val heightRatio = Math.round(height.toFloat() / reqHeight.toFloat())
                 val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
 
-                // Choose the smallest ratio as inSampleSize value, this will guarantee
-                // a final image with both dimensions larger than or equal to the
-                // requested height and width.
                 inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
             }
 
@@ -77,6 +74,7 @@ class PicDetailActivity : AppCompatActivity() {
             if (extension != null) {
                 type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
             }
+
             return type
         }
     }
@@ -108,20 +106,22 @@ class PicDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
         networkUtilities = NetworkUtilities(this)
         setContentView(R.layout.activity_pic_detail)
         fab = findViewById(R.id.fab_download)
 
         progressBar = findViewById(R.id.progressBarDetail)
-        progressBar!!.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
         db = DatabaseHelper(this)
 
         tagTitle = findViewById(R.id.toolbar_title)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initView()
 
-        fab!!.setOnClickListener(View.OnClickListener {
+        fab?.setOnClickListener(View.OnClickListener {
             if (!fileIsExist()) {
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     checkPermission()
@@ -136,44 +136,44 @@ class PicDetailActivity : AppCompatActivity() {
                     builder.setMessage(R.string.choose_format)
 
                     builder.setPositiveButton("HD") { _, _ ->
-                        progressBar!!.visibility = View.VISIBLE
+                        progressBar?.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
-                                val uri = hit!!.webformatURL
-                                val image_uri = Uri.parse(uri)
-                                downloadData(image_uri)
-                                fab!!.setImageDrawable(applicationContext.resources
-                                        .getDrawable(R.drawable.ic_photo))
+                                val uri = hit?.webformatURL
+                                val imageUri = Uri.parse(uri)
+                                downloadData(imageUri)
+                                fab?.setImageDrawable(VectorDrawableCompat.create(resources,
+                                        R.drawable.ic_photo, null))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBar!!.visibility = View.GONE
+                                progressBar?.visibility = View.GONE
                             }
                         }
                     }
 
-                    builder.setNeutralButton(hit!!.imageWidth.toString() + " x "
-                            + hit!!.imageHeight) { _, _ ->
-                        progressBar!!.visibility = View.VISIBLE
+                    builder.setNeutralButton(hit?.imageWidth.toString() + " x "
+                            + hit?.imageHeight) { _, _ ->
+                        progressBar?.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
-                                val uri = hit!!.imageURL
-                                val image_uri = Uri.parse(uri)
-                                downloadData(image_uri)
+                                val uri = hit?.imageURL
+                                val imageUri = Uri.parse(uri)
+                                downloadData(imageUri)
                                 fab!!.setImageDrawable(applicationContext.resources
                                         .getDrawable(R.drawable.ic_photo))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBar!!.visibility = View.GONE
+                                progressBar?.visibility = View.GONE
                             }
                         }
                     }
 
                     builder.setNegativeButton("FullHD") { _, _ ->
-                        progressBar!!.visibility = View.VISIBLE
+                        progressBar?.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit!!.fullHDURL
@@ -185,7 +185,7 @@ class PicDetailActivity : AppCompatActivity() {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBar!!.visibility = View.GONE
+                                progressBar?.visibility = View.GONE
                             }
                         }
                     }
@@ -204,13 +204,6 @@ class PicDetailActivity : AppCompatActivity() {
                 } else {
                     setAsWallpaper(pathOfFile)
                 }
-                // Log.d(getResources().getString(R.string.URI), sendUri2.toString());
-                // Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-                // intent.setDataAndType(sendUri2, getResources().getString(R.string.image_jpg));
-                // intent.putExtra(getResources().getString(R.string.mimeType),
-                //         getResources().getString(R.string.image_jpg));
-                // startActivityForResult(Intent.createChooser(intent,
-                //         getResources().getString(R.string.Set_As)), 200);
             }
         })
     }
@@ -236,17 +229,14 @@ class PicDetailActivity : AppCompatActivity() {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
-        val width = displayMetrics.widthPixels shl 1 // best wallpaper width is twice screen width
+        val width = displayMetrics.widthPixels shl 1
 
-        // First decode with inJustDecodeBounds=true to check dimensions
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(pathOfFile, options)
 
-        // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, width, height)
 
-        // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false
         val decodedSampleBitmap = BitmapFactory.decodeFile(pathOfFile, options)
 
@@ -277,7 +267,7 @@ class PicDetailActivity : AppCompatActivity() {
             title = title.substring(++first)
         }
         tags.add(title)
-        tagTitle!!.text = tags[0]
+        tagTitle?.text = tags[0]
         val wallpaper = findViewById<ImageView>(R.id.wallpaper_detail)
         val fav = findViewById<TextView>(R.id.fav)
         val userId = findViewById<TextView>(R.id.user_name)
@@ -293,8 +283,8 @@ class PicDetailActivity : AppCompatActivity() {
                 .getString(R.string.app_name)), hit!!.id.toString() + resources
                 .getString(R.string.jpg))
         if (fileIsExist()) {
-            fab!!.setImageDrawable(applicationContext.resources
-                    .getDrawable(R.drawable.ic_photo))
+            fab?.setImageDrawable(VectorDrawableCompat.create(resources,
+                    R.drawable.ic_photo, null))
         }
 
         if (intent.hasExtra(ORIGIN)) {
@@ -321,9 +311,9 @@ class PicDetailActivity : AppCompatActivity() {
                     })
         }
 
-        userId.text = hit!!.user
-        downloads.text = hit!!.downloads.toString()
-        fav.text = hit!!.favorites.toString()
+        userId.text = hit?.user
+        downloads.text = hit?.downloads.toString()
+        fav.text = hit?.favorites.toString()
         if (!networkUtilities.isInternetConnectionPresent) {
             Picasso.with(this)
                     .load(R.drawable.memb)
@@ -332,7 +322,7 @@ class PicDetailActivity : AppCompatActivity() {
         } else {
             if (!hit!!.userImageURL.isEmpty()) {
                 Picasso.with(this)
-                        .load(hit!!.userImageURL)
+                        .load(hit?.userImageURL)
                         .transform(CropCircleTransformation())
                         .into(userImage)
             } else {
@@ -357,12 +347,12 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
-            R.id.action_add_to_fav -> if (!db!!.containFav(hit!!.previewURL.toString())) {
-                addToFavorite(hit!!.previewURL.toString(), hit!!.pageURL.toString())
+            R.id.action_add_to_fav -> if (!db!!.containFav(hit?.previewURL.toString())) {
+                addToFavorite(hit?.previewURL.toString(), hit?.pageURL.toString())
                 item.setIcon(R.drawable.ic_star_red_24dp)
                 Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show()
             } else {
-                db!!.deleteFromFavorites(hit!!.previewURL.toString())
+                db!!.deleteFromFavorites(hit?.previewURL.toString())
                 item.setIcon(R.drawable.ic_star_border_black_24dp)
                 Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show()
             }
@@ -370,7 +360,7 @@ class PicDetailActivity : AppCompatActivity() {
                 val i = Intent(Intent.ACTION_SEND)
                 i.type = "text/plain"
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-                val sAux = hit!!.imageURL
+                val sAux = hit?.imageURL
                 i.putExtra(Intent.EXTRA_TEXT, sAux)
                 startActivity(Intent.createChooser(i, getString(R.string.choose_share)))
             } catch (e: AndroidRuntimeException) {
@@ -394,7 +384,7 @@ class PicDetailActivity : AppCompatActivity() {
         request.setDescription(resources.getString(R.string.down_wallpapers))
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             request.setDestinationInExternalPublicDir("/" + resources
-                    .getString(R.string.app_name), hit!!.id.toString() + resources
+                    .getString(R.string.app_name), hit?.id.toString() + resources
                     .getString(R.string.jpg))
         }
         downloadReference = downloadManager.enqueue(request)
