@@ -9,7 +9,6 @@
     <string name="powered_by">Powered By: www.pixabay.com</string>
     <string name="by">By:</string>
     <string name="downloads">Downloads:</string>
-    <string name="update_dialog_title">В GooglePlay доступна новая версия приложения. Обновить?</string>
     <string name="update_dialog_yes">Да</string>
     <string name="update_dialog_no">Нет</string>
     <string name="favourite">Favourites:</string>
@@ -131,7 +130,7 @@
     <string name="bugatti_walp">Bugatti</string>
     <string name="ferrari_walp">Ferrari</string>
     <string name="allow_app_use_mic">Для голосовых запросов необходимо это разрешение. Разрешить?</string>
-    <string name="press_back">Нажмите еще раз чтобы выйти</string>
+    <string name="press_back">Нажмите еще раз, чтобы выйти</string>
     <string name="try_my_other_app">Другие приложения разработчика:</string>
     <string name="tv_made_by">Разработчик приложения:</string>
     <string name="title_about_the_app">О приложении</string>

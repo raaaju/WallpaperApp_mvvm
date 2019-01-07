@@ -53,8 +53,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
         int id = context.getResources().getIdentifier(context.getResources()
                         .getString(R.string.package_drawable) + category.getCategoryDrawId(),
                 null, null);
-        holder.category_name.setText(category.getCategoryName());
-        holder.category.setImageResource(id);
+        holder.getCategoryName().setText(category.getCategoryName());
+        holder.getCategory().setImageResource(id);
     }
 
     @Override
