@@ -4,15 +4,15 @@ import android.app.Application;
 
 public class MyApplication extends Application {
 
-    private static MyApplication mInstance;
+    private static MyApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = this;
+        instance = this;
     }
 
     public static synchronized MyApplication getInstance() {
-        return mInstance;
+        return instance;
     }
 }

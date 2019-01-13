@@ -100,7 +100,7 @@ class PicDetailActivity : AppCompatActivity() {
             Toast.makeText(context, tags[0] + resources.getString(R.string.down_complete),
                     Toast.LENGTH_SHORT).show()
             isDownloaded = true
-            progressBar!!.visibility = View.GONE
+            progressBar?.visibility = View.GONE
         }
     }
 
@@ -161,7 +161,7 @@ class PicDetailActivity : AppCompatActivity() {
                                 val uri = hit?.imageURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fab!!.setImageDrawable(applicationContext.resources
+                                fab?.setImageDrawable(applicationContext.resources
                                         .getDrawable(R.drawable.ic_photo))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
@@ -176,10 +176,10 @@ class PicDetailActivity : AppCompatActivity() {
                         progressBar?.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
-                                val uri = hit!!.fullHDURL
+                                val uri = hit?.fullHDURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fab!!.setImageDrawable(applicationContext.resources
+                                fab?.setImageDrawable(applicationContext.resources
                                         .getDrawable(R.drawable.ic_photo))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
@@ -295,15 +295,15 @@ class PicDetailActivity : AppCompatActivity() {
             isCallerCollection = true
         } else {
             Picasso.with(this)
-                    .load(hit!!.webformatURL)
+                    .load(hit?.webformatURL)
                     .placeholder(R.drawable.plh)
                     .into(wallpaper, object : Callback {
                         override fun onSuccess() {
-                            progressBar!!.visibility = View.GONE
+                            progressBar?.visibility = View.GONE
                         }
 
                         override fun onError() {
-                            progressBar!!.visibility = View.GONE
+                            progressBar?.visibility = View.GONE
                             Toast.makeText(this@PicDetailActivity,
                                     getString(R.string.something_went_wrong),
                                     Toast.LENGTH_SHORT).show()
@@ -447,7 +447,7 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun addToFavorite(imageUrl: String, hdUrl: String) {
-        db!!.insertToFavorites(imageUrl, hdUrl)
+        db?.insertToFavorites(imageUrl, hdUrl)
     }
 
     override fun onBackPressed() {
