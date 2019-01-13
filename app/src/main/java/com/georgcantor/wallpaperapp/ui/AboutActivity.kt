@@ -23,8 +23,8 @@ class AboutActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar_layout_about)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val fab = findViewById<FloatingActionButton>(R.id.fab_about)
         fab.setOnClickListener { sendEmail() }
@@ -73,8 +73,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         cardViewNewApp.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(
-                    "https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"))
             startActivity(browserIntent)
         }
     }

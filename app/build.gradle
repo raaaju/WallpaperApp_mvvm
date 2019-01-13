@@ -15,8 +15,8 @@ android {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 21
-        versionName '1.1.1'
+        versionCode 22
+        versionName '1.1.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

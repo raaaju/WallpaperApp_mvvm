@@ -2,6 +2,8 @@ package com.georgcantor.wallpaperapp.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import android.widget.GridView
 import android.widget.TextView
@@ -22,6 +24,11 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_fav)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = resources.getString(R.string.favorites)
+
         gridView = findViewById(R.id.gridViewFav)
         textViewNoFav = findViewById(R.id.empty_fav_tv)
 
@@ -46,5 +53,14 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
