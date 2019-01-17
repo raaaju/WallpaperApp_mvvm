@@ -44,6 +44,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
                 activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
+
         return rcv;
     }
 

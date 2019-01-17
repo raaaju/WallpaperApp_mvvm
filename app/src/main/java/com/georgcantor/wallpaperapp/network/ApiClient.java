@@ -4,7 +4,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class ApiClient {
 
     private static final String BASE_URL = "http://pixabay.com/api/";
@@ -18,6 +17,7 @@ public class ApiClient {
                     .client(httpClient.build())
                     .build();
         }
+
         return retrofit;
     }
 }
