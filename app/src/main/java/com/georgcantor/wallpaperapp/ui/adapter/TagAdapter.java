@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,15 @@ public class TagAdapter extends RecyclerView.Adapter<TagViewHolder> {
         this.tags = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public TagViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.tag_item, null);
         return new TagViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(TagViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TagViewHolder holder, int position) {
         String tag = this.tags.get(position);
         holder.tag.setText(tag);
     }

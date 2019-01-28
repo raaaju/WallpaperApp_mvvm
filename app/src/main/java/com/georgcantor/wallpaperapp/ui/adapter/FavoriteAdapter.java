@@ -65,11 +65,15 @@ public class FavoriteAdapter extends BaseAdapter {
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(layout, null);
+            if (inflater != null) {
+                row = inflater.inflate(layout, null);
+            }
 
-            holder.textView = row.findViewById(R.id.timestamp);
-            holder.imageView = row.findViewById(R.id.imgFavorite);
-            row.setTag(holder);
+            if (row != null) {
+                holder.textView = row.findViewById(R.id.timestamp);
+                holder.imageView = row.findViewById(R.id.imgFavorite);
+                row.setTag(holder);
+            }
         } else {
             holder = (ViewHolder) row.getTag();
         }
@@ -106,7 +110,9 @@ public class FavoriteAdapter extends BaseAdapter {
 
                 builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        db.deleteFromFavorites(url);
+                        if (url != null) {
+                            db.deleteFromFavorites(url);
+                        }
                         Intent intent = new Intent(context, FavoriteActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);

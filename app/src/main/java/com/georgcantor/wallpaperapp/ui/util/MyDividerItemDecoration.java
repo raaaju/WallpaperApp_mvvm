@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -42,7 +43,7 @@ public class MyDividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         if (mOrientation == VERTICAL_LIST) {
             drawVertical(canvas, parent);
         } else {
@@ -83,7 +84,11 @@ public class MyDividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect,
+                               @NonNull View view,
+                               @NonNull RecyclerView parent,
+                               @NonNull RecyclerView.State state) {
+
         if (mOrientation == VERTICAL_LIST) {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
         } else {
