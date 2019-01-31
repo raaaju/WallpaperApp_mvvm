@@ -157,4 +157,7 @@
     <string name="you_need_perm_toast">To save images you need this permission</string>
     <string name="speak_something">Speak something…</string>
     <string name="check_internet">Check internet connection</string>
+    <string name="email">cupsman1986@gmail.com</string>
+    <string name="your_subject">Your subject</string>
+    <string name="email_message">Email message goes here</string>
 </resources>

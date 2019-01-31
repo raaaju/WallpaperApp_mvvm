@@ -17,6 +17,11 @@ import com.georgcantor.wallpaperapp.R
 
 class AboutActivity : AppCompatActivity() {
 
+    companion object {
+        private const val APP_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"
+        private const val DEV_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
@@ -67,13 +72,12 @@ class AboutActivity : AppCompatActivity() {
         val cardViewNewApp = findViewById<CardView>(R.id.card_new_app)
 
         cardViewInfo.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(
-                    "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL))
             startActivity(browserIntent)
         }
 
         cardViewNewApp.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL))
             startActivity(browserIntent)
         }
     }
@@ -91,15 +95,14 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun sendEmail() {
-        Log.i("Send email", "")
-        val value = arrayOf("cupsman1986@gmail.com")
+        val value = arrayOf(getString(R.string.email))
         val emailIntent = Intent(Intent.ACTION_SEND)
 
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, value)
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here")
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.your_subject))
+        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.email_message))
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."))
