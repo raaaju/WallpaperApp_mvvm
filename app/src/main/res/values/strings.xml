@@ -139,8 +139,9 @@
     <string name="allow_app_use_mic">For voice requests, you need this permission. Allow?</string>
     <string name="press_back">Press BACK again to exit</string>
     <string name="alex_kirillov">Alex Kirillov</string>
-    <string name="ad_free_news">Ad-free Offline News</string>
-    <string name="try_my_other_app">Try my other App</string>
+    <string name="ad_free_news">World News</string>
+    <string name="music_app">Music Player</string>
+    <string name="try_my_other_app">Try my other Apps</string>
     <string name="tv_made_by">App developed by</string>
     <string name="title_about_the_app">About The App</string>
     <string name="msg_no_history">The list is empty</string>

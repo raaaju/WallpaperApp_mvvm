@@ -30,7 +30,7 @@
     <dimen name="tv_name_margin">10dp</dimen>
     <dimen name="app_bar_layout_height">300dp</dimen>
     <dimen name="card_layout_margin">12dp</dimen>
-    <dimen name="card_layout_corner_radius">0dp</dimen>
+    <dimen name="card_layout_corner_radius">4dp</dimen>
     <dimen name="card_layout_elevation">2dp</dimen>
     <dimen name="tv_card_layout_margin">16dp</dimen>
     <dimen name="timestamp">10sp</dimen>

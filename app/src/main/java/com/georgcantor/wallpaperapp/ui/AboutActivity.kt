@@ -18,8 +18,9 @@ import com.georgcantor.wallpaperapp.R
 class AboutActivity : AppCompatActivity() {
 
     companion object {
-        private const val APP_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"
-        private const val DEV_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"
+        private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"
+        private const val NEWS_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"
+        private const val MUSIC_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.player"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,14 +71,20 @@ class AboutActivity : AppCompatActivity() {
 
         val cardViewInfo = findViewById<CardView>(R.id.card_info)
         val cardViewNewApp = findViewById<CardView>(R.id.card_new_app)
+        val cardViewMusicApp = findViewById<CardView>(R.id.card_music_app)
 
         cardViewInfo.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL))
             startActivity(browserIntent)
         }
 
         cardViewNewApp.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(NEWS_URL))
+            startActivity(browserIntent)
+        }
+
+        cardViewMusicApp.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(MUSIC_URL))
             startActivity(browserIntent)
         }
     }
