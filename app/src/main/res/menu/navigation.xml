@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_shop"
+        android:icon="@drawable/ic_info"
+        android:title="Mercedes-Benz" />
+
+    <item
+        android:id="@+id/navigation_gifts"
+        android:icon="@drawable/ic_star_border_black_24dp"
+        android:title="BMW" />
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/ic_close"
+        android:title="Gallery" />
+
+</menu>
