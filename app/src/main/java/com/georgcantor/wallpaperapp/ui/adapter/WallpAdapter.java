@@ -24,8 +24,6 @@ public class WallpAdapter extends RecyclerView.Adapter<WallpViewHolder> {
 
     private List<Hit> hit;
     private Context context;
-    public int width;
-    public int height;
 
     public WallpAdapter(Context context) {
         this.context = context;
@@ -36,31 +34,31 @@ public class WallpAdapter extends RecyclerView.Adapter<WallpViewHolder> {
     @Override
     public WallpViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null);
-        final WallpViewHolder rcv = new WallpViewHolder(itemView);
+        final WallpViewHolder wallpViewHolder = new WallpViewHolder(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Activity activity = (Activity) context;
-                int position = rcv.getAdapterPosition();
+                int position = wallpViewHolder.getAdapterPosition();
                 Intent intent = new Intent(context, PicDetailActivity.class);
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, hit.get(position));
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
-        return rcv;
+        return wallpViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull WallpViewHolder holder, int position) {
         Hit photo = this.hit.get(position);
-        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams)
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
                 holder.discWallp.getLayoutParams();
         float height = photo.getPreviewHeight();
         float width = photo.getPreviewWidth();
         float ratio = height / width;
-        rlp.height = (int) (rlp.width * ratio);
-        holder.discWallp.setLayoutParams(rlp);
+        layoutParams.height = (int) (layoutParams.width * ratio);
+        holder.discWallp.setLayoutParams(layoutParams);
         holder.discWallp.setRatio(ratio);
 
         Picasso.with(context)
