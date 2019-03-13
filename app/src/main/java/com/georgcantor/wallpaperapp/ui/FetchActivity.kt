@@ -101,7 +101,7 @@ class FetchActivity : AppCompatActivity() {
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
-                            catAdapter.setPicList(picResult)
+                            catAdapter.setPicList(picResult!!)
                         }
                     }
                 } catch (e: Exception) {

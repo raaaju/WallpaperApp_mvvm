@@ -24,7 +24,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -151,7 +150,7 @@ class SearchActivity : AppCompatActivity() {
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
-                            wallpAdapter.setPicList(picResult)
+                            wallpAdapter.setPicList(picResult!!)
                             mTxvNoResultsFound!!.visibility = View.GONE
                             mSwipeRefreshSearch!!.isRefreshing = false
                             mSwipeRefreshSearch!!.isEnabled = false

@@ -77,7 +77,7 @@ class BmwFragment : Fragment() {
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
-        wallpAdapter = WallpAdapter(activity)
+        wallpAdapter = WallpAdapter(requireContext())
         recyclerView.adapter = wallpAdapter
         return view
     }
@@ -106,7 +106,7 @@ class BmwFragment : Fragment() {
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
-                            wallpAdapter!!.setPicList(picResult)
+                            wallpAdapter!!.setPicList(picResult!!)
                         }
                     }
                 } catch (e: Exception) {
