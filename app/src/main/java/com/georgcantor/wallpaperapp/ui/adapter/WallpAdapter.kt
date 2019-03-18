@@ -26,6 +26,7 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null)
         val wallpViewHolder = WallpViewHolder(itemView)
+
         itemView.setOnClickListener {
             val activity = context as Activity
             val position = wallpViewHolder.adapterPosition
@@ -34,6 +35,7 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
             context.startActivity(intent)
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }
+
         return wallpViewHolder
     }
 

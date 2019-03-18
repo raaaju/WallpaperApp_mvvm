@@ -37,7 +37,7 @@ class BmwFragment : Fragment() {
     private var networkUtilities: NetworkUtilities? = null
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
-    private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,10 +59,10 @@ class BmwFragment : Fragment() {
             ivNoInternet.visibility = View.VISIBLE
         }
 
-        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
-        mSwipeRefreshLayout!!.setOnRefreshListener {
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+        swipeRefreshLayout!!.setOnRefreshListener {
             loadNextDataFromApi(1)
-            mSwipeRefreshLayout!!.isRefreshing = false
+            swipeRefreshLayout!!.isRefreshing = false
         }
 
         checkScreenSize()
@@ -101,12 +101,11 @@ class BmwFragment : Fragment() {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                 try {
                     if (!response.isSuccessful) {
-                        Log.d(context!!.resources.getString(R.string.No_Success),
-                                response.errorBody()!!.string())
+                        Log.d(getString(R.string.No_Success), response.errorBody()!!.string())
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
-                            wallpAdapter!!.setPicList(picResult!!)
+                            wallpAdapter?.setPicList(picResult!!)
                         }
                     }
                 } catch (e: Exception) {
@@ -116,8 +115,7 @@ class BmwFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
-                Toast.makeText(context, context!!.resources
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -141,6 +139,7 @@ class BmwFragment : Fragment() {
             val fragment = BmwFragment()
             val args = Bundle()
             fragment.arguments = args
+
             return fragment
         }
     }
