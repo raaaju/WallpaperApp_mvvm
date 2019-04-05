@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar
 import android.text.method.LinkMovementMethod
 import android.view.MenuItem
 import android.widget.TextView
-
 import com.georgcantor.wallpaperapp.R
 
 class LicenseActivity : AppCompatActivity() {
@@ -16,8 +15,8 @@ class LicenseActivity : AppCompatActivity() {
         setContentView(R.layout.license_layout)
         val toolbar = findViewById<Toolbar>(R.id.toolbar_license)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = resources.getString(R.string.License)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = resources.getString(R.string.License)
 
         val textView = findViewById<TextView>(R.id.license)
         textView.movementMethod = LinkMovementMethod.getInstance()

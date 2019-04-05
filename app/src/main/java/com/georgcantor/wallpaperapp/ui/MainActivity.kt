@@ -19,6 +19,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment
 import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
@@ -131,78 +132,78 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            com.georgcantor.wallpaperapp.R.id.nav_aston -> {
+            R.id.nav_aston -> {
                 val intentAston = Intent(this, FetchActivity::class.java)
                 intentAston.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.aston_walp))
+                        resources.getString(R.string.aston_walp))
                 this.startActivity(intentAston)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_bentley -> {
+            R.id.nav_bentley -> {
                 val intentBentley = Intent(this, FetchActivity::class.java)
                 intentBentley.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.bentley_walp))
+                        resources.getString(R.string.bentley_walp))
                 this.startActivity(intentBentley)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_porsche -> {
+            R.id.nav_porsche -> {
                 val intentPorsche = Intent(this, FetchActivity::class.java)
                 intentPorsche.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.porsche))
+                        resources.getString(R.string.porsche))
                 this.startActivity(intentPorsche)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_audi -> {
+            R.id.nav_audi -> {
                 val intentAudi = Intent(this, FetchActivity::class.java)
                 intentAudi.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.audi))
+                        resources.getString(R.string.audi))
                 this.startActivity(intentAudi)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_bugatti -> {
+            R.id.nav_bugatti -> {
                 val intentBugatti = Intent(this, FetchActivity::class.java)
                 intentBugatti.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.bugatti))
+                        resources.getString(R.string.bugatti))
                 this.startActivity(intentBugatti)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_mclaren -> {
+            R.id.nav_mclaren -> {
                 val intentMclaren = Intent(this, FetchActivity::class.java)
                 intentMclaren.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.mclaren_walp))
+                        resources.getString(R.string.mclaren_walp))
                 this.startActivity(intentMclaren)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_ferrari -> {
+            R.id.nav_ferrari -> {
                 val intentFerrari = Intent(this, FetchActivity::class.java)
                 intentFerrari.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.ferrari))
+                        resources.getString(R.string.ferrari))
                 this.startActivity(intentFerrari)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_lambo -> {
+            R.id.nav_lambo -> {
                 val intentLambo = Intent(this, FetchActivity::class.java)
                 intentLambo.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(com.georgcantor.wallpaperapp.R.string.lamborghini))
+                        resources.getString(R.string.lamborghini))
                 this.startActivity(intentLambo)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_favorites -> {
+            R.id.nav_favorites -> {
                 startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_about -> {
+            R.id.nav_about -> {
                 val intentAbout = Intent(this, AboutActivity::class.java)
                 this.startActivity(intentAbout)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_license -> {
+            R.id.nav_license -> {
                 val intentLicense = Intent(this, LicenseActivity::class.java)
                 this.startActivity(intentLicense)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
         }
-        val drawer = findViewById<DrawerLayout>(com.georgcantor.wallpaperapp.R.id.drawer_layout)
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
 
         return true
