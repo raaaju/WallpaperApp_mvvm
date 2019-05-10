@@ -31,7 +31,7 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
             val activity = context as Activity
             val position = wallpViewHolder.adapterPosition
             val intent = Intent(context, PicDetailActivity::class.java)
-            intent.putExtra(PicDetailActivity.EXTRA_PIC, hit!![position])
+            intent.putExtra(PicDetailActivity.EXTRA_PIC, hit?.get(position))
             context.startActivity(intent)
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }

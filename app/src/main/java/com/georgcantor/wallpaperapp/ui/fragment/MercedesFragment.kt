@@ -51,7 +51,7 @@ class MercedesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkUtilities = NetworkUtilities(activity!!)
+        networkUtilities = activity?.let { NetworkUtilities(it) }
 
         loadNextDataFromApi(1)
     }

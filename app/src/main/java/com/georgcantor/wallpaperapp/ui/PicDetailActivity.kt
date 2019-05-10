@@ -212,13 +212,13 @@ class PicDetailActivity : AppCompatActivity() {
         try {
             val intent = Intent()
             intent.action = Intent.ACTION_ATTACH_DATA
-            val file = File(pathOfFile!!)
+            val file = File(pathOfFile)
 
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
             intent.setDataAndType(FileProvider.getUriForFile(applicationContext,
-                    BuildConfig.APPLICATION_ID + ".provider", file), getMimeType(pathOfFile))
+                    BuildConfig.APPLICATION_ID + ".provider", file), pathOfFile?.let { getMimeType(it) })
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(applicationContext, "Exception generated", Toast.LENGTH_SHORT).show()
