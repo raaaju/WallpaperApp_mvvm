@@ -31,18 +31,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.georgcantor.wallpaperapp.R.layout.activity_main)
-        val drawer = findViewById<DrawerLayout>(com.georgcantor.wallpaperapp.R.id.drawer_layout)
-        val toolbar = findViewById<Toolbar>(com.georgcantor.wallpaperapp.R.id.toolbar)
+        setContentView(R.layout.activity_main)
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         supportFragmentManager.beginTransaction()
-                .replace(com.georgcantor.wallpaperapp.R.id.frame_container, MercedesFragment())
+                .replace(R.id.frame_container, MercedesFragment())
                 .commit()
 
         if (!UtilityMethods.isNetworkAvailable()) {
             Snackbar.make(findViewById<View>(android.R.id.content),
-                    resources.getString(com.georgcantor.wallpaperapp.R.string.check_internet), Snackbar.LENGTH_LONG).show()
+                    resources.getString(R.string.check_internet), Snackbar.LENGTH_LONG).show()
         }
         val myTitle = toolbar.getChildAt(0) as TextView
 
@@ -53,25 +53,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             myTitle.setTypeface(typeface, Typeface.BOLD)
         }
         val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
-                com.georgcantor.wallpaperapp.R.string.navigation_drawer_open, com.georgcantor.wallpaperapp.R.string.navigation_drawer_close)
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.setDrawerListener(toggle)
         toggle.syncState()
 
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                com.georgcantor.wallpaperapp.R.id.navigation_shop -> {
+                R.id.navigation_shop -> {
                     toolbar.title = "Mercedes-Benz"
                     val fragment = MercedesFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
-                com.georgcantor.wallpaperapp.R.id.navigation_gifts -> {
+                R.id.navigation_gifts -> {
                     toolbar.title = "BMW"
                     val fragment = BmwFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
-                com.georgcantor.wallpaperapp.R.id.navigation_cart -> {
+                R.id.navigation_cart -> {
                     toolbar.title = "Gallery"
                     val fragment = CategoryFragment.newInstance()
                     openFragment(fragment)
@@ -81,17 +81,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             false
         }
 
-        val navigation = findViewById<View>(com.georgcantor.wallpaperapp.R.id.navigation) as BottomNavigationView
+        val navigation = findViewById<View>(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        val navigationView = findViewById<NavigationView>(com.georgcantor.wallpaperapp.R.id.nav_view)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.itemIconTintList = null
     }
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(com.georgcantor.wallpaperapp.R.id.frame_container, fragment)
+        transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -101,8 +101,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.KITKAT) {
-            val searchItem = menu?.findItem(com.georgcantor.wallpaperapp.R.id.action_search)
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            val searchItem = menu?.findItem(R.id.action_search)
             searchItem?.isVisible = false
         }
 
@@ -110,14 +110,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(com.georgcantor.wallpaperapp.R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
 
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            com.georgcantor.wallpaperapp.R.id.action_search -> {
+            R.id.action_search -> {
                 openSearchActivity()
             }
         }
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openSearchActivity() {
         startActivity(Intent(this, SearchActivity::class.java))
-        overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -210,12 +210,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        val drawer = findViewById<DrawerLayout>(com.georgcantor.wallpaperapp.R.id.drawer_layout)
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         when {
             drawer.isDrawerOpen(GravityCompat.START) -> drawer.closeDrawer(GravityCompat.START)
             doubleTap -> closeApp()
             else -> {
-                Toast.makeText(this, this.resources.getString(com.georgcantor.wallpaperapp.R.string.press_back),
+                Toast.makeText(this, this.resources.getString(R.string.press_back),
                         Toast.LENGTH_SHORT).show()
                 doubleTap = true
                 val handler = Handler()
