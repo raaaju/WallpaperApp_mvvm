@@ -3,7 +3,10 @@ package com.georgcantor.wallpaperapp.ui
 import android.Manifest
 import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -15,7 +18,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
@@ -23,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AndroidRuntimeException
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -31,7 +34,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
@@ -51,7 +53,8 @@ class PicDetailActivity : AppCompatActivity() {
         const val ORIGIN = "caller"
 
         fun calculateInSampleSize(options: BitmapFactory.Options,
-                                  reqWidth: Int, reqHeight: Int): Int {
+                                  reqWidth: Int,
+                                  reqHeight: Int): Int {
             val height = options.outHeight
             val width = options.outWidth
             var inSampleSize = 1
@@ -121,7 +124,7 @@ class PicDetailActivity : AppCompatActivity() {
 
         fab?.setOnClickListener(View.OnClickListener {
             if (!fileIsExist()) {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     checkPermission()
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                         return@OnClickListener
@@ -195,32 +198,40 @@ class PicDetailActivity : AppCompatActivity() {
 
             } else {
                 checkWallpPermission()
-                val sendUri2 = Uri.fromFile(file)
-                pathOfFile = UtilityMethods.getPath(applicationContext, sendUri2)
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val uri = Uri.fromFile(file)
+                pathOfFile = UtilityMethods.getPath(applicationContext, uri)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setAsWallpaper6(pathOfFile)
                 } else {
-                    setAsWallpaper(pathOfFile)
+                    setAsWallpaper()
                 }
             }
         })
     }
 
-    private fun setAsWallpaper(pathOfFile: String?) {
-        try {
-            val intent = Intent()
-            intent.action = Intent.ACTION_ATTACH_DATA
-            val file = File(pathOfFile)
-
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-            intent.setDataAndType(FileProvider.getUriForFile(applicationContext,
-                    BuildConfig.APPLICATION_ID + ".provider", file), pathOfFile?.let { getMimeType(it) })
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(applicationContext, "Exception generated", Toast.LENGTH_SHORT).show()
-        }
+    private fun setAsWallpaper() {
+//        try {
+//            val intent = Intent()
+//            intent.action = Intent.ACTION_ATTACH_DATA
+//            val file = File(pathOfFile)
+//
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+//            intent.setDataAndType(FileProvider.getUriForFile(applicationContext,
+//                    BuildConfig.APPLICATION_ID + ".provider", file), pathOfFile?.let { getMimeType(it) })
+//            startActivity(intent)
+//        } catch (e: ActivityNotFoundException) {
+//            Toast.makeText(applicationContext, "Exception generated", Toast.LENGTH_SHORT).show()
+//        }
+        val uri = Uri.fromFile(file)
+        Log.d(resources.getString(R.string.URI), uri.toString())
+        val intent = Intent(Intent.ACTION_ATTACH_DATA)
+        intent.setDataAndType(uri, resources.getString(R.string.image_jpg))
+        intent.putExtra(resources.getString(R.string.mimeType),
+                resources.getString(R.string.image_jpg))
+        startActivityForResult(Intent.createChooser(intent,
+                resources.getString(R.string.Set_As)), 200)
     }
 
     private fun setAsWallpaper6(pathOfFile: String?) {
@@ -407,7 +418,7 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun fileIsExist(): Boolean {
-        return file!!.exists()
+        return file?.exists() ?: false
     }
 
     private fun checkPermission() {
