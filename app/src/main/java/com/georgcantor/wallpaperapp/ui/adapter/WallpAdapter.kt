@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
@@ -31,7 +32,11 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
             val activity = context as Activity
             val position = wallpViewHolder.adapterPosition
             val intent = Intent(context, PicDetailActivity::class.java)
-            intent.putExtra(PicDetailActivity.EXTRA_PIC, hit?.get(position))
+            try {
+                intent.putExtra(PicDetailActivity.EXTRA_PIC, hit?.get(position))
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+            }
             context.startActivity(intent)
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }

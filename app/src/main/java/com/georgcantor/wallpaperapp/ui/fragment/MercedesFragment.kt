@@ -123,8 +123,8 @@ class MercedesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
-                Toast.makeText(context, context!!.resources
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.resources?.getString(R.string.wrong_message),
+                        Toast.LENGTH_SHORT).show()
             }
         })
     }

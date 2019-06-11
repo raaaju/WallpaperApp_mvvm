@@ -23,7 +23,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AndroidRuntimeException
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -43,7 +42,6 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 class PicDetailActivity : AppCompatActivity() {
@@ -245,8 +243,9 @@ class PicDetailActivity : AppCompatActivity() {
             wm.setBitmap(decodedSampleBitmap)
             Toast.makeText(this@PicDetailActivity,
                     getString(R.string.wallpaper_is_install), Toast.LENGTH_SHORT).show()
-        } catch (e: IOException) {
-            Log.e("this", "Cannot set image as wallpaper", e)
+        } catch (e: Exception) {
+            Toast.makeText(this@PicDetailActivity,
+                    getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -380,12 +379,17 @@ class PicDetailActivity : AppCompatActivity() {
         name += "/YourDirectoryName/"
 
         val request = DownloadManager.Request(uri)
-        request.setTitle(tags[0] + resources.getString(R.string.down))
-        request.setDescription(resources.getString(R.string.down_wallpapers))
-        if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-            request.setDestinationInExternalPublicDir("/" + resources
-                    .getString(R.string.app_name), hit?.id.toString() + resources
-                    .getString(R.string.jpg))
+
+        try {
+            request.setTitle(tags[0] + resources.getString(R.string.down))
+            request.setDescription(resources.getString(R.string.down_wallpapers))
+            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+                request.setDestinationInExternalPublicDir("/" + resources
+                        .getString(R.string.app_name), hit?.id.toString() + resources
+                        .getString(R.string.jpg))
+            }
+        } catch (e: IllegalStateException) {
+            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
         }
         downloadReference = downloadManager.enqueue(request)
 
