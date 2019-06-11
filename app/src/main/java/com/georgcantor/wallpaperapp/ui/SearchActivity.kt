@@ -13,20 +13,17 @@ import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
@@ -38,6 +35,8 @@ import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInt
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.search_results.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -54,9 +53,6 @@ class SearchActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_CODE = 222
     }
 
-    private var mEdtSearch: EditText? = null
-    private var mTxvNoResultsFound: TextView? = null
-    private var mSwipeRefreshSearch: SwipeRefreshLayout? = null
     private lateinit var networkUtilities: NetworkUtilities
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
@@ -68,22 +64,17 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
         networkUtilities = NetworkUtilities(this)
         setContentView(R.layout.activity_search)
-        mEdtSearch = findViewById(R.id.editText_search)
-        mTxvNoResultsFound = findViewById(R.id.tv_no_results)
-        mSwipeRefreshSearch = findViewById(R.id.swipe_refresh_layout_search)
 
         createToolbar()
-
         initViews()
 
-        mEdtSearch?.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
+        editText_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 mgr.hideSoftInputFromWindow(v.windowToken, 0)
-                searchEverything(mEdtSearch?.text.toString().trim { it <= ' ' }, index)
+                searchEverything(editText_search.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
             false
@@ -91,13 +82,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun createToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar_search)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_search)
         if (supportActionBar != null) {
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
-        toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
-        toolbar.setNavigationOnClickListener {
+        toolbar_search.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
+        toolbar_search.setNavigationOnClickListener {
             finish()
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
         }
@@ -105,27 +95,26 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        val recyclerView = findViewById<RecyclerView>(R.id.search_recycler_view)
-        recyclerView.setHasFixedSize(true)
-
+        search_recycler_view.setHasFixedSize(true)
         checkScreenSize()
+
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(columnNo,
                 StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.layoutManager = staggeredGridLayoutManager
+        search_recycler_view.layoutManager = staggeredGridLayoutManager
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                searchEverything(mEdtSearch?.text.toString().trim { it <= ' ' }, page)
+                searchEverything(editText_search.text.toString().trim { it <= ' ' }, page)
             }
         }
-        recyclerView.addOnScrollListener(listener)
+        search_recycler_view.addOnScrollListener(listener)
         wallpAdapter = WallpAdapter(this)
-        recyclerView.adapter = wallpAdapter
+        search_recycler_view.adapter = wallpAdapter
     }
 
     fun searchEverything(search: String, index: Int) {
-        mSwipeRefreshSearch?.isEnabled = true
-        mSwipeRefreshSearch?.isRefreshing = true
+        swipe_refresh_layout_search.isEnabled = true
+        swipe_refresh_layout_search.isRefreshing = true
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
@@ -151,13 +140,13 @@ class SearchActivity : AppCompatActivity() {
                         picResult = response.body()
                         picResult?.let {
                             wallpAdapter.setPicList(it)
-                            mTxvNoResultsFound?.visibility = View.GONE
-                            mSwipeRefreshSearch?.isRefreshing = false
-                            mSwipeRefreshSearch?.isEnabled = false
+                            tv_no_results.visibility = View.GONE
+                            swipe_refresh_layout_search.isRefreshing = false
+                            swipe_refresh_layout_search.isEnabled = false
                         }
                         invalidateOptionsMenu()
                         voiceInvisible = true
-                        mEdtSearch?.visibility = View.GONE
+                        editText_search.visibility = View.GONE
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -167,8 +156,8 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Pic>, t: Throwable) {
                 Toast.makeText(this@SearchActivity, resources
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-                mSwipeRefreshSearch?.isRefreshing = false
-                mSwipeRefreshSearch?.isEnabled = false
+                swipe_refresh_layout_search.isRefreshing = false
+                swipe_refresh_layout_search.isEnabled = false
             }
         })
     }
@@ -277,7 +266,7 @@ class SearchActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             searchEverything(arrayList.toString(), index)
-            mEdtSearch?.setText(arrayList.toString())
+            editText_search.setText(arrayList.toString())
         }
     }
 
