@@ -79,11 +79,11 @@ class SearchActivity : AppCompatActivity() {
 
         initViews()
 
-        mEdtSearch!!.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
+        mEdtSearch?.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 mgr.hideSoftInputFromWindow(v.windowToken, 0)
-                searchEverything(mEdtSearch!!.text.toString().trim { it <= ' ' }, index)
+                searchEverything(mEdtSearch?.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
             false
@@ -94,14 +94,14 @@ class SearchActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar_search)
         setSupportActionBar(toolbar)
         if (supportActionBar != null) {
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
         }
         toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener {
             finish()
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
         }
-        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun initViews() {
@@ -115,7 +115,7 @@ class SearchActivity : AppCompatActivity() {
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                searchEverything(mEdtSearch!!.text.toString().trim { it <= ' ' }, page)
+                searchEverything(mEdtSearch?.text.toString().trim { it <= ' ' }, page)
             }
         }
         recyclerView.addOnScrollListener(listener)
@@ -124,8 +124,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun searchEverything(search: String, index: Int) {
-        mSwipeRefreshSearch!!.isEnabled = true
-        mSwipeRefreshSearch!!.isRefreshing = true
+        mSwipeRefreshSearch?.isEnabled = true
+        mSwipeRefreshSearch?.isRefreshing = true
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
@@ -146,18 +146,18 @@ class SearchActivity : AppCompatActivity() {
                 try {
                     if (!response.isSuccessful) {
                         Log.d(resources.getString(R.string.No_Success),
-                                response.errorBody()!!.string())
+                                response.errorBody()?.string())
                     } else {
                         picResult = response.body()
-                        if (picResult != null) {
-                            wallpAdapter.setPicList(picResult!!)
-                            mTxvNoResultsFound!!.visibility = View.GONE
-                            mSwipeRefreshSearch!!.isRefreshing = false
-                            mSwipeRefreshSearch!!.isEnabled = false
+                        picResult?.let {
+                            wallpAdapter.setPicList(it)
+                            mTxvNoResultsFound?.visibility = View.GONE
+                            mSwipeRefreshSearch?.isRefreshing = false
+                            mSwipeRefreshSearch?.isEnabled = false
                         }
                         invalidateOptionsMenu()
                         voiceInvisible = true
-                        mEdtSearch!!.visibility = View.GONE
+                        mEdtSearch?.visibility = View.GONE
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -167,8 +167,8 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Pic>, t: Throwable) {
                 Toast.makeText(this@SearchActivity, resources
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-                mSwipeRefreshSearch!!.isRefreshing = false
-                mSwipeRefreshSearch!!.isEnabled = false
+                mSwipeRefreshSearch?.isRefreshing = false
+                mSwipeRefreshSearch?.isEnabled = false
             }
         })
     }
@@ -277,7 +277,7 @@ class SearchActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             searchEverything(arrayList.toString(), index)
-            mEdtSearch!!.setText(arrayList.toString())
+            mEdtSearch?.setText(arrayList.toString())
         }
     }
 

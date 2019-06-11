@@ -27,6 +27,13 @@ import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    companion object {
+        private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
+        private const val MERCEDES = "Mercedes-Benz"
+        private const val BMW = "BMW"
+        private const val GALLERY = "Gallery"
+    }
+
     private var doubleTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         val myTitle = toolbar.getChildAt(0) as TextView
 
-        val typeface = Typeface.createFromAsset(assets, "fonts/Montserrat-Regular.ttf")
+        val typeface = Typeface.createFromAsset(assets, FONT_PATH)
         if (Build.VERSION.SDK_INT >= 16) {
             myTitle.typeface = Typeface.create("cursive", Typeface.NORMAL)
         } else {
@@ -60,19 +67,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_shop -> {
-                    toolbar.title = "Mercedes-Benz"
+                    toolbar.title = MERCEDES
                     val fragment = MercedesFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_gifts -> {
-                    toolbar.title = "BMW"
+                    toolbar.title = BMW
                     val fragment = BmwFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_cart -> {
-                    toolbar.title = "Gallery"
+                    toolbar.title = GALLERY
                     val fragment = CategoryFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
