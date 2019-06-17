@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
@@ -98,7 +99,7 @@ class SelectCatActivity : AppCompatActivity() {
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
-                            catAdapter.setPicList(picResult!!)
+                            catAdapter.setPicList(picResult?.hits as MutableList<Hit>)
                         }
                     }
                 } catch (e: Exception) {

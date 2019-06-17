@@ -139,7 +139,7 @@ class SearchActivity : AppCompatActivity() {
                     } else {
                         picResult = response.body()
                         picResult?.let {
-                            wallpAdapter.setPicList(it)
+                            wallpAdapter.setPicList(it.hits)
                             tv_no_results.visibility = View.GONE
                             swipe_refresh_layout_search.isRefreshing = false
                             swipe_refresh_layout_search.isEnabled = false

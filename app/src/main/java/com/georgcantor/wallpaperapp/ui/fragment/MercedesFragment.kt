@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
@@ -114,7 +115,7 @@ class MercedesFragment : Fragment() {
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
-                            wallpAdapter!!.setPicList(picResult!!)
+                            wallpAdapter?.setPicList(picResult?.hits as MutableList<Hit>)
                         }
                     }
                 } catch (e: Exception) {

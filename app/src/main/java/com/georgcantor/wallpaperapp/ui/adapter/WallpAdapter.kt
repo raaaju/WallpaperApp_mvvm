@@ -10,7 +10,6 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
 import com.georgcantor.wallpaperapp.ui.util.WallpViewHolder
 import com.squareup.picasso.Picasso
@@ -22,6 +21,11 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
 
     init {
         this.hit = ArrayList()
+    }
+
+    fun setPicList(hits: MutableList<Hit>) {
+        this.hit?.addAll(hits)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpViewHolder {
@@ -62,11 +66,5 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
 
     override fun getItemCount(): Int {
         return hit?.size ?: 0
-    }
-
-    fun setPicList(picList: Pic) {
-        if (picList.hits != null)
-            this.hit!!.addAll(picList.hits)
-        notifyDataSetChanged()
     }
 }

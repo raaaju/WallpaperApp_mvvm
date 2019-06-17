@@ -330,7 +330,7 @@ class PicDetailActivity : AppCompatActivity() {
                     .transform(CropCircleTransformation())
                     .into(userImage)
         } else {
-            if (!hit!!.userImageURL.isEmpty()) {
+            if (hit!!.userImageURL.isNotEmpty()) {
                 Picasso.with(this)
                         .load(hit?.userImageURL)
                         .transform(CropCircleTransformation())
@@ -348,9 +348,12 @@ class PicDetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fav, menu)
-        if (db!!.containFav(hit!!.previewURL.toString())) {
-            menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp)
+        db?.let {
+            if (it.containFav(hit?.previewURL.toString())) {
+                menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp)
+            }
         }
+
         return true
     }
 
@@ -362,7 +365,7 @@ class PicDetailActivity : AppCompatActivity() {
                 item.setIcon(R.drawable.ic_star_red_24dp)
                 Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show()
             } else {
-                db!!.deleteFromFavorites(hit?.previewURL.toString())
+                db?.deleteFromFavorites(hit?.previewURL.toString())
                 item.setIcon(R.drawable.ic_star_border_black_24dp)
                 Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show()
             }
