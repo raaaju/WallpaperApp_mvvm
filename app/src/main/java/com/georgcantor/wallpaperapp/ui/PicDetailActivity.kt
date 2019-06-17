@@ -269,14 +269,17 @@ class PicDetailActivity : AppCompatActivity() {
         } else {
             throw IllegalArgumentException("Detail activity must receive a Hit parcelable")
         }
-        var title = hit!!.tags
-        while (title.contains(",")) {
-            val f = title.substring(0, title.indexOf(","))
-            tags.add(f)
-            first = title.indexOf(",")
-            title = title.substring(++first)
+        hit?.let {
+            var title = it.tags
+            while (title.contains(",")) {
+                val element = title.substring(0, title.indexOf(","))
+                tags.add(element)
+                first = title.indexOf(",")
+                title = title.substring(++first)
+            }
+            tags.add(title)
         }
-        tags.add(title)
+
         tagTitle?.text = tags[0]
         val wallpaper = findViewById<ImageView>(R.id.wallpaper_detail)
         val fav = findViewById<TextView>(R.id.fav)
@@ -290,7 +293,7 @@ class PicDetailActivity : AppCompatActivity() {
         tagAdapter.setTagList(tags)
         recyclerView.adapter = tagAdapter
         file = File(Environment.getExternalStoragePublicDirectory("/" + resources
-                .getString(R.string.app_name)), hit!!.id.toString() + resources
+                .getString(R.string.app_name)), hit?.id.toString() + resources
                 .getString(R.string.jpg))
         if (fileIsExist()) {
             fab?.setImageDrawable(VectorDrawableCompat.create(resources,
@@ -330,16 +333,18 @@ class PicDetailActivity : AppCompatActivity() {
                     .transform(CropCircleTransformation())
                     .into(userImage)
         } else {
-            if (hit!!.userImageURL.isNotEmpty()) {
-                Picasso.with(this)
-                        .load(hit?.userImageURL)
-                        .transform(CropCircleTransformation())
-                        .into(userImage)
-            } else {
-                Picasso.with(this)
-                        .load(R.drawable.memb)
-                        .transform(CropCircleTransformation())
-                        .into(userImage)
+            hit?.let {
+                if (it.userImageURL.isNotEmpty()) {
+                    Picasso.with(this)
+                            .load(hit?.userImageURL)
+                            .transform(CropCircleTransformation())
+                            .into(userImage)
+                } else {
+                    Picasso.with(this)
+                            .load(R.drawable.memb)
+                            .transform(CropCircleTransformation())
+                            .into(userImage)
+                }
             }
         }
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
@@ -358,29 +363,32 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-            R.id.action_add_to_fav -> if (!db!!.containFav(hit?.previewURL.toString())) {
-                addToFavorite(hit?.previewURL.toString(), hit?.pageURL.toString())
-                item.setIcon(R.drawable.ic_star_red_24dp)
-                Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show()
-            } else {
-                db?.deleteFromFavorites(hit?.previewURL.toString())
-                item.setIcon(R.drawable.ic_star_border_black_24dp)
-                Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show()
-            }
-            R.id.action_share -> try {
-                val i = Intent(Intent.ACTION_SEND)
-                i.type = "text/plain"
-                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-                val sAux = hit?.imageURL
-                i.putExtra(Intent.EXTRA_TEXT, sAux)
-                startActivity(Intent.createChooser(i, getString(R.string.choose_share)))
-            } catch (e: AndroidRuntimeException) {
-                e.printStackTrace()
-                Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
+        db?.let { db ->
+            when (item.itemId) {
+                android.R.id.home -> onBackPressed()
+                R.id.action_add_to_fav -> if (!db.containFav(hit?.previewURL.toString())) {
+                    addToFavorite(hit?.previewURL.toString(), hit?.pageURL.toString())
+                    item.setIcon(R.drawable.ic_star_red_24dp)
+                    Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show()
+                } else {
+                    db.deleteFromFavorites(hit?.previewURL.toString())
+                    item.setIcon(R.drawable.ic_star_border_black_24dp)
+                    Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show()
+                }
+                R.id.action_share -> try {
+                    val i = Intent(Intent.ACTION_SEND)
+                    i.type = "text/plain"
+                    i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+                    val sAux = hit?.imageURL
+                    i.putExtra(Intent.EXTRA_TEXT, sAux)
+                    startActivity(Intent.createChooser(i, getString(R.string.choose_share)))
+                } catch (e: AndroidRuntimeException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
