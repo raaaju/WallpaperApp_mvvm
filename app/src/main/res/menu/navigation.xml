@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_gifts"
-        android:icon="@drawable/ic_bmw"
+        android:icon="@drawable/bmw_icon"
         android:title="BMW" />
 
     <item

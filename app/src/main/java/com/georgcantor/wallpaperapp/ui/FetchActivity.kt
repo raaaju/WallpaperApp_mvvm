@@ -49,8 +49,8 @@ class FetchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fetch)
         val toolbar = findViewById<Toolbar>(R.id.toolbar_fetch)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = type
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = type
 
         loadNextDataFromApi(1)
         recyclerView = findViewById(R.id.fetchRecView)
@@ -98,7 +98,7 @@ class FetchActivity : AppCompatActivity() {
                 try {
                     if (!response.isSuccessful) {
                         Log.d(resources.getString(R.string.No_Success),
-                                response.errorBody()!!.string())
+                                response.errorBody()?.string())
                     } else {
                         picResult = response.body()
                         if (picResult != null) {

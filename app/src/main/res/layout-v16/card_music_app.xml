@@ -27,7 +27,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/music_icon" />
+            android:src="@drawable/ic_headphones" />
 
         <TextView
             android:id="@+id/tv_name_music_app"

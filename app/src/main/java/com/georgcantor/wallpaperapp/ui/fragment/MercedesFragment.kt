@@ -71,9 +71,9 @@ class MercedesFragment : Fragment() {
         }
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
-        mSwipeRefreshLayout!!.setOnRefreshListener {
+        mSwipeRefreshLayout?.setOnRefreshListener {
             loadNextDataFromApi(1)
-            mSwipeRefreshLayout!!.isRefreshing = false
+            mSwipeRefreshLayout?.isRefreshing = false
         }
 
         checkScreenSize()
@@ -110,8 +110,8 @@ class MercedesFragment : Fragment() {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                 try {
                     if (!response.isSuccessful) {
-                        Log.d(context!!.resources.getString(R.string.No_Success),
-                                response.errorBody()!!.string())
+                        Log.d(context?.resources?.getString(R.string.No_Success),
+                                response.errorBody()?.string())
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
