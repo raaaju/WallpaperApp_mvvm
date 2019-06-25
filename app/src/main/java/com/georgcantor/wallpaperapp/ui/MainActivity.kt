@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .commit()
 
         if (!UtilityMethods.isNetworkAvailable()) {
-            Snackbar.make(findViewById<View>(android.R.id.content),
+            Snackbar.make(findViewById(android.R.id.content),
                     resources.getString(R.string.check_internet), Snackbar.LENGTH_LONG).show()
         }
         val myTitle = toolbar.getChildAt(0) as TextView

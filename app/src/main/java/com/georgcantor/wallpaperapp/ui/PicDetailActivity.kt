@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import java.io.File
 import java.util.*
+import kotlin.math.roundToInt
 
 class PicDetailActivity : AppCompatActivity() {
 
@@ -60,8 +61,8 @@ class PicDetailActivity : AppCompatActivity() {
             var inSampleSize = 1
 
             if (height > reqHeight || width > reqWidth) {
-                val heightRatio = Math.round(height.toFloat() / reqHeight.toFloat())
-                val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
+                val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
+                val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
 
                 inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
             }

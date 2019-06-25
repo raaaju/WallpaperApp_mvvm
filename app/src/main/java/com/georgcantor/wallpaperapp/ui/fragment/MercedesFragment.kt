@@ -23,6 +23,7 @@ import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInt
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import kotlinx.android.synthetic.main.fragment_mercedes.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -53,8 +54,6 @@ class MercedesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         networkUtilities = activity?.let { NetworkUtilities(it) }
-
-        loadNextDataFromApi(1)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -91,9 +90,16 @@ class MercedesFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadNextDataFromApi(1)
+    }
+
     private fun loadNextDataFromApi(index: Int) {
+        progressMain.visibility = View.VISIBLE
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
+
         val httpClient = OkHttpClient.Builder()
         httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
         httpClient.addInterceptor(OfflineResponseCacheInterceptor())
@@ -108,6 +114,7 @@ class MercedesFragment : Fragment() {
         call = client.getMercedesPic(index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                progressMain.visibility = View.GONE
                 try {
                     if (!response.isSuccessful) {
                         Log.d(context?.resources?.getString(R.string.No_Success),
@@ -124,6 +131,7 @@ class MercedesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
+                progressMain.visibility = View.GONE
                 Toast.makeText(context, context?.resources?.getString(R.string.wrong_message),
                         Toast.LENGTH_SHORT).show()
             }
