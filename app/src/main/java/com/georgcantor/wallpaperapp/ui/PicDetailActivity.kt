@@ -377,12 +377,12 @@ class PicDetailActivity : AppCompatActivity() {
                     Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show()
                 }
                 R.id.action_share -> try {
-                    val i = Intent(Intent.ACTION_SEND)
-                    i.type = "text/plain"
-                    i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.type = "text/plain"
+                    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
                     val sAux = hit?.imageURL
-                    i.putExtra(Intent.EXTRA_TEXT, sAux)
-                    startActivity(Intent.createChooser(i, getString(R.string.choose_share)))
+                    intent.putExtra(Intent.EXTRA_TEXT, sAux)
+                    startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
                 } catch (e: AndroidRuntimeException) {
                     e.printStackTrace()
                     Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()

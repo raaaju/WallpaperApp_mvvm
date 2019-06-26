@@ -159,6 +159,6 @@
     <string name="speak_something">Speak something…</string>
     <string name="check_internet">Check internet connection</string>
     <string name="email">cupsman1986@gmail.com</string>
-    <string name="your_subject">Your subject</string>
     <string name="email_message">Email message goes here</string>
+    <string name="message_choose_title">Send a message</string>
 </resources>

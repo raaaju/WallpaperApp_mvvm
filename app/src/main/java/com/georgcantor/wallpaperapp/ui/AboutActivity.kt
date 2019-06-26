@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -108,13 +107,10 @@ class AboutActivity : AppCompatActivity() {
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, value)
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.your_subject))
-        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.email_message))
 
         try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."))
+            startActivity(Intent.createChooser(emailIntent, this.resources.getString(R.string.message_choose_title)))
             finish()
-            Log.i("Finished sending email", "")
         } catch (ex: android.content.ActivityNotFoundException) {
             Toast.makeText(this@AboutActivity,
                     "There is no email client installed.", Toast.LENGTH_SHORT).show()

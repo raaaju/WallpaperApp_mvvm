@@ -149,4 +149,5 @@
     <string name="speak_something">Говорите…</string>
     <string name="check_internet">Проверьте интернет соединение</string>
     <string name="favorites">Избранные</string>
+    <string name="message_choose_title">Отправить сообщение</string>
 </resources>
