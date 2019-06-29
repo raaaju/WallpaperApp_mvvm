@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_shop"
+        android:id="@+id/nav_mercedes"
         android:icon="@drawable/mercedes"
         android:title="Mercedes-Benz" />
 
     <item
-        android:id="@+id/navigation_gifts"
+        android:id="@+id/nav_bmw"
         android:icon="@drawable/bmw_icon"
         android:title="BMW" />
 
     <item
-        android:id="@+id/navigation_cart"
+        android:id="@+id/nav_gallery"
         android:icon="@drawable/ic_image_white"
         android:title="Gallery" />
 

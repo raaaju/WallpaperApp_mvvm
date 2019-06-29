@@ -56,21 +56,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.setDrawerListener(toggle)
         toggle.syncState()
 
-        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_shop -> {
+                R.id.nav_mercedes -> {
                     toolbar.title = MERCEDES
                     val fragment = MercedesFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_gifts -> {
+                R.id.nav_bmw -> {
                     toolbar.title = BMW
                     val fragment = BmwFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_cart -> {
+                R.id.nav_gallery -> {
                     toolbar.title = GALLERY
                     val fragment = CategoryFragment.newInstance()
                     openFragment(fragment)
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             false
         }
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.setOnNavigationItemSelectedListener(itemSelectedListener)
 
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.itemIconTintList = null
