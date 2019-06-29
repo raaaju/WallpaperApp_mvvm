@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
@@ -23,7 +22,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment
 import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,10 +45,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.frame_container, MercedesFragment())
                 .commit()
 
-        if (!UtilityMethods.isNetworkAvailable()) {
-            Snackbar.make(findViewById(android.R.id.content),
-                    resources.getString(R.string.check_internet), Snackbar.LENGTH_LONG).show()
-        }
         val myTitle = toolbar.getChildAt(0) as TextView
 
         val typeface = Typeface.createFromAsset(assets, FONT_PATH)

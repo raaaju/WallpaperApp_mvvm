@@ -20,6 +20,7 @@ import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInt
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.activity_select_category.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -51,11 +52,15 @@ class SelectCatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_select_category)
         val toolbar = findViewById<Toolbar>(R.id.toolbar_category)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = type
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = type
         loadNextDataFromApi(1)
         recyclerViewCat = findViewById(R.id.SelCatRecView)
         recyclerViewCat.setHasFixedSize(true)
+
+        if (!UtilityMethods.isNetworkAvailable()) {
+            Toast.makeText(this, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
+        }
 
         checkScreenSize()
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(columnNo,

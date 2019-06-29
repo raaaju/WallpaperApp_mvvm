@@ -23,6 +23,7 @@ import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInt
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.fragment_bmw.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -43,7 +44,10 @@ class BmwFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkUtilities = NetworkUtilities(activity!!)
+        networkUtilities = activity?.let { NetworkUtilities(it) }
+        if (!UtilityMethods.isNetworkAvailable()) {
+            Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater,

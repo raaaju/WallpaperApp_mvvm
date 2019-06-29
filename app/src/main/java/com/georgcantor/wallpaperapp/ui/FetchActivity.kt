@@ -20,6 +20,7 @@ import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInt
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.activity_fetch.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -53,6 +54,10 @@ class FetchActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = type
+
+        if (!UtilityMethods.isNetworkAvailable()) {
+            Toast.makeText(this, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
+        }
 
         loadNextDataFromApi(1)
         recyclerView = findViewById(R.id.fetchRecView)
