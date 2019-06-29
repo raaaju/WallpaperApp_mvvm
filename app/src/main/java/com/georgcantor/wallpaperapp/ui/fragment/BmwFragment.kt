@@ -88,7 +88,7 @@ class BmwFragment : Fragment() {
     }
 
     private fun loadNextDataFromApi(index: Int) {
-        progressMain.visibility = View.VISIBLE
+        progressMain?.let { it.visibility = View.VISIBLE }
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
@@ -106,7 +106,7 @@ class BmwFragment : Fragment() {
         call = client.getBmwPic(index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                progressMain.visibility = View.GONE
+                progressMain?.let { it.visibility = View.GONE }
                 try {
                     if (!response.isSuccessful) {
                         Log.d(getString(R.string.No_Success), response.errorBody()!!.string())
@@ -123,7 +123,7 @@ class BmwFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
-                progressMain.visibility = View.GONE
+                progressMain?.let { it.visibility = View.GONE }
                 Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
             }
         })

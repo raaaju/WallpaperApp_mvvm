@@ -16,8 +16,8 @@ android {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 27
-        versionName '1.1.7'
+        versionCode 28
+        versionName '1.1.8'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -34,8 +34,6 @@ android {
     }
     lintOptions {
         checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
         abortOnError false
     }
 }

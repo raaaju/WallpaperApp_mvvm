@@ -8,6 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
@@ -19,6 +20,7 @@ import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInt
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import kotlinx.android.synthetic.main.activity_fetch.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -79,6 +81,7 @@ class FetchActivity : AppCompatActivity() {
     }
 
     fun loadNextDataFromApi(index: Int) {
+        progressFetch?.let { it.visibility = View.VISIBLE }
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
@@ -95,6 +98,7 @@ class FetchActivity : AppCompatActivity() {
         call = client.getSearchResults(type, index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                progressFetch?.let { it.visibility = View.GONE }
                 try {
                     if (!response.isSuccessful) {
                         Log.d(resources.getString(R.string.No_Success),
@@ -112,6 +116,7 @@ class FetchActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
+                progressFetch?.let { it.visibility = View.GONE }
                 Toast.makeText(this@FetchActivity, resources
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
             }
