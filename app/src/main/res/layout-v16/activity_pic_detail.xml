@@ -15,31 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar_detail_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ToolbarColoredBackArrow">
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="@dimen/margin2"
-                    android:layout_marginRight="@dimen/margin2"
-                    android:fontFamily="cursive" />
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
         <android.support.v4.widget.NestedScrollView
             style="@style/AppDetailTheme"
             android:layout_width="match_parent"

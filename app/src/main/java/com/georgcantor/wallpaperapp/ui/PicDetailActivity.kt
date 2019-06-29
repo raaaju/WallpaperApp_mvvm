@@ -25,11 +25,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AndroidRuntimeException
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -68,16 +66,6 @@ class PicDetailActivity : AppCompatActivity() {
             }
 
             return inSampleSize
-        }
-
-        private fun getMimeType(url: String): String? {
-            var type: String? = null
-            val extension = MimeTypeMap.getFileExtensionFromUrl(url)
-            if (extension != null) {
-                type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
-            }
-
-            return type
         }
     }
 
@@ -118,7 +106,6 @@ class PicDetailActivity : AppCompatActivity() {
         progressBar?.visibility = View.VISIBLE
         db = DatabaseHelper(this)
 
-        tagTitle = findViewById(R.id.toolbar_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initView()
@@ -211,26 +198,11 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun setAsWallpaper() {
-//        try {
-//            val intent = Intent()
-//            intent.action = Intent.ACTION_ATTACH_DATA
-//            val file = File(pathOfFile)
-//
-//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-//            intent.setDataAndType(FileProvider.getUriForFile(applicationContext,
-//                    BuildConfig.APPLICATION_ID + ".provider", file), pathOfFile?.let { getMimeType(it) })
-//            startActivity(intent)
-//        } catch (e: ActivityNotFoundException) {
-//            Toast.makeText(applicationContext, "Exception generated", Toast.LENGTH_SHORT).show()
-//        }
         val uri = Uri.fromFile(file)
-        Log.d(resources.getString(R.string.URI), uri.toString())
         val intent = Intent(Intent.ACTION_ATTACH_DATA)
         intent.setDataAndType(uri, resources.getString(R.string.image_jpg))
-        intent.putExtra(resources.getString(R.string.mimeType),
-                resources.getString(R.string.image_jpg))
+        intent.putExtra(resources.getString(R.string.mimeType), resources.getString(R.string.image_jpg))
+
         startActivityForResult(Intent.createChooser(intent,
                 resources.getString(R.string.Set_As)), 200)
     }
