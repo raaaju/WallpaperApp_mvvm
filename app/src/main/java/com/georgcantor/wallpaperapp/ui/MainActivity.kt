@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment
+import com.georgcantor.wallpaperapp.ui.fragment.LicenseFragment
 import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -30,9 +31,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         private const val MERCEDES = "Mercedes-Benz"
         private const val BMW = "BMW"
         private const val GALLERY = "Gallery"
+        private const val LICENSE = "License"
     }
 
     private var doubleTap = false
+    private lateinit var licenseFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager.beginTransaction()
                 .replace(R.id.frame_container, MercedesFragment())
                 .commit()
+
+        licenseFragment = LicenseFragment()
 
         val myTitle = toolbar.getChildAt(0) as TextView
 
@@ -195,8 +200,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_license -> {
-                val intentLicense = Intent(this, LicenseActivity::class.java)
-                this.startActivity(intentLicense)
+                toolbar.title = LICENSE
+                openFragment(licenseFragment)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
         }

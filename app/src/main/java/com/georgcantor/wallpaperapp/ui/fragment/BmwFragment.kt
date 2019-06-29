@@ -36,10 +36,21 @@ import java.util.concurrent.TimeUnit
 
 class BmwFragment : Fragment() {
 
+    companion object {
+        fun newInstance(): BmwFragment {
+            val fragment = BmwFragment()
+            val args = Bundle()
+            fragment.arguments = args
+
+            return fragment
+        }
+    }
+
     private var wallpAdapter: WallpAdapter? = null
     private var networkUtilities: NetworkUtilities? = null
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
+
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +94,7 @@ class BmwFragment : Fragment() {
         recyclerView.addOnScrollListener(scrollListener)
         wallpAdapter = WallpAdapter(requireContext())
         recyclerView.adapter = wallpAdapter
+
         return view
     }
 
@@ -143,17 +155,6 @@ class BmwFragment : Fragment() {
             Configuration.SCREENLAYOUT_SIZE_NORMAL -> 2
             Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
             else -> 2
-        }
-    }
-
-    companion object {
-
-        fun newInstance(): BmwFragment {
-            val fragment = BmwFragment()
-            val args = Bundle()
-            fragment.arguments = args
-
-            return fragment
         }
     }
 }

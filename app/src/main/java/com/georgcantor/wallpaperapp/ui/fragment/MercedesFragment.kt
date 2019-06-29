@@ -41,6 +41,7 @@ class MercedesFragment : Fragment() {
             val fragment = MercedesFragment()
             val args = Bundle()
             fragment.arguments = args
+
             return fragment
         }
     }
