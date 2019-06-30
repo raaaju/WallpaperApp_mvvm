@@ -117,16 +117,17 @@
         See the License for the specific language governing permissions and
         limitations under the License.</string>
     <string name="category">Category</string>
+    <string name="gallery">Gallery</string>
     <string name="license">License</string>
-    <string name="aston_walp">Aston Martin</string>
+    <string name="aston">Aston Martin</string>
     <string name="audi_walp">Audi</string>
-    <string name="bentley_walp">Bentley</string>
+    <string name="bentley">Bentley</string>
     <string name="bmw">BMW</string>
     <string name="bugatti_walp">Bugatti</string>
     <string name="mercedes">Mercedes-Benz</string>
     <string name="ferrari_walp">Ferrari</string>
     <string name="lambo_walp">Lamborghini</string>
-    <string name="mclaren_walp">McLaren</string>
+    <string name="mclaren">McLaren</string>
     <string name="porsche_walp">Porsche</string>
     <string name="porsche">Porsche</string>
     <string name="audi">Audi</string>

@@ -31,12 +31,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
     @Override
     public ExploreViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_explore, null);
-        final ExploreViewHolder rcv = new ExploreViewHolder(itemView);
+        final ExploreViewHolder viewHolder = new ExploreViewHolder(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Activity activity = (Activity) context;
-                int position = rcv.getAdapterPosition();
+                int position = viewHolder.getAdapterPosition();
                 Intent intent = new Intent(context, SelectCatActivity.class);
                 intent.putExtra(SelectCatActivity.EXTRA_CAT,
                         categoryList.get(position).getCategoryDrawId());
@@ -45,7 +45,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<ExploreViewHolder> {
             }
         });
 
-        return rcv;
+        return viewHolder;
     }
 
     @Override

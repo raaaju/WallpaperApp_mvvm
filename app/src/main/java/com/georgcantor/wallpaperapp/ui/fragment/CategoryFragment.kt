@@ -20,6 +20,7 @@ class CategoryFragment : Fragment() {
             val fragment = CategoryFragment()
             val args = Bundle()
             fragment.arguments = args
+
             return fragment
         }
     }
@@ -27,10 +28,11 @@ class CategoryFragment : Fragment() {
     private val categoryList = ArrayList<Category>()
     private var columnNo: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_category, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.expRecView)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecyclerView)
         recyclerView.setHasFixedSize(true)
         checkScreenSize()
         recyclerView.layoutManager = GridLayoutManager(activity, columnNo)
@@ -39,6 +41,7 @@ class CategoryFragment : Fragment() {
         populate()
         categoryAdapter.setCategoryList(categoryList)
         recyclerView.adapter = categoryAdapter
+
         return view
     }
 

@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
-        private const val LICENSE = "License"
     }
 
     private var doubleTap = false
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_gallery -> {
-                    toolbar.title = this.resources.getString(R.string.category)
+                    toolbar.title = this.resources.getString(R.string.gallery)
                     val fragment = CategoryFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
@@ -92,6 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.remove(fragment)
         transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
@@ -134,41 +134,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_aston -> {
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.aston_walp))
+                toolbar.title = this.resources.getString(R.string.aston)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.aston))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_bentley -> {
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bentley_walp))
+                toolbar.title = this.resources.getString(R.string.bentley)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bentley))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_porsche -> {
+                toolbar.title = this.resources.getString(R.string.porsche)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.porsche))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_audi -> {
+                toolbar.title = this.resources.getString(R.string.audi)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.audi))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_bugatti -> {
+                toolbar.title = this.resources.getString(R.string.bugatti)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bugatti))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_mclaren -> {
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.mclaren_walp))
+                toolbar.title = this.resources.getString(R.string.mclaren)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.mclaren))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_ferrari -> {
+                toolbar.title = this.resources.getString(R.string.ferrari)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.ferrari))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)
             }
             R.id.nav_lambo -> {
+                toolbar.title = this.resources.getString(R.string.lamborghini)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.lamborghini))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment)

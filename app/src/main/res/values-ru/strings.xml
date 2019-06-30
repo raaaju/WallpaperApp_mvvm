@@ -120,15 +120,6 @@
         limitations under the License.</string>
     <string name="mercedes">Mercedes-Benz</string>
     <string name="category">Категории</string>
-    <string name="bmw">BMW</string>
-    <string name="aston_walp">Aston Martin</string>
-    <string name="bentley_walp">Bentley</string>
-    <string name="lambo_walp">Lamborghini</string>
-    <string name="mclaren_walp">McLaren</string>
-    <string name="porsche_walp">Porsche</string>
-    <string name="audi_walp">Audi</string>
-    <string name="bugatti_walp">Bugatti</string>
-    <string name="ferrari_walp">Ferrari</string>
     <string name="allow_app_use_mic">Для голосовых запросов необходимо это разрешение. Разрешить?</string>
     <string name="press_back">Нажмите еще раз, чтобы выйти</string>
     <string name="try_my_other_app">Другие приложения разработчика:</string>
