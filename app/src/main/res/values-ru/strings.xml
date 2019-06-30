@@ -118,9 +118,9 @@
         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
         See the License for the specific language governing permissions and
         limitations under the License.</string>
-    <string name="popular_tab">Mercedes-Benz</string>
-    <string name="category_tab">Категории</string>
-    <string name="latest_tab">BMW</string>
+    <string name="mercedes">Mercedes-Benz</string>
+    <string name="category">Категории</string>
+    <string name="bmw">BMW</string>
     <string name="aston_walp">Aston Martin</string>
     <string name="bentley_walp">Bentley</string>
     <string name="lambo_walp">Lamborghini</string>

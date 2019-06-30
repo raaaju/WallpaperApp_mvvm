@@ -19,7 +19,6 @@
     <string name="latest">Latest</string>
     <string name="latest_small">latest</string>
     <string name="about_us">About Us</string>
-    <string name="license">License</string>
     <string name="info">Info</string>
     <string name="set_as">Set As</string>
     <string name="download">Download</string>
@@ -117,13 +116,14 @@
         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
         See the License for the specific language governing permissions and
         limitations under the License.</string>
-    <string name="category_tab">Category</string>
+    <string name="category">Category</string>
+    <string name="license">License</string>
     <string name="aston_walp">Aston Martin</string>
     <string name="audi_walp">Audi</string>
     <string name="bentley_walp">Bentley</string>
-    <string name="latest_tab">BMW</string>
+    <string name="bmw">BMW</string>
     <string name="bugatti_walp">Bugatti</string>
-    <string name="popular_tab">Mercedes-Benz</string>
+    <string name="mercedes">Mercedes-Benz</string>
     <string name="ferrari_walp">Ferrari</string>
     <string name="lambo_walp">Lamborghini</string>
     <string name="mclaren_walp">McLaren</string>

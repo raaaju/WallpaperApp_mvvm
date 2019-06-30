@@ -16,10 +16,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
-import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment
-import com.georgcantor.wallpaperapp.ui.fragment.LicenseFragment
-import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
+import com.georgcantor.wallpaperapp.ui.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -28,14 +25,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
-        private const val MERCEDES = "Mercedes-Benz"
-        private const val BMW = "BMW"
-        private const val GALLERY = "Gallery"
         private const val LICENSE = "License"
     }
 
     private var doubleTap = false
     private lateinit var licenseFragment: Fragment
+    private lateinit var brandFragment: Fragment
+    private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +43,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .commit()
 
         licenseFragment = LicenseFragment()
+        brandFragment = CarBrandFragment()
+
+        bundle = Bundle()
 
         val myTitle = toolbar.getChildAt(0) as TextView
 
@@ -64,19 +63,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_mercedes -> {
-                    toolbar.title = MERCEDES
+                    toolbar.title = this.resources.getString(R.string.mercedes)
                     val fragment = MercedesFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_bmw -> {
-                    toolbar.title = BMW
+                    toolbar.title = this.resources.getString(R.string.bmw)
                     val fragment = BmwFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_gallery -> {
-                    toolbar.title = GALLERY
+                    toolbar.title = this.resources.getString(R.string.category)
                     val fragment = CategoryFragment.newInstance()
                     openFragment(fragment)
                     return@OnNavigationItemSelectedListener true
@@ -135,60 +134,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_aston -> {
-                val intentAston = Intent(this, FetchActivity::class.java)
-                intentAston.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.aston_walp))
-                this.startActivity(intentAston)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.aston_walp))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_bentley -> {
-                val intentBentley = Intent(this, FetchActivity::class.java)
-                intentBentley.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.bentley_walp))
-                this.startActivity(intentBentley)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bentley_walp))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_porsche -> {
-                val intentPorsche = Intent(this, FetchActivity::class.java)
-                intentPorsche.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.porsche))
-                this.startActivity(intentPorsche)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.porsche))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_audi -> {
-                val intentAudi = Intent(this, FetchActivity::class.java)
-                intentAudi.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.audi))
-                this.startActivity(intentAudi)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.audi))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_bugatti -> {
-                val intentBugatti = Intent(this, FetchActivity::class.java)
-                intentBugatti.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.bugatti))
-                this.startActivity(intentBugatti)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bugatti))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_mclaren -> {
-                val intentMclaren = Intent(this, FetchActivity::class.java)
-                intentMclaren.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.mclaren_walp))
-                this.startActivity(intentMclaren)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.mclaren_walp))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_ferrari -> {
-                val intentFerrari = Intent(this, FetchActivity::class.java)
-                intentFerrari.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.ferrari))
-                this.startActivity(intentFerrari)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.ferrari))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_lambo -> {
-                val intentLambo = Intent(this, FetchActivity::class.java)
-                intentLambo.putExtra(FetchActivity.FETCH_TYPE,
-                        resources.getString(R.string.lamborghini))
-                this.startActivity(intentLambo)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.lamborghini))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment)
             }
             R.id.nav_favorites -> {
                 startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
@@ -200,7 +183,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_license -> {
-                toolbar.title = LICENSE
+                toolbar.title = this.resources.getString(R.string.license)
                 openFragment(licenseFragment)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
