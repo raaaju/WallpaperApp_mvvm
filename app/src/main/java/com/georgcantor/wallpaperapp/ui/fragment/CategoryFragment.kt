@@ -36,7 +36,7 @@ class CategoryFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         checkScreenSize()
         recyclerView.layoutManager = GridLayoutManager(activity, columnNo)
-        val categoryAdapter = CategoryAdapter(activity)
+        val categoryAdapter = CategoryAdapter(requireContext(), requireActivity().supportFragmentManager)
 
         populate()
         categoryAdapter.setCategoryList(categoryList)

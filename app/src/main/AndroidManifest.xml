@@ -39,12 +39,6 @@
             android:label="@string/app_detail_name"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name=".ui.SelectCatActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_detail_name"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.SearchActivity"
             android:configChanges="orientation|screenSize" />
         <activity
@@ -71,7 +65,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths"
-                tools:replace="android:resource"/>
+                tools:replace="android:resource" />
         </provider>
     </application>
 
