@@ -15,11 +15,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,11 +34,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.georgcantor.wallpaperapp.R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         supportFragmentManager.beginTransaction()
-                .replace(com.georgcantor.wallpaperapp.R.id.frame_container, MercedesFragment())
+                .replace(R.id.frame_container, MercedesFragment())
                 .commit()
 
         licenseFragment = LicenseFragment()
@@ -55,26 +55,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             myTitle.setTypeface(typeface, Typeface.BOLD)
         }
         val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar,
-                com.georgcantor.wallpaperapp.R.string.navigation_drawer_open, com.georgcantor.wallpaperapp.R.string.navigation_drawer_close)
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.setDrawerListener(toggle)
         toggle.syncState()
 
         val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                com.georgcantor.wallpaperapp.R.id.nav_mercedes -> {
-                    toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.mercedes)
+                R.id.nav_mercedes -> {
+                    toolbar.title = this.resources.getString(R.string.mercedes)
                     val fragment = MercedesFragment.newInstance()
                     openFragment(fragment, "mercedes")
                     return@OnNavigationItemSelectedListener true
                 }
-                com.georgcantor.wallpaperapp.R.id.nav_bmw -> {
-                    toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.bmw)
+                R.id.nav_bmw -> {
+                    toolbar.title = this.resources.getString(R.string.bmw)
                     val fragment = BmwFragment.newInstance()
                     openFragment(fragment, "bmw")
                     return@OnNavigationItemSelectedListener true
                 }
-                com.georgcantor.wallpaperapp.R.id.nav_gallery -> {
-                    toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.gallery)
+                R.id.nav_gallery -> {
+                    toolbar.title = this.resources.getString(R.string.gallery)
                     val fragment = CategoryFragment.newInstance()
                     openFragment(fragment, "gallery")
                     return@OnNavigationItemSelectedListener true
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun openFragment(fragment: Fragment, tag: String) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.remove(fragment)
-        transaction.replace(com.georgcantor.wallpaperapp.R.id.frame_container, fragment)
+        transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(tag)
         transaction.commit()
     }
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            val searchItem = menu?.findItem(com.georgcantor.wallpaperapp.R.id.action_search)
+            val searchItem = menu?.findItem(R.id.action_search)
             searchItem?.isVisible = false
         }
 
@@ -111,14 +111,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(com.georgcantor.wallpaperapp.R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
 
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            com.georgcantor.wallpaperapp.R.id.action_search -> {
+            R.id.action_search -> {
                 openSearchActivity()
             }
         }
@@ -128,72 +128,72 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openSearchActivity() {
         startActivity(Intent(this, SearchActivity::class.java))
-        overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            com.georgcantor.wallpaperapp.R.id.nav_aston -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.aston)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.aston))
+            R.id.nav_aston -> {
+                toolbar.title = this.resources.getString(R.string.aston)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.aston))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "aston")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_bentley -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.bentley)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.bentley))
+            R.id.nav_bentley -> {
+                toolbar.title = this.resources.getString(R.string.bentley)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bentley))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "bentley")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_porsche -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.porsche)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.porsche))
+            R.id.nav_porsche -> {
+                toolbar.title = this.resources.getString(R.string.porsche)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.porsche))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "porsche")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_audi -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.audi)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.audi))
+            R.id.nav_audi -> {
+                toolbar.title = this.resources.getString(R.string.audi)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.audi))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "audi")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_bugatti -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.bugatti)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.bugatti))
+            R.id.nav_bugatti -> {
+                toolbar.title = this.resources.getString(R.string.bugatti)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bugatti))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "bugatti")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_mclaren -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.mclaren)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.mclaren))
+            R.id.nav_mclaren -> {
+                toolbar.title = this.resources.getString(R.string.mclaren)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.mclaren))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "mclaren")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_ferrari -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.ferrari)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.ferrari))
+            R.id.nav_ferrari -> {
+                toolbar.title = this.resources.getString(R.string.ferrari)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.ferrari))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "ferrari")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_lambo -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.lamborghini)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(com.georgcantor.wallpaperapp.R.string.lamborghini))
+            R.id.nav_lambo -> {
+                toolbar.title = this.resources.getString(R.string.lamborghini)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.lamborghini))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "lamborghini")
             }
-            com.georgcantor.wallpaperapp.R.id.nav_favorites -> {
+            R.id.nav_favorites -> {
                 startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_about -> {
+            R.id.nav_about -> {
                 val intentAbout = Intent(this, AboutActivity::class.java)
                 this.startActivity(intentAbout)
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            com.georgcantor.wallpaperapp.R.id.nav_license -> {
-                toolbar.title = this.resources.getString(com.georgcantor.wallpaperapp.R.string.license)
+            R.id.nav_license -> {
+                toolbar.title = this.resources.getString(R.string.license)
                 openFragment(licenseFragment, "license")
-                overridePendingTransition(com.georgcantor.wallpaperapp.R.anim.pull_in_right, com.georgcantor.wallpaperapp.R.anim.push_out_left)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
                 doubleTap -> closeApp()
                 else -> {
-                    Toast.makeText(this, this.resources.getString(com.georgcantor.wallpaperapp.R.string.press_back),
+                    Toast.makeText(this, this.resources.getString(R.string.press_back),
                             Toast.LENGTH_SHORT).show()
                     doubleTap = true
                     val handler = Handler()
