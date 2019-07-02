@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 openFragment(brandFragment, "lamborghini")
             }
             R.id.nav_favorites -> {
-                startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
+                startActivity(Intent(this, FavoriteActivity::class.java))
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_about -> {
@@ -202,6 +202,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        toolbar.title = this.resources.getString(R.string.app_name)
         val stackEntryCount = supportFragmentManager.backStackEntryCount
         if (stackEntryCount == 0) {
             when {

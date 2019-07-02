@@ -7,8 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDetailPrimaryDark"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.PicDetailActivity">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +20,7 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="com.example.android.capstone.PicDetail">
+            tools:context=".ui.PicDetailActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,7 +36,7 @@
                     android:visibility="invisible" />
 
                 <ImageView
-                    android:id="@+id/wallpaper_detail"
+                    android:id="@+id/detailImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/margin"
@@ -53,13 +52,14 @@
                     app:cardUseCompatPadding="true">
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/tagsRv"
+                        android:id="@+id/tagsRecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin1"
                         android:layout_marginTop="@dimen/margin3"
                         android:layout_marginRight="@dimen/margin1"
                         android:scrollbars="horizontal" />
+
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -75,7 +75,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/user_image"
+                            android:id="@+id/userImageView"
                             android:layout_width="@dimen/user_size"
                             android:layout_height="@dimen/user_size"
                             android:layout_marginLeft="@dimen/margin3"
@@ -92,21 +92,21 @@
                             android:layout_marginLeft="@dimen/margin4"
                             android:layout_marginTop="@dimen/margin"
                             android:layout_marginRight="@dimen/margin4"
-                            android:fontFamily="cursive"
                             android:padding="@dimen/text_padding2"
                             android:text="@string/by"
                             android:textSize="@dimen/text_size2" />
 
                         <TextView
-                            android:id="@+id/user_name"
+                            android:id="@+id/nameTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/margin"
-                            android:fontFamily="cursive"
                             android:padding="@dimen/text_padding2"
                             android:textSize="@dimen/text_size2" />
+
                     </LinearLayout>
+
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -133,22 +133,21 @@
                                 android:layout_marginTop="@dimen/margin"
                                 android:layout_marginRight="@dimen/margin2"
                                 android:layout_marginBottom="@dimen/margin"
-                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:text="@string/downloads"
                                 android:textSize="@dimen/text_size0" />
 
                             <TextView
-                                android:id="@+id/down"
+                                android:id="@+id/downloadsTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/margin0"
                                 android:layout_marginTop="@dimen/margin"
                                 android:layout_marginRight="@dimen/margin0"
                                 android:layout_marginBottom="@dimen/margin"
-                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:textSize="@dimen/text_size0" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -163,31 +162,35 @@
                                 android:layout_marginTop="@dimen/margin"
                                 android:layout_marginRight="@dimen/margin2"
                                 android:layout_marginBottom="@dimen/margin"
-                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:text="@string/favourite"
                                 android:textSize="@dimen/text_size0" />
 
                             <TextView
-                                android:id="@+id/fav"
+                                android:id="@+id/favoritesTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/margin0"
                                 android:layout_marginTop="@dimen/margin"
                                 android:layout_marginRight="@dimen/margin0"
                                 android:layout_marginBottom="@dimen/margin"
-                                android:fontFamily="cursive"
                                 android:padding="@dimen/text_padding2"
                                 android:textSize="@dimen/text_size0" />
+
                         </LinearLayout>
+
                     </LinearLayout>
+
                 </android.support.v7.widget.CardView>
+
             </LinearLayout>
+
         </android.support.v4.widget.NestedScrollView>
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_download"
+        android:id="@+id/fabDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -198,4 +201,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/stat_sys_download" />
+
 </android.support.design.widget.CoordinatorLayout>

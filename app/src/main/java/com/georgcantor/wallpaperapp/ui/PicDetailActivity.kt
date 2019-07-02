@@ -50,23 +50,6 @@ class PicDetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_PIC = "picture"
         const val ORIGIN = "caller"
-
-        fun calculateInSampleSize(options: BitmapFactory.Options,
-                                  reqWidth: Int,
-                                  reqHeight: Int): Int {
-            val height = options.outHeight
-            val width = options.outWidth
-            var inSampleSize = 1
-
-            if (height > reqHeight || width > reqWidth) {
-                val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
-                val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
-
-                inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-            }
-
-            return inSampleSize
-        }
     }
 
     private var hit: Hit? = null
@@ -85,22 +68,13 @@ class PicDetailActivity : AppCompatActivity() {
     private var isCallerCollection = false
     private var pathOfFile: String? = null
 
-    private val downloadReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            Toast.makeText(context, tags[0] + resources.getString(R.string.down_complete),
-                    Toast.LENGTH_SHORT).show()
-            isDownloaded = true
-            progressBar?.visibility = View.GONE
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         networkUtilities = NetworkUtilities(this)
-        setContentView(R.layout.activity_pic_detail)
-        fab = findViewById(R.id.fab_download)
+        setContentView(R.layout.fragment_detail)
+        fab = findViewById(R.id.fabDownload)
 
         progressBar = findViewById(R.id.progressBarDetail)
         progressBar?.visibility = View.VISIBLE
@@ -197,6 +171,15 @@ class PicDetailActivity : AppCompatActivity() {
         })
     }
 
+    private val downloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            Toast.makeText(context, tags[0] + resources.getString(R.string.down_complete),
+                    Toast.LENGTH_SHORT).show()
+            isDownloaded = true
+            progressBar?.visibility = View.GONE
+        }
+    }
+
     private fun setAsWallpaper() {
         val uri = Uri.fromFile(file)
         val intent = Intent(Intent.ACTION_ATTACH_DATA)
@@ -206,7 +189,6 @@ class PicDetailActivity : AppCompatActivity() {
         startActivityForResult(Intent.createChooser(intent,
                 resources.getString(R.string.Set_As)), 200)
     }
-
     private fun setAsWallpaper6(pathOfFile: String?) {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -233,6 +215,24 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options,
+                                      reqWidth: Int,
+                                      reqHeight: Int): Int {
+        val height = options.outHeight
+        val width = options.outWidth
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+            val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
+            val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
+
+            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+        }
+
+        return inSampleSize
+    }
+
     private fun initView() {
         permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -254,12 +254,12 @@ class PicDetailActivity : AppCompatActivity() {
         }
 
         tagTitle?.text = tags[0]
-        val wallpaper = findViewById<ImageView>(R.id.wallpaper_detail)
-        val fav = findViewById<TextView>(R.id.fav)
-        val userId = findViewById<TextView>(R.id.user_name)
-        val userImage = findViewById<ImageView>(R.id.user_image)
-        val downloads = findViewById<TextView>(R.id.down)
-        recyclerView = findViewById(R.id.tagsRv)
+        val wallpaper = findViewById<ImageView>(R.id.detailImageView)
+        val fav = findViewById<TextView>(R.id.favoritesTextView)
+        val userId = findViewById<TextView>(R.id.nameTextView)
+        val userImage = findViewById<ImageView>(R.id.userImageView)
+        val downloads = findViewById<TextView>(R.id.downloadsTextView)
+        recyclerView = findViewById(R.id.tagsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false)
         tagAdapter = TagAdapter(this)
