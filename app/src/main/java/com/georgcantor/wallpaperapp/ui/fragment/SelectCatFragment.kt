@@ -59,7 +59,7 @@ class SelectCatFragment : Fragment() {
             }
         }
         selectCatRecyclerView.addOnScrollListener(listener)
-        adapter = WallpAdapter(requireContext())
+        adapter = WallpAdapter(requireContext(), requireFragmentManager())
         selectCatRecyclerView.adapter = adapter
 
         loadData(type as String, 1)

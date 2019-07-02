@@ -1,21 +1,22 @@
 package com.georgcantor.wallpaperapp.ui.adapter
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.ui.PicDetailActivity
+import com.georgcantor.wallpaperapp.ui.fragment.DetailFragment
 import com.georgcantor.wallpaperapp.ui.util.WallpViewHolder
 import com.squareup.picasso.Picasso
 import java.util.*
 
-class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpViewHolder>() {
+class WallpAdapter(private val context: Context,
+                   private val fragmentManager: FragmentManager) : RecyclerView.Adapter<WallpViewHolder>() {
 
     private val hit: MutableList<Hit>?
 
@@ -32,17 +33,27 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
         val itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null)
         val wallpViewHolder = WallpViewHolder(itemView)
 
+//        itemView.setOnClickListener {
+//            val activity = context as Activity
+//            val position = wallpViewHolder.adapterPosition
+//            val intent = Intent(context, PicDetailActivity::class.java)
+//            try {
+//                intent.putExtra(PicDetailActivity.EXTRA_PIC, hit?.get(position))
+//            } catch (e: ArrayIndexOutOfBoundsException) {
+//                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+//            }
+//            context.startActivity(intent)
+//            activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+//        }
+
         itemView.setOnClickListener {
-            val activity = context as Activity
             val position = wallpViewHolder.adapterPosition
-            val intent = Intent(context, PicDetailActivity::class.java)
-            try {
-                intent.putExtra(PicDetailActivity.EXTRA_PIC, hit?.get(position))
-            } catch (e: ArrayIndexOutOfBoundsException) {
-                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-            }
-            context.startActivity(intent)
-            activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+            val bundle = Bundle()
+            bundle.putParcelable(DetailFragment.EXTRA_PIC, hit?.get(position))
+            val fragment = DetailFragment()
+            fragment.arguments = bundle
+
+            openFragment(fragment)
         }
 
         return wallpViewHolder
@@ -66,5 +77,13 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
 
     override fun getItemCount(): Int {
         return hit?.size ?: 0
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        val transaction = fragmentManager.beginTransaction()
+        transaction.remove(fragment)
+        transaction.replace(R.id.frame_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }

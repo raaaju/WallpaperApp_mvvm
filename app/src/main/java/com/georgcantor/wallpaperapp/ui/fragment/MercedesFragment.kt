@@ -90,7 +90,7 @@ class MercedesFragment : Fragment() {
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
-        wallpAdapter = WallpAdapter(requireContext())
+        wallpAdapter = WallpAdapter(requireContext(), requireFragmentManager())
         recyclerView.adapter = wallpAdapter
         return view
     }

@@ -70,7 +70,7 @@ class CarBrandFragment : Fragment() {
             }
         }
         brandRecyclerView.addOnScrollListener(listener)
-        adapter = WallpAdapter(requireContext())
+        adapter = WallpAdapter(requireContext(), requireFragmentManager())
         brandRecyclerView.adapter = adapter
     }
 

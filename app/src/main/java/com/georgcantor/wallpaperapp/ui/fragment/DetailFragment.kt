@@ -17,6 +17,7 @@ import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.util.DisplayMetrics
@@ -72,6 +73,8 @@ class DetailFragment : Fragment() {
 
         db = DatabaseHelper(requireContext())
 
+        initView()
+
         fabDownload?.setOnClickListener(View.OnClickListener {
             if (!fileIsExist()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,8 +115,11 @@ class DetailFragment : Fragment() {
                                 val uri = hit?.imageURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fabDownload?.setImageDrawable(requireActivity().resources
-                                        .getDrawable(R.drawable.ic_photo))
+                                fabDownload?.setImageDrawable(ResourcesCompat.getDrawable(
+                                        requireActivity().resources,
+                                        R.drawable.ic_photo,
+                                        null
+                                ))
                             } else {
                                 Toast.makeText(requireContext(), resources
                                         .getString(R.string.image_downloaded),

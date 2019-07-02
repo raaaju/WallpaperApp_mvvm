@@ -34,11 +34,6 @@
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.PicDetailActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_detail_name"
-            android:theme="@style/Theme.AppCompat.Light" />
-        <activity
             android:name=".ui.SearchActivity"
             android:configChanges="orientation|screenSize" />
         <activity
