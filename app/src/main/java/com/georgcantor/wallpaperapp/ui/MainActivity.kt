@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var doubleTap = false
     private lateinit var licenseFragment: Fragment
     private lateinit var brandFragment: Fragment
+    private lateinit var searchFragment: Fragment
     private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         licenseFragment = LicenseFragment()
         brandFragment = CarBrandFragment()
+        searchFragment = SearchFragment()
 
         bundle = Bundle()
 
@@ -127,8 +129,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun openSearchActivity() {
-        startActivity(Intent(this, SearchActivity::class.java))
-        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+//        startActivity(Intent(this, SearchActivity::class.java))
+//        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+        toolbar.title = this.resources.getString(R.string.search)
+        openFragment(searchFragment, "search")
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -217,7 +221,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         } else {
-            super.onBackPressed()
+            try {
+                super.onBackPressed()
+            } catch (e: IllegalStateException) {
+            }
         }
     }
 

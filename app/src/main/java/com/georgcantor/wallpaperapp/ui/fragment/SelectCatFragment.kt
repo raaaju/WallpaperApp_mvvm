@@ -13,7 +13,7 @@ import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
+import com.georgcantor.wallpaperapp.network.NetworkUtils
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
@@ -29,7 +29,7 @@ class SelectCatFragment : Fragment() {
     }
 
     lateinit var adapter: WallpAdapter
-    private lateinit var networkUtilities: NetworkUtilities
+    private lateinit var networkUtils: NetworkUtils
     private var type: String? = null
     private var picResult: Pic? = Pic()
     var columnNo: Int = 0
@@ -42,7 +42,7 @@ class SelectCatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        networkUtilities = NetworkUtilities(requireContext())
+        networkUtils = NetworkUtils(requireContext())
         selectCatRecyclerView.setHasFixedSize(true)
         type = arguments?.getString(EXTRA_CAT)
 
@@ -68,7 +68,7 @@ class SelectCatFragment : Fragment() {
     private fun loadData(type: String, index: Int) {
         selectCatProgress?.let { it.visibility = View.VISIBLE }
 
-        val call = networkUtilities.getCall(type, index)
+        val call = networkUtils.getCall(type, index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                 selectCatProgress?.let { it.visibility = View.GONE }

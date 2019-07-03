@@ -18,7 +18,7 @@ import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
+import com.georgcantor.wallpaperapp.network.NetworkUtils
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
@@ -47,7 +47,7 @@ class MercedesFragment : Fragment() {
     }
 
     private var wallpAdapter: WallpAdapter? = null
-    private var networkUtilities: NetworkUtilities? = null
+    private var networkUtils: NetworkUtils? = null
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
 
@@ -55,7 +55,7 @@ class MercedesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkUtilities = activity?.let { NetworkUtilities(it) }
+        networkUtils = activity?.let { NetworkUtils(it) }
         if (!UtilityMethods.isNetworkAvailable()) {
             Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
         }
@@ -70,7 +70,7 @@ class MercedesFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         val ivNoInternet = view.findViewById<ImageView>(R.id.iv_no_internet)
-        if (!networkUtilities!!.isInternetConnectionPresent) {
+        if (!networkUtils!!.isInternetConnectionPresent) {
             ivNoInternet.visibility = View.VISIBLE
         }
 

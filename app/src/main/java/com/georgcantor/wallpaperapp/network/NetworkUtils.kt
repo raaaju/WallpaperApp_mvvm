@@ -14,7 +14,7 @@ import retrofit2.Call
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-class NetworkUtilities(private val context: Context) {
+class NetworkUtils(private val context: Context) {
 
     val isInternetConnectionPresent: Boolean
         get() {

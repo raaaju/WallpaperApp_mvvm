@@ -29,7 +29,7 @@ import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
+import com.georgcantor.wallpaperapp.network.NetworkUtils
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.squareup.picasso.Callback
@@ -50,7 +50,7 @@ class DetailFragment : Fragment() {
     private var hit: Hit? = null
     private val tags = ArrayList<String>()
     private var first = 0
-    private lateinit var networkUtilities: NetworkUtilities
+    private lateinit var networkUtils: NetworkUtils
     private lateinit var tagAdapter: TagAdapter
     private var file: File? = null
     private var tagTitle: TextView? = null
@@ -68,7 +68,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        networkUtilities = NetworkUtilities(requireContext())
+        networkUtils = NetworkUtils(requireContext())
         progressBarDetail?.visibility = View.VISIBLE
 
         db = DatabaseHelper(requireContext())
@@ -83,7 +83,7 @@ class DetailFragment : Fragment() {
                         return@OnClickListener
                     }
                 }
-                if (networkUtilities.isInternetConnectionPresent) {
+                if (networkUtils.isInternetConnectionPresent) {
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle(R.string.download)
                     builder.setIcon(R.drawable.ic_download)
@@ -284,7 +284,7 @@ class DetailFragment : Fragment() {
         nameTextView.text = hit?.user
         downloadsTextView.text = hit?.downloads.toString()
         favoritesTextView.text = hit?.favorites.toString()
-        if (!networkUtilities.isInternetConnectionPresent) {
+        if (!networkUtils.isInternetConnectionPresent) {
             Picasso.with(requireContext())
                     .load(R.drawable.memb)
                     .transform(CropCircleTransformation())

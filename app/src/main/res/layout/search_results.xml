@@ -8,13 +8,13 @@
     tools:showIn="@layout/activity_search">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout_search"
+        android:id="@+id/searchRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cardview_light_background">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_recycler_view"
+            android:id="@+id/searchRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fadeScrollbars="true"
@@ -23,7 +23,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
-        android:id="@+id/tv_no_results"
+        android:id="@+id/noResultsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -33,6 +33,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="visible"
-        tools:text="No Results Found!" />
+        tools:text="No Results Found" />
 
 </RelativeLayout>
