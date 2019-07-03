@@ -14,6 +14,6 @@ class ExploreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     init {
         category = itemView.findViewById(R.id.explore_view)
-        categoryName = itemView.findViewById(R.id.exptext)
+        categoryName = itemView.findViewById(R.id.categoryTextView)
     }
 }

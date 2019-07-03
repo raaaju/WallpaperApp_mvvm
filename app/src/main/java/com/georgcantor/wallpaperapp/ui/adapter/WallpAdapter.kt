@@ -31,23 +31,10 @@ class WallpAdapter(private val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null)
-        val wallpViewHolder = WallpViewHolder(itemView)
-
-//        itemView.setOnClickListener {
-//            val activity = context as Activity
-//            val position = wallpViewHolder.adapterPosition
-//            val intent = Intent(context, PicDetailActivity::class.java)
-//            try {
-//                intent.putExtra(PicDetailActivity.EXTRA_PIC, hit?.get(position))
-//            } catch (e: ArrayIndexOutOfBoundsException) {
-//                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-//            }
-//            context.startActivity(intent)
-//            activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
-//        }
+        val viewHolder = WallpViewHolder(itemView)
 
         itemView.setOnClickListener {
-            val position = wallpViewHolder.adapterPosition
+            val position = viewHolder.adapterPosition
             val bundle = Bundle()
             bundle.putParcelable(DetailFragment.EXTRA_PIC, hit?.get(position))
             val fragment = DetailFragment()
@@ -56,7 +43,7 @@ class WallpAdapter(private val context: Context,
             openFragment(fragment)
         }
 
-        return wallpViewHolder
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: WallpViewHolder, position: Int) {
