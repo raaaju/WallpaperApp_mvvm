@@ -90,13 +90,8 @@ class SearchFragment : Fragment() {
                 null
         )
         searchToolbar.setNavigationOnClickListener {
-            closeFragment()
+            requireActivity().onBackPressed()
         }
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
-    private fun closeFragment() {
-
     }
 
     private fun initViews() {

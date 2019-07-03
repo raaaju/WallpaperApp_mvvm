@@ -121,16 +121,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> {
-                openSearchActivity()
+                openSearchFragment()
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    private fun openSearchActivity() {
-//        startActivity(Intent(this, SearchActivity::class.java))
-//        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+    private fun openSearchFragment() {
         toolbar.title = this.resources.getString(R.string.search)
         openFragment(searchFragment, "search")
     }
