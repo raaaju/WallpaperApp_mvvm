@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
@@ -129,7 +130,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun openSearchFragment() {
-        toolbar.title = this.resources.getString(R.string.search)
+        appBarMain.visibility = View.GONE
         openFragment(searchFragment, "search")
     }
 

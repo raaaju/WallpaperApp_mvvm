@@ -27,6 +27,7 @@ import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheIntercepto
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.search_results.*
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -77,6 +78,11 @@ class SearchFragment : Fragment() {
             }
             false
         })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().appBarMain.visibility = View.VISIBLE
     }
 
     private fun createToolbar() {
