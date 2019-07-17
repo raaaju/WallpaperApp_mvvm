@@ -35,7 +35,6 @@ import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.squareup.picasso.Callback
@@ -55,7 +54,6 @@ class PicDetailActivity : AppCompatActivity() {
     private var hit: Hit? = null
     private val tags = ArrayList<String>()
     private var first = 0
-    private lateinit var networkUtilities: NetworkUtilities
     private lateinit var recyclerView: RecyclerView
     private lateinit var tagAdapter: TagAdapter
     private var file: File? = null
@@ -72,7 +70,6 @@ class PicDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
-        networkUtilities = NetworkUtilities(this)
         setContentView(R.layout.fragment_detail)
         fab = findViewById(R.id.fabDownload)
 
@@ -92,7 +89,7 @@ class PicDetailActivity : AppCompatActivity() {
                         return@OnClickListener
                     }
                 }
-                if (networkUtilities.isInternetConnectionPresent) {
+                if (UtilityMethods.isNetworkAvailable) {
                     val builder = AlertDialog.Builder(this@PicDetailActivity)
                     builder.setTitle(R.string.download)
                     builder.setIcon(R.drawable.ic_download)
@@ -189,6 +186,7 @@ class PicDetailActivity : AppCompatActivity() {
         startActivityForResult(Intent.createChooser(intent,
                 resources.getString(R.string.Set_As)), 200)
     }
+
     private fun setAsWallpaper6(pathOfFile: String?) {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -300,7 +298,7 @@ class PicDetailActivity : AppCompatActivity() {
         userId.text = hit?.user
         downloads.text = hit?.downloads.toString()
         fav.text = hit?.favorites.toString()
-        if (!networkUtilities.isInternetConnectionPresent) {
+        if (!UtilityMethods.isNetworkAvailable) {
             Picasso.with(this)
                     .load(R.drawable.memb)
                     .transform(CropCircleTransformation())

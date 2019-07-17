@@ -30,7 +30,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
@@ -53,7 +52,6 @@ class SearchActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_CODE = 222
     }
 
-    private lateinit var networkUtilities: NetworkUtilities
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
     lateinit var wallpAdapter: WallpAdapter
@@ -64,7 +62,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        networkUtilities = NetworkUtilities(this)
         setContentView(R.layout.activity_search)
 
         createToolbar()

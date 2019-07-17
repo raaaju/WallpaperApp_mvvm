@@ -16,7 +16,6 @@ import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
@@ -39,10 +38,9 @@ class SelectCatFragment : Fragment() {
     }
 
     lateinit var adapter: WallpAdapter
-    private lateinit var networkUtilities: NetworkUtilities
     private var type: String? = null
     private var picResult: Pic? = Pic()
-    var columnNo: Int = 0
+    private var columnNo: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -52,7 +50,6 @@ class SelectCatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        networkUtilities = NetworkUtilities(requireContext())
         selectCatRecyclerView.setHasFixedSize(true)
         type = arguments?.getString(EXTRA_CAT)
 
