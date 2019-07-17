@@ -34,19 +34,21 @@ class FavoriteActivity : AppCompatActivity() {
 
         db = DatabaseHelper(this)
         list = ArrayList()
-        list?.addAll(db!!.allFavorites)
+        db?.allFavorites?.let { list?.addAll(it) }
 
-        adapter = FavoriteAdapter(this, R.layout.favorite_list_row, list)
+        list?.let { adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it) }
         gridView?.adapter = adapter
 
         toggleEmptyHistory()
     }
 
     private fun toggleEmptyHistory() {
-        if (db!!.historyCount > 0) {
-            textViewNoFav?.visibility = View.GONE
-        } else {
-            textViewNoFav?.visibility = View.VISIBLE
+        db?.let {
+            if (it.historyCount > 0) {
+                textViewNoFav?.visibility = View.GONE
+            } else {
+                textViewNoFav?.visibility = View.VISIBLE
+            }
         }
     }
 

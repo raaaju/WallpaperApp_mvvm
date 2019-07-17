@@ -91,7 +91,7 @@ class CarBrandFragment : Fragment() {
         val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
         val call: Call<Pic>
         client?.let {
-            call = it.getSearchResults(type, index)
+            call = it.getSearchResults(type ?: "", index)
             call.enqueue(object : Callback<Pic> {
                 override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                     brandProgress?.let { it.visibility = View.GONE }
