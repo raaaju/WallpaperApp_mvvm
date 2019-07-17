@@ -16,7 +16,7 @@
     card_view:cardCornerRadius="@dimen/card_layout_corner_radius"
     card_view:cardElevation="@dimen/card_layout_elevation">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"

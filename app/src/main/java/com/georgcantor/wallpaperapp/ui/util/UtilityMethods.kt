@@ -11,7 +11,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.georgcantor.wallpaperapp.MyApplication
 
-
 object UtilityMethods {
 
     val isNetworkAvailable: Boolean
@@ -68,9 +67,9 @@ object UtilityMethods {
                 }
             }
 
-        } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
             return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
-        } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {// File
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
 

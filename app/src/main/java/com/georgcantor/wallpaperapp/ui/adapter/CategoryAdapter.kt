@@ -40,10 +40,10 @@ class CategoryAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: ExploreViewHolder, position: Int) {
-        val category = categoryList!![position]
+        val category = categoryList?.get(position)
         val id = context.resources.getIdentifier(context.resources
-                .getString(R.string.package_drawable) + category.categoryDrawId, null, null)
-        holder.categoryName.text = category.categoryName
+                .getString(R.string.package_drawable) + category?.categoryDrawId, null, null)
+        holder.categoryName.text = category?.categoryName
         holder.category.setImageResource(id)
     }
 
@@ -53,8 +53,8 @@ class CategoryAdapter(private val context: Context,
 
     fun setCategoryList(categories: List<Category>?) {
         if (categories != null) {
-            this.categoryList!!.clear()
-            this.categoryList.addAll(categories)
+            this.categoryList?.clear()
+            this.categoryList?.addAll(categories)
             notifyDataSetChanged()
         }
     }

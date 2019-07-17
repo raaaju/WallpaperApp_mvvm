@@ -9,31 +9,32 @@
     tools:context=".ui.FavoriteActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/favAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_fav"
+            android:id="@+id/favToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     </android.support.design.widget.AppBarLayout>
 
     <GridView
-        android:id="@+id/gridViewFav"
+        android:id="@+id/favGridView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
+        android:layout_below="@+id/favAppBar"
         android:layout_centerHorizontal="true"
         android:columnWidth="120dp"
         android:gravity="center"
         android:numColumns="auto_fit" />
 
     <TextView
-        android:id="@+id/empty_fav_tv"
+        android:id="@+id/emptyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

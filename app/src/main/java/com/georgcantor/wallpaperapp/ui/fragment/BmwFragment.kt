@@ -123,7 +123,7 @@ class BmwFragment : Fragment() {
                     progressMain?.let { it.visibility = View.GONE }
                     try {
                         if (!response.isSuccessful) {
-                            Log.d(getString(R.string.No_Success), response.errorBody()!!.string())
+                            Log.d(getString(R.string.No_Success), response.errorBody()?.string())
                         } else {
                             picResult = response.body()
                             if (picResult != null) {
