@@ -14,7 +14,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
-import android.support.design.widget.FloatingActionButton
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -22,14 +21,11 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AndroidRuntimeException
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
@@ -40,6 +36,7 @@ import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import kotlinx.android.synthetic.main.fragment_detail.*
 import java.io.File
 import java.util.*
 import kotlin.math.roundToInt
@@ -54,13 +51,10 @@ class PicDetailActivity : AppCompatActivity() {
     private var hit: Hit? = null
     private val tags = ArrayList<String>()
     private var first = 0
-    private lateinit var recyclerView: RecyclerView
     private lateinit var tagAdapter: TagAdapter
     private var file: File? = null
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
-    private var progressBar: ProgressBar? = null
-    private var fab: FloatingActionButton? = null
     private var db: DatabaseHelper? = null
     private var isDownloaded = false
     private var isCallerCollection = false
@@ -71,17 +65,15 @@ class PicDetailActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         setContentView(R.layout.fragment_detail)
-        fab = findViewById(R.id.fabDownload)
 
-        progressBar = findViewById(R.id.progressBarDetail)
-        progressBar?.visibility = View.VISIBLE
+        progressBarDetail.visibility = View.VISIBLE
         db = DatabaseHelper(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initView()
 
-        fab?.setOnClickListener(View.OnClickListener {
+        fabDownload.setOnClickListener(View.OnClickListener {
             if (!fileIsExist()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     checkPermission()
@@ -96,56 +88,56 @@ class PicDetailActivity : AppCompatActivity() {
                     builder.setMessage(R.string.choose_format)
 
                     builder.setPositiveButton("HD") { _, _ ->
-                        progressBar?.visibility = View.VISIBLE
+                        progressBarDetail.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit?.webformatURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fab?.setImageDrawable(VectorDrawableCompat.create(resources,
+                                fabDownload.setImageDrawable(VectorDrawableCompat.create(resources,
                                         R.drawable.ic_photo, null))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBar?.visibility = View.GONE
+                                progressBarDetail.visibility = View.GONE
                             }
                         }
                     }
 
                     builder.setNeutralButton(hit?.imageWidth.toString() + " x "
                             + hit?.imageHeight) { _, _ ->
-                        progressBar?.visibility = View.VISIBLE
+                        progressBarDetail.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit?.imageURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fab?.setImageDrawable(applicationContext.resources
+                                fabDownload.setImageDrawable(applicationContext.resources
                                         .getDrawable(R.drawable.ic_photo))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBar?.visibility = View.GONE
+                                progressBarDetail.visibility = View.GONE
                             }
                         }
                     }
 
                     builder.setNegativeButton("FullHD") { _, _ ->
-                        progressBar?.visibility = View.VISIBLE
+                        progressBarDetail.visibility = View.VISIBLE
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit?.fullHDURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fab?.setImageDrawable(applicationContext.resources
+                                fabDownload.setImageDrawable(applicationContext.resources
                                         .getDrawable(R.drawable.ic_photo))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBar?.visibility = View.GONE
+                                progressBarDetail.visibility = View.GONE
                             }
                         }
                     }
@@ -173,7 +165,7 @@ class PicDetailActivity : AppCompatActivity() {
             Toast.makeText(context, tags[0] + resources.getString(R.string.down_complete),
                     Toast.LENGTH_SHORT).show()
             isDownloaded = true
-            progressBar?.visibility = View.GONE
+            progressBarDetail.visibility = View.GONE
         }
     }
 
@@ -252,22 +244,16 @@ class PicDetailActivity : AppCompatActivity() {
         }
 
         tagTitle?.text = tags[0]
-        val wallpaper = findViewById<ImageView>(R.id.detailImageView)
-        val fav = findViewById<TextView>(R.id.favoritesTextView)
-        val userId = findViewById<TextView>(R.id.nameTextView)
-        val userImage = findViewById<ImageView>(R.id.userImageView)
-        val downloads = findViewById<TextView>(R.id.downloadsTextView)
-        recyclerView = findViewById(R.id.tagsRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this,
+        tagsRecyclerView.layoutManager = LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false)
         tagAdapter = TagAdapter(this)
         tagAdapter.setTagList(tags)
-        recyclerView.adapter = tagAdapter
+        tagsRecyclerView.adapter = tagAdapter
         file = File(Environment.getExternalStoragePublicDirectory("/" + resources
                 .getString(R.string.app_name)), hit?.id.toString() + resources
                 .getString(R.string.jpg))
         if (fileIsExist()) {
-            fab?.setImageDrawable(VectorDrawableCompat.create(resources,
+            fabDownload.setImageDrawable(VectorDrawableCompat.create(resources,
                     R.drawable.ic_photo, null))
         }
 
@@ -275,19 +261,19 @@ class PicDetailActivity : AppCompatActivity() {
             Picasso.with(this)
                     .load(file)
                     .placeholder(R.drawable.plh)
-                    .into(wallpaper)
+                    .into(detailImageView)
             isCallerCollection = true
         } else {
             Picasso.with(this)
                     .load(hit?.webformatURL)
                     .placeholder(R.drawable.plh)
-                    .into(wallpaper, object : Callback {
+                    .into(detailImageView, object : Callback {
                         override fun onSuccess() {
-                            progressBar?.visibility = View.GONE
+                            progressBarDetail.visibility = View.GONE
                         }
 
                         override fun onError() {
-                            progressBar?.visibility = View.GONE
+                            progressBarDetail.visibility = View.GONE
                             Toast.makeText(this@PicDetailActivity,
                                     getString(R.string.something_went_wrong),
                                     Toast.LENGTH_SHORT).show()
@@ -295,26 +281,26 @@ class PicDetailActivity : AppCompatActivity() {
                     })
         }
 
-        userId.text = hit?.user
-        downloads.text = hit?.downloads.toString()
-        fav.text = hit?.favorites.toString()
+        nameTextView.text = hit?.user
+        downloadsTextView.text = hit?.downloads.toString()
+        favoritesTextView.text = hit?.favorites.toString()
         if (!UtilityMethods.isNetworkAvailable) {
             Picasso.with(this)
                     .load(R.drawable.memb)
                     .transform(CropCircleTransformation())
-                    .into(userImage)
+                    .into(userImageView)
         } else {
             hit?.let {
                 if (it.userImageURL.isNotEmpty()) {
                     Picasso.with(this)
                             .load(hit?.userImageURL)
                             .transform(CropCircleTransformation())
-                            .into(userImage)
+                            .into(userImageView)
                 } else {
                     Picasso.with(this)
                             .load(R.drawable.memb)
                             .transform(CropCircleTransformation())
-                            .into(userImage)
+                            .into(userImageView)
                 }
             }
         }
