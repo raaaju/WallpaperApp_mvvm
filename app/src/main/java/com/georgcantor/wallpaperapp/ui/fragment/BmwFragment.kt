@@ -18,7 +18,6 @@ import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.NetworkUtilities
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
@@ -47,7 +46,6 @@ class BmwFragment : Fragment() {
     }
 
     private var wallpAdapter: WallpAdapter? = null
-    private var networkUtilities: NetworkUtilities? = null
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
 
@@ -55,8 +53,7 @@ class BmwFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkUtilities = activity?.let { NetworkUtilities(it) }
-        if (!UtilityMethods.isNetworkAvailable()) {
+        if (!UtilityMethods.isNetworkAvailable) {
             Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
         }
     }
@@ -70,7 +67,7 @@ class BmwFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         val ivNoInternet = view.findViewById<ImageView>(R.id.iv_no_internet)
-        if (!networkUtilities!!.isInternetConnectionPresent) {
+        if (!UtilityMethods.isNetworkAvailable) {
             ivNoInternet.visibility = View.VISIBLE
         }
 
@@ -111,8 +108,8 @@ class BmwFragment : Fragment() {
         val httpClient = OkHttpClient.Builder()
         httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
         httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(MyApplication.getInstance()
-                .cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
+        httpClient.cache(Cache(File(MyApplication.instance?.cacheDir, "ResponsesCache"),
+                (10 * 1024 * 1024).toLong()))
         httpClient.readTimeout(60, TimeUnit.SECONDS)
         httpClient.connectTimeout(60, TimeUnit.SECONDS)
         httpClient.addInterceptor(logging)

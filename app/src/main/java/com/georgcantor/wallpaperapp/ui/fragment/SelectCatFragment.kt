@@ -56,7 +56,7 @@ class SelectCatFragment : Fragment() {
         selectCatRecyclerView.setHasFixedSize(true)
         type = arguments?.getString(EXTRA_CAT)
 
-        if (!UtilityMethods.isNetworkAvailable()) {
+        if (!UtilityMethods.isNetworkAvailable) {
             Toast.makeText(requireContext(), getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
         }
         checkScreenSize()
@@ -83,8 +83,8 @@ class SelectCatFragment : Fragment() {
         val httpClient = OkHttpClient.Builder()
         httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
         httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(MyApplication.getInstance()
-                .cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
+        httpClient.cache(Cache(File(MyApplication.instance?.cacheDir, "ResponsesCache"),
+                (10 * 1024 * 1024).toLong()))
         httpClient.readTimeout(60, TimeUnit.SECONDS)
         httpClient.connectTimeout(60, TimeUnit.SECONDS)
         httpClient.addInterceptor(logging)

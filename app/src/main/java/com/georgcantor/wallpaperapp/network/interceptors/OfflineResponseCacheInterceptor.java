@@ -26,7 +26,7 @@ public class OfflineResponseCacheInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
-        if (!UtilityMethods.isNetworkAvailable()) {
+        if (!UtilityMethods.INSTANCE.isNetworkAvailable()) {
             request = request.newBuilder()
                     .removeHeader("Pragma")
                     .header("Cache-Control",

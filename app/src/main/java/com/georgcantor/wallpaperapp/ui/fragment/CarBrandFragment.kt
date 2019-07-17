@@ -50,7 +50,7 @@ class CarBrandFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!UtilityMethods.isNetworkAvailable()) {
+        if (!UtilityMethods.isNetworkAvailable) {
             Toast.makeText(requireContext(), getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
         }
 
@@ -82,8 +82,8 @@ class CarBrandFragment : Fragment() {
         val httpClient = OkHttpClient.Builder()
         httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
         httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(MyApplication.getInstance()
-                .cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
+        httpClient.cache(Cache(File(MyApplication.instance?.cacheDir, "ResponsesCache"),
+                (10 * 1024 * 1024).toLong()))
         httpClient.readTimeout(60, TimeUnit.SECONDS)
         httpClient.connectTimeout(60, TimeUnit.SECONDS)
         httpClient.addInterceptor(logging)

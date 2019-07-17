@@ -56,7 +56,7 @@ class MercedesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         networkUtilities = activity?.let { NetworkUtilities(it) }
-        if (!UtilityMethods.isNetworkAvailable()) {
+        if (!UtilityMethods.isNetworkAvailable) {
             Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
         }
     }
@@ -108,8 +108,8 @@ class MercedesFragment : Fragment() {
         val httpClient = OkHttpClient.Builder()
         httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
         httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(MyApplication.getInstance()
-                .cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
+        httpClient.cache(Cache(File(MyApplication.instance?.cacheDir, "ResponsesCache"),
+                (10 * 1024 * 1024).toLong()))
         httpClient.readTimeout(60, TimeUnit.SECONDS)
         httpClient.connectTimeout(60, TimeUnit.SECONDS)
         httpClient.addInterceptor(logging)
