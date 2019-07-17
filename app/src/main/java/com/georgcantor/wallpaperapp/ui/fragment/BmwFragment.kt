@@ -117,32 +117,35 @@ class BmwFragment : Fragment() {
         httpClient.connectTimeout(60, TimeUnit.SECONDS)
         httpClient.addInterceptor(logging)
 
-        val client = ApiClient.getClient(httpClient).create(ApiService::class.java)
+        val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
         val call: Call<Pic>
-        call = client.getBmwPic(index)
-        call.enqueue(object : Callback<Pic> {
-            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                progressMain?.let { it.visibility = View.GONE }
-                try {
-                    if (!response.isSuccessful) {
-                        Log.d(getString(R.string.No_Success), response.errorBody()!!.string())
-                    } else {
-                        picResult = response.body()
-                        if (picResult != null) {
-                            wallpAdapter?.setPicList(picResult?.hits as MutableList<Hit>)
+        client?.let {
+            call = it.getBmwPic(index)
+            call.enqueue(object : Callback<Pic> {
+                override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                    progressMain?.let { it.visibility = View.GONE }
+                    try {
+                        if (!response.isSuccessful) {
+                            Log.d(getString(R.string.No_Success), response.errorBody()!!.string())
+                        } else {
+                            picResult = response.body()
+                            if (picResult != null) {
+                                wallpAdapter?.setPicList(picResult?.hits as MutableList<Hit>)
+                            }
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+
                 }
 
-            }
 
-            override fun onFailure(call: Call<Pic>, t: Throwable) {
-                progressMain?.let { it.visibility = View.GONE }
-                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<Pic>, t: Throwable) {
+                    progressMain?.let { it.visibility = View.GONE }
+                    Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun checkScreenSize() {

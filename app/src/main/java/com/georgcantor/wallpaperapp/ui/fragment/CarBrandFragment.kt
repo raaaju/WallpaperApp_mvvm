@@ -88,33 +88,35 @@ class CarBrandFragment : Fragment() {
         httpClient.connectTimeout(60, TimeUnit.SECONDS)
         httpClient.addInterceptor(logging)
 
-        val client = ApiClient.getClient(httpClient).create(ApiService::class.java)
+        val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
         val call: Call<Pic>
-        call = client.getSearchResults(type, index)
-        call.enqueue(object : Callback<Pic> {
-            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                brandProgress?.let { it.visibility = View.GONE }
-                try {
-                    if (!response.isSuccessful) {
-                        Log.d(resources.getString(R.string.No_Success),
-                                response.errorBody()?.string())
-                    } else {
-                        picResult = response.body()
-                        if (picResult != null) {
-                            adapter.setPicList(picResult?.hits as MutableList<Hit>)
+        client?.let {
+            call = it.getSearchResults(type, index)
+            call.enqueue(object : Callback<Pic> {
+                override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                    brandProgress?.let { it.visibility = View.GONE }
+                    try {
+                        if (!response.isSuccessful) {
+                            Log.d(resources.getString(R.string.No_Success),
+                                    response.errorBody()?.string())
+                        } else {
+                            picResult = response.body()
+                            if (picResult != null) {
+                                adapter.setPicList(picResult?.hits as MutableList<Hit>)
+                            }
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
-            }
 
-            override fun onFailure(call: Call<Pic>, t: Throwable) {
-                brandProgress?.let { it.visibility = View.GONE }
-                Toast.makeText(requireContext(), resources
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<Pic>, t: Throwable) {
+                    brandProgress?.let { it.visibility = View.GONE }
+                    Toast.makeText(requireContext(), resources
+                            .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun checkScreenSize() {

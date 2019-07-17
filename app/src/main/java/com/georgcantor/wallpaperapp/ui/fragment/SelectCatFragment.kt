@@ -10,17 +10,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
+import com.georgcantor.wallpaperapp.network.ApiClient
+import com.georgcantor.wallpaperapp.network.ApiService
 import com.georgcantor.wallpaperapp.network.NetworkUtilities
+import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
+import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.fragment_select_cat.*
+import okhttp3.Cache
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.util.concurrent.TimeUnit
 
 class SelectCatFragment : Fragment() {
 
@@ -67,32 +77,46 @@ class SelectCatFragment : Fragment() {
 
     private fun loadData(type: String, index: Int) {
         selectCatProgress?.let { it.visibility = View.VISIBLE }
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
 
-        val call = networkUtilities.getCall(type, index)
-        call.enqueue(object : Callback<Pic> {
-            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                selectCatProgress?.let { it.visibility = View.GONE }
-                try {
-                    if (!response.isSuccessful) {
-                        Log.d(resources.getString(R.string.No_Success),
-                                response.errorBody()?.string())
-                    } else {
-                        picResult = response.body()
-                        if (picResult != null) {
-                            adapter.setPicList(picResult?.hits as MutableList<Hit>)
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
+        httpClient.addInterceptor(OfflineResponseCacheInterceptor())
+        httpClient.cache(Cache(File(MyApplication.getInstance()
+                .cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
+        httpClient.readTimeout(60, TimeUnit.SECONDS)
+        httpClient.connectTimeout(60, TimeUnit.SECONDS)
+        httpClient.addInterceptor(logging)
+
+        val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
+        client?.let {
+            val call = it.getCatPic(type, index)
+            call.enqueue(object : Callback<Pic> {
+                override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                    selectCatProgress?.let { it.visibility = View.GONE }
+                    try {
+                        if (!response.isSuccessful) {
+                            Log.d(resources.getString(R.string.No_Success),
+                                    response.errorBody()?.string())
+                        } else {
+                            picResult = response.body()
+                            if (picResult != null) {
+                                adapter.setPicList(picResult?.hits as MutableList<Hit>)
+                            }
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
-            }
 
-            override fun onFailure(call: Call<Pic>, t: Throwable) {
-                selectCatProgress?.let { it.visibility = View.GONE }
-                Toast.makeText(requireContext(), resources.getString(R.string.wrong_message),
-                        Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<Pic>, t: Throwable) {
+                    selectCatProgress?.let { it.visibility = View.GONE }
+                    Toast.makeText(requireContext(), resources.getString(R.string.wrong_message),
+                            Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun checkScreenSize() {
