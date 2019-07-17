@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_made_with_love"
+                android:id="@+id/developedByTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -35,7 +35,7 @@
             <include layout="@layout/card_info" />
 
             <TextView
-                android:id="@+id/tv_try_my_new_app"
+                android:id="@+id/tryAppTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -51,6 +51,7 @@
             <include layout="@layout/card_music_app" />
 
         </LinearLayout>
+
     </ScrollView>
 
 </android.support.v4.widget.NestedScrollView>

@@ -5,14 +5,16 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.widget.TextView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.R
+import kotlinx.android.synthetic.main.about_header.*
+import kotlinx.android.synthetic.main.activity_about.*
+import kotlinx.android.synthetic.main.card_info.*
+import kotlinx.android.synthetic.main.card_music_app.*
+import kotlinx.android.synthetic.main.card_new_app.*
+import kotlinx.android.synthetic.main.content_about.*
 
 class AboutActivity : AppCompatActivity() {
 
@@ -26,17 +28,13 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar_layout_about)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(aboutToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab_about)
-        fab.setOnClickListener { sendEmail() }
+        aboutFab.setOnClickListener { sendEmail() }
 
-        val appBarLayout = findViewById<AppBarLayout>(R.id.app_bar_about)
-        appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-
+        aboutAppBar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             var isShow = false
             var scrollRange = -1
 
@@ -53,38 +51,26 @@ class AboutActivity : AppCompatActivity() {
         })
 
         val assetManager = this.applicationContext.assets
-        val typeface = Typeface.createFromAsset(assetManager,
-                "fonts/Montserrat-Regular.ttf")
+        val typeface = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf")
 
-        val appDescription = findViewById<TextView>(R.id.about_header_app_description)
-        appDescription.typeface = typeface
+        aboutHeaderDescription.typeface = typeface
 
-        val cardInfo = findViewById<TextView>(R.id.tv_card_info)
-        cardInfo.typeface = typeface
+        infoTextView.typeface = typeface
 
-        val madeWithLove = findViewById<TextView>(R.id.tv_made_with_love)
-        madeWithLove.typeface = typeface
+        developedByTextView.typeface = typeface
 
-        val tryMyApp = findViewById<TextView>(R.id.tv_try_my_new_app)
-        tryMyApp.typeface = typeface
+        tryAppTextView.typeface = typeface
 
-        val cardViewInfo = findViewById<CardView>(R.id.card_info)
-        val cardViewNewApp = findViewById<CardView>(R.id.card_new_app)
-        val cardViewMusicApp = findViewById<CardView>(R.id.card_music_app)
-
-        cardViewInfo.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL))
-            startActivity(browserIntent)
+        infoCardView.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL)))
         }
 
-        cardViewNewApp.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(NEWS_URL))
-            startActivity(browserIntent)
+        newsAppCardView.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(NEWS_URL)))
         }
 
-        cardViewMusicApp.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(MUSIC_URL))
-            startActivity(browserIntent)
+        playerAppCardView.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(MUSIC_URL)))
         }
     }
 
@@ -112,10 +98,8 @@ class AboutActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(emailIntent, this.resources.getString(R.string.message_choose_title)))
             finish()
         } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(this@AboutActivity,
-                    "There is no email client installed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onBackPressed() {

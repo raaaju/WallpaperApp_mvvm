@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,14 +9,14 @@
     tools:context=".ui.AboutActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_about"
+        android:id="@+id/aboutAppBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_layout_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout_about_collapsing"
+            android:id="@+id/aboutToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -29,7 +30,7 @@
                 app:layout_collapseParallaxMultiplier="0.7" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_layout_about"
+                android:id="@+id/aboutToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
@@ -37,16 +38,17 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_about" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_about"
+        android:id="@+id/aboutFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar_about"
+        app:layout_anchor="@id/aboutAppBar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_email_black_24dp" />
 
