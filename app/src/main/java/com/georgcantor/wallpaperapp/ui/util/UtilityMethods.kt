@@ -11,6 +11,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.georgcantor.wallpaperapp.MyApplication
 
+
 object UtilityMethods {
 
     val isNetworkAvailable: Boolean
@@ -19,7 +20,7 @@ object UtilityMethods {
                     MyApplication.instance?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             return connectivityManager.activeNetworkInfo != null
-                    && connectivityManager.activeNetworkInfo.isConnectedOrConnecting
+                    && connectivityManager.activeNetworkInfo.isConnected
         }
 
     fun getPath(context: Context, uri: Uri): String? {

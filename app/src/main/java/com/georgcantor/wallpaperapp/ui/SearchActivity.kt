@@ -83,7 +83,7 @@ class SearchActivity : AppCompatActivity() {
         if (supportActionBar != null) {
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
-        toolbar_search.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
+        toolbar_search.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
         toolbar_search.setNavigationOnClickListener {
             finish()
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)

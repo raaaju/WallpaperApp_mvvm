@@ -82,7 +82,7 @@ class PicDetailActivity : AppCompatActivity() {
                     }
                 }
                 if (UtilityMethods.isNetworkAvailable) {
-                    val builder = AlertDialog.Builder(this@PicDetailActivity)
+                    val builder = AlertDialog.Builder(this)
                     builder.setTitle(R.string.download)
                     builder.setIcon(R.drawable.ic_download)
                     builder.setMessage(R.string.choose_format)
@@ -97,8 +97,7 @@ class PicDetailActivity : AppCompatActivity() {
                                 fabDownload.setImageDrawable(VectorDrawableCompat.create(resources,
                                         R.drawable.ic_photo, null))
                             } else {
-                                Toast.makeText(this@PicDetailActivity, resources
-                                        .getString(R.string.image_downloaded),
+                                Toast.makeText(this, resources.getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
                                 progressBarDetail.visibility = View.GONE
                             }
@@ -113,8 +112,8 @@ class PicDetailActivity : AppCompatActivity() {
                                 val uri = hit?.imageURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fabDownload.setImageDrawable(applicationContext.resources
-                                        .getDrawable(R.drawable.ic_photo))
+                                fabDownload.setImageDrawable(ContextCompat
+                                        .getDrawable(this, R.drawable.ic_photo))
                             } else {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
@@ -131,11 +130,10 @@ class PicDetailActivity : AppCompatActivity() {
                                 val uri = hit?.fullHDURL
                                 val imageUri = Uri.parse(uri)
                                 downloadData(imageUri)
-                                fabDownload.setImageDrawable(applicationContext.resources
-                                        .getDrawable(R.drawable.ic_photo))
+                                fabDownload.setImageDrawable(ContextCompat
+                                        .getDrawable(this, R.drawable.ic_photo))
                             } else {
-                                Toast.makeText(this@PicDetailActivity, resources
-                                        .getString(R.string.image_downloaded),
+                                Toast.makeText(this, resources.getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
                                 progressBarDetail.visibility = View.GONE
                             }
@@ -143,8 +141,7 @@ class PicDetailActivity : AppCompatActivity() {
                     }
                     builder.create().show()
                 } else {
-                    Toast.makeText(this@PicDetailActivity, resources
-                            .getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, resources.getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
                 }
 
             } else {
@@ -197,11 +194,9 @@ class PicDetailActivity : AppCompatActivity() {
         val wm = WallpaperManager.getInstance(this)
         try {
             wm.setBitmap(decodedSampleBitmap)
-            Toast.makeText(this@PicDetailActivity,
-                    getString(R.string.wallpaper_is_install), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.wallpaper_is_install), Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            Toast.makeText(this@PicDetailActivity,
-                    getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -274,8 +269,7 @@ class PicDetailActivity : AppCompatActivity() {
 
                         override fun onError() {
                             progressBarDetail.visibility = View.GONE
-                            Toast.makeText(this@PicDetailActivity,
-                                    getString(R.string.something_went_wrong),
+                            Toast.makeText(this@PicDetailActivity, getString(R.string.something_went_wrong),
                                     Toast.LENGTH_SHORT).show()
                         }
                     })
@@ -423,7 +417,7 @@ class PicDetailActivity : AppCompatActivity() {
 
     private fun restartActivity() {
         hit = intent.getParcelableExtra(EXTRA_PIC)
-        val intent = Intent(this@PicDetailActivity, PicDetailActivity::class.java)
+        val intent = Intent(this, PicDetailActivity::class.java)
         intent.putExtra(EXTRA_PIC, hit)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
