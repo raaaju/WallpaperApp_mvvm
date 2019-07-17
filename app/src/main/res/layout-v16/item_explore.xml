@@ -23,7 +23,7 @@
             android:background="@color/scrim_30percent" />
 
         <TextView
-            android:id="@+id/exptext"
+            android:id="@+id/expText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

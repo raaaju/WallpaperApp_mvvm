@@ -9,11 +9,6 @@ import com.georgcantor.wallpaperapp.R
 
 class ExploreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    var category: ImageView
-    var categoryName: TextView
-
-    init {
-        category = itemView.findViewById(R.id.explore_view)
-        categoryName = itemView.findViewById(R.id.exptext)
-    }
+    var category: ImageView = itemView.findViewById(R.id.explore_view)
+    var categoryName: TextView = itemView.findViewById(R.id.expText)
 }

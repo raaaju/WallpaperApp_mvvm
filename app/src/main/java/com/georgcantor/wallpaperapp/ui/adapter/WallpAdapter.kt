@@ -49,19 +49,21 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
     }
 
     override fun onBindViewHolder(holder: WallpViewHolder, position: Int) {
-        val photo = this.hit!![position]
-        val layoutParams = holder.discWallp.layoutParams as RelativeLayout.LayoutParams
-        val height = photo.previewHeight.toFloat()
-        val width = photo.previewWidth.toFloat()
-        val ratio = height / width
-        layoutParams.height = (layoutParams.width * ratio).toInt()
-        holder.discWallp.layoutParams = layoutParams
-        holder.discWallp.setRatio(ratio)
+        this.hit?.let {
+            val photo = it[position]
+            val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
+            val height = photo.previewHeight.toFloat()
+            val width = photo.previewWidth.toFloat()
+            val ratio = height / width
+            layoutParams.height = (layoutParams.width * ratio).toInt()
+            holder.imageView.layoutParams = layoutParams
+            holder.imageView.setRatio(ratio)
 
-        Picasso.with(context)
-                .load(photo.webformatURL)
-                .placeholder(R.drawable.plh)
-                .into(holder.discWallp)
+            Picasso.with(context)
+                    .load(photo.webformatURL)
+                    .placeholder(R.drawable.plh)
+                    .into(holder.imageView)
+        }
     }
 
     override fun getItemCount(): Int {

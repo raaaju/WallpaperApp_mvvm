@@ -11,10 +11,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.georgcantor.wallpaperapp.MyApplication
 
-/**
- * Created by Alex on 20.11.2017.
- */
-
 object UtilityMethods {
 
     val isNetworkAvailable: Boolean
@@ -27,9 +23,7 @@ object UtilityMethods {
         }
 
     fun getPath(context: Context, uri: Uri): String? {
-        // DocumentProvider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
-
             when {
                 isExternalStorageDocument(uri) -> {
                     val docId = DocumentsContract.getDocumentId(uri)
@@ -47,7 +41,6 @@ object UtilityMethods {
                         }
                         System.getenv(storageDefinition) + "/" + split[1]
                     }
-
                 }
                 isDownloadsDocument(uri) -> {
                     val id = DocumentsContract.getDocumentId(uri)
