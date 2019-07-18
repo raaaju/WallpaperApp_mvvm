@@ -4,13 +4,13 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
+import kotlinx.android.synthetic.main.fragment_category.*
 import java.util.*
 
 class CategoryFragment : Fragment() {
@@ -31,21 +31,23 @@ class CategoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_category, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecyclerView)
-        recyclerView.setHasFixedSize(true)
-        checkScreenSize()
-        recyclerView.layoutManager = GridLayoutManager(activity, columnNo)
-        val categoryAdapter = CategoryAdapter(requireContext(), requireActivity().supportFragmentManager)
 
-        populate()
-        categoryAdapter.setCategoryList(categoryList)
-        recyclerView.adapter = categoryAdapter
-
-        return view
+        return inflater.inflate(R.layout.fragment_category, container, false)
     }
 
-    private fun populate() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        categoryRecyclerView.setHasFixedSize(true)
+        checkScreenSize()
+        categoryRecyclerView.layoutManager = GridLayoutManager(activity, columnNo)
+        val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
+
+        addToList()
+        categoryAdapter.setCategoryList(categoryList)
+        categoryRecyclerView.adapter = categoryAdapter
+    }
+
+    private fun addToList() {
         categoryList.add(Category(resources.getString(R.string.Animals), resources.getString(R.string.animals)))
         categoryList.add(Category(resources.getString(R.string.Textures), resources.getString(R.string.backgrounds)))
         categoryList.add(Category(resources.getString(R.string.Architecture), resources.getString(R.string.buildings)))

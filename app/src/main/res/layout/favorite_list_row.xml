@@ -34,7 +34,7 @@
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/timestamp"
+            android:id="@+id/timestampTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imgFavorite"

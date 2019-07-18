@@ -17,6 +17,7 @@ import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.db.Favorite
 import com.georgcantor.wallpaperapp.ui.FavoriteActivity
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.favorite_list_row.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,8 +55,8 @@ class FavoriteAdapter(private val context: Context,
             row = inflater.inflate(layout, null)
 
             if (row != null) {
-                holder.textView = row.findViewById(R.id.timestamp)
-                holder.imageView = row.findViewById(R.id.imgFavorite)
+                holder.textView = row.timestampTextView
+                holder.imageView = row.imgFavorite
                 row.tag = holder
             }
         } else {
