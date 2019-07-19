@@ -4,6 +4,9 @@ import android.app.Application
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.ui.MainActivity
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
+import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
+import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
+import com.georgcantor.wallpaperapp.ui.fragment.SelectCatFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -25,4 +28,10 @@ interface ApiComponent : AndroidInjector<MyApplication> {
     fun inject(mainActivity: MainActivity)
 
     fun inject(bmwFragment: BmwFragment)
+
+    fun inject(mercedesFragment: MercedesFragment)
+
+    fun inject(selectCatFragment: SelectCatFragment)
+
+    fun inject(carBrandFragment: CarBrandFragment)
 }

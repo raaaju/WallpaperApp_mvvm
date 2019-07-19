@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.fragment
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,22 +15,16 @@ import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
-import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.fragment_select_cat.*
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.util.concurrent.TimeUnit
+import retrofit2.Retrofit
+import javax.inject.Inject
 
 class SelectCatFragment : Fragment() {
 
@@ -37,10 +32,20 @@ class SelectCatFragment : Fragment() {
         const val EXTRA_CAT = "category"
     }
 
+    @Inject
+    lateinit var retrofit: Retrofit
+
     lateinit var adapter: WallpAdapter
     private var type: String? = null
     private var picResult: Pic? = Pic()
     private var columnNo: Int = 0
+
+    override fun onAttach(context: Context?) {
+        (MyApplication.instance as MyApplication)
+                .getApiComponent()
+                .inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -74,19 +79,8 @@ class SelectCatFragment : Fragment() {
 
     private fun loadData(type: String, index: Int) {
         selectCatProgress?.let { it.visibility = View.VISIBLE }
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
 
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
-        httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(MyApplication.instance?.cacheDir, "ResponsesCache"),
-                (10 * 1024 * 1024).toLong()))
-        httpClient.readTimeout(60, TimeUnit.SECONDS)
-        httpClient.connectTimeout(60, TimeUnit.SECONDS)
-        httpClient.addInterceptor(logging)
-
-        val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
+        val client = retrofit.create(ApiService::class.java)
         client?.let {
             val call = it.getCatPic(type, index)
             call.enqueue(object : Callback<Pic> {

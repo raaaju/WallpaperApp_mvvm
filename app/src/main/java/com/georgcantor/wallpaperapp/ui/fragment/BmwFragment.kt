@@ -78,7 +78,7 @@ class BmwFragment : Fragment() {
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout?.setOnRefreshListener {
-            loadNextDataFromApi(1)
+            loadData(1)
             swipeRefreshLayout?.isRefreshing = false
         }
 
@@ -89,7 +89,7 @@ class BmwFragment : Fragment() {
 
         val scrollListener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                loadNextDataFromApi(page)
+                loadData(page)
             }
         }
         scrollListener.resetState()
@@ -102,10 +102,10 @@ class BmwFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadNextDataFromApi(1)
+        loadData(1)
     }
 
-    private fun loadNextDataFromApi(index: Int) {
+    private fun loadData(index: Int) {
         progressMain?.let { it.visibility = View.VISIBLE }
 
         val client = retrofit.create(ApiService::class.java)

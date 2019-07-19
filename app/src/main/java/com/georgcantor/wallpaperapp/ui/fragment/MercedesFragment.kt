@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.fragment
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -16,22 +17,16 @@ import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
-import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.fragment_mercedes.*
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.util.concurrent.TimeUnit
+import retrofit2.Retrofit
+import javax.inject.Inject
 
 class MercedesFragment : Fragment() {
 
@@ -45,11 +40,21 @@ class MercedesFragment : Fragment() {
         }
     }
 
+    @Inject
+    lateinit var retrofit: Retrofit
+
     private var wallpAdapter: WallpAdapter? = null
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
 
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
+
+    override fun onAttach(context: Context?) {
+        (MyApplication.instance as MyApplication)
+                .getApiComponent()
+                .inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +78,7 @@ class MercedesFragment : Fragment() {
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         mSwipeRefreshLayout?.setOnRefreshListener {
-            loadNextDataFromApi(1)
+            loadData(1)
             mSwipeRefreshLayout?.isRefreshing = false
         }
 
@@ -82,7 +87,7 @@ class MercedesFragment : Fragment() {
         recyclerView.layoutManager = staggeredGridLayoutManager
         val scrollListener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                loadNextDataFromApi(page)
+                loadData(page)
             }
         }
         scrollListener.resetState()
@@ -94,24 +99,13 @@ class MercedesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadNextDataFromApi(1)
+        loadData(1)
     }
 
-    private fun loadNextDataFromApi(index: Int) {
+    private fun loadData(index: Int) {
         progressMain?.let { it.visibility = View.VISIBLE }
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
 
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
-        httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(MyApplication.instance?.cacheDir, "ResponsesCache"),
-                (10 * 1024 * 1024).toLong()))
-        httpClient.readTimeout(60, TimeUnit.SECONDS)
-        httpClient.connectTimeout(60, TimeUnit.SECONDS)
-        httpClient.addInterceptor(logging)
-
-        val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
+        val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
         client?.let {
             call = client.getMercedesPic(index)
