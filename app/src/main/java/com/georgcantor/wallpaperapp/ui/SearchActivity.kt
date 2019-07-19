@@ -26,24 +26,19 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.network.ApiClient
 import com.georgcantor.wallpaperapp.network.ApiService
-import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
-import com.georgcantor.wallpaperapp.network.interceptors.ResponseCacheInterceptor
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.util.concurrent.TimeUnit
+import retrofit2.Retrofit
+import javax.inject.Inject
 
 class SearchActivity : AppCompatActivity() {
 
@@ -51,6 +46,9 @@ class SearchActivity : AppCompatActivity() {
         private const val REQUEST_CODE = 111
         private const val PERMISSION_REQUEST_CODE = 222
     }
+
+    @Inject
+    lateinit var retrofit: Retrofit
 
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
@@ -63,6 +61,10 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_search)
+
+        (MyApplication.instance as MyApplication)
+                .getApiComponent()
+                .inject(this)
 
         createToolbar()
         initViews()
@@ -112,18 +114,8 @@ class SearchActivity : AppCompatActivity() {
     fun searchEverything(search: String, index: Int) {
         swipe_refresh_layout_search.isEnabled = true
         swipe_refresh_layout_search.isRefreshing = true
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addNetworkInterceptor(ResponseCacheInterceptor())
-        httpClient.addInterceptor(OfflineResponseCacheInterceptor())
-        httpClient.cache(Cache(File(this@SearchActivity
-                .cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
-        httpClient.readTimeout(60, TimeUnit.SECONDS)
-        httpClient.connectTimeout(60, TimeUnit.SECONDS)
-        httpClient.addInterceptor(logging)
 
-        val client = ApiClient.getClient(httpClient)?.create(ApiService::class.java)
+        val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
         client?.let {
             call = it.getSearchResults(search, index)

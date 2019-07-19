@@ -2,7 +2,7 @@ package com.georgcantor.wallpaperapp.di
 
 import android.app.Application
 import com.georgcantor.wallpaperapp.MyApplication
-import com.georgcantor.wallpaperapp.ui.MainActivity
+import com.georgcantor.wallpaperapp.ui.SearchActivity
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
@@ -25,13 +25,13 @@ interface ApiComponent : AndroidInjector<MyApplication> {
         fun build(): ApiComponent
     }
 
-    fun inject(mainActivity: MainActivity)
+    fun inject(mercedesFragment: MercedesFragment)
 
     fun inject(bmwFragment: BmwFragment)
-
-    fun inject(mercedesFragment: MercedesFragment)
 
     fun inject(selectCatFragment: SelectCatFragment)
 
     fun inject(carBrandFragment: CarBrandFragment)
+
+    fun inject(searchActivity: SearchActivity)
 }
