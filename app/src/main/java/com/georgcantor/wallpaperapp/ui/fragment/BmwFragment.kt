@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
@@ -47,8 +45,6 @@ class BmwFragment : Fragment() {
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
 
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
-
     override fun onAttach(context: Context?) {
         (MyApplication.instance as MyApplication)
                 .getApiComponent()
@@ -66,42 +62,36 @@ class BmwFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_bmw, container, false)
+    }
 
-        val view = inflater.inflate(R.layout.fragment_bmw, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.bmwRecView)
-        recyclerView.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val ivNoInternet = view.findViewById<ImageView>(R.id.iv_no_internet)
         if (!UtilityMethods.isNetworkAvailable) {
-            ivNoInternet.visibility = View.VISIBLE
+            noInternetImageView.visibility = View.VISIBLE
         }
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
-        swipeRefreshLayout?.setOnRefreshListener {
+        bmwRefreshLayout.setOnRefreshListener {
             loadData(1)
-            swipeRefreshLayout?.isRefreshing = false
+            bmwRefreshLayout.isRefreshing = false
         }
-
         checkScreenSize()
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(columnNo,
-                StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.layoutManager = staggeredGridLayoutManager
 
-        val scrollListener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+        val gridLayoutManager = StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL)
+        bmwRecyclerView.setHasFixedSize(true)
+        bmwRecyclerView.layoutManager = gridLayoutManager
+
+        val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 loadData(page)
             }
         }
         scrollListener.resetState()
-        recyclerView.addOnScrollListener(scrollListener)
+        bmwRecyclerView.addOnScrollListener(scrollListener)
         wallpAdapter = WallpAdapter(requireContext())
-        recyclerView.adapter = wallpAdapter
+        bmwRecyclerView.adapter = wallpAdapter
 
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         loadData(1)
     }
 

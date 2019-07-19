@@ -7,21 +7,21 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/iv_no_internet"
+        android:id="@+id/noInternetImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/no_internet"
-        android:src="@drawable/noic"
+        android:src="@drawable/no_internet"
         android:visibility="gone" />
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+        android:id="@+id/bmwRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/bmwRecView"
+            android:id="@+id/bmwRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

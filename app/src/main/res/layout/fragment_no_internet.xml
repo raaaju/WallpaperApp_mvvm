@@ -11,6 +11,6 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/no_internet"
-        android:src="@drawable/noic" />
+        android:src="@drawable/no_internet" />
 
 </FrameLayout>
