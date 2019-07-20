@@ -28,6 +28,11 @@ class CategoryFragment : Fragment() {
     private val categoryList = ArrayList<Category>()
     private var columnNo: Int = 0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addToList()
+    }
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,7 +47,6 @@ class CategoryFragment : Fragment() {
         categoryRecyclerView.layoutManager = GridLayoutManager(activity, columnNo)
         val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
 
-        addToList()
         categoryAdapter.setCategoryList(categoryList)
         categoryRecyclerView.adapter = categoryAdapter
     }
