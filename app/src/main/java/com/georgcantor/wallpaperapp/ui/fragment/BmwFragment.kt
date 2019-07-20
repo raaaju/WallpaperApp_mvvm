@@ -101,7 +101,7 @@ class BmwFragment : Fragment() {
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
         client?.let {
-            call = it.getBmwPic(index)
+            call = it.getPictures(requireActivity().resources.getString(R.string.bmw), index)
             call.enqueue(object : Callback<Pic> {
                 override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                     progressMain?.let { it.visibility = View.GONE }

@@ -82,7 +82,7 @@ class SelectCatFragment : Fragment() {
 
         val client = retrofit.create(ApiService::class.java)
         client?.let {
-            val call = it.getCatPic(type, index)
+            val call = it.getPictures(type, index)
             call.enqueue(object : Callback<Pic> {
                 override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                     selectCatProgress?.let { it.visibility = View.GONE }

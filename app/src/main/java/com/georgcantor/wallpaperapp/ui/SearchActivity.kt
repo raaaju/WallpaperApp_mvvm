@@ -118,7 +118,7 @@ class SearchActivity : AppCompatActivity() {
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
         client?.let {
-            call = it.getSearchResults(search, index)
+            call = it.getPictures(search, index)
             call.enqueue(object : Callback<Pic> {
 
                 override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
@@ -217,7 +217,6 @@ class SearchActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     private fun requestAudioPermission() {
