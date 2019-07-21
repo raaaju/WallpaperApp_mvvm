@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.di
 
 import android.app.Application
+import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.network.ApiService
 import com.georgcantor.wallpaperapp.network.interceptors.OfflineResponseCacheInterceptor
@@ -44,7 +45,7 @@ open class ApiModule {
     @Singleton
     open fun provideOkhttpClient(cache: Cache): OkHttpClient {
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        logging.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
         val httpClient = OkHttpClient.Builder()
         httpClient.addNetworkInterceptor(ResponseCacheInterceptor())

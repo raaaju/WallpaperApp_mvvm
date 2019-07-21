@@ -9,7 +9,6 @@
     <string name="update_dialog_title">Eine neue Version der Anwendung ist in Google Play verfügbar. Möchten Sie aktualisieren?</string>
     <string name="update_dialog_yes">Ja</string>
     <string name="update_dialog_no">Nein</string>
-    <string name="license">Lizenz</string>
     <string name="info">Info</string>
     <string name="set_as">"Festlegen als Festlegen "</string>
     <string name="download">Herunterladen</string>
@@ -37,7 +36,6 @@
     <string name="Transportation">Transport</string>
     <string name="Travel">Reise</string>
     <string name="wrong_message">Etwas ist schief gelaufen! ist schiefgelaufen</string>
-    <string name="License">Lizenz</string>
     <string name="image_downloaded">Bild bereits heruntergeladen</string>
     <string name="Set_As">Festlegen als</string>
     <string name="first_down">Bitte zuerst herunterladen</string>
