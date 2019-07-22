@@ -96,14 +96,15 @@ class MercedesFragment : Fragment() {
     }
 
     private fun loadData(index: Int) {
-        progressMain?.let { it.visibility = View.VISIBLE }
+        animationView.visibility = View.VISIBLE
+        animationView.playAnimation()
 
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
         call = client.getPictures(requireActivity().resources.getString(R.string.mercedes), index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                progressMain?.let { it.visibility = View.GONE }
+                animationView.visibility = View.GONE
                 try {
                     if (!response.isSuccessful) {
                         Log.d(context?.resources?.getString(R.string.No_Success),
@@ -120,7 +121,7 @@ class MercedesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
-                progressMain?.let { it.visibility = View.GONE }
+                animationView.visibility = View.GONE
                 Toast.makeText(context, context?.resources?.getString(R.string.wrong_message),
                         Toast.LENGTH_SHORT).show()
             }
