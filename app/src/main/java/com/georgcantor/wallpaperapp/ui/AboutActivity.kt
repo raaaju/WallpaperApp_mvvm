@@ -4,11 +4,11 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.about_header.*
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.card_info.*

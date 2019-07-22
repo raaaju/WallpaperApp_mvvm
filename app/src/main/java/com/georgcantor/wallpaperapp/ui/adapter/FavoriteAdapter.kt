@@ -5,13 +5,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.db.Favorite

@@ -3,14 +3,14 @@ package com.georgcantor.wallpaperapp.ui.fragment
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
@@ -40,7 +40,7 @@ class SelectCatFragment : Fragment() {
     private var picResult: Pic? = Pic()
     private var columnNo: Int = 0
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         (MyApplication.instance as MyApplication)
                 .getApiComponent()
                 .inject(this)
@@ -81,33 +81,31 @@ class SelectCatFragment : Fragment() {
         selectCatProgress?.let { it.visibility = View.VISIBLE }
 
         val client = retrofit.create(ApiService::class.java)
-        client?.let {
-            val call = it.getPictures(type, index)
-            call.enqueue(object : Callback<Pic> {
-                override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                    selectCatProgress?.let { it.visibility = View.GONE }
-                    try {
-                        if (!response.isSuccessful) {
-                            Log.d(resources.getString(R.string.No_Success),
-                                    response.errorBody()?.string())
-                        } else {
-                            picResult = response.body()
-                            if (picResult != null) {
-                                adapter.setPicList(picResult?.hits as MutableList<Hit>)
-                            }
+        val call = client.getPictures(type, index)
+        call.enqueue(object : Callback<Pic> {
+            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                selectCatProgress?.let { it.visibility = View.GONE }
+                try {
+                    if (!response.isSuccessful) {
+                        Log.d(resources.getString(R.string.No_Success),
+                                response.errorBody()?.string())
+                    } else {
+                        picResult = response.body()
+                        if (picResult != null) {
+                            adapter.setPicList(picResult?.hits as MutableList<Hit>)
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
+            }
 
-                override fun onFailure(call: Call<Pic>, t: Throwable) {
-                    selectCatProgress?.let { it.visibility = View.GONE }
-                    Toast.makeText(requireContext(), resources.getString(R.string.wrong_message),
-                            Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
+            override fun onFailure(call: Call<Pic>, t: Throwable) {
+                selectCatProgress?.let { it.visibility = View.GONE }
+                Toast.makeText(requireContext(), resources.getString(R.string.wrong_message),
+                        Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun checkScreenSize() {

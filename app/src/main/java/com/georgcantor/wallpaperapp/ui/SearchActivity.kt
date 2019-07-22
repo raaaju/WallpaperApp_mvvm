@@ -11,13 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.speech.RecognizerIntent
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -26,6 +19,13 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Pic
@@ -117,40 +117,38 @@ class SearchActivity : AppCompatActivity() {
 
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
-        client?.let {
-            call = it.getPictures(search, index)
-            call.enqueue(object : Callback<Pic> {
+        call = client.getPictures(search, index)
+        call.enqueue(object : Callback<Pic> {
 
-                override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                    try {
-                        if (!response.isSuccessful) {
-                            Log.d(resources.getString(R.string.No_Success),
-                                    response.errorBody()?.string())
-                        } else {
-                            picResult = response.body()
-                            picResult?.let {
-                                wallpAdapter.setPicList(it.hits)
-                                tv_no_results.visibility = View.GONE
-                                swipe_refresh_layout_search.isRefreshing = false
-                                swipe_refresh_layout_search.isEnabled = false
-                            }
-                            invalidateOptionsMenu()
-                            voiceInvisible = true
-                            editText_search.visibility = View.GONE
+            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                try {
+                    if (!response.isSuccessful) {
+                        Log.d(resources.getString(R.string.No_Success),
+                                response.errorBody()?.string())
+                    } else {
+                        picResult = response.body()
+                        picResult?.let {
+                            wallpAdapter.setPicList(it.hits)
+                            tv_no_results.visibility = View.GONE
+                            swipe_refresh_layout_search.isRefreshing = false
+                            swipe_refresh_layout_search.isEnabled = false
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                        invalidateOptionsMenu()
+                        voiceInvisible = true
+                        editText_search.visibility = View.GONE
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
+            }
 
-                override fun onFailure(call: Call<Pic>, t: Throwable) {
-                    Toast.makeText(this@SearchActivity, resources
-                            .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-                    swipe_refresh_layout_search.isRefreshing = false
-                    swipe_refresh_layout_search.isEnabled = false
-                }
-            })
-        }
+            override fun onFailure(call: Call<Pic>, t: Throwable) {
+                Toast.makeText(this@SearchActivity, resources
+                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+                swipe_refresh_layout_search.isRefreshing = false
+                swipe_refresh_layout_search.isEnabled = false
+            }
+        })
     }
 
     private fun checkScreenSize() {

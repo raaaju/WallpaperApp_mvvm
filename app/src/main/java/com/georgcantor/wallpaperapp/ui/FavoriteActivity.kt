@@ -1,9 +1,9 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.db.Favorite

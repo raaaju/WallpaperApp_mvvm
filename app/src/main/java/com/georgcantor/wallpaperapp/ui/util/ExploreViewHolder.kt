@@ -1,9 +1,9 @@
 package com.georgcantor.wallpaperapp.ui.util
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_explore.view.*
 
 class ExploreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

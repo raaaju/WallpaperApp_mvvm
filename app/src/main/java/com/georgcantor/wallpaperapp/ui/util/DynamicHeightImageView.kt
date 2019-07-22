@@ -2,8 +2,9 @@ package com.georgcantor.wallpaperapp.ui.util
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatImageView
 
-class DynamicHeightImageView : android.support.v7.widget.AppCompatImageView {
+class DynamicHeightImageView : AppCompatImageView {
 
     private var whRatio = 0f
 
