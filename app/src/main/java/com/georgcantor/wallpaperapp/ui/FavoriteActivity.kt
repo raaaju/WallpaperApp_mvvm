@@ -37,9 +37,10 @@ class FavoriteActivity : AppCompatActivity() {
     private fun toggleEmptyHistory() {
         db?.let {
             if (it.historyCount > 0) {
-                emptyTextView.visibility = View.GONE
+                emptyAnimationView.visibility = View.GONE
             } else {
-                emptyTextView.visibility = View.VISIBLE
+                emptyAnimationView.visibility = View.VISIBLE
+                emptyAnimationView.playAnimation()
             }
         }
     }
