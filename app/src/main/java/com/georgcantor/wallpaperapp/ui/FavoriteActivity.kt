@@ -1,6 +1,8 @@
 package com.georgcantor.wallpaperapp.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -50,12 +52,34 @@ class FavoriteActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_favorite, menu)
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+            }
+            R.id.action_remove_all -> {
+                db?.let {
+                    if (it.historyCount > 0) {
+                        it.deleteAll()
+                        recreateActivity()
+                    }
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun recreateActivity() {
+        val intent = Intent(this, FavoriteActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
     }
 }

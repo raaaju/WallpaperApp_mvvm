@@ -7,10 +7,11 @@ import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.util.*
+
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
-                                                          DATABASE_NAME,
-                                                          null,
-                                                          DATABASE_VERSION) {
+        DATABASE_NAME,
+        null,
+        DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_VERSION = 2
@@ -78,6 +79,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
         val db = this.writableDatabase
         db.delete(Favorite.TABLE_NAME, Favorite.COLUMN_URL + " = ?", arrayOf(imageUrl))
         db.close()
+    }
+
+    fun deleteAll() {
+        val db = this.writableDatabase
+        db.delete(Favorite.TABLE_NAME, null, null)
     }
 
     fun containFav(imageUrl: String): Boolean {
