@@ -78,14 +78,14 @@ class SelectCatFragment : Fragment() {
     }
 
     private fun loadData(type: String, index: Int) {
-        catAnimationView.visibility = View.VISIBLE
-        catAnimationView.playAnimation()
+        catAnimationView?.visibility = View.VISIBLE
+        catAnimationView?.playAnimation()
 
         val client = retrofit.create(ApiService::class.java)
         val call = client.getPictures(type, index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                catAnimationView.visibility = View.GONE
+                catAnimationView?.visibility = View.GONE
                 try {
                     if (!response.isSuccessful) {
                         Log.d(resources.getString(R.string.No_Success),
@@ -102,7 +102,7 @@ class SelectCatFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
-                catAnimationView.visibility = View.GONE
+                catAnimationView?.visibility = View.GONE
                 Toast.makeText(requireContext(), resources.getString(R.string.wrong_message),
                         Toast.LENGTH_SHORT).show()
             }
