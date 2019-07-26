@@ -14,7 +14,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
         DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
         private const val DATABASE_NAME = "favorite_db"
     }
 
@@ -33,6 +33,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
                     favorite.id = cursor.getInt(cursor.getColumnIndex(Favorite.COLUMN_ID))
                     favorite.imageUrl = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_URL))
                     favorite.hdUrl = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_HD_URL))
+                    favorite.hit = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_HIT))
                     favorite.timestamp = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_TIMESTAMP))
 
                     favoriteList.add(favorite)
@@ -63,11 +64,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
         onCreate(db)
     }
 
-    fun insertToFavorites(imageUrl: String, hdUrl: String): Long {
+    fun insertToFavorites(imageUrl: String, hdUrl: String, hit: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(Favorite.COLUMN_URL, imageUrl)
         values.put(Favorite.COLUMN_HD_URL, hdUrl)
+        values.put(Favorite.COLUMN_HIT, hit)
 
         val id = db.insert(Favorite.TABLE_NAME, null, values)
         db.close()

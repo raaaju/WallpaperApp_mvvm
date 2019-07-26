@@ -33,6 +33,7 @@ import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -318,7 +319,7 @@ class PicDetailActivity : AppCompatActivity() {
             when (item.itemId) {
                 android.R.id.home -> onBackPressed()
                 R.id.action_add_to_fav -> if (!db.containFav(hit?.previewURL.toString())) {
-                    addToFavorite(hit?.previewURL.toString(), hit?.pageURL.toString())
+                    hit?.let { addToFavorite(it.previewURL.toString(), it.pageURL.toString(), it) }
                     item.setIcon(R.drawable.ic_star_red_24dp)
                     Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show()
                 } else {
@@ -423,8 +424,10 @@ class PicDetailActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun addToFavorite(imageUrl: String, hdUrl: String) {
-        db?.insertToFavorites(imageUrl, hdUrl)
+    private fun addToFavorite(imageUrl: String, hdUrl: String, hit: Hit) {
+        val gson = Gson()
+        val toStoreObject = gson.toJson(hit)
+        db?.insertToFavorites(imageUrl, hdUrl, toStoreObject)
     }
 
     override fun onBackPressed() {
