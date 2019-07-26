@@ -82,12 +82,14 @@ class CarBrandFragment : Fragment() {
     private fun loadData(index: Int) {
         brandAnimationView?.visibility = View.VISIBLE
         brandAnimationView?.playAnimation()
+        brandAnimationView?.loop(true)
 
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
         call = client.getPictures(type ?: "", index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+                brandAnimationView?.loop(false)
                 brandAnimationView?.visibility = View.GONE
                 try {
                     if (!response.isSuccessful) {
@@ -105,6 +107,7 @@ class CarBrandFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Pic>, t: Throwable) {
+                brandAnimationView?.loop(false)
                 brandAnimationView?.visibility = View.GONE
                 Toast.makeText(requireContext(), resources
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
