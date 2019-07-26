@@ -125,11 +125,12 @@ class SearchActivity : AppCompatActivity() {
                     if (!response.isSuccessful) {
                         Log.d(resources.getString(R.string.No_Success),
                                 response.errorBody()?.string())
+                        searchAnimationView.visibility = View.VISIBLE
+                        searchAnimationView.playAnimation()
                     } else {
                         picResult = response.body()
                         picResult?.let {
                             wallpAdapter.setPicList(it.hits)
-                            tv_no_results.visibility = View.GONE
                             swipe_refresh_layout_search.isRefreshing = false
                             swipe_refresh_layout_search.isEnabled = false
                         }
@@ -139,6 +140,8 @@ class SearchActivity : AppCompatActivity() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    searchAnimationView.visibility = View.VISIBLE
+                    searchAnimationView.playAnimation()
                 }
             }
 
@@ -147,6 +150,8 @@ class SearchActivity : AppCompatActivity() {
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
                 swipe_refresh_layout_search.isRefreshing = false
                 swipe_refresh_layout_search.isEnabled = false
+                searchAnimationView.visibility = View.VISIBLE
+                searchAnimationView.playAnimation()
             }
         })
     }
