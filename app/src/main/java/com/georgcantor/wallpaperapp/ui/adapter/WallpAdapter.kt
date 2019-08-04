@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
-import com.georgcantor.wallpaperapp.ui.util.WallpViewHolder
+import com.georgcantor.wallpaperapp.ui.adapter.holder.WallpViewHolder
 import com.squareup.picasso.Picasso
 import java.util.*
 

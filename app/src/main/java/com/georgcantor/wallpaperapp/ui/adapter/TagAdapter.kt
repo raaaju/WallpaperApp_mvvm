@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.util.TagViewHolder
+import com.georgcantor.wallpaperapp.ui.adapter.holder.TagViewHolder
 import java.util.*
 
 class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHolder>() {

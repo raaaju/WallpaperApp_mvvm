@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.fragment.SelectCatFragment
-import com.georgcantor.wallpaperapp.ui.util.ExploreViewHolder
+import com.georgcantor.wallpaperapp.ui.adapter.holder.ExploreViewHolder
 import java.util.*
 
 class CategoryAdapter(private val context: Context,
