@@ -30,9 +30,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
     }
 
-    private var doubleTap = false
+    private lateinit var mercedesFragment: Fragment
+    private lateinit var bmwFragment: Fragment
+    private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
+
     private lateinit var bundle: Bundle
+
+    private var doubleTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.frame_container, MercedesFragment())
                 .commit()
 
+        mercedesFragment = MercedesFragment.newInstance()
+        bmwFragment = BmwFragment.newInstance()
+        categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
 
         bundle = Bundle()
@@ -64,20 +72,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             when (item.itemId) {
                 R.id.nav_mercedes -> {
                     toolbar.title = this.resources.getString(R.string.mercedes)
-                    val fragment = MercedesFragment.newInstance()
-                    openFragment(fragment, "mercedes")
+                    openFragment(mercedesFragment, "mercedes")
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_bmw -> {
                     toolbar.title = this.resources.getString(R.string.bmw)
-                    val fragment = BmwFragment.newInstance()
-                    openFragment(fragment, "bmw")
+                    openFragment(bmwFragment, "bmw")
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_gallery -> {
                     toolbar.title = this.resources.getString(R.string.gallery)
-                    val fragment = CategoryFragment.newInstance()
-                    openFragment(fragment, "gallery")
+                    openFragment(categoryFragment, "gallery")
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -92,10 +97,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openFragment(fragment: Fragment, tag: String) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.remove(fragment)
-        transaction.replace(R.id.frame_container, fragment)
-        transaction.addToBackStack(tag)
-        transaction.commit()
+        if (fragment == brandFragment) transaction.remove(fragment)
+
+        val lastIndex = supportFragmentManager.fragments.lastIndex
+        val current = supportFragmentManager.fragments[lastIndex]
+
+        if (fragment == current && fragment != brandFragment) {
+            return
+        } else {
+            transaction.replace(R.id.frame_container, fragment)
+            transaction.addToBackStack(tag)
+            transaction.commit()
+        }
     }
 
     public override fun onStart() {
@@ -203,7 +216,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (stackEntryCount == 0) {
             when {
                 drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
-                doubleTap -> closeApp()
+                doubleTap -> super.onBackPressed()
                 else -> {
                     Toast.makeText(this, this.resources.getString(R.string.press_back),
                             Toast.LENGTH_SHORT).show()
@@ -215,9 +228,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             super.onBackPressed()
         }
-    }
-
-    private fun closeApp() {
-        finish()
     }
 }
