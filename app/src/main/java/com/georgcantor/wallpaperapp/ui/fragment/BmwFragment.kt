@@ -17,6 +17,7 @@ import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiService
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_bmw.*
@@ -93,15 +94,8 @@ class BmwFragment : Fragment() {
         wallpAdapter = WallpAdapter(requireContext())
         bmwRecyclerView.adapter = wallpAdapter
 
-        bmwRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0 && requireActivity().navigation.isShown) {
-                    requireActivity().navigation?.visibility = View.GONE
-                } else if (dy < 0) {
-                    requireActivity().navigation?.visibility = View.VISIBLE
-                }
-            }
-        })
+        val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
+        bmwRecyclerView.addOnScrollListener(hideScrollListener)
 
         loadData(1)
     }
