@@ -12,8 +12,8 @@
     android:layout_marginRight="@dimen/card_layout_margin"
     android:clickable="true"
     android:focusable="true"
-    card_view:cardBackgroundColor="@color/cardview_light_background"
-    card_view:cardCornerRadius="@dimen/card_layout_corner_radius"
+    card_view:cardBackgroundColor="@color/colorPrimary"
+    card_view:cardCornerRadius="0dp"
     card_view:cardElevation="@dimen/card_layout_elevation">
 
     <RelativeLayout
