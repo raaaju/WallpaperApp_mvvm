@@ -19,6 +19,7 @@ import com.georgcantor.wallpaperapp.network.ApiService
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_car_brand.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -77,6 +78,16 @@ class CarBrandFragment : Fragment() {
         brandRecyclerView.addOnScrollListener(listener)
         adapter = WallpAdapter(requireContext())
         brandRecyclerView.adapter = adapter
+
+        brandRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && requireActivity().navigation.isShown) {
+                    requireActivity().navigation?.visibility = View.GONE
+                } else if (dy < 0) {
+                    requireActivity().navigation?.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     private fun loadData(index: Int) {

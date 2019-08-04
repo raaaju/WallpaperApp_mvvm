@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_category.*
 import java.util.*
 
@@ -49,6 +51,16 @@ class CategoryFragment : Fragment() {
 
         categoryAdapter.setCategoryList(categoryList)
         categoryRecyclerView.adapter = categoryAdapter
+
+        categoryRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && requireActivity().navigation.isShown) {
+                    requireActivity().navigation?.visibility = View.GONE
+                } else if (dy < 0) {
+                    requireActivity().navigation?.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     private fun addToList() {

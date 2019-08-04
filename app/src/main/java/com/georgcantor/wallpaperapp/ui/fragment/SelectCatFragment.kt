@@ -19,6 +19,7 @@ import com.georgcantor.wallpaperapp.network.ApiService
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_select_cat.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -73,6 +74,16 @@ class SelectCatFragment : Fragment() {
         selectCatRecyclerView.addOnScrollListener(listener)
         adapter = WallpAdapter(requireContext())
         selectCatRecyclerView.adapter = adapter
+
+        selectCatRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && requireActivity().navigation.isShown) {
+                    requireActivity().navigation?.visibility = View.GONE
+                } else if (dy < 0) {
+                    requireActivity().navigation?.visibility = View.VISIBLE
+                }
+            }
+        })
 
         loadData(type as String, 1)
     }
