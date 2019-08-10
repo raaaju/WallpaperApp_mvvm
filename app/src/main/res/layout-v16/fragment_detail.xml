@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppDetailTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDetailPrimaryDark"
+    android:background="@color/colorDetailBackground"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -34,6 +33,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="invisible" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/downloadAnimationView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:lottie_fileName="download.json" />
 
                 <ImageView
                     android:id="@+id/detailImageView"

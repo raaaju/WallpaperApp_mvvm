@@ -64,14 +64,12 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
         setContentView(R.layout.fragment_detail)
 
         progressBarDetail.visibility = View.VISIBLE
         db = DatabaseHelper(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         initView()
 
         fabDownload.setOnClickListener(View.OnClickListener {
@@ -89,7 +87,9 @@ class PicDetailActivity : AppCompatActivity() {
                     builder.setMessage(R.string.choose_format)
 
                     builder.setPositiveButton("HD") { _, _ ->
-                        progressBarDetail.visibility = View.VISIBLE
+                        downloadAnimationView?.visibility = View.VISIBLE
+                        downloadAnimationView?.playAnimation()
+                        downloadAnimationView?.loop(true)
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit?.webformatURL
@@ -100,14 +100,17 @@ class PicDetailActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(this, resources.getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBarDetail.visibility = View.GONE
+                                downloadAnimationView?.loop(false)
+                                downloadAnimationView?.visibility = View.GONE
                             }
                         }
                     }
 
                     builder.setNeutralButton(hit?.imageWidth.toString() + " x "
                             + hit?.imageHeight) { _, _ ->
-                        progressBarDetail.visibility = View.VISIBLE
+                        downloadAnimationView?.visibility = View.VISIBLE
+                        downloadAnimationView?.playAnimation()
+                        downloadAnimationView?.loop(true)
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit?.imageURL
@@ -119,13 +122,16 @@ class PicDetailActivity : AppCompatActivity() {
                                 Toast.makeText(this@PicDetailActivity, resources
                                         .getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBarDetail.visibility = View.GONE
+                                downloadAnimationView?.loop(false)
+                                downloadAnimationView?.visibility = View.GONE
                             }
                         }
                     }
 
                     builder.setNegativeButton("FullHD") { _, _ ->
-                        progressBarDetail.visibility = View.VISIBLE
+                        downloadAnimationView?.visibility = View.VISIBLE
+                        downloadAnimationView?.playAnimation()
+                        downloadAnimationView?.loop(true)
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (!fileIsExist()) {
                                 val uri = hit?.fullHDURL
@@ -136,7 +142,8 @@ class PicDetailActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(this, resources.getString(R.string.image_downloaded),
                                         Toast.LENGTH_SHORT).show()
-                                progressBarDetail.visibility = View.GONE
+                                downloadAnimationView?.loop(false)
+                                downloadAnimationView?.visibility = View.GONE
                             }
                         }
                     }
@@ -163,7 +170,8 @@ class PicDetailActivity : AppCompatActivity() {
             Toast.makeText(context, tags[0] + resources.getString(R.string.down_complete),
                     Toast.LENGTH_SHORT).show()
             isDownloaded = true
-            progressBarDetail.visibility = View.GONE
+            downloadAnimationView?.loop(false)
+            downloadAnimationView?.visibility = View.GONE
         }
     }
 
