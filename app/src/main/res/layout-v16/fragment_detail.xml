@@ -26,13 +26,13 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ProgressBar
-                    android:id="@+id/progressBarDetail"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/progressAnimationView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                    android:visibility="gone"
+                    app:lottie_fileName="loading.json" />
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/downloadAnimationView"

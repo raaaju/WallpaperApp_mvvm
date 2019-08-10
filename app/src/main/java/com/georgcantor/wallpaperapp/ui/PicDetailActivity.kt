@@ -66,7 +66,9 @@ class PicDetailActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.fragment_detail)
 
-        progressBarDetail.visibility = View.VISIBLE
+        progressAnimationView?.visibility = View.VISIBLE
+        progressAnimationView?.playAnimation()
+        progressAnimationView?.loop(true)
         db = DatabaseHelper(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -273,11 +275,13 @@ class PicDetailActivity : AppCompatActivity() {
                     .placeholder(R.drawable.plh)
                     .into(detailImageView, object : Callback {
                         override fun onSuccess() {
-                            progressBarDetail.visibility = View.GONE
+                            progressAnimationView?.loop(false)
+                            progressAnimationView?.visibility = View.GONE
                         }
 
                         override fun onError() {
-                            progressBarDetail.visibility = View.GONE
+                            progressAnimationView?.loop(false)
+                            progressAnimationView?.visibility = View.GONE
                             Toast.makeText(this@PicDetailActivity, getString(R.string.something_went_wrong),
                                     Toast.LENGTH_SHORT).show()
                         }
