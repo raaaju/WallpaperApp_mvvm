@@ -204,6 +204,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this.startActivity(intentAbout)
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
+            R.id.nav_rate_us -> {
+
+            }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
 

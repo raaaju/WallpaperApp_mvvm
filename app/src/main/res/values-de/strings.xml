@@ -6,6 +6,7 @@
     <string name="something_went_wrong">Etwas ist schief gelaufen</string>
     <string name="latest">"Neueste "</string>
     <string name="about_us">"Über uns "</string>
+    <string name="rate_us">Bewerten Sie die App</string>
     <string name="update_dialog_title">Eine neue Version der Anwendung ist in Google Play verfügbar. Möchten Sie aktualisieren?</string>
     <string name="update_dialog_yes">Ja</string>
     <string name="update_dialog_no">Nein</string>
