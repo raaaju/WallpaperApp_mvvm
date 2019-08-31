@@ -11,6 +11,7 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_review.*
 
 class ReviewFragment : Fragment() {
@@ -28,6 +29,7 @@ class ReviewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().toolbar.title = "Rating"
         val assetManager = requireContext().applicationContext.assets
         val typeface = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf")
         markTextView.typeface = typeface
@@ -38,6 +40,7 @@ class ReviewFragment : Fragment() {
         }
 
         addReviewButton.setOnClickListener {
+            requireActivity().toolbar.title = this.resources.getString(R.string.app_name)
             if (rating > 3) {
                 requireFragmentManager().popBackStack()
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
