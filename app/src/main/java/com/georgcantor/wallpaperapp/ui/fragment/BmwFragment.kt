@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.MyApplication
+import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.network.ApiService
@@ -56,14 +57,14 @@ class BmwFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!UtilityMethods.isNetworkAvailable) {
-            Toast.makeText(context, getString(com.georgcantor.wallpaperapp.R.string.check_internet), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.georgcantor.wallpaperapp.R.layout.fragment_bmw, container, false)
+        return inflater.inflate(R.layout.fragment_bmw, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -106,14 +107,14 @@ class BmwFragment : Fragment() {
 
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
-        call = client.getPictures(requireActivity().resources.getString(com.georgcantor.wallpaperapp.R.string.bmw), index)
+        call = client.getPictures(requireActivity().resources.getString(R.string.bmw), index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                 animationView?.loop(false)
                 animationView?.visibility = View.GONE
                 try {
                     if (!response.isSuccessful) {
-                        Log.d(getString(com.georgcantor.wallpaperapp.R.string.No_Success), response.errorBody()?.string())
+                        Log.d(getString(R.string.No_Success), response.errorBody()?.string())
                     } else {
                         picResult = response.body()
                         if (picResult != null) {
@@ -128,7 +129,7 @@ class BmwFragment : Fragment() {
             override fun onFailure(call: Call<Pic>, t: Throwable) {
                 animationView?.loop(false)
                 animationView?.visibility = View.GONE
-                Toast.makeText(context, getString(com.georgcantor.wallpaperapp.R.string.wrong_message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
             }
         })
     }

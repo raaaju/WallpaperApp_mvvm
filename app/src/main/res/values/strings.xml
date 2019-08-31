@@ -137,4 +137,7 @@
     <string name="email">cupsman1986@gmail.com</string>
     <string name="email_message">Email message goes here</string>
     <string name="message_choose_title">Send a message</string>
+    <string name="add_review">Send feedback</string>
+    <string name="rating">Rating</string>
+    <string name="thanks_for_feedback">Thank you for rating</string>
 </resources>

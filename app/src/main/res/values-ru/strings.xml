@@ -116,4 +116,7 @@
     <string name="check_internet">Проверьте интернет соединение</string>
     <string name="favorites">Избранные</string>
     <string name="message_choose_title">Отправить сообщение</string>
+    <string name="add_review">Оценить</string>
+    <string name="rating">Оценка</string>
+    <string name="thanks_for_feedback">Спасибо за оценку</string>
 </resources>

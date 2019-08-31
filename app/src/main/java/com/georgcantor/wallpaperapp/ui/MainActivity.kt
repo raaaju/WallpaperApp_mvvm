@@ -14,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment
-import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
-import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment
-import com.georgcantor.wallpaperapp.ui.fragment.MercedesFragment
+import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,6 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var bmwFragment: Fragment
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
+    private lateinit var reviewFragment: Fragment
 
     private lateinit var bundle: Bundle
 
@@ -52,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bmwFragment = BmwFragment.newInstance()
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
+        reviewFragment = ReviewFragment()
 
         bundle = Bundle()
 
@@ -205,7 +204,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-
+                openFragment(reviewFragment, "review")
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)

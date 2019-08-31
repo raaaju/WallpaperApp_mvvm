@@ -56,4 +56,7 @@
     <string name="you_need_perm_toast">Um Bilder speichern zu können, benötigen Sie diese Berechtigung</string>
     <string name="check_internet">Überprüfen Sie die Internetverbindung</string>
     <string name="message_choose_title">Nachricht senden</string>
+    <string name="add_review">Feedback abschicken</string>
+    <string name="rating">Bewertung</string>
+    <string name="thanks_for_feedback">Danke für die Bewertung</string>
 </resources>
