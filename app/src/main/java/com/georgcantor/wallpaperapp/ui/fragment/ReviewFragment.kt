@@ -24,9 +24,8 @@ class ReviewFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_review, container, false)
-    }
+                              savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_review, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().toolbar.title = "Rating"
@@ -37,6 +36,23 @@ class ReviewFragment : Fragment() {
         ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { _, ratingNumber, _ ->
             rating = ratingNumber.toInt()
             addReviewButton.visibility = if (rating > 0) View.VISIBLE else View.GONE
+            if (rating in 1..3) {
+                cryAnimationView?.visibility = View.VISIBLE
+                cryAnimationView?.playAnimation()
+                cryAnimationView?.loop(true)
+            } else {
+                cryAnimationView?.loop(false)
+                cryAnimationView?.visibility = View.GONE
+            }
+
+            if (rating > 3) {
+                joyAnimationView?.visibility = View.VISIBLE
+                joyAnimationView?.playAnimation()
+                joyAnimationView?.loop(true)
+            } else {
+                joyAnimationView?.loop(false)
+                joyAnimationView?.visibility = View.GONE
+            }
         }
 
         addReviewButton.setOnClickListener {
