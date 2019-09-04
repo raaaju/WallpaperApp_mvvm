@@ -66,7 +66,5 @@ class WallpAdapter(private val context: Context) : RecyclerView.Adapter<WallpVie
         }
     }
 
-    override fun getItemCount(): Int {
-        return hit?.size ?: 0
-    }
+    override fun getItemCount(): Int = hit?.size ?: 0
 }

@@ -19,7 +19,7 @@ object UtilityMethods {
                     MyApplication.instance?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             return connectivityManager.activeNetworkInfo != null
-                    && connectivityManager.activeNetworkInfo.isConnected
+                    && connectivityManager.activeNetworkInfo?.isConnected ?: false
         }
 
     fun getPath(context: Context, uri: Uri): String? {
@@ -27,7 +27,7 @@ object UtilityMethods {
             when {
                 isExternalStorageDocument(uri) -> {
                     val docId = DocumentsContract.getDocumentId(uri)
-                    val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    val split = docId.split(":".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
                     val type = split[0]
                     val storageDefinition: String
 
@@ -99,21 +99,11 @@ object UtilityMethods {
         return null
     }
 
+    private fun isExternalStorageDocument(uri: Uri): Boolean = "com.android.externalstorage.documents" == uri.authority
 
-    private fun isExternalStorageDocument(uri: Uri): Boolean {
-        return "com.android.externalstorage.documents" == uri.authority
-    }
+    private fun isDownloadsDocument(uri: Uri): Boolean = "com.android.providers.downloads.documents" == uri.authority
 
+    private fun isMediaDocument(uri: Uri): Boolean = "com.android.providers.media.documents" == uri.authority
 
-    private fun isDownloadsDocument(uri: Uri): Boolean {
-        return "com.android.providers.downloads.documents" == uri.authority
-    }
-
-    private fun isMediaDocument(uri: Uri): Boolean {
-        return "com.android.providers.media.documents" == uri.authority
-    }
-
-    private fun isGooglePhotosUri(uri: Uri): Boolean {
-        return "com.google.android.apps.photos.content" == uri.authority
-    }
+    private fun isGooglePhotosUri(uri: Uri): Boolean = "com.google.android.apps.photos.content" == uri.authority
 }

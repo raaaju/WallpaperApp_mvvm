@@ -31,17 +31,11 @@ class FavoriteAdapter(private val context: Context,
 
     private var db: DatabaseHelper? = null
 
-    override fun getCount(): Int {
-        return favoriteArrayList.size
-    }
+    override fun getCount(): Int = favoriteArrayList.size
 
-    override fun getItem(position: Int): Any {
-        return favoriteArrayList[position]
-    }
+    override fun getItem(position: Int): Any = favoriteArrayList[position]
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
     private inner class ViewHolder {
         internal var imageView: ImageView? = null
@@ -67,7 +61,7 @@ class FavoriteAdapter(private val context: Context,
         }
 
         val favorite = favoriteArrayList[position]
-        holder.textView?.text = formatDate(favorite.timestamp)
+
         Picasso.with(context)
                 .load(favorite.imageUrl)
                 .placeholder(R.drawable.plh)
@@ -116,19 +110,5 @@ class FavoriteAdapter(private val context: Context,
         }
 
         return row
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun formatDate(dateStr: String?): String {
-        try {
-            val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val date = fmt.parse(dateStr)
-            val fmtOut = SimpleDateFormat("MMM d")
-            return fmtOut.format(date)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-
-        return ""
     }
 }

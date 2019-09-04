@@ -392,9 +392,7 @@ class PicDetailActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun fileIsExist(): Boolean {
-        return file?.exists() ?: false
-    }
+    private fun fileIsExist(): Boolean = file?.exists() ?: false
 
     private fun checkPermission() {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
