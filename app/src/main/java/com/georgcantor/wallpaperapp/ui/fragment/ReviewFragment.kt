@@ -22,10 +22,11 @@ class ReviewFragment : Fragment() {
 
     private var rating: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_review, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_review, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().toolbar.title = "Rating"

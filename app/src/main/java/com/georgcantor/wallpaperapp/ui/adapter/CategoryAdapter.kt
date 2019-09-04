@@ -47,9 +47,7 @@ class CategoryAdapter(private val context: Context,
         holder.category.setImageResource(id)
     }
 
-    override fun getItemCount(): Int {
-        return categoryList?.size ?: 0
-    }
+    override fun getItemCount(): Int = categoryList?.size ?: 0
 
     fun setCategoryList(categories: List<Category>?) {
         if (categories != null) {
