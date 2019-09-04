@@ -123,8 +123,6 @@ class SearchActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                 try {
                     if (!response.isSuccessful) {
-                        Log.d(resources.getString(R.string.No_Success),
-                                response.errorBody()?.string())
                         searchAnimationView.visibility = View.VISIBLE
                         searchAnimationView.playAnimation()
                     } else {
@@ -258,8 +256,8 @@ class SearchActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            searchEverything(arrayList.toString(), index)
-            editText_search.setText(arrayList.toString())
+            arrayList?.toString()?.let { searchEverything(it, index) }
+            editText_search.setText(arrayList?.toString())
         }
     }
 
