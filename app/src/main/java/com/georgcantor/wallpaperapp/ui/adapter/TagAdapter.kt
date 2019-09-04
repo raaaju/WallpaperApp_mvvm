@@ -30,9 +30,7 @@ class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHol
         }
     }
 
-    override fun getItemCount(): Int {
-        return tags?.size ?: 0
-    }
+    override fun getItemCount(): Int = tags?.size ?: 0
 
     fun setTagList(tags: List<String>) {
         this.tags?.clear()
