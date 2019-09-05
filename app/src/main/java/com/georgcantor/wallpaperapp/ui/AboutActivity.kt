@@ -54,11 +54,8 @@ class AboutActivity : AppCompatActivity() {
         val typeface = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf")
 
         aboutHeaderDescription.typeface = typeface
-
         infoTextView.typeface = typeface
-
         developedByTextView.typeface = typeface
-
         tryAppTextView.typeface = typeface
 
         infoCardView.setOnClickListener {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
@@ -54,6 +55,10 @@ class FavoriteActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_favorite, menu)
+        val menuItem = menu.findItem(R.id.action_remove_all)
+        db?.let {
+            (it.historyCount > 0)
+        }?.let(menuItem::setVisible)
 
         return true
     }
@@ -65,16 +70,27 @@ class FavoriteActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
             }
             R.id.action_remove_all -> {
-                db?.let {
-                    if (it.historyCount > 0) {
-                        it.deleteAll()
-                        recreateActivity()
-                    }
-                }
+                showDeleteDialog()
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showDeleteDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(R.string.remove_fav_dialog_message)
+        builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+            db?.let {
+                if (it.historyCount > 0) {
+                    it.deleteAll()
+                    recreateActivity()
+                }
+            }
+        }
+        builder.setNegativeButton(resources.getString(R.string.no)) { _, _ -> }
+        builder.setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
+        builder.create().show()
     }
 
     private fun recreateActivity() {
