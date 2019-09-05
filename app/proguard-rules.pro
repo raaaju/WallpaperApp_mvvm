@@ -87,5 +87,5 @@
     public static *** e(...);
 }
 
--keep class com.georgcantor.wallpaperapp.network.** { *; }
--keep class com.georgcantor.wallpaperapp.model.** { *; }
+-keepnames class com.georgcantor.wallpaperapp.network.** { *; }
+-keepnames class com.georgcantor.wallpaperapp.model.** { *; }

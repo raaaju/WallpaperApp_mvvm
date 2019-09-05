@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui.adapter
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -21,8 +20,6 @@ import com.georgcantor.wallpaperapp.ui.PicDetailActivity
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.favorite_list_row.view.*
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class FavoriteAdapter(private val context: Context,
