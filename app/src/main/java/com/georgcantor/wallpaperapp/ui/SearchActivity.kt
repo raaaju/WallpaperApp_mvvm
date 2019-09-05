@@ -94,26 +94,26 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        search_recycler_view.setHasFixedSize(true)
+        searchRecyclerView.setHasFixedSize(true)
         checkScreenSize()
 
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(columnNo,
                 StaggeredGridLayoutManager.VERTICAL)
-        search_recycler_view.layoutManager = staggeredGridLayoutManager
+        searchRecyclerView.layoutManager = staggeredGridLayoutManager
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 searchEverything(editText_search.text.toString().trim { it <= ' ' }, page)
             }
         }
-        search_recycler_view.addOnScrollListener(listener)
+        searchRecyclerView.addOnScrollListener(listener)
         wallpAdapter = WallpAdapter(this)
-        search_recycler_view.adapter = wallpAdapter
+        searchRecyclerView.adapter = wallpAdapter
     }
 
     fun searchEverything(search: String, index: Int) {
-        swipe_refresh_layout_search.isEnabled = true
-        swipe_refresh_layout_search.isRefreshing = true
+        swipeRefreshLayoutSearch.isEnabled = true
+        swipeRefreshLayoutSearch.isRefreshing = true
 
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
@@ -129,8 +129,8 @@ class SearchActivity : AppCompatActivity() {
                         picResult = response.body()
                         picResult?.let {
                             wallpAdapter.setPicList(it.hits)
-                            swipe_refresh_layout_search.isRefreshing = false
-                            swipe_refresh_layout_search.isEnabled = false
+                            swipeRefreshLayoutSearch.isRefreshing = false
+                            swipeRefreshLayoutSearch.isEnabled = false
                         }
                         invalidateOptionsMenu()
                         voiceInvisible = true
@@ -146,8 +146,8 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Pic>, t: Throwable) {
                 Toast.makeText(this@SearchActivity, resources
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-                swipe_refresh_layout_search.isRefreshing = false
-                swipe_refresh_layout_search.isEnabled = false
+                swipeRefreshLayoutSearch.isRefreshing = false
+                swipeRefreshLayoutSearch.isEnabled = false
                 searchAnimationView.visibility = View.VISIBLE
                 searchAnimationView.playAnimation()
             }
