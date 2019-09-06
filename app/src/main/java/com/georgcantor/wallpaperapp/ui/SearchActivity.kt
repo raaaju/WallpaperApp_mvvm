@@ -128,6 +128,11 @@ class SearchActivity : AppCompatActivity() {
                     } else {
                         picResult = response.body()
                         picResult?.let {
+                            if (it.hits.isNullOrEmpty()) {
+                                searchAnimationView?.visibility = View.VISIBLE
+                                searchAnimationView?.playAnimation()
+                                searchAnimationView?.loop(true)
+                            }
                             wallpAdapter.setPicList(it.hits)
                             swipeRefreshLayoutSearch.isRefreshing = false
                             swipeRefreshLayoutSearch.isEnabled = false
@@ -138,8 +143,9 @@ class SearchActivity : AppCompatActivity() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    searchAnimationView.visibility = View.VISIBLE
-                    searchAnimationView.playAnimation()
+                    searchAnimationView?.visibility = View.VISIBLE
+                    searchAnimationView?.playAnimation()
+                    searchAnimationView?.loop(true)
                 }
             }
 
@@ -148,8 +154,9 @@ class SearchActivity : AppCompatActivity() {
                         .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
                 swipeRefreshLayoutSearch.isRefreshing = false
                 swipeRefreshLayoutSearch.isEnabled = false
-                searchAnimationView.visibility = View.VISIBLE
-                searchAnimationView.playAnimation()
+                searchAnimationView?.visibility = View.VISIBLE
+                searchAnimationView?.playAnimation()
+                searchAnimationView?.loop(true)
             }
         })
     }
