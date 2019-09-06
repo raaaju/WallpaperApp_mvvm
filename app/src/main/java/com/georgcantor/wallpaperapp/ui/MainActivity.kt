@@ -23,10 +23,6 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    companion object {
-        private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
-    }
-
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
     private lateinit var categoryFragment: Fragment
@@ -55,13 +51,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bundle = Bundle()
 
         val myTitle = toolbar.getChildAt(0) as TextView
+        myTitle.typeface = Typeface.create("cursive", Typeface.NORMAL)
 
-        val typeface = Typeface.createFromAsset(assets, FONT_PATH)
-        if (Build.VERSION.SDK_INT >= 16) {
-            myTitle.typeface = Typeface.create("cursive", Typeface.NORMAL)
-        } else {
-            myTitle.setTypeface(typeface, Typeface.BOLD)
-        }
         val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
