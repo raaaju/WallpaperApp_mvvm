@@ -107,7 +107,7 @@ class BmwFragment : Fragment() {
 
         val client = retrofit.create(ApiService::class.java)
         val call: Call<Pic>
-        call = client.getPictures(requireActivity().resources.getString(R.string.bmw), index)
+        call = client.getPictures(resources.getString(R.string.bmw), index)
         call.enqueue(object : Callback<Pic> {
             override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
                 animationView?.loop(false)
