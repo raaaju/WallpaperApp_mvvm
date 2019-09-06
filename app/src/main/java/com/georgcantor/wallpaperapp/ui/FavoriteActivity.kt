@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -84,7 +83,7 @@ class FavoriteActivity : AppCompatActivity() {
             db?.let {
                 if (it.historyCount > 0) {
                     it.deleteAll()
-                    recreateActivity()
+                    this.recreate()
                 }
             }
         }
@@ -93,9 +92,4 @@ class FavoriteActivity : AppCompatActivity() {
         builder.create().show()
     }
 
-    private fun recreateActivity() {
-        val intent = Intent(this, FavoriteActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
-    }
 }

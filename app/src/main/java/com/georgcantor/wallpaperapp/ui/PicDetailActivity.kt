@@ -419,7 +419,7 @@ class PicDetailActivity : AppCompatActivity() {
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            restartActivity()
+            this.recreate()
         } else {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -429,14 +429,6 @@ class PicDetailActivity : AppCompatActivity() {
             finish()
             Toast.makeText(this, R.string.you_need_perm_toast, Toast.LENGTH_LONG).show()
         }
-    }
-
-    private fun restartActivity() {
-        hit = intent.getParcelableExtra(EXTRA_PIC)
-        val intent = Intent(this, PicDetailActivity::class.java)
-        intent.putExtra(EXTRA_PIC, hit)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
     }
 
     private fun addToFavorite(imageUrl: String, hdUrl: String, hit: Hit) {
@@ -449,4 +441,5 @@ class PicDetailActivity : AppCompatActivity() {
         super.onBackPressed()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
+
 }
