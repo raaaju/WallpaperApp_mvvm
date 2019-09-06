@@ -25,12 +25,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity.Companion.ORIGIN
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.google.gson.Gson
@@ -88,7 +93,7 @@ class PicDetailActivity : AppCompatActivity() {
                     builder.setIcon(R.drawable.ic_download)
                     builder.setMessage(R.string.choose_format)
 
-                    builder.setPositiveButton("HD") { _, _ ->
+                    builder.setPositiveButton(resources.getText(R.string.hd)) { _, _ ->
                         downloadAnimationView?.visibility = View.VISIBLE
                         downloadAnimationView?.playAnimation()
                         downloadAnimationView?.loop(true)
@@ -130,7 +135,7 @@ class PicDetailActivity : AppCompatActivity() {
                         }
                     }
 
-                    builder.setNegativeButton("FullHD") { _, _ ->
+                    builder.setNegativeButton(resources.getText(R.string.fullHd)) { _, _ ->
                         downloadAnimationView?.visibility = View.VISIBLE
                         downloadAnimationView?.playAnimation()
                         downloadAnimationView?.loop(true)
