@@ -70,17 +70,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_mercedes -> {
-                    toolbar.title = this.resources.getString(R.string.mercedes)
+                    toolbar.title = resources.getString(R.string.mercedes)
                     openFragment(mercedesFragment, "mercedes")
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_bmw -> {
-                    toolbar.title = this.resources.getString(R.string.bmw)
+                    toolbar.title = resources.getString(R.string.bmw)
                     openFragment(bmwFragment, "bmw")
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_gallery -> {
-                    toolbar.title = this.resources.getString(R.string.gallery)
+                    toolbar.title = resources.getString(R.string.gallery)
                     openFragment(categoryFragment, "gallery")
                     return@OnNavigationItemSelectedListener true
                 }
@@ -147,49 +147,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_aston -> {
-                toolbar.title = this.resources.getString(R.string.aston)
+                toolbar.title = resources.getString(R.string.aston)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.aston))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "aston")
             }
             R.id.nav_bentley -> {
-                toolbar.title = this.resources.getString(R.string.bentley)
+                toolbar.title = resources.getString(R.string.bentley)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bentley))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "bentley")
             }
             R.id.nav_porsche -> {
-                toolbar.title = this.resources.getString(R.string.porsche)
+                toolbar.title = resources.getString(R.string.porsche)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.porsche))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "porsche")
             }
             R.id.nav_audi -> {
-                toolbar.title = this.resources.getString(R.string.audi)
+                toolbar.title = resources.getString(R.string.audi)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.audi))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "audi")
             }
             R.id.nav_bugatti -> {
-                toolbar.title = this.resources.getString(R.string.bugatti)
+                toolbar.title = resources.getString(R.string.bugatti)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.bugatti))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "bugatti")
             }
             R.id.nav_mclaren -> {
-                toolbar.title = this.resources.getString(R.string.mclaren)
+                toolbar.title = resources.getString(R.string.mclaren)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.mclaren))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "mclaren")
             }
             R.id.nav_ferrari -> {
-                toolbar.title = this.resources.getString(R.string.ferrari)
+                toolbar.title = resources.getString(R.string.ferrari)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.ferrari))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "ferrari")
             }
             R.id.nav_lambo -> {
-                toolbar.title = this.resources.getString(R.string.lamborghini)
+                toolbar.title = resources.getString(R.string.lamborghini)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, resources.getString(R.string.lamborghini))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, "lamborghini")
@@ -213,14 +213,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        toolbar.title = this.resources.getString(R.string.app_name)
+        toolbar.title = resources.getString(R.string.app_name)
         val stackEntryCount = supportFragmentManager.backStackEntryCount
         if (stackEntryCount == 0) {
             when {
                 drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
                 doubleTap -> super.onBackPressed()
                 else -> {
-                    Toast.makeText(this, this.resources.getString(R.string.press_back),
+                    Toast.makeText(this, resources.getString(R.string.press_back),
                             Toast.LENGTH_SHORT).show()
                     doubleTap = true
                     val handler = Handler()

@@ -92,7 +92,7 @@ class AboutActivity : AppCompatActivity() {
         emailIntent.putExtra(Intent.EXTRA_EMAIL, value)
 
         try {
-            startActivity(Intent.createChooser(emailIntent, this.resources.getString(R.string.message_choose_title)))
+            startActivity(Intent.createChooser(emailIntent, resources.getString(R.string.message_choose_title)))
             finish()
         } catch (ex: android.content.ActivityNotFoundException) {
             Toast.makeText(this, resources.getText(R.string.no_email_client), Toast.LENGTH_SHORT).show()
