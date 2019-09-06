@@ -18,11 +18,11 @@ public class Pic implements Serializable, Parcelable {
 
         public Pic createFromParcel(Parcel in) {
             Pic instance = new Pic();
-            instance.totalHits = ((int) in.readValue((int.class.getClassLoader())));
-            in.readList(instance.hits, (com.georgcantor.wallpaperapp.model.Hit.class.getClassLoader()));
-            instance.total = ((int) in.readValue((int.class.getClassLoader())));
+            instance.totalHits = (int) in.readValue(int.class.getClassLoader());
+            in.readList(instance.hits, Hit.class.getClassLoader());
+            instance.total = (int) in.readValue(int.class.getClassLoader());
             instance.additionalProperties =
-                    ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
+                    (Map<String, Object>) in.readValue(Map.class.getClassLoader());
             return instance;
         }
 
