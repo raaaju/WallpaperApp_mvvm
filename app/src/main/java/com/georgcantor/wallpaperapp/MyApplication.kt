@@ -23,7 +23,5 @@ class MyApplication : Application() {
             private set
     }
 
-    fun getApiComponent(): ApiComponent {
-        return apiComponent
-    }
+    fun getApiComponent(): ApiComponent = apiComponent
 }

@@ -37,35 +37,35 @@ public class Hit implements Parcelable {
 
         public Hit createFromParcel(Parcel in) {
             Hit instance = new Hit();
-            instance.previewHeight = ((int) in.readValue((int.class.getClassLoader())));
-            instance.likes = ((int) in.readValue((int.class.getClassLoader())));
-            instance.favorites = ((int) in.readValue((int.class.getClassLoader())));
-            instance.tags = ((String) in.readValue((String.class.getClassLoader())));
-            instance.webformatHeight = ((int) in.readValue((int.class.getClassLoader())));
-            instance.views = ((int) in.readValue((int.class.getClassLoader())));
-            instance.webformatWidth = ((int) in.readValue((int.class.getClassLoader())));
-            instance.previewWidth = ((int) in.readValue((int.class.getClassLoader())));
-            instance.comments = ((int) in.readValue((int.class.getClassLoader())));
-            instance.downloads = ((int) in.readValue((int.class.getClassLoader())));
-            instance.pageURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.previewURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.webformatURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.fullHDURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.imageURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.imageWidth = ((int) in.readValue((int.class.getClassLoader())));
-            instance.userId = ((int) in.readValue((int.class.getClassLoader())));
-            instance.user = ((String) in.readValue((String.class.getClassLoader())));
-            instance.type = ((String) in.readValue((String.class.getClassLoader())));
-            instance.id = ((int) in.readValue((int.class.getClassLoader())));
-            instance.userImageURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.imageHeight = ((int) in.readValue((int.class.getClassLoader())));
+            instance.previewHeight = (int) in.readValue(int.class.getClassLoader());
+            instance.likes = (int) in.readValue(int.class.getClassLoader());
+            instance.favorites = (int) in.readValue(int.class.getClassLoader());
+            instance.tags = (String) in.readValue(String.class.getClassLoader());
+            instance.webformatHeight = (int) in.readValue(int.class.getClassLoader());
+            instance.views = (int) in.readValue(int.class.getClassLoader());
+            instance.webformatWidth = (int) in.readValue(int.class.getClassLoader());
+            instance.previewWidth = (int) in.readValue(int.class.getClassLoader());
+            instance.comments = (int) in.readValue(int.class.getClassLoader());
+            instance.downloads = (int) in.readValue(int.class.getClassLoader());
+            instance.pageURL = (String) in.readValue(String.class.getClassLoader());
+            instance.previewURL = (String) in.readValue(String.class.getClassLoader());
+            instance.webformatURL = (String) in.readValue(String.class.getClassLoader());
+            instance.fullHDURL = (String) in.readValue(String.class.getClassLoader());
+            instance.imageURL = (String) in.readValue(String.class.getClassLoader());
+            instance.imageWidth = (int) in.readValue(int.class.getClassLoader());
+            instance.userId = (int) in.readValue(int.class.getClassLoader());
+            instance.user = (String) in.readValue(String.class.getClassLoader());
+            instance.type = (String) in.readValue(String.class.getClassLoader());
+            instance.id = (int) in.readValue(int.class.getClassLoader());
+            instance.userImageURL = (String) in.readValue(String.class.getClassLoader());
+            instance.imageHeight = (int) in.readValue(int.class.getClassLoader());
             instance.additionalProperties =
-                    ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
+                    (Map<String, Object>) in.readValue(Map.class.getClassLoader());
             return instance;
         }
 
         public Hit[] newArray(int size) {
-            return (new Hit[size]);
+            return new Hit[size];
         }
 
     };

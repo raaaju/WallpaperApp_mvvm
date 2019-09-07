@@ -140,4 +140,8 @@
     <string name="add_review">Send feedback</string>
     <string name="rating">Rating</string>
     <string name="thanks_for_feedback">Thank you for rating</string>
+    <string name="remove_fav_dialog_message">Delete all favorites?</string>
+    <string name="hd" translatable="false">HD</string>
+    <string name="fullHd" translatable="false">FullHD</string>
+    <string name="no_email_client">There is no email client installed:(</string>
 </resources>

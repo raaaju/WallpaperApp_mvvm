@@ -51,7 +51,7 @@ object UtilityMethods {
                 }
                 isMediaDocument(uri) -> {
                     val docId = DocumentsContract.getDocumentId(uri)
-                    val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    val split = docId.split(":".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
                     val type = split[0]
                     var contentUri: Uri? = null
 

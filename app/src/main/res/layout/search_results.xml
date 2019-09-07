@@ -9,13 +9,13 @@
     tools:showIn="@layout/activity_search">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout_search"
+        android:id="@+id/swipeRefreshLayoutSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recycler_view"
+            android:id="@+id/searchRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fadeScrollbars="true"

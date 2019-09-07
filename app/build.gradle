@@ -8,7 +8,7 @@ android {
         Wallpapers {
             keyAlias 'key0'
             keyPassword 'cupsmana16'
-            storeFile file('D:/Alex/wallpapers.jks')
+//            storeFile file('D:/Alex/wallpapers.jks')
             storePassword 'cupsmana16'
         }
     }
@@ -25,19 +25,16 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-//            minifyEnabled false
+//        debug {
+//            minifyEnabled true
 //            shrinkResources false
-//            debuggable = true
-            minifyEnabled true
-            shrinkResources true
-            debuggable false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+//            debuggable true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
     }
     buildTypes.each {
         it.buildConfigField 'String', 'API_KEY', "\"9179624-180dd31b7b27ed73810aeeb72\""

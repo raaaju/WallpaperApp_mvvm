@@ -57,13 +57,13 @@ class ReviewFragment : Fragment() {
         }
 
         addReviewButton.setOnClickListener {
-            requireActivity().toolbar.title = this.resources.getString(R.string.app_name)
+            requireActivity().toolbar.title = resources.getString(R.string.app_name)
             if (rating > 3) {
                 requireFragmentManager().popBackStack()
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
             } else {
                 requireFragmentManager().popBackStack()
-                Toast.makeText(requireContext(), this.resources.getString(R.string.thanks_for_feedback), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), resources.getString(R.string.thanks_for_feedback), Toast.LENGTH_LONG).show()
             }
         }
     }

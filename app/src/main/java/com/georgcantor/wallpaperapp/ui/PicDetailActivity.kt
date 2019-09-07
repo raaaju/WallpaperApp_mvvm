@@ -25,12 +25,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.ui.PicDetailActivity.Companion.ORIGIN
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.google.gson.Gson
@@ -88,7 +93,7 @@ class PicDetailActivity : AppCompatActivity() {
                     builder.setIcon(R.drawable.ic_download)
                     builder.setMessage(R.string.choose_format)
 
-                    builder.setPositiveButton("HD") { _, _ ->
+                    builder.setPositiveButton(resources.getText(R.string.hd)) { _, _ ->
                         downloadAnimationView?.visibility = View.VISIBLE
                         downloadAnimationView?.playAnimation()
                         downloadAnimationView?.loop(true)
@@ -130,7 +135,7 @@ class PicDetailActivity : AppCompatActivity() {
                         }
                     }
 
-                    builder.setNegativeButton("FullHD") { _, _ ->
+                    builder.setNegativeButton(resources.getText(R.string.fullHd)) { _, _ ->
                         downloadAnimationView?.visibility = View.VISIBLE
                         downloadAnimationView?.playAnimation()
                         downloadAnimationView?.loop(true)
@@ -414,7 +419,7 @@ class PicDetailActivity : AppCompatActivity() {
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            restartActivity()
+            this.recreate()
         } else {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -424,14 +429,6 @@ class PicDetailActivity : AppCompatActivity() {
             finish()
             Toast.makeText(this, R.string.you_need_perm_toast, Toast.LENGTH_LONG).show()
         }
-    }
-
-    private fun restartActivity() {
-        hit = intent.getParcelableExtra(EXTRA_PIC)
-        val intent = Intent(this, PicDetailActivity::class.java)
-        intent.putExtra(EXTRA_PIC, hit)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
     }
 
     private fun addToFavorite(imageUrl: String, hdUrl: String, hit: Hit) {
@@ -444,4 +441,5 @@ class PicDetailActivity : AppCompatActivity() {
         super.onBackPressed()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
+
 }
