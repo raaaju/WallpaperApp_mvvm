@@ -7,8 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.model.db.Favorite
+import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.activity_favorite.*
 import java.util.*

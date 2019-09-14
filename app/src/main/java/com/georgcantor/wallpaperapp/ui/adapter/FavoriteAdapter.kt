@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.model.db.Favorite
+import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.FavoriteActivity
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
 import com.google.gson.Gson

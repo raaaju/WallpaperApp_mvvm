@@ -11,14 +11,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -26,19 +23,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.network.ApiService
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import javax.inject.Inject
 
 class SearchActivity : AppCompatActivity() {
 
@@ -46,9 +36,6 @@ class SearchActivity : AppCompatActivity() {
         private const val REQUEST_CODE = 111
         private const val PERMISSION_REQUEST_CODE = 222
     }
-
-    @Inject
-    lateinit var retrofit: Retrofit
 
     private var columnNo: Int = 0
     private var picResult: Pic? = Pic()
@@ -61,10 +48,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_search)
-
-        (MyApplication.instance as MyApplication)
-                .getApiComponent()
-                .inject(this)
 
         createToolbar()
         initViews()
@@ -115,50 +98,50 @@ class SearchActivity : AppCompatActivity() {
         swipeRefreshLayoutSearch.isEnabled = true
         swipeRefreshLayoutSearch.isRefreshing = true
 
-        val client = retrofit.create(ApiService::class.java)
-        val call: Call<Pic>
-        call = client.getPictures(search, index)
-        call.enqueue(object : Callback<Pic> {
-
-            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-                try {
-                    if (!response.isSuccessful) {
-                        searchAnimationView.visibility = View.VISIBLE
-                        searchAnimationView.playAnimation()
-                    } else {
-                        picResult = response.body()
-                        picResult?.let {
-                            if (it.hits.isNullOrEmpty()) {
-                                searchAnimationView?.visibility = View.VISIBLE
-                                searchAnimationView?.playAnimation()
-                                searchAnimationView?.loop(true)
-                            }
-                            wallpAdapter.setPicList(it.hits)
-                            swipeRefreshLayoutSearch.isRefreshing = false
-                            swipeRefreshLayoutSearch.isEnabled = false
-                        }
-                        invalidateOptionsMenu()
-                        voiceInvisible = true
-                        editText_search.visibility = View.GONE
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    searchAnimationView?.visibility = View.VISIBLE
-                    searchAnimationView?.playAnimation()
-                    searchAnimationView?.loop(true)
-                }
-            }
-
-            override fun onFailure(call: Call<Pic>, t: Throwable) {
-                Toast.makeText(this@SearchActivity, resources
-                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-                swipeRefreshLayoutSearch.isRefreshing = false
-                swipeRefreshLayoutSearch.isEnabled = false
-                searchAnimationView?.visibility = View.VISIBLE
-                searchAnimationView?.playAnimation()
-                searchAnimationView?.loop(true)
-            }
-        })
+//        val client = retrofit.create(ApiService::class.java)
+//        val call: Call<Pic>
+//        call = client.getPictures(search, index)
+//        call.enqueue(object : Callback<Pic> {
+//
+//            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
+//                try {
+//                    if (!response.isSuccessful) {
+//                        searchAnimationView.visibility = View.VISIBLE
+//                        searchAnimationView.playAnimation()
+//                    } else {
+//                        picResult = response.body()
+//                        picResult?.let {
+//                            if (it.hits.isNullOrEmpty()) {
+//                                searchAnimationView?.visibility = View.VISIBLE
+//                                searchAnimationView?.playAnimation()
+//                                searchAnimationView?.loop(true)
+//                            }
+//                            wallpAdapter.setPicList(it.hits)
+//                            swipeRefreshLayoutSearch.isRefreshing = false
+//                            swipeRefreshLayoutSearch.isEnabled = false
+//                        }
+//                        invalidateOptionsMenu()
+//                        voiceInvisible = true
+//                        editText_search.visibility = View.GONE
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                    searchAnimationView?.visibility = View.VISIBLE
+//                    searchAnimationView?.playAnimation()
+//                    searchAnimationView?.loop(true)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<Pic>, t: Throwable) {
+//                Toast.makeText(this@SearchActivity, resources
+//                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+//                swipeRefreshLayoutSearch.isRefreshing = false
+//                swipeRefreshLayoutSearch.isEnabled = false
+//                searchAnimationView?.visibility = View.VISIBLE
+//                searchAnimationView?.playAnimation()
+//                searchAnimationView?.loop(true)
+//            }
+//        })
     }
 
     private fun checkScreenSize() {
