@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.frame_container, MercedesFragment())
                 .commit()
 
-        mercedesFragment = MercedesFragment.newInstance()
-        bmwFragment = BmwFragment.newInstance()
+        mercedesFragment = MercedesFragment.newInstance(resources.getString(R.string.mercedes))
+        bmwFragment = BmwFragment.newInstance(resources.getString(R.string.bmw))
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
         reviewFragment = ReviewFragment()

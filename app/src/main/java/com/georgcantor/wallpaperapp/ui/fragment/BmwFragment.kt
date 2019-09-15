@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
@@ -25,9 +24,10 @@ import org.koin.core.parameter.parametersOf
 class BmwFragment : Fragment() {
 
     companion object {
-        fun newInstance(): BmwFragment {
+        fun newInstance(arguments: String): BmwFragment {
             val fragment = BmwFragment()
             val args = Bundle()
+            args.putString("request", arguments)
             fragment.arguments = args
 
             return fragment
@@ -35,9 +35,8 @@ class BmwFragment : Fragment() {
     }
 
     private lateinit var viewModel: BmwViewModel
-    private var wallpAdapter: WallpAdapter? = null
+    private var adapter: WallpAdapter? = null
     private var columnNo: Int = 0
-    private var picResult: Pic? = Pic()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +54,6 @@ class BmwFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         if (!UtilityMethods.isNetworkAvailable) {
             noInternetImageView.visibility = View.VISIBLE
         }
@@ -77,8 +75,8 @@ class BmwFragment : Fragment() {
         }
         scrollListener.resetState()
         bmwRecyclerView.addOnScrollListener(scrollListener)
-        wallpAdapter = WallpAdapter(requireContext())
-        bmwRecyclerView.adapter = wallpAdapter
+        adapter = WallpAdapter(requireContext())
+        bmwRecyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         bmwRecyclerView.addOnScrollListener(hideScrollListener)
@@ -92,9 +90,8 @@ class BmwFragment : Fragment() {
         animationView?.playAnimation()
         animationView?.loop(true)
 
-        viewModel.getPictures(resources.getString(R.string.bmw), index).subscribe({
-            picResult = it
-            wallpAdapter?.setPicList(it.hits)
+        viewModel.getPictures(arguments?.getString("request") ?: "", index).subscribe({
+            adapter?.setPicList(it.hits)
             animationView?.loop(false)
             animationView?.visibility = View.GONE
         }, {
