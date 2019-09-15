@@ -26,7 +26,7 @@ class FavoriteAdapter(private val context: Context,
                       private val layout: Int,
                       private val favoriteArrayList: ArrayList<Favorite>) : BaseAdapter() {
 
-    private var db: DatabaseHelper? = null
+    private lateinit var db: DatabaseHelper
 
     override fun getCount(): Int = favoriteArrayList.size
 
@@ -35,8 +35,8 @@ class FavoriteAdapter(private val context: Context,
     override fun getItemId(position: Int): Long = position.toLong()
 
     private inner class ViewHolder {
-        internal var imageView: ImageView? = null
-        internal var textView: TextView? = null
+        internal lateinit var imageView: ImageView
+        internal lateinit var textView: TextView
     }
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup): View? {
@@ -64,7 +64,7 @@ class FavoriteAdapter(private val context: Context,
                 .placeholder(R.drawable.plh)
                 .into(holder.imageView)
 
-        holder.imageView?.setOnClickListener {
+        holder.imageView.setOnClickListener {
             val activity = context as Activity
             val photo = favoriteArrayList[position]
             val hitJson = photo.hit
@@ -82,7 +82,7 @@ class FavoriteAdapter(private val context: Context,
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }
 
-        holder.imageView?.setOnLongClickListener {
+        holder.imageView.setOnLongClickListener {
             val photo = favoriteArrayList[position]
             val url = photo.imageUrl
             db = DatabaseHelper(context)
@@ -92,7 +92,7 @@ class FavoriteAdapter(private val context: Context,
 
             builder.setPositiveButton(R.string.yes) { _, _ ->
                 if (url != null) {
-                    db?.deleteFromFavorites(url)
+                    db.deleteFromFavorites(url)
                 }
                 val intent = Intent(context, FavoriteActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -108,4 +108,5 @@ class FavoriteAdapter(private val context: Context,
 
         return row
     }
+
 }

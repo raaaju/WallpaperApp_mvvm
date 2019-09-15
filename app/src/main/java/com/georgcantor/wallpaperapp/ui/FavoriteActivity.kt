@@ -18,8 +18,8 @@ import org.koin.core.parameter.parametersOf
 
 class FavoriteActivity : AppCompatActivity() {
 
-    private var db: DatabaseHelper? = null
-    private var adapter: FavoriteAdapter? = null
+    private lateinit var db: DatabaseHelper
+    private lateinit var adapter: FavoriteAdapter
     private lateinit var viewModel: FavoriteViewModel
 
     @SuppressLint("CheckResult")
@@ -45,13 +45,11 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun toggleEmptyHistory() {
-        db?.let {
-            if (it.historyCount > 0) {
-                emptyAnimationView.visibility = View.GONE
-            } else {
-                emptyAnimationView.visibility = View.VISIBLE
-                emptyAnimationView.playAnimation()
-            }
+        if (db.historyCount > 0) {
+            emptyAnimationView.visibility = View.GONE
+        } else {
+            emptyAnimationView.visibility = View.VISIBLE
+            emptyAnimationView.playAnimation()
         }
     }
 
@@ -63,9 +61,7 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_favorite, menu)
         val menuItem = menu.findItem(R.id.action_remove_all)
-        db?.let {
-            (it.historyCount > 0)
-        }?.let(menuItem::setVisible)
+        (db.historyCount > 0).let(menuItem::setVisible)
 
         return true
     }
@@ -87,11 +83,9 @@ class FavoriteActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(R.string.remove_fav_dialog_message)
         builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
-            db?.let {
-                if (it.historyCount > 0) {
-                    it.deleteAll()
-                    this.recreate()
-                }
+            if (db.historyCount > 0) {
+                db.deleteAll()
+                this.recreate()
             }
         }
         builder.setNegativeButton(resources.getString(R.string.no)) { _, _ -> }
