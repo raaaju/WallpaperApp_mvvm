@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +15,11 @@ import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_car_brand.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class CarBrandFragment : Fragment() {
 
@@ -23,27 +27,28 @@ class CarBrandFragment : Fragment() {
         const val FETCH_TYPE = "fetch_type"
     }
 
+    private lateinit var viewModel: SearchViewModel
     lateinit var adapter: WallpAdapter
-    private var type: String? = null
     private var columnNo: Int = 0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (!UtilityMethods.isNetworkAvailable) {
+            Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
+        }
+        viewModel = getViewModel { parametersOf() }
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_car_brand, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!UtilityMethods.isNetworkAvailable) {
-            Toast.makeText(requireContext(), getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
-        }
-
-        type = arguments?.getString(FETCH_TYPE)
-
         loadData(1)
         brandRecyclerView.setHasFixedSize(true)
-
         checkScreenSize()
 
         val gridLayoutManager = StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL)
@@ -62,40 +67,21 @@ class CarBrandFragment : Fragment() {
         brandRecyclerView.addOnScrollListener(hideScrollListener)
     }
 
+    @SuppressLint("CheckResult")
     private fun loadData(index: Int) {
         brandAnimationView?.visibility = View.VISIBLE
         brandAnimationView?.playAnimation()
         brandAnimationView?.loop(true)
 
-//        val client = retrofit.create(ApiService::class.java)
-//        val call: Call<Pic>
-//        call = client.getPictures(type ?: "", index)
-//        call.enqueue(object : Callback<Pic> {
-//            override fun onResponse(call: Call<Pic>, response: Response<Pic>) {
-//                brandAnimationView?.loop(false)
-//                brandAnimationView?.visibility = View.GONE
-//                try {
-//                    if (!response.isSuccessful) {
-//                        Log.d(resources.getString(R.string.No_Success),
-//                                response.errorBody()?.string())
-//                    } else {
-//                        picResult = response.body()
-//                        if (picResult != null) {
-//                            adapter.setPicList(picResult?.hits as MutableList<Hit>)
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<Pic>, t: Throwable) {
-//                brandAnimationView?.loop(false)
-//                brandAnimationView?.visibility = View.GONE
-//                Toast.makeText(requireContext(), resources
-//                        .getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-//            }
-//        })
+        viewModel.getPictures(arguments?.getString(FETCH_TYPE) ?: "", index).subscribe({
+            adapter.setPicList(it.hits)
+            brandAnimationView?.loop(false)
+            brandAnimationView?.visibility = View.GONE
+        }, {
+            brandAnimationView?.loop(false)
+            brandAnimationView?.visibility = View.GONE
+            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun checkScreenSize() {
