@@ -1,24 +1,28 @@
 package com.georgcantor.wallpaperapp.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
+import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
-import java.util.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class FavoriteActivity : AppCompatActivity() {
 
-    private var list: ArrayList<Favorite>? = null
     private var db: DatabaseHelper? = null
     private var adapter: FavoriteAdapter? = null
+    private lateinit var viewModel: FavoriteViewModel
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
@@ -26,12 +30,16 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = resources.getString(R.string.favorites)
 
+        viewModel = getViewModel { parametersOf() }
         db = DatabaseHelper(this)
-        list = ArrayList()
-        db?.allFavorites?.let { list?.addAll(it) }
 
-        list?.let { adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it) }
-        favGridView.adapter = adapter
+        viewModel.getFavorites().subscribe({
+            adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it)
+            favGridView.adapter = adapter
+        }, {
+            Toast.makeText(this, resources.getString(R.string.something_went_wrong),
+                    Toast.LENGTH_SHORT).show()
+        })
 
         toggleEmptyHistory()
     }
@@ -72,7 +80,6 @@ class FavoriteActivity : AppCompatActivity() {
                 showDeleteDialog()
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 

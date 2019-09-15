@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.di
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.viewmodel.BmwViewModel
+import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import com.georgcantor.wallpaperapp.viewmodel.MercedesViewModel
 import com.georgcantor.wallpaperapp.viewmodel.SelectCatViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -21,6 +22,9 @@ val viewModelModule = module {
     }
     viewModel {
         SelectCatViewModel(get())
+    }
+    viewModel {
+        FavoriteViewModel(get())
     }
 }
 

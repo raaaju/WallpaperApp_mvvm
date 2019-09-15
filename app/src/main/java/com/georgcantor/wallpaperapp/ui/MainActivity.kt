@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var reviewFragment: Fragment
 
     private lateinit var bundle: Bundle
-
     private var doubleTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +38,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_container, MercedesFragment())
+                .replace(R.id.frame_container, MercedesFragment.newInstance(resources.getString(R.string.mercedes)))
                 .commit()
 
         mercedesFragment = MercedesFragment.newInstance(resources.getString(R.string.mercedes))
-        bmwFragment = BmwFragment.newInstance(resources.getString(R.string.bmw))
+        bmwFragment = BmwFragment.newInstance("bmw")
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
         reviewFragment = ReviewFragment()
@@ -80,7 +79,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         navigation.setOnNavigationItemSelectedListener(itemSelectedListener)
-
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.itemIconTintList = null
     }
@@ -110,13 +108,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val searchItem = menu?.findItem(R.id.action_search)
             searchItem?.isVisible = false
         }
-
         return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-
         return true
     }
 
@@ -126,7 +122,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 openSearchActivity()
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
