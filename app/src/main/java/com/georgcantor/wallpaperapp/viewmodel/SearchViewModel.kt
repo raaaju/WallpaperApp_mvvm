@@ -7,7 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SelectCatViewModel(private val apiRepository: ApiRepository) : ViewModel() {
+class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
 
     fun getPictures(request: String, index: Int): Observable<Pic> =
             apiRepository.getPictures(request, index)

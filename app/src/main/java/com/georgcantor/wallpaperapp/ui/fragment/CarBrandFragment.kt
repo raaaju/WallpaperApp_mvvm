@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
@@ -25,7 +24,6 @@ class CarBrandFragment : Fragment() {
     }
 
     lateinit var adapter: WallpAdapter
-    private var picResult: Pic? = Pic()
     private var type: String? = null
     private var columnNo: Int = 0
 

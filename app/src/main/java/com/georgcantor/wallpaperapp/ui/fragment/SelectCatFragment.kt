@@ -15,7 +15,7 @@ import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import com.georgcantor.wallpaperapp.viewmodel.SelectCatViewModel
+import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_select_cat.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -27,7 +27,7 @@ class SelectCatFragment : Fragment() {
         const val EXTRA_CAT = "category"
     }
 
-    private lateinit var viewModel: SelectCatViewModel
+    private lateinit var viewModel: SearchViewModel
     lateinit var adapter: WallpAdapter
     private var type: String? = null
     private var columnNo: Int = 0

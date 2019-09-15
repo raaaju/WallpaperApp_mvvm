@@ -16,7 +16,7 @@ import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import com.georgcantor.wallpaperapp.viewmodel.MercedesViewModel
+import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_mercedes.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -35,7 +35,7 @@ class MercedesFragment : Fragment() {
         }
     }
 
-    private lateinit var viewModel: MercedesViewModel
+    private lateinit var viewModel: SearchViewModel
     private var adapter: WallpAdapter? = null
     private var columnNo: Int = 0
     private lateinit var prefs: SharedPreferences

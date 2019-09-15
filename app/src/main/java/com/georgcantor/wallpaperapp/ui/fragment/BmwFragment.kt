@@ -15,7 +15,7 @@ import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import com.georgcantor.wallpaperapp.viewmodel.BmwViewModel
+import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_bmw.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -34,7 +34,7 @@ class BmwFragment : Fragment() {
         }
     }
 
-    private lateinit var viewModel: BmwViewModel
+    private lateinit var viewModel: SearchViewModel
     private var adapter: WallpAdapter? = null
     private var columnNo: Int = 0
 
