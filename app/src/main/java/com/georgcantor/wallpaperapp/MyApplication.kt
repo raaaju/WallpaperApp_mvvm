@@ -1,20 +1,22 @@
 package com.georgcantor.wallpaperapp
 
 import android.app.Application
-import com.georgcantor.wallpaperapp.di.ApiComponent
-import com.georgcantor.wallpaperapp.di.DaggerApiComponent
+import com.georgcantor.wallpaperapp.di.appModule
+import com.georgcantor.wallpaperapp.di.repositoryModule
+import com.georgcantor.wallpaperapp.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MyApplication : Application() {
-
-    private lateinit var apiComponent: ApiComponent
 
     override fun onCreate() {
         super.onCreate()
         instance = this
 
-        apiComponent = DaggerApiComponent.builder()
-                .application(this)
-                .build()
+        startKoin {
+            androidContext(this@MyApplication)
+            modules(arrayListOf(appModule, viewModelModule, repositoryModule))
+        }
     }
 
     companion object {
@@ -23,5 +25,4 @@ class MyApplication : Application() {
             private set
     }
 
-    fun getApiComponent(): ApiComponent = apiComponent
 }

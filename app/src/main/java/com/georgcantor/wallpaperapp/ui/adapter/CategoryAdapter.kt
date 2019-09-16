@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
-import com.georgcantor.wallpaperapp.ui.fragment.SelectCatFragment
 import com.georgcantor.wallpaperapp.ui.adapter.holder.ExploreViewHolder
+import com.georgcantor.wallpaperapp.ui.fragment.SelectCatFragment
 import java.util.*
 
 class CategoryAdapter(private val context: Context,
@@ -64,4 +64,5 @@ class CategoryAdapter(private val context: Context,
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
 }

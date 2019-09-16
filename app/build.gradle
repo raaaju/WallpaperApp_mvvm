@@ -8,7 +8,7 @@ android {
         Wallpapers {
             keyAlias 'key0'
             keyPassword 'cupsmana16'
-//            storeFile file('D:/Alex/wallpapers.jks')
+            storeFile file('D:/Alex/wallpapers.jks')
             storePassword 'cupsmana16'
         }
     }
@@ -17,10 +17,13 @@ android {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 37
-        versionName '1.2.7'
+        versionCode 38
+        versionName '1.2.8'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField "String", "BASE_URL", "\"http://pixabay.com/api/\""
+
     }
     buildTypes {
         release {
@@ -29,12 +32,6 @@ android {
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-//        debug {
-//            minifyEnabled true
-//            shrinkResources false
-//            debuggable true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
     }
     buildTypes.each {
         it.buildConfigField 'String', 'API_KEY', "\"9179624-180dd31b7b27ed73810aeeb72\""
@@ -63,11 +60,12 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
 
-    implementation 'com.google.dagger:dagger:2.23.1'
-    implementation 'com.google.dagger:dagger-android:2.23.1'
-    implementation 'com.google.dagger:dagger-android-support:2.21'
-    kapt 'com.google.dagger:dagger-compiler:2.21'
-    kapt 'com.google.dagger:dagger-android-processor:2.21'
+    implementation "org.koin:koin-android:2.0.1"
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'jp.wasabeef:picasso-transformations:2.1.0'
