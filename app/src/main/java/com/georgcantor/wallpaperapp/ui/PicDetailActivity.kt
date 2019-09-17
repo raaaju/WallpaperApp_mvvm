@@ -214,9 +214,9 @@ class PicDetailActivity : AppCompatActivity() {
         options.inJustDecodeBounds = false
         val decodedSampleBitmap = BitmapFactory.decodeFile(pathOfFile, options)
 
-        val wm = WallpaperManager.getInstance(this)
+        val wallpaperManager = WallpaperManager.getInstance(this)
         try {
-            wm.setBitmap(decodedSampleBitmap)
+            wallpaperManager.setBitmap(decodedSampleBitmap)
             Toast.makeText(this, getString(R.string.wallpaper_is_install), Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
@@ -294,8 +294,8 @@ class PicDetailActivity : AppCompatActivity() {
                         override fun onError() {
                             progressAnimationView?.loop(false)
                             progressAnimationView?.visibility = View.GONE
-                            Toast.makeText(this@PicDetailActivity, getString(R.string.something_went_wrong),
-                                    Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
+                            finish()
                         }
                     })
         }
