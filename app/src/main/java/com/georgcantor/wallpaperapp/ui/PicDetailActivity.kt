@@ -2,12 +2,9 @@ package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -84,7 +81,7 @@ class PicDetailActivity : AppCompatActivity() {
         initView()
 
         fabDownload.setOnClickListener {
-            checkWallpPermission()
+            checkWallpaperPermission()
             val uri = Uri.fromFile(file)
             pathOfFile = UtilityMethods.getPath(applicationContext, uri)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -95,24 +92,21 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
-    private val downloadReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            Toast.makeText(context, tags[0] + resources.getString(R.string.down_complete),
-                    Toast.LENGTH_SHORT).show()
-            isDownloaded = true
-            downloadAnimationView?.loop(false)
-            downloadAnimationView?.visibility = View.GONE
-        }
-    }
-
     private fun setAsWallpaper() {
         val uri = Uri.fromFile(file)
         val intent = Intent(Intent.ACTION_ATTACH_DATA)
         intent.setDataAndType(uri, resources.getString(R.string.image_jpg))
-        intent.putExtra(resources.getString(R.string.mimeType), resources.getString(R.string.image_jpg))
+        intent.putExtra(
+            resources.getString(R.string.mimeType),
+            resources.getString(R.string.image_jpg)
+        )
 
-        startActivityForResult(Intent.createChooser(intent,
-                resources.getString(R.string.Set_As)), 200)
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                resources.getString(R.string.Set_As)
+            ), 200
+        )
     }
 
     inner class SetWallpaperTask : AsyncTask<String, Void, Bitmap>() {
@@ -155,8 +149,10 @@ class PicDetailActivity : AppCompatActivity() {
                     WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
                 }
             }
-            Toast.makeText(this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
+                Toast.LENGTH_SHORT
+            ).show()
 
             recreate()
         }
@@ -180,8 +176,10 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        permissionCheck = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        permissionCheck = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
         if (intent.hasExtra(EXTRA_PIC)) {
             hit = intent.getParcelableExtra(EXTRA_PIC)
@@ -200,46 +198,62 @@ class PicDetailActivity : AppCompatActivity() {
         }
 
         tagTitle?.text = tags[0]
-        tagsRecyclerView.layoutManager = LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false)
+        tagsRecyclerView.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL, false
+        )
         tagAdapter = TagAdapter(this)
         tagAdapter.setTagList(tags)
         tagsRecyclerView.adapter = tagAdapter
-        file = File(Environment.getExternalStoragePublicDirectory("/" + resources
-                .getString(R.string.app_name)), hit?.id.toString() + resources
-                .getString(R.string.jpg))
+        file = File(
+            Environment.getExternalStoragePublicDirectory(
+                "/" + resources
+                    .getString(R.string.app_name)
+            ), hit?.id.toString() + resources
+                .getString(R.string.jpg)
+        )
         if (fileIsExist()) {
-            fabDownload.setImageDrawable(VectorDrawableCompat.create(resources,
-                    R.drawable.ic_photo, null))
+            fabDownload.setImageDrawable(
+                VectorDrawableCompat.create(
+                    resources,
+                    R.drawable.ic_photo, null
+                )
+            )
         }
 
         if (picture == hit?.previewURL) {
-            fabDownload.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_photo, null))
+            fabDownload.setImageDrawable(
+                VectorDrawableCompat.create(
+                    resources,
+                    R.drawable.ic_photo,
+                    null
+                )
+            )
         }
 
         if (intent.hasExtra(ORIGIN)) {
             Picasso.with(this)
-                    .load(file)
-                    .placeholder(R.drawable.plh)
-                    .into(detailImageView)
+                .load(file)
+                .placeholder(R.drawable.plh)
+                .into(detailImageView)
             isCallerCollection = true
         } else {
             Picasso.with(this)
-                    .load(hit?.webformatURL)
-                    .placeholder(R.drawable.plh)
-                    .into(detailImageView, object : Callback {
-                        override fun onSuccess() {
-                            progressAnimationView?.loop(false)
-                            progressAnimationView?.visibility = View.GONE
-                        }
+                .load(hit?.webformatURL)
+                .placeholder(R.drawable.plh)
+                .into(detailImageView, object : Callback {
+                    override fun onSuccess() {
+                        progressAnimationView?.loop(false)
+                        progressAnimationView?.visibility = View.GONE
+                    }
 
-                        override fun onError() {
-                            progressAnimationView?.loop(false)
-                            progressAnimationView?.visibility = View.GONE
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
-                            finish()
-                        }
-                    })
+                    override fun onError() {
+                        progressAnimationView?.loop(false)
+                        progressAnimationView?.visibility = View.GONE
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
+                        finish()
+                    }
+                })
         }
 
         nameTextView.text = hit?.user
@@ -247,26 +261,24 @@ class PicDetailActivity : AppCompatActivity() {
         favoritesTextView.text = hit?.favorites.toString()
         if (!UtilityMethods.isNetworkAvailable) {
             Picasso.with(this)
-                    .load(R.drawable.memb)
-                    .transform(CropCircleTransformation())
-                    .into(userImageView)
+                .load(R.drawable.memb)
+                .transform(CropCircleTransformation())
+                .into(userImageView)
         } else {
             hit?.let {
                 if (it.userImageURL.isNotEmpty()) {
                     Picasso.with(this)
-                            .load(hit?.userImageURL)
-                            .transform(CropCircleTransformation())
-                            .into(userImageView)
+                        .load(hit?.userImageURL)
+                        .transform(CropCircleTransformation())
+                        .into(userImageView)
                 } else {
                     Picasso.with(this)
-                            .load(R.drawable.memb)
-                            .transform(CropCircleTransformation())
-                            .into(userImageView)
+                        .load(R.drawable.memb)
+                        .transform(CropCircleTransformation())
+                        .into(userImageView)
                 }
             }
         }
-        val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        registerReceiver(downloadReceiver, filter)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -310,28 +322,19 @@ class PicDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    public override fun onDestroy() {
-        try {
-            unregisterReceiver(downloadReceiver)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        super.onDestroy()
-    }
-
     private fun fileIsExist(): Boolean = file?.exists() ?: false
 
-    private fun checkWallpPermission() {
+    private fun checkWallpaperPermission() {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission
-                    .SET_WALLPAPER), 103)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SET_WALLPAPER), 103)
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             this.recreate()
