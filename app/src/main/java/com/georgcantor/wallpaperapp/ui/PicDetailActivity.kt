@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.ui
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.DownloadManager
-import android.app.ProgressDialog
 import android.app.WallpaperManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,7 +11,6 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -21,14 +19,12 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
-import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -49,7 +45,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.util.*
-import kotlin.math.roundToInt
 
 class PicDetailActivity : AppCompatActivity() {
 
@@ -126,7 +121,7 @@ class PicDetailActivity : AppCompatActivity() {
             var result: Bitmap? = null
             try {
                 result = Picasso.with(applicationContext)
-                    .load(hit?.fullHDURL)
+                    .load(hit?.imageURL)
                     .get()
             } catch (e: IOException) {
                 e.printStackTrace()
