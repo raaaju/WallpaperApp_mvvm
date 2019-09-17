@@ -4,8 +4,10 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.app.DownloadManager
 import android.app.WallpaperManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -107,6 +109,17 @@ class PicDetailActivity : AppCompatActivity() {
                 resources.getString(R.string.Set_As)
             ), 200
         )
+    }
+
+    private val downloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            Toast.makeText(
+                context, tags[0] + resources.getString(R.string.down_complete),
+                Toast.LENGTH_SHORT
+            ).show()
+            downloadAnimationView?.loop(false)
+            downloadAnimationView?.visibility = View.GONE
+        }
     }
 
     inner class SetWallpaperTask : AsyncTask<String, Void, Bitmap>() {
@@ -212,24 +225,6 @@ class PicDetailActivity : AppCompatActivity() {
             ), hit?.id.toString() + resources
                 .getString(R.string.jpg)
         )
-        if (fileIsExist()) {
-            fabDownload.setImageDrawable(
-                VectorDrawableCompat.create(
-                    resources,
-                    R.drawable.ic_photo, null
-                )
-            )
-        }
-
-        if (picture == hit?.previewURL) {
-            fabDownload.setImageDrawable(
-                VectorDrawableCompat.create(
-                    resources,
-                    R.drawable.ic_photo,
-                    null
-                )
-            )
-        }
 
         if (intent.hasExtra(ORIGIN)) {
             Picasso.with(this)
@@ -279,6 +274,8 @@ class PicDetailActivity : AppCompatActivity() {
                 }
             }
         }
+        val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        registerReceiver(downloadReceiver, filter)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -334,6 +331,10 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun downloadPicture(uri: Uri): Long {
+        downloadAnimationView?.visibility = View.VISIBLE
+        downloadAnimationView?.playAnimation()
+        downloadAnimationView?.loop(true)
+
         val downloadReference: Long
         val downloadManager =
             getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -362,6 +363,10 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun downloadPictureQ(url: String) {
+        downloadAnimationView?.visibility = View.VISIBLE
+        downloadAnimationView?.playAnimation()
+        downloadAnimationView?.loop(true)
+
         val name = UtilityMethods.getImageNameFromUrl(url)
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
@@ -376,10 +381,7 @@ class PicDetailActivity : AppCompatActivity() {
         val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)?.edit()
         editor?.putString("picture", hit?.previewURL)
         editor?.apply()
-        this.recreate()
     }
-
-    private fun fileIsExist(): Boolean = file?.exists() ?: false
 
     private fun checkWallpaperPermission() {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
