@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
@@ -315,10 +316,67 @@ class PicDetailActivity : AppCompatActivity() {
                     e.printStackTrace()
                     Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
                 }
+                R.id.action_download -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        downloadPictureQ(hit?.imageURL ?: "")
+                    } else {
+                        val uri = hit?.imageURL
+                        val imageUri = Uri.parse(uri)
+                        downloadPicture(imageUri)
+                    }
+                }
+                else -> {
+                }
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun downloadPicture(uri: Uri): Long {
+        val downloadReference: Long
+        val downloadManager =
+            getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+        var name = Environment.getExternalStorageDirectory().absolutePath
+        name += "/YourDirectoryName/"
+
+        val request = DownloadManager.Request(uri)
+
+        try {
+            request.setTitle(tags[0] + resources.getString(R.string.down))
+            request.setDescription(resources.getString(R.string.down_wallpapers))
+            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+                request.setDestinationInExternalPublicDir(
+                    "/" + resources
+                        .getString(R.string.app_name), hit?.id.toString() + resources
+                        .getString(R.string.jpg)
+                )
+            }
+        } catch (e: IllegalStateException) {
+            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+        }
+        downloadReference = downloadManager.enqueue(request)
+
+        return downloadReference
+    }
+
+    private fun downloadPictureQ(url: String) {
+        val name = UtilityMethods.getImageNameFromUrl(url)
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+        val request = DownloadManager.Request(Uri.parse(url))
+
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            .setAllowedOverRoaming(false)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
+
+        downloadManager?.enqueue(request)
+        val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)?.edit()
+        editor?.putString("picture", hit?.previewURL)
+        editor?.apply()
+        this.recreate()
     }
 
     private fun fileIsExist(): Boolean = file?.exists() ?: false

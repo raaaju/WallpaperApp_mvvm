@@ -11,6 +11,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_download"
+        android:icon="@drawable/ic_download"
+        android:title="@string/download"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_add_to_fav"
         android:icon="@drawable/ic_star_border_black_24dp"
         android:title="@string/add_to_favorites"

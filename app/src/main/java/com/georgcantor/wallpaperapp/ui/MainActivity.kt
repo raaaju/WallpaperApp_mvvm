@@ -18,7 +18,6 @@ import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
