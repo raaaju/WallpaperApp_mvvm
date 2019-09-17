@@ -155,10 +155,10 @@ class PicDetailActivity : AppCompatActivity() {
                     WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
                 }
             }
-            progressAnimationView?.loop(false)
-            progressAnimationView?.visibility = View.GONE
             Toast.makeText(this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
                 Toast.LENGTH_SHORT).show()
+
+            recreate()
         }
 
         override fun onPreExecute() {
