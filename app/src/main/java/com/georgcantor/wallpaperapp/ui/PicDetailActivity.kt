@@ -58,7 +58,6 @@ class PicDetailActivity : AppCompatActivity() {
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
-    private var isDownloaded = false
     private var isCallerCollection = false
     private var pathOfFile: String? = null
     private lateinit var prefs: SharedPreferences

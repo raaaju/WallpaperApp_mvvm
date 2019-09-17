@@ -16,18 +16,23 @@ object UtilityMethods {
     val isNetworkAvailable: Boolean
         get() {
             val connectivityManager =
-                    MyApplication.instance?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                MyApplication.instance?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             return connectivityManager.activeNetworkInfo != null
                     && connectivityManager.activeNetworkInfo?.isConnected ?: false
         }
 
     fun getPath(context: Context, uri: Uri): String? {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(
+                context,
+                uri
+            )
+        ) {
             when {
                 isExternalStorageDocument(uri) -> {
                     val docId = DocumentsContract.getDocumentId(uri)
-                    val split = docId.split(":".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
+                    val split =
+                        docId.split(":".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
                     val type = split[0]
                     val storageDefinition: String
 
@@ -44,14 +49,18 @@ object UtilityMethods {
                 }
                 isDownloadsDocument(uri) -> {
                     val id = DocumentsContract.getDocumentId(uri)
-                    val contentUri = ContentUris.withAppendedId(Uri
-                            .parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
+                    val contentUri = ContentUris.withAppendedId(
+                        Uri
+                            .parse("content://downloads/public_downloads"),
+                        java.lang.Long.valueOf(id)
+                    )
 
                     return getDataColumn(context, contentUri, null, null)
                 }
                 isMediaDocument(uri) -> {
                     val docId = DocumentsContract.getDocumentId(uri)
-                    val split = docId.split(":".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
+                    val split =
+                        docId.split(":".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
                     val type = split[0]
                     var contentUri: Uri? = null
 
@@ -66,9 +75,13 @@ object UtilityMethods {
                     return getDataColumn(context, contentUri, selection, selectionArgs)
                 }
             }
-
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
-            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
+            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                context,
+                uri,
+                null,
+                null
+            )
         } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
@@ -76,22 +89,27 @@ object UtilityMethods {
         return null
     }
 
-    fun getImageNameFromUrl(url: String): String {
-        val index = url.lastIndexOf("/")
-        return url.substring(index)
-    }
-
-    private fun getDataColumn(context: Context,
-                              uri: Uri?,
-                              selection: String?,
-                              selectionArgs: Array<String>?): String? {
+    private fun getDataColumn(
+        context: Context,
+        uri: Uri?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
 
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(column)
 
         try {
-            cursor = uri?.let { context.contentResolver.query(it, projection, selection, selectionArgs, null) }
+            cursor = uri?.let {
+                context.contentResolver.query(
+                    it,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null
+                )
+            }
             if (cursor != null && cursor.moveToFirst()) {
                 val columnIndex = cursor.getColumnIndexOrThrow(column)
 
