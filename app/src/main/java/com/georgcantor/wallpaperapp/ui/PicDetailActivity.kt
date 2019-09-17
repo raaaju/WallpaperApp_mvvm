@@ -1,7 +1,9 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.app.DownloadManager
+import android.app.ProgressDialog
 import android.app.WallpaperManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,11 +11,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
 import android.util.DisplayMetrics
@@ -22,6 +27,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -39,7 +45,9 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_detail.*
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -80,109 +88,16 @@ class PicDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
 
-        fabDownload.setOnClickListener(View.OnClickListener {
-            if (!fileIsExist() && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || picture != hit?.previewURL) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    checkPermission()
-                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                        return@OnClickListener
-                    }
-                }
-                if (UtilityMethods.isNetworkAvailable) {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle(R.string.download)
-                    builder.setIcon(R.drawable.ic_download)
-                    builder.setMessage(R.string.choose_format)
-
-                    builder.setPositiveButton(resources.getText(R.string.hd)) { _, _ ->
-                        downloadAnimationView?.visibility = View.VISIBLE
-                        downloadAnimationView?.playAnimation()
-                        downloadAnimationView?.loop(true)
-                        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                            if (!fileIsExist()) {
-                                val uri = hit?.webformatURL
-                                val imageUri = Uri.parse(uri)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                                    downloadDataQ(hit?.webformatURL ?: "")
-                                } else {
-                                    downloadData(imageUri)
-                                }
-                                fabDownload.setImageDrawable(VectorDrawableCompat.create(resources,
-                                        R.drawable.ic_photo, null))
-                            } else {
-                                Toast.makeText(this, resources.getString(R.string.image_downloaded),
-                                        Toast.LENGTH_SHORT).show()
-                                downloadAnimationView?.loop(false)
-                                downloadAnimationView?.visibility = View.GONE
-                            }
-                        }
-                    }
-
-                    builder.setNeutralButton(hit?.imageWidth.toString() + " x "
-                            + hit?.imageHeight) { _, _ ->
-                        downloadAnimationView?.visibility = View.VISIBLE
-                        downloadAnimationView?.playAnimation()
-                        downloadAnimationView?.loop(true)
-                        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                            if (!fileIsExist()) {
-                                val uri = hit?.imageURL
-                                val imageUri = Uri.parse(uri)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                                    downloadDataQ(hit?.imageURL ?: "")
-                                } else {
-                                    downloadData(imageUri)
-                                }
-                                fabDownload.setImageDrawable(ContextCompat
-                                        .getDrawable(this, R.drawable.ic_photo))
-                            } else {
-                                Toast.makeText(this@PicDetailActivity, resources
-                                        .getString(R.string.image_downloaded),
-                                        Toast.LENGTH_SHORT).show()
-                                downloadAnimationView?.loop(false)
-                                downloadAnimationView?.visibility = View.GONE
-                            }
-                        }
-                    }
-
-                    builder.setNegativeButton(resources.getText(R.string.fullHd)) { _, _ ->
-                        downloadAnimationView?.visibility = View.VISIBLE
-                        downloadAnimationView?.playAnimation()
-                        downloadAnimationView?.loop(true)
-                        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                            if (!fileIsExist()) {
-                                val uri = hit?.fullHDURL
-                                val imageUri = Uri.parse(uri)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                                    downloadDataQ(hit?.fullHDURL ?: "")
-                                } else {
-                                    downloadData(imageUri)
-                                }
-                                fabDownload.setImageDrawable(ContextCompat
-                                        .getDrawable(this, R.drawable.ic_photo))
-                            } else {
-                                Toast.makeText(this, resources.getString(R.string.image_downloaded),
-                                        Toast.LENGTH_SHORT).show()
-                                downloadAnimationView?.loop(false)
-                                downloadAnimationView?.visibility = View.GONE
-                            }
-                        }
-                    }
-                    builder.create().show()
-                } else {
-                    Toast.makeText(this, resources.getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
-                }
-
+        fabDownload.setOnClickListener {
+            checkWallpPermission()
+            val uri = Uri.fromFile(file)
+            pathOfFile = UtilityMethods.getPath(applicationContext, uri)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                SetWallpaperTask().execute()
             } else {
-                checkWallpPermission()
-                val uri = Uri.fromFile(file)
-                pathOfFile = UtilityMethods.getPath(applicationContext, uri)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    setAsWallpaper6(pathOfFile)
-                } else {
-                    setAsWallpaper()
-                }
+                setAsWallpaper()
             }
-        })
+        }
     }
 
     private val downloadReceiver = object : BroadcastReceiver() {
@@ -205,46 +120,68 @@ class PicDetailActivity : AppCompatActivity() {
                 resources.getString(R.string.Set_As)), 200)
     }
 
-    private fun setAsWallpaper6(pathOfFile: String?) {
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val height = displayMetrics.heightPixels
-        val width = displayMetrics.widthPixels shl 1
+    inner class SetWallpaperTask : AsyncTask<String, Void, Bitmap>() {
+        @TargetApi(Build.VERSION_CODES.KITKAT)
+        override fun doInBackground(vararg params: String): Bitmap? {
+            var result: Bitmap? = null
+            try {
+                result = Picasso.with(applicationContext)
+                    .load(hit?.fullHDURL)
+                    .get()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
 
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(pathOfFile, options)
+            return result
+        }
 
-        options.inSampleSize = calculateInSampleSize(options, width, height)
+        @RequiresApi(Build.VERSION_CODES.KITKAT)
+        override fun onPostExecute(result: Bitmap) {
+            super.onPostExecute(result)
 
-        options.inJustDecodeBounds = false
-        val decodedSampleBitmap = BitmapFactory.decodeFile(pathOfFile, options)
+            val wallpaperManager = WallpaperManager.getInstance(baseContext)
+            run {
+                try {
+                    startActivity(
+                        Intent(
+                            wallpaperManager.getCropAndSetWallpaperIntent(
+                                getImageUri(
+                                    result,
+                                    applicationContext
+                                )
+                            )
+                        )
+                    )
+                } catch (e: IllegalArgumentException) {
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        contentResolver,
+                        getImageUri(result, applicationContext)
+                    )
+                    WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
+                }
+            }
+            progressAnimationView?.loop(false)
+            progressAnimationView?.visibility = View.GONE
+            Toast.makeText(this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
+                Toast.LENGTH_SHORT).show()
+        }
 
-        val wallpaperManager = WallpaperManager.getInstance(this)
-        try {
-            wallpaperManager.setBitmap(decodedSampleBitmap)
-            Toast.makeText(this, getString(R.string.wallpaper_is_install), Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+        override fun onPreExecute() {
+            super.onPreExecute()
+            progressAnimationView?.visibility = View.VISIBLE
+            progressAnimationView?.playAnimation()
+            progressAnimationView?.loop(true)
         }
     }
 
-
-    private fun calculateInSampleSize(options: BitmapFactory.Options,
-                                      reqWidth: Int,
-                                      reqHeight: Int): Int {
-        val height = options.outHeight
-        val width = options.outWidth
-        var inSampleSize = 1
-
-        if (height > reqHeight || width > reqWidth) {
-            val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
-            val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
-
-            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-        }
-
-        return inSampleSize
+    private fun getImageUri(inImage: Bitmap, inContext: Context): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            inContext.contentResolver,
+            inImage, "Title", null
+        )
+        return Uri.parse(path)
     }
 
     private fun initView() {
@@ -378,51 +315,6 @@ class PicDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun downloadData(uri: Uri): Long {
-        val downloadReference: Long
-        val downloadManager =
-                getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        var name = Environment.getExternalStorageDirectory().absolutePath
-        name += "/YourDirectoryName/"
-
-        val request = DownloadManager.Request(uri)
-
-        try {
-            request.setTitle(tags[0] + resources.getString(R.string.down))
-            request.setDescription(resources.getString(R.string.down_wallpapers))
-            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-                request.setDestinationInExternalPublicDir("/" + resources
-                        .getString(R.string.app_name), hit?.id.toString() + resources
-                        .getString(R.string.jpg))
-            }
-        } catch (e: IllegalStateException) {
-            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-        }
-        downloadReference = downloadManager.enqueue(request)
-
-        return downloadReference
-    }
-
-    private fun downloadDataQ(url: String) {
-        val name = UtilityMethods.getImageNameFromUrl(url)
-
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
-        val request = DownloadManager.Request(Uri.parse(url))
-
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setAllowedOverRoaming(false)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
-
-        downloadManager?.enqueue(request)
-        val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)?.edit()
-        editor?.putString("picture", hit?.previewURL)
-        editor?.apply()
-        this.recreate()
-    }
-
-
     public override fun onDestroy() {
         try {
             unregisterReceiver(downloadReceiver)
@@ -434,14 +326,6 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun fileIsExist(): Boolean = file?.exists() ?: false
-
-    private fun checkPermission() {
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            val requestCode = 102
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission
-                    .WRITE_EXTERNAL_STORAGE), requestCode)
-        }
-    }
 
     private fun checkWallpPermission() {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
