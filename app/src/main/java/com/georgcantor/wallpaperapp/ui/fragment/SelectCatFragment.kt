@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
@@ -76,15 +77,18 @@ class SelectCatFragment : Fragment() {
         catAnimationView?.playAnimation()
         catAnimationView?.loop(true)
 
-        viewModel.getPictures(type, index).subscribe({
+        val disposable = viewModel.getPictures(type, index).subscribe({
             adapter.setPicList(it.hits)
             catAnimationView?.loop(false)
             catAnimationView?.visibility = View.GONE
         }, {
             catAnimationView?.loop(false)
             catAnimationView?.visibility = View.GONE
-            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT)
+                .show()
         })
+
+        DisposableManager.add(disposable)
     }
 
     private fun checkScreenSize() {
@@ -99,4 +103,10 @@ class SelectCatFragment : Fragment() {
             else -> 2
         }
     }
+
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
+
 }

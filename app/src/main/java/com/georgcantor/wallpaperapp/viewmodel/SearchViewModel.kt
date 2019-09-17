@@ -10,8 +10,8 @@ import io.reactivex.schedulers.Schedulers
 class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
 
     fun getPictures(request: String, index: Int): Observable<Pic> =
-            apiRepository.getPictures(request, index)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+        apiRepository.getPictures(request, index)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 
 }

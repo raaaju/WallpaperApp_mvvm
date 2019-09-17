@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
@@ -73,20 +74,23 @@ class CarBrandFragment : Fragment() {
         brandAnimationView?.playAnimation()
         brandAnimationView?.loop(true)
 
-        viewModel.getPictures(arguments?.getString(FETCH_TYPE) ?: "", index).subscribe({
-            adapter.setPicList(it.hits)
-            brandAnimationView?.loop(false)
-            brandAnimationView?.visibility = View.GONE
-        }, {
-            brandAnimationView?.loop(false)
-            brandAnimationView?.visibility = View.GONE
-            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-        })
+        val disposable =
+            viewModel.getPictures(arguments?.getString(FETCH_TYPE) ?: "", index).subscribe({
+                adapter.setPicList(it.hits)
+                brandAnimationView?.loop(false)
+                brandAnimationView?.visibility = View.GONE
+            }, {
+                brandAnimationView?.loop(false)
+                brandAnimationView?.visibility = View.GONE
+                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT)
+                    .show()
+            })
+
+        DisposableManager.add(disposable)
     }
 
     private fun checkScreenSize() {
-        val screenSize = resources.configuration.screenLayout and
-                Configuration.SCREENLAYOUT_SIZE_MASK
+        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
 
         columnNo = when (screenSize) {
             Configuration.SCREENLAYOUT_SIZE_XLARGE -> 4
@@ -97,4 +101,10 @@ class CarBrandFragment : Fragment() {
             else -> 2
         }
     }
+
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
+
 }

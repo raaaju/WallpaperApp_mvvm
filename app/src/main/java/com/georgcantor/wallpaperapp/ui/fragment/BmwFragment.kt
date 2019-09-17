@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
@@ -47,9 +48,9 @@ class BmwFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_bmw, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +65,8 @@ class BmwFragment : Fragment() {
         }
         checkScreenSize()
 
-        val gridLayoutManager = StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL)
+        val gridLayoutManager =
+            StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL)
         bmwRecyclerView.setHasFixedSize(true)
         bmwRecyclerView.layoutManager = gridLayoutManager
 
@@ -90,19 +92,24 @@ class BmwFragment : Fragment() {
         animationView?.playAnimation()
         animationView?.loop(true)
 
-        viewModel.getPictures(arguments?.getString("request") ?: "", index).subscribe({
-            adapter?.setPicList(it.hits)
-            animationView?.loop(false)
-            animationView?.visibility = View.GONE
-        }, {
-            animationView?.loop(false)
-            animationView?.visibility = View.GONE
-            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
-        })
+        val disposable =
+            viewModel.getPictures(arguments?.getString("request") ?: "", index).subscribe({
+                adapter?.setPicList(it.hits)
+                animationView?.loop(false)
+                animationView?.visibility = View.GONE
+            }, {
+                animationView?.loop(false)
+                animationView?.visibility = View.GONE
+                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT)
+                    .show()
+            })
+
+        DisposableManager.add(disposable)
     }
 
     private fun checkScreenSize() {
-        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
+        val screenSize =
+            resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
 
         columnNo = when (screenSize) {
             Configuration.SCREENLAYOUT_SIZE_XLARGE -> 4
@@ -112,6 +119,11 @@ class BmwFragment : Fragment() {
             Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
             else -> 2
         }
+    }
+
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
     }
 
 }
