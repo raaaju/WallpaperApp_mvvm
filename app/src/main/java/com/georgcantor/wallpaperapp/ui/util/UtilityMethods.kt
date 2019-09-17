@@ -91,6 +91,7 @@ object UtilityMethods {
 
     fun getImageNameFromUrl(url: String): String {
         val index = url.lastIndexOf("/")
+
         return url.substring(index)
     }
 
