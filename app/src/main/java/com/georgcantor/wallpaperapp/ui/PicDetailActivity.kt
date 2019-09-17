@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -60,6 +61,8 @@ class PicDetailActivity : AppCompatActivity() {
     private var isDownloaded = false
     private var isCallerCollection = false
     private var pathOfFile: String? = null
+    private lateinit var prefs: SharedPreferences
+    private lateinit var picture: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +74,14 @@ class PicDetailActivity : AppCompatActivity() {
         progressAnimationView?.loop(true)
         db = DatabaseHelper(this)
 
+        prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        picture = prefs.getString("picture", "") ?: ""
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
 
         fabDownload.setOnClickListener(View.OnClickListener {
-            if (!fileIsExist()) {
+            if (!fileIsExist() && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || picture != hit?.previewURL) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     checkPermission()
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -275,6 +281,10 @@ class PicDetailActivity : AppCompatActivity() {
                     R.drawable.ic_photo, null))
         }
 
+        if (picture == hit?.previewURL) {
+            fabDownload.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_photo, null))
+        }
+
         if (intent.hasExtra(ORIGIN)) {
             Picasso.with(this)
                     .load(file)
@@ -406,6 +416,10 @@ class PicDetailActivity : AppCompatActivity() {
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
 
         downloadManager?.enqueue(request)
+        val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)?.edit()
+        editor?.putString("picture", hit?.previewURL)
+        editor?.apply()
+        this.recreate()
     }
 
 
