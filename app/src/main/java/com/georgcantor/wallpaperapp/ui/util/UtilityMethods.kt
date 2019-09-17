@@ -76,6 +76,11 @@ object UtilityMethods {
         return null
     }
 
+    fun getImageNameFromUrl(url: String): String {
+        val index = url.lastIndexOf("/")
+        return url.substring(index)
+    }
+
     private fun getDataColumn(context: Context,
                               uri: Uri?,
                               selection: String?,

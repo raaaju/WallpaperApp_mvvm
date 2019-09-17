@@ -96,7 +96,11 @@ class PicDetailActivity : AppCompatActivity() {
                             if (!fileIsExist()) {
                                 val uri = hit?.webformatURL
                                 val imageUri = Uri.parse(uri)
-                                downloadData(imageUri)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                                    downloadDataQ(hit?.webformatURL ?: "")
+                                } else {
+                                    downloadData(imageUri)
+                                }
                                 fabDownload.setImageDrawable(VectorDrawableCompat.create(resources,
                                         R.drawable.ic_photo, null))
                             } else {
@@ -117,7 +121,11 @@ class PicDetailActivity : AppCompatActivity() {
                             if (!fileIsExist()) {
                                 val uri = hit?.imageURL
                                 val imageUri = Uri.parse(uri)
-                                downloadData(imageUri)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                                    downloadDataQ(hit?.imageURL ?: "")
+                                } else {
+                                    downloadData(imageUri)
+                                }
                                 fabDownload.setImageDrawable(ContextCompat
                                         .getDrawable(this, R.drawable.ic_photo))
                             } else {
@@ -138,7 +146,11 @@ class PicDetailActivity : AppCompatActivity() {
                             if (!fileIsExist()) {
                                 val uri = hit?.fullHDURL
                                 val imageUri = Uri.parse(uri)
-                                downloadData(imageUri)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                                    downloadDataQ(hit?.fullHDURL ?: "")
+                                } else {
+                                    downloadData(imageUri)
+                                }
                                 fabDownload.setImageDrawable(ContextCompat
                                         .getDrawable(this, R.drawable.ic_photo))
                             } else {
@@ -381,6 +393,21 @@ class PicDetailActivity : AppCompatActivity() {
 
         return downloadReference
     }
+
+    private fun downloadDataQ(url: String) {
+        val name = UtilityMethods.getImageNameFromUrl(url)
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+        val request = DownloadManager.Request(Uri.parse(url))
+
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            .setAllowedOverRoaming(false)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
+
+        downloadManager?.enqueue(request)
+    }
+
 
     public override fun onDestroy() {
         try {
