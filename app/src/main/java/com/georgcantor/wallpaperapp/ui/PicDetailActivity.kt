@@ -35,6 +35,8 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -74,7 +76,8 @@ class PicDetailActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.fragment_detail)
 
-        showProgress()
+        progressAnimationView?.showAnimation()
+
         db = DatabaseHelper(this)
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
@@ -88,7 +91,7 @@ class PicDetailActivity : AppCompatActivity() {
                 val uri = Uri.fromFile(file)
                 pathOfFile = UtilityMethods.getPath(applicationContext, uri)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    showProgress()
+                    progressAnimationView?.showAnimation()
                     setWallAsync()
                 } else {
                     setAsWallpaper()
@@ -122,8 +125,7 @@ class PicDetailActivity : AppCompatActivity() {
                 context, tags[0] + resources.getString(R.string.down_complete),
                 Toast.LENGTH_SHORT
             ).show()
-            downloadAnimationView?.loop(false)
-            downloadAnimationView?.visibility = View.GONE
+            downloadAnimationView?.hideAnimation()
         }
     }
 
@@ -239,13 +241,11 @@ class PicDetailActivity : AppCompatActivity() {
                 .placeholder(R.drawable.plh)
                 .into(detailImageView, object : Callback {
                     override fun onSuccess() {
-                        progressAnimationView?.loop(false)
-                        progressAnimationView?.visibility = View.GONE
+                        progressAnimationView?.hideAnimation()
                     }
 
                     override fun onError() {
-                        progressAnimationView?.loop(false)
-                        progressAnimationView?.visibility = View.GONE
+                        progressAnimationView?.hideAnimation()
                         if (intent.hasExtra(EXTRA_BOOLEAN)) {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
                             finish()
@@ -337,16 +337,8 @@ class PicDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showProgress() {
-        progressAnimationView?.visibility = View.VISIBLE
-        progressAnimationView?.playAnimation()
-        progressAnimationView?.loop(true)
-    }
-
     private fun downloadPicture(uri: Uri): Long {
-        downloadAnimationView?.visibility = View.VISIBLE
-        downloadAnimationView?.playAnimation()
-        downloadAnimationView?.loop(true)
+        downloadAnimationView?.showAnimation()
 
         val downloadReference: Long
         val downloadManager =
