@@ -313,12 +313,16 @@ class PicDetailActivity : AppCompatActivity() {
                     Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
                 }
                 R.id.action_download -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        downloadPictureQ(hit?.imageURL ?: "")
+                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            downloadPictureQ(hit?.imageURL ?: "")
+                        } else {
+                            val uri = hit?.imageURL
+                            val imageUri = Uri.parse(uri)
+                            downloadPicture(imageUri)
+                        }
                     } else {
-                        val uri = hit?.imageURL
-                        val imageUri = Uri.parse(uri)
-                        downloadPicture(imageUri)
+                        checkSavingPermission()
                     }
                 }
                 else -> {
@@ -388,6 +392,14 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkSavingPermission() {
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            val requestCode = 102
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission
+                .WRITE_EXTERNAL_STORAGE), requestCode)
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -416,6 +428,15 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+    }
+
+    public override fun onDestroy() {
+        try {
+            unregisterReceiver(downloadReceiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.onDestroy()
     }
 
 }
