@@ -49,6 +49,7 @@ class PicDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PIC = "picture"
+        const val EXTRA_BOOLEAN = "isFromFavorite"
         const val ORIGIN = "caller"
     }
 
@@ -247,8 +248,10 @@ class PicDetailActivity : AppCompatActivity() {
                     override fun onError() {
                         progressAnimationView?.loop(false)
                         progressAnimationView?.visibility = View.GONE
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
-                        finish()
+                        if (intent.hasExtra(EXTRA_BOOLEAN)) {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
+                            finish()
+                        }
                     }
                 })
         }
@@ -392,8 +395,11 @@ class PicDetailActivity : AppCompatActivity() {
     private fun checkSavingPermission() {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             val requestCode = 102
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission
-                .WRITE_EXTERNAL_STORAGE), requestCode)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                requestCode
+            )
         }
     }
 
