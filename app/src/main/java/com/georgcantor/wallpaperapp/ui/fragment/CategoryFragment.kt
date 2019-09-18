@@ -11,7 +11,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.app_bar_main.navigation
 import kotlinx.android.synthetic.main.fragment_category.*
 import java.util.*
 

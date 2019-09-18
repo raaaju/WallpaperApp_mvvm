@@ -16,8 +16,10 @@ import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.app_bar_main.navigation
 import kotlinx.android.synthetic.main.fragment_car_brand.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -70,20 +72,15 @@ class CarBrandFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun loadData(index: Int) {
-        brandAnimationView?.visibility = View.VISIBLE
-        brandAnimationView?.playAnimation()
-        brandAnimationView?.loop(true)
+        brandAnimationView?.showAnimation()
 
         val disposable =
             viewModel.getPictures(arguments?.getString(FETCH_TYPE) ?: "", index).subscribe({
                 adapter.setPicList(it.hits)
-                brandAnimationView?.loop(false)
-                brandAnimationView?.visibility = View.GONE
+                brandAnimationView?.hideAnimation()
             }, {
-                brandAnimationView?.loop(false)
-                brandAnimationView?.visibility = View.GONE
-                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT)
-                    .show()
+                brandAnimationView?.hideAnimation()
+                Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
             })
 
         DisposableManager.add(disposable)

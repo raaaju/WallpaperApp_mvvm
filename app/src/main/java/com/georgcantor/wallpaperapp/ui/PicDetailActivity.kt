@@ -1,7 +1,7 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
-import android.annotation.TargetApi
+import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.BroadcastReceiver
@@ -12,7 +12,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -34,10 +33,17 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.getImageNameFromUrl
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.io.ByteArrayOutputStream
@@ -49,6 +55,7 @@ class PicDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PIC = "picture"
+        const val EXTRA_BOOLEAN = "isFromFavorite"
         const val ORIGIN = "caller"
     }
 
@@ -70,9 +77,8 @@ class PicDetailActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.fragment_detail)
 
-        progressAnimationView?.visibility = View.VISIBLE
-        progressAnimationView?.playAnimation()
-        progressAnimationView?.loop(true)
+        progressAnimationView?.showAnimation()
+
         db = DatabaseHelper(this)
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
@@ -81,14 +87,18 @@ class PicDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
 
-        fabDownload.setOnClickListener {
-            checkWallpaperPermission()
-            val uri = Uri.fromFile(file)
-            pathOfFile = UtilityMethods.getPath(applicationContext, uri)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                SetWallpaperTask().execute()
+        fabSetWall.setOnClickListener {
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                val uri = Uri.fromFile(file)
+                pathOfFile = UtilityMethods.getPath(applicationContext, uri)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    progressAnimationView?.showAnimation()
+                    setWallAsync()
+                } else {
+                    setAsWallpaper()
+                }
             } else {
-                setAsWallpaper()
+                checkSavingPermission()
             }
         }
     }
@@ -116,50 +126,34 @@ class PicDetailActivity : AppCompatActivity() {
                 context, tags[0] + resources.getString(R.string.down_complete),
                 Toast.LENGTH_SHORT
             ).show()
-            downloadAnimationView?.loop(false)
-            downloadAnimationView?.visibility = View.GONE
+            downloadAnimationView?.hideAnimation()
         }
     }
 
-    inner class SetWallpaperTask : AsyncTask<String, Void, Bitmap>() {
-        @TargetApi(Build.VERSION_CODES.KITKAT)
-        override fun doInBackground(vararg params: String): Bitmap? {
-            var result: Bitmap? = null
-            try {
-                result = Picasso.with(applicationContext)
-                    .load(hit?.imageURL)
-                    .get()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-            return result
-        }
-
-        @RequiresApi(Build.VERSION_CODES.KITKAT)
-        override fun onPostExecute(result: Bitmap) {
-            super.onPostExecute(result)
-
+    @SuppressLint("CheckResult")
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun setWallAsync() {
+        val disposable = getBitmapAsync()?.subscribe {
             val wallpaperManager = WallpaperManager.getInstance(baseContext)
-            run {
-                try {
-                    startActivity(
-                        Intent(
-                            wallpaperManager.getCropAndSetWallpaperIntent(
+            try {
+                startActivity(
+                    Intent(
+                        wallpaperManager.getCropAndSetWallpaperIntent(
+                            it?.let { it1 ->
                                 getImageUri(
-                                    result,
+                                    it1,
                                     applicationContext
                                 )
-                            )
+                            }
                         )
                     )
-                } catch (e: IllegalArgumentException) {
-                    val bitmap = MediaStore.Images.Media.getBitmap(
-                        contentResolver,
-                        getImageUri(result, applicationContext)
-                    )
-                    WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
-                }
+                )
+            } catch (e: IllegalArgumentException) {
+                val bitmap = MediaStore.Images.Media.getBitmap(
+                    contentResolver,
+                    it?.let { it1 -> getImageUri(it1, applicationContext) }
+                )
+                WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
             }
             Toast.makeText(
                 this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
@@ -169,12 +163,23 @@ class PicDetailActivity : AppCompatActivity() {
             recreate()
         }
 
-        override fun onPreExecute() {
-            super.onPreExecute()
-            progressAnimationView?.visibility = View.VISIBLE
-            progressAnimationView?.playAnimation()
-            progressAnimationView?.loop(true)
+        disposable?.let(DisposableManager::add)
+    }
+
+    private fun getBitmapAsync(): Observable<Bitmap?>? {
+        return Observable.fromCallable {
+            var result: Bitmap? = null
+            try {
+                result = Picasso.with(applicationContext)
+                    .load(hit?.imageURL)
+                    .get()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            result
         }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun getImageUri(inImage: Bitmap, inContext: Context): Uri {
@@ -237,15 +242,15 @@ class PicDetailActivity : AppCompatActivity() {
                 .placeholder(R.drawable.plh)
                 .into(detailImageView, object : Callback {
                     override fun onSuccess() {
-                        progressAnimationView?.loop(false)
-                        progressAnimationView?.visibility = View.GONE
+                        progressAnimationView?.hideAnimation()
                     }
 
                     override fun onError() {
-                        progressAnimationView?.loop(false)
-                        progressAnimationView?.visibility = View.GONE
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
-                        finish()
+                        progressAnimationView?.hideAnimation()
+                        if (intent.hasExtra(EXTRA_BOOLEAN)) {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
+                            finish()
+                        }
                     }
                 })
         }
@@ -313,12 +318,16 @@ class PicDetailActivity : AppCompatActivity() {
                     Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
                 }
                 R.id.action_download -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        downloadPictureQ(hit?.imageURL ?: "")
+                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            downloadPictureQ(hit?.imageURL ?: "")
+                        } else {
+                            val uri = hit?.imageURL
+                            val imageUri = Uri.parse(uri)
+                            downloadPicture(imageUri)
+                        }
                     } else {
-                        val uri = hit?.imageURL
-                        val imageUri = Uri.parse(uri)
-                        downloadPicture(imageUri)
+                        checkSavingPermission()
                     }
                 }
                 else -> {
@@ -330,9 +339,7 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     private fun downloadPicture(uri: Uri): Long {
-        downloadAnimationView?.visibility = View.VISIBLE
-        downloadAnimationView?.playAnimation()
-        downloadAnimationView?.loop(true)
+        downloadAnimationView?.showAnimation()
 
         val downloadReference: Long
         val downloadManager =
@@ -366,7 +373,7 @@ class PicDetailActivity : AppCompatActivity() {
         downloadAnimationView?.playAnimation()
         downloadAnimationView?.loop(true)
 
-        val name = UtilityMethods.getImageNameFromUrl(url)
+        val name = url.getImageNameFromUrl()
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
         val request = DownloadManager.Request(Uri.parse(url))
@@ -382,9 +389,14 @@ class PicDetailActivity : AppCompatActivity() {
         editor?.apply()
     }
 
-    private fun checkWallpaperPermission() {
+    private fun checkSavingPermission() {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SET_WALLPAPER), 103)
+            val requestCode = 102
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                requestCode
+            )
         }
     }
 
@@ -416,6 +428,16 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+    }
+
+    public override fun onDestroy() {
+        try {
+            unregisterReceiver(downloadReceiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        DisposableManager.dispose()
+        super.onDestroy()
     }
 
 }

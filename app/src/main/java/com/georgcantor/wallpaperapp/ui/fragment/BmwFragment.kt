@@ -16,8 +16,10 @@ import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.app_bar_main.navigation
 import kotlinx.android.synthetic.main.fragment_bmw.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -88,18 +90,14 @@ class BmwFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun loadData(index: Int) {
-        animationView?.visibility = View.VISIBLE
-        animationView?.playAnimation()
-        animationView?.loop(true)
+        animationView?.showAnimation()
 
         val disposable =
             viewModel.getPictures(arguments?.getString("request") ?: "", index).subscribe({
                 adapter?.setPicList(it.hits)
-                animationView?.loop(false)
-                animationView?.visibility = View.GONE
+                animationView?.hideAnimation()
             }, {
-                animationView?.loop(false)
-                animationView?.visibility = View.GONE
+                animationView?.hideAnimation()
                 Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT)
                     .show()
             })

@@ -16,8 +16,10 @@ import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.app_bar_main.navigation
 import kotlinx.android.synthetic.main.fragment_select_cat.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -73,19 +75,14 @@ class SelectCatFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun loadData(type: String, index: Int) {
-        catAnimationView?.visibility = View.VISIBLE
-        catAnimationView?.playAnimation()
-        catAnimationView?.loop(true)
+        catAnimationView?.showAnimation()
 
         val disposable = viewModel.getPictures(type, index).subscribe({
             adapter.setPicList(it.hits)
-            catAnimationView?.loop(false)
-            catAnimationView?.visibility = View.GONE
+            catAnimationView?.hideAnimation()
         }, {
-            catAnimationView?.loop(false)
-            catAnimationView?.visibility = View.GONE
-            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT)
-                .show()
+            catAnimationView?.hideAnimation()
+            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
         })
 
         DisposableManager.add(disposable)

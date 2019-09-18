@@ -11,6 +11,8 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_review.*
 
@@ -38,21 +40,15 @@ class ReviewFragment : Fragment() {
             rating = ratingNumber.toInt()
             addReviewButton.visibility = if (rating > 0) View.VISIBLE else View.GONE
             if (rating in 1..3) {
-                cryAnimationView?.visibility = View.VISIBLE
-                cryAnimationView?.playAnimation()
-                cryAnimationView?.loop(true)
+                cryAnimationView?.showAnimation()
             } else {
-                cryAnimationView?.loop(false)
-                cryAnimationView?.visibility = View.GONE
+                cryAnimationView?.hideAnimation()
             }
 
             if (rating > 3) {
-                joyAnimationView?.visibility = View.VISIBLE
-                joyAnimationView?.playAnimation()
-                joyAnimationView?.loop(true)
+                joyAnimationView?.showAnimation()
             } else {
-                joyAnimationView?.loop(false)
-                joyAnimationView?.visibility = View.GONE
+                joyAnimationView?.hideAnimation()
             }
         }
 
