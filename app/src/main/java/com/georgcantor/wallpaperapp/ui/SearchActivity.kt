@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
@@ -106,21 +108,17 @@ class SearchActivity : AppCompatActivity() {
 
         viewModel.getPictures(search, index).subscribe({
             adapter.setPicList(it.hits)
-            searchAnimationView?.loop(false)
-            searchAnimationView?.visibility = View.GONE
+            searchAnimationView?.hideAnimation()
             invalidateOptionsMenu()
             voiceInvisible = true
             editText_search.visibility = View.GONE
             if (it.hits.isNullOrEmpty()) {
-                searchAnimationView?.visibility = View.VISIBLE
-                searchAnimationView?.playAnimation()
-                searchAnimationView?.loop(true)
+                searchAnimationView?.showAnimation()
             }
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
         }, {
-            searchAnimationView?.loop(false)
-            searchAnimationView?.visibility = View.GONE
+            searchAnimationView?.hideAnimation()
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
             Toast.makeText(this, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
