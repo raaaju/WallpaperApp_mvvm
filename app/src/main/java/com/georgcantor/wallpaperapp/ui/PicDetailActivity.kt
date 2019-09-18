@@ -82,7 +82,7 @@ class PicDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
 
-        fabDownload.setOnClickListener {
+        fabSetWall.setOnClickListener {
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 val uri = Uri.fromFile(file)
                 pathOfFile = UtilityMethods.getPath(applicationContext, uri)
