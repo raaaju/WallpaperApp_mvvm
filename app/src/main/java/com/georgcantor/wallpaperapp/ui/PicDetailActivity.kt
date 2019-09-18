@@ -33,6 +33,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
@@ -129,7 +130,7 @@ class PicDetailActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setWallAsync() {
-        getBitmapAsync()?.subscribe {
+        val disposable = getBitmapAsync()?.subscribe {
             val wallpaperManager = WallpaperManager.getInstance(baseContext)
             try {
                 startActivity(
@@ -158,6 +159,8 @@ class PicDetailActivity : AppCompatActivity() {
 
             recreate()
         }
+
+        disposable?.let(DisposableManager::add)
     }
 
     private fun getBitmapAsync(): Observable<Bitmap?>? {
@@ -440,6 +443,7 @@ class PicDetailActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        DisposableManager.dispose()
         super.onDestroy()
     }
 
