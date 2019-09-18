@@ -9,6 +9,7 @@
     tools:context="com.georgcantor.wallpaperapp.ui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,8 +24,22 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        layout="@layout/content_main"
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:itemBackground="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/navigation" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

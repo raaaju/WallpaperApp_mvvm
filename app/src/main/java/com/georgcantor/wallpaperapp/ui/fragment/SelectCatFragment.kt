@@ -17,7 +17,7 @@ import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.app_bar_main.navigation
 import kotlinx.android.synthetic.main.fragment_select_cat.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
