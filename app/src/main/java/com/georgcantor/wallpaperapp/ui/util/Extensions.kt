@@ -13,3 +13,9 @@ fun LottieAnimationView.hideAnimation() {
     this.loop(false)
     this.visibility = View.GONE
 }
+
+fun String.getImageNameFromUrl(): String {
+    val index = this.lastIndexOf("/")
+
+    return this.substring(index)
+}

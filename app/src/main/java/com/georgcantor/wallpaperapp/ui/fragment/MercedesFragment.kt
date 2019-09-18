@@ -41,7 +41,6 @@ class MercedesFragment : Fragment() {
     private lateinit var viewModel: SearchViewModel
     private var adapter: WallpAdapter? = null
     private var columnNo: Int = 0
-    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

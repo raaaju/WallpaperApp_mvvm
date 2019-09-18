@@ -35,6 +35,7 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.gson.Gson
@@ -372,7 +373,7 @@ class PicDetailActivity : AppCompatActivity() {
         downloadAnimationView?.playAnimation()
         downloadAnimationView?.loop(true)
 
-        val name = UtilityMethods.getImageNameFromUrl(url)
+        val name = url.getImageNameFromUrl()
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
         val request = DownloadManager.Request(Uri.parse(url))
