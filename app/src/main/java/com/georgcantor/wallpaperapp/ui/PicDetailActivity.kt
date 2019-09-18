@@ -82,13 +82,16 @@ class PicDetailActivity : AppCompatActivity() {
         initView()
 
         fabDownload.setOnClickListener {
-            checkWallpaperPermission()
-            val uri = Uri.fromFile(file)
-            pathOfFile = UtilityMethods.getPath(applicationContext, uri)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                SetWallpaperTask().execute()
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                val uri = Uri.fromFile(file)
+                pathOfFile = UtilityMethods.getPath(applicationContext, uri)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    SetWallpaperTask().execute()
+                } else {
+                    setAsWallpaper()
+                }
             } else {
-                setAsWallpaper()
+                checkSavingPermission()
             }
         }
     }
@@ -384,12 +387,6 @@ class PicDetailActivity : AppCompatActivity() {
         val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)?.edit()
         editor?.putString("picture", hit?.previewURL)
         editor?.apply()
-    }
-
-    private fun checkWallpaperPermission() {
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SET_WALLPAPER), 103)
-        }
     }
 
     private fun checkSavingPermission() {
