@@ -1,7 +1,7 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
-import android.annotation.TargetApi
+import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.BroadcastReceiver
@@ -12,7 +12,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -38,6 +37,9 @@ import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.io.ByteArrayOutputStream
@@ -71,9 +73,7 @@ class PicDetailActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.fragment_detail)
 
-        progressAnimationView?.visibility = View.VISIBLE
-        progressAnimationView?.playAnimation()
-        progressAnimationView?.loop(true)
+        showProgress()
         db = DatabaseHelper(this)
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
@@ -87,7 +87,8 @@ class PicDetailActivity : AppCompatActivity() {
                 val uri = Uri.fromFile(file)
                 pathOfFile = UtilityMethods.getPath(applicationContext, uri)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    SetWallpaperTask().execute()
+                    showProgress()
+                    setWallAsync()
                 } else {
                     setAsWallpaper()
                 }
@@ -125,45 +126,30 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
-    inner class SetWallpaperTask : AsyncTask<String, Void, Bitmap>() {
-        @TargetApi(Build.VERSION_CODES.KITKAT)
-        override fun doInBackground(vararg params: String): Bitmap? {
-            var result: Bitmap? = null
-            try {
-                result = Picasso.with(applicationContext)
-                    .load(hit?.imageURL)
-                    .get()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-            return result
-        }
-
-        @RequiresApi(Build.VERSION_CODES.KITKAT)
-        override fun onPostExecute(result: Bitmap) {
-            super.onPostExecute(result)
-
+    @SuppressLint("CheckResult")
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun setWallAsync() {
+        getBitmapAsync()?.subscribe {
             val wallpaperManager = WallpaperManager.getInstance(baseContext)
-            run {
-                try {
-                    startActivity(
-                        Intent(
-                            wallpaperManager.getCropAndSetWallpaperIntent(
+            try {
+                startActivity(
+                    Intent(
+                        wallpaperManager.getCropAndSetWallpaperIntent(
+                            it?.let { it1 ->
                                 getImageUri(
-                                    result,
+                                    it1,
                                     applicationContext
                                 )
-                            )
+                            }
                         )
                     )
-                } catch (e: IllegalArgumentException) {
-                    val bitmap = MediaStore.Images.Media.getBitmap(
-                        contentResolver,
-                        getImageUri(result, applicationContext)
-                    )
-                    WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
-                }
+                )
+            } catch (e: IllegalArgumentException) {
+                val bitmap = MediaStore.Images.Media.getBitmap(
+                    contentResolver,
+                    it?.let { it1 -> getImageUri(it1, applicationContext) }
+                )
+                WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
             }
             Toast.makeText(
                 this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
@@ -172,13 +158,22 @@ class PicDetailActivity : AppCompatActivity() {
 
             recreate()
         }
+    }
 
-        override fun onPreExecute() {
-            super.onPreExecute()
-            progressAnimationView?.visibility = View.VISIBLE
-            progressAnimationView?.playAnimation()
-            progressAnimationView?.loop(true)
+    private fun getBitmapAsync(): Observable<Bitmap?>? {
+        return Observable.fromCallable {
+            var result: Bitmap? = null
+            try {
+                result = Picasso.with(applicationContext)
+                    .load(hit?.imageURL)
+                    .get()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            result
         }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun getImageUri(inImage: Bitmap, inContext: Context): Uri {
@@ -337,6 +332,12 @@ class PicDetailActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showProgress() {
+        progressAnimationView?.visibility = View.VISIBLE
+        progressAnimationView?.playAnimation()
+        progressAnimationView?.loop(true)
     }
 
     private fun downloadPicture(uri: Uri): Long {
