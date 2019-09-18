@@ -4,11 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
@@ -33,11 +29,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import com.georgcantor.wallpaperapp.ui.util.getImageNameFromUrl
-import com.georgcantor.wallpaperapp.ui.util.hideAnimation
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.ui.util.*
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -56,7 +48,6 @@ class PicDetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_PIC = "picture"
         const val EXTRA_BOOLEAN = "isFromFavorite"
-        const val ORIGIN = "caller"
     }
 
     private var hit: Hit? = null
@@ -67,7 +58,6 @@ class PicDetailActivity : AppCompatActivity() {
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
-    private var isCallerCollection = false
     private var pathOfFile: String? = null
     private lateinit var prefs: SharedPreferences
     private lateinit var picture: String
@@ -230,14 +220,7 @@ class PicDetailActivity : AppCompatActivity() {
                 .getString(R.string.jpg)
         )
 
-        if (intent.hasExtra(ORIGIN)) {
-            Picasso.with(this)
-                .load(file)
-                .placeholder(R.drawable.plh)
-                .into(detailImageView)
-            isCallerCollection = true
-        } else {
-            Picasso.with(this)
+        Picasso.with(this)
                 .load(hit?.webformatURL)
                 .placeholder(R.drawable.plh)
                 .into(detailImageView, object : Callback {
@@ -253,7 +236,6 @@ class PicDetailActivity : AppCompatActivity() {
                         }
                     }
                 })
-        }
 
         nameTextView.text = hit?.user
         downloadsTextView.text = hit?.downloads.toString()

@@ -75,7 +75,7 @@ class FavoriteAdapter(private val context: Context,
             val intent = Intent(context, PicDetailActivity::class.java)
             try {
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, hit)
-                intent.putExtra(PicDetailActivity.EXTRA_PIC, true)
+                intent.putExtra(PicDetailActivity.EXTRA_BOOLEAN, true)
             } catch (e: ArrayIndexOutOfBoundsException) {
                 Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
             }
