@@ -122,4 +122,5 @@
     <string name="remove_fav_dialog_message">Удалить всё избранное?</string>
     <string name="no_email_client">Отсутствуют приложения для отправки:(</string>
     <string name="cant_share">Невозможно поделиться изображением</string>
+    <string name="update_dialog_message">Доступна новая версия приложения. Обновить?</string>
 </resources>

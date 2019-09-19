@@ -63,4 +63,5 @@
     <string name="no_email_client">Es ist kein E-Mail-Client installiert:(</string>
     <string name="cant_share">Teilen nicht möglich</string>
     <string name="favorites">Favoriten</string>
+    <string name="update_dialog_message">Eine neue Version der App ist verfügbar. Herunterladen?</string>
 </resources>

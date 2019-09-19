@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         checkForUpdate()
 
         updateAvailable.observe(this, Observer {
-            if (it) showUpdateDialog()
+            if (it==false) showUpdateDialog()
         })
 
         supportFragmentManager.beginTransaction()
@@ -132,8 +132,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun showUpdateDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("Available new app version. Update?")
-        builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+        builder.setMessage(getString(R.string.update_dialog_message))
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
             finish()
         }
