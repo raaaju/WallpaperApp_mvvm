@@ -22,6 +22,7 @@ class AboutActivity : AppCompatActivity() {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"
         private const val NEWS_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"
         private const val MUSIC_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.player"
+        const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +52,7 @@ class AboutActivity : AppCompatActivity() {
         })
 
         val assetManager = this.applicationContext.assets
-        val typeface = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf")
+        val typeface = Typeface.createFromAsset(assetManager, FONT_PATH)
 
         aboutHeaderDescription.typeface = typeface
         infoTextView.typeface = typeface
@@ -87,7 +88,7 @@ class AboutActivity : AppCompatActivity() {
         val value = arrayOf(getString(R.string.email))
         val emailIntent = Intent(Intent.ACTION_SEND)
 
-        emailIntent.data = Uri.parse("mailto:")
+        emailIntent.data = Uri.parse("mail to: ")
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, value)
 

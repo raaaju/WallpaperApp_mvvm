@@ -11,6 +11,7 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.ui.AboutActivity.Companion.FONT_PATH
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -33,7 +34,7 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().toolbar.title = "Rating"
         val assetManager = requireContext().applicationContext.assets
-        val typeface = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf")
+        val typeface = Typeface.createFromAsset(assetManager, FONT_PATH)
         markTextView.typeface = typeface
 
         ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { _, ratingNumber, _ ->
