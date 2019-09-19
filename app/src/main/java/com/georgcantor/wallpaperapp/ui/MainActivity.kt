@@ -2,27 +2,49 @@ package com.georgcantor.wallpaperapp.ui
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    InstallStateUpdatedListener {
 
+    companion object {
+        private const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
+    }
+
+    override fun onStateUpdate(installState: InstallState) {
+    }
+
+    private lateinit var updateManager: AppUpdateManager
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
     private lateinit var categoryFragment: Fragment
@@ -32,10 +54,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var bundle: Bundle
     private var doubleTap = false
 
+    private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
+    private var updateInfo: AppUpdateInfo? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        updateManager = AppUpdateManagerFactory.create(this)
+        updateManager.registerListener(this)
+
+        checkForUpdate()
+
+        updateAvailable.observe(this, Observer {
+            if (it) showUpdateDialog()
+        })
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.frame_container, MercedesFragment.newInstance(getString(R.string.mercedes)))
@@ -83,6 +117,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.itemIconTintList = null
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Toast.makeText(this, "request code: $requestCode, result code: $resultCode", Toast.LENGTH_LONG).show()
+    }
+
+    private fun checkForUpdate() {
+        updateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            ) {
+                updateInfo = it
+                updateAvailable.value = true
+            } else {
+                updateAvailable.value = false
+            }
+        }
+    }
+
+    private fun showUpdateDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Available new app version. Update?")
+        builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
+            finish()
+        }
+        builder.setNegativeButton(getString(R.string.no)) { _, _ -> }
+        builder.create().show()
+    }
+
     private fun openFragment(fragment: Fragment, tag: String) {
         val transaction = supportFragmentManager.beginTransaction()
         if (fragment == brandFragment) transaction.remove(fragment)
@@ -97,10 +160,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             transaction.addToBackStack(tag)
             transaction.commit()
         }
-    }
-
-    public override fun onStart() {
-        super.onStart()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -229,6 +288,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onDestroy() {
         DisposableManager.dispose()
         super.onDestroy()
+        updateManager.unregisterListener(this)
     }
 
 }
