@@ -78,17 +78,24 @@ class PicDetailActivity : AppCompatActivity() {
         initView()
 
         fabSetWall.setOnClickListener {
-            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                val uri = Uri.fromFile(file)
-                pathOfFile = UtilityMethods.getPath(applicationContext, uri)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    progressAnimationView?.showAnimation()
-                    setWallAsync()
+            if (UtilityMethods.isNetworkAvailable) {
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    val uri = Uri.fromFile(file)
+                    pathOfFile = UtilityMethods.getPath(applicationContext, uri)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        progressAnimationView?.showAnimation()
+                        setWallAsync()
+                    } else {
+                        setAsWallpaper()
+                    }
                 } else {
-                    setAsWallpaper()
+                    checkSavingPermission()
                 }
             } else {
-                checkSavingPermission()
+                Toast.makeText(
+                    this, resources.getString(R.string.no_internet),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -123,7 +130,7 @@ class PicDetailActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setWallAsync() {
-        val disposable = getBitmapAsync()?.subscribe {
+        val disposable = getBitmapAsync()?.subscribe({
             val wallpaperManager = WallpaperManager.getInstance(baseContext)
             try {
                 startActivity(
@@ -151,7 +158,14 @@ class PicDetailActivity : AppCompatActivity() {
             ).show()
 
             recreate()
-        }
+        }, {
+            Toast.makeText(
+                this@PicDetailActivity,
+                resources.getString(R.string.something_went_wrong),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        })
 
         disposable?.let(DisposableManager::add)
     }
@@ -221,21 +235,21 @@ class PicDetailActivity : AppCompatActivity() {
         )
 
         Picasso.with(this)
-                .load(hit?.webformatURL)
-                .placeholder(R.drawable.plh)
-                .into(detailImageView, object : Callback {
-                    override fun onSuccess() {
-                        progressAnimationView?.hideAnimation()
-                    }
+            .load(hit?.webformatURL)
+            .placeholder(R.drawable.plh)
+            .into(detailImageView, object : Callback {
+                override fun onSuccess() {
+                    progressAnimationView?.hideAnimation()
+                }
 
-                    override fun onError() {
-                        progressAnimationView?.hideAnimation()
-                        if (intent.hasExtra(EXTRA_BOOLEAN)) {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
-                            finish()
-                        }
+                override fun onError() {
+                    progressAnimationView?.hideAnimation()
+                    if (intent.hasExtra(EXTRA_BOOLEAN)) {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.pageURL)))
+                        finish()
                     }
-                })
+                }
+            })
 
         nameTextView.text = hit?.user
         downloadsTextView.text = hit?.downloads.toString()
@@ -300,16 +314,23 @@ class PicDetailActivity : AppCompatActivity() {
                     Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
                 }
                 R.id.action_download -> {
-                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            downloadPictureQ(hit?.imageURL ?: "")
+                    if (UtilityMethods.isNetworkAvailable) {
+                        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                downloadPictureQ(hit?.imageURL ?: "")
+                            } else {
+                                val uri = hit?.imageURL
+                                val imageUri = Uri.parse(uri)
+                                downloadPicture(imageUri)
+                            }
                         } else {
-                            val uri = hit?.imageURL
-                            val imageUri = Uri.parse(uri)
-                            downloadPicture(imageUri)
+                            checkSavingPermission()
                         }
                     } else {
-                        checkSavingPermission()
+                        Toast.makeText(
+                            this, resources.getString(R.string.no_internet),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 else -> {
