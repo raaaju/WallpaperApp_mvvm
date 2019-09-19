@@ -124,9 +124,9 @@ class PicDetailActivity : AppCompatActivity() {
                 startActivity(
                     Intent(
                         wallpaperManager.getCropAndSetWallpaperIntent(
-                            it?.let { it1 ->
+                            it?.let { bitmap ->
                                 getImageUri(
-                                    it1,
+                                    bitmap,
                                     applicationContext
                                 )
                             }
@@ -136,7 +136,7 @@ class PicDetailActivity : AppCompatActivity() {
             } catch (e: IllegalArgumentException) {
                 val bitmap = MediaStore.Images.Media.getBitmap(
                     contentResolver,
-                    it?.let { it1 -> getImageUri(it1, applicationContext) }
+                    it?.let { bitmap -> getImageUri(bitmap, applicationContext) }
                 )
                 WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
             }
