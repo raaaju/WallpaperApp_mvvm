@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
+import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -38,7 +37,7 @@ class FavoriteActivity : AppCompatActivity() {
             adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it)
             favGridView.adapter = adapter
         }, {
-            Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+            this.shortToast(getString(R.string.something_went_wrong))
         })
 
         toggleEmptyHistory()

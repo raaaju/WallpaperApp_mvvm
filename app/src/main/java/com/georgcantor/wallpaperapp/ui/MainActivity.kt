@@ -9,7 +9,6 @@ import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +19,7 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
+import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -260,11 +260,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 )
                 doubleTap -> super.onBackPressed()
                 else -> {
-                    Toast.makeText(
-                        this,
-                        resources.getString(R.string.press_back),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    this.shortToast(getString(R.string.press_back))
                     doubleTap = true
                     val handler = Handler()
                     handler.postDelayed({ doubleTap = false }, 2000)

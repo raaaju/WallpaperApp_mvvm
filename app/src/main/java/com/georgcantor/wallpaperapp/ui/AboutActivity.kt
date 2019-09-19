@@ -5,9 +5,9 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.about_header.*
 import kotlinx.android.synthetic.main.activity_about.*
@@ -96,7 +96,7 @@ class AboutActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(emailIntent, getString(R.string.message_choose_title)))
             finish()
         } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(this, getString(R.string.no_email_client), Toast.LENGTH_SHORT).show()
+            this.shortToast(getString(R.string.no_email_client))
         }
     }
 

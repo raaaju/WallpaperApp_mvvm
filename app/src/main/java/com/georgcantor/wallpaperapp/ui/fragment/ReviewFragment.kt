@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.AboutActivity.Companion.FONT_PATH
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_review.*
@@ -60,7 +60,7 @@ class ReviewFragment : Fragment() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
             } else {
                 requireFragmentManager().popBackStack()
-                Toast.makeText(requireContext(), resources.getString(R.string.thanks_for_feedback), Toast.LENGTH_LONG).show()
+                requireActivity().longToast(getString(R.string.thanks_for_feedback))
             }
         }
     }

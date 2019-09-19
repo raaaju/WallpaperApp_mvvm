@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
@@ -17,6 +16,7 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.FavoriteActivity
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
+import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.favorite_list_row.view.*
@@ -77,7 +77,7 @@ class FavoriteAdapter(private val context: Context,
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, hit)
                 intent.putExtra(PicDetailActivity.EXTRA_BOOLEAN, true)
             } catch (e: ArrayIndexOutOfBoundsException) {
-                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+                context.longToast(context.resources.getString(R.string.something_went_wrong))
             }
             context.startActivity(intent)
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)

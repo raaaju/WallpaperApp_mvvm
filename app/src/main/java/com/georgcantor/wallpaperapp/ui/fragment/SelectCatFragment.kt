@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,6 +16,8 @@ import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.longToast
+import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.navigation
@@ -52,7 +53,7 @@ class SelectCatFragment : Fragment() {
         type = arguments?.getString(EXTRA_CAT)
 
         if (!UtilityMethods.isNetworkAvailable) {
-            Toast.makeText(requireContext(), getString(R.string.check_internet), Toast.LENGTH_SHORT).show()
+            requireActivity().longToast(getString(R.string.check_internet))
         }
         checkScreenSize()
         val gridLayoutManager = StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL)
@@ -82,7 +83,7 @@ class SelectCatFragment : Fragment() {
             catAnimationView?.hideAnimation()
         }, {
             catAnimationView?.hideAnimation()
-            Toast.makeText(context, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+            requireActivity().shortToast(getString(R.string.something_went_wrong))
         })
 
         DisposableManager.add(disposable)

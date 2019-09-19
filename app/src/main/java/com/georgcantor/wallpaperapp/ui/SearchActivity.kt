@@ -18,7 +18,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -30,6 +29,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
@@ -121,7 +121,7 @@ class SearchActivity : AppCompatActivity() {
             searchAnimationView?.hideAnimation()
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
-            Toast.makeText(this, getString(R.string.wrong_message), Toast.LENGTH_SHORT).show()
+            this.shortToast(getString(R.string.something_went_wrong))
         })
     }
 

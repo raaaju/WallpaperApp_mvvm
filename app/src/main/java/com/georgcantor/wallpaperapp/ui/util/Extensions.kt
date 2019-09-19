@@ -1,6 +1,8 @@
 package com.georgcantor.wallpaperapp.ui.util
 
+import android.content.Context
 import android.view.View
+import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
 
 fun LottieAnimationView.showAnimation() {
@@ -19,3 +21,9 @@ fun String.getImageNameFromUrl(): String {
 
     return this.substring(index)
 }
+
+fun Context.shortToast(message: CharSequence) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+fun Context.longToast(message: CharSequence) =
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()

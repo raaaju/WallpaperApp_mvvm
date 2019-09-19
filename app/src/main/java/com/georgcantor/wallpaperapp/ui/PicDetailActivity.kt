@@ -92,7 +92,7 @@ class PicDetailActivity : AppCompatActivity() {
                     checkSavingPermission()
                 }
             } else {
-                Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
+                this.longToast(getString(R.string.no_internet))
             }
         }
     }
@@ -110,10 +110,7 @@ class PicDetailActivity : AppCompatActivity() {
 
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Toast.makeText(
-                context, tags[0] + getString(R.string.down_complete),
-                Toast.LENGTH_SHORT
-            ).show()
+            this@PicDetailActivity.shortToast(tags[0] + getString(R.string.down_complete))
             downloadAnimationView?.hideAnimation()
         }
     }
@@ -143,19 +140,11 @@ class PicDetailActivity : AppCompatActivity() {
                 )
                 WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
             }
-            Toast.makeText(
-                this@PicDetailActivity, getString(R.string.wallpaper_is_install),
-                Toast.LENGTH_SHORT
-            ).show()
 
+            this@PicDetailActivity.shortToast(getString(R.string.wallpaper_is_install))
             recreate()
         }, {
-            Toast.makeText(
-                this@PicDetailActivity,
-                getString(R.string.something_went_wrong),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+            this@PicDetailActivity.longToast(getString(R.string.something_went_wrong))
         })
 
         disposable?.let(DisposableManager::add)
@@ -287,11 +276,11 @@ class PicDetailActivity : AppCompatActivity() {
                 R.id.action_add_to_fav -> if (!db.containFav(hit?.previewURL.toString())) {
                     hit?.let { addToFavorite(it.previewURL.toString(), it.pageURL.toString(), it) }
                     item.setIcon(R.drawable.ic_star_red_24dp)
-                    Toast.makeText(this, R.string.add_to_fav_toast, Toast.LENGTH_SHORT).show()
+                    this.shortToast(getString(R.string.add_to_fav_toast))
                 } else {
                     db.deleteFromFavorites(hit?.previewURL.toString())
                     item.setIcon(R.drawable.ic_star_border_black_24dp)
-                    Toast.makeText(this, R.string.del_from_fav_toast, Toast.LENGTH_SHORT).show()
+                    this.shortToast(getString(R.string.del_from_fav_toast))
                 }
                 R.id.action_share -> try {
                     val intent = Intent(Intent.ACTION_SEND)
@@ -302,7 +291,7 @@ class PicDetailActivity : AppCompatActivity() {
                     startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
                 } catch (e: AndroidRuntimeException) {
                     e.printStackTrace()
-                    Toast.makeText(this, R.string.cant_share, Toast.LENGTH_SHORT).show()
+                    this.shortToast(getString(R.string.cant_share))
                 }
                 R.id.action_download -> {
                     if (UtilityMethods.isNetworkAvailable) {
@@ -318,10 +307,7 @@ class PicDetailActivity : AppCompatActivity() {
                             checkSavingPermission()
                         }
                     } else {
-                        Toast.makeText(
-                            this, getString(R.string.no_internet),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        this.shortToast(getString(R.string.no_internet))
                     }
                 }
                 else -> {
@@ -355,7 +341,7 @@ class PicDetailActivity : AppCompatActivity() {
                 )
             }
         } catch (e: IllegalStateException) {
-            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+            this.longToast(getString(R.string.something_went_wrong))
         }
         downloadReference = downloadManager.enqueue(request)
 
@@ -409,7 +395,7 @@ class PicDetailActivity : AppCompatActivity() {
             intent.data = uri
             startActivity(intent)
             finish()
-            Toast.makeText(this, R.string.you_need_perm_toast, Toast.LENGTH_LONG).show()
+            this.longToast(getString(R.string.you_need_perm_toast))
         }
     }
 
