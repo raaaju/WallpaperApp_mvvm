@@ -27,10 +27,12 @@ import org.koin.core.parameter.parametersOf
 class BmwFragment : Fragment() {
 
     companion object {
+        const val REQUEST = "request"
+
         fun newInstance(arguments: String): BmwFragment {
             val fragment = BmwFragment()
             val args = Bundle()
-            args.putString("request", arguments)
+            args.putString(REQUEST, arguments)
             fragment.arguments = args
 
             return fragment
@@ -93,7 +95,7 @@ class BmwFragment : Fragment() {
         animationView?.showAnimation()
 
         val disposable =
-            viewModel.getPictures(arguments?.getString("request") ?: "", index).subscribe({
+            viewModel.getPictures(arguments?.getString(REQUEST) ?: "", index).subscribe({
                 adapter?.setPicList(it.hits)
                 animationView?.hideAnimation()
             }, {

@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
+import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
@@ -31,7 +31,7 @@ class MercedesFragment : Fragment() {
         fun newInstance(arguments: String): MercedesFragment {
             val fragment = MercedesFragment()
             val args = Bundle()
-            args.putString("request", arguments)
+            args.putString(REQUEST, arguments)
             fragment.arguments = args
 
             return fragment
@@ -93,7 +93,7 @@ class MercedesFragment : Fragment() {
         animationView?.showAnimation()
 
         val disposable =
-            viewModel.getPictures(arguments?.getString("request") ?: "", index).subscribe({
+            viewModel.getPictures(arguments?.getString(REQUEST) ?: "", index).subscribe({
                 adapter?.setPicList(it.hits)
                 animationView?.hideAnimation()
             }, {
