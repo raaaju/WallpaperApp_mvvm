@@ -144,4 +144,5 @@
     <string name="hd" translatable="false">HD</string>
     <string name="fullHd" translatable="false">FullHD</string>
     <string name="no_email_client">There is no email client installed:(</string>
+    <string name="cant_share">Unable to share</string>
 </resources>

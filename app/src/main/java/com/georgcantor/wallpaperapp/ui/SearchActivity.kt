@@ -218,8 +218,8 @@ class SearchActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        builder.setNegativeButton(resources.getString(R.string.no)) { _, _ -> }
-        builder.setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
+        builder.setNegativeButton(getString(R.string.no)) { _, _ -> }
+        builder.setNeutralButton(getString(R.string.cancel)) { _, _ -> }
         builder.create().show()
     }
 

@@ -61,4 +61,6 @@
     <string name="thanks_for_feedback">Danke für die Bewertung</string>
     <string name="remove_fav_dialog_message">Alle Favoriten löschen?</string>
     <string name="no_email_client">Es ist kein E-Mail-Client installiert:(</string>
+    <string name="cant_share">Teilen nicht möglich</string>
+    <string name="favorites">Favoriten</string>
 </resources>

@@ -92,10 +92,7 @@ class PicDetailActivity : AppCompatActivity() {
                     checkSavingPermission()
                 }
             } else {
-                Toast.makeText(
-                    this, resources.getString(R.string.no_internet),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -103,24 +100,18 @@ class PicDetailActivity : AppCompatActivity() {
     private fun setAsWallpaper() {
         val uri = Uri.fromFile(file)
         val intent = Intent(Intent.ACTION_ATTACH_DATA)
-        intent.setDataAndType(uri, resources.getString(R.string.image_jpg))
-        intent.putExtra(
-            resources.getString(R.string.mimeType),
-            resources.getString(R.string.image_jpg)
-        )
+        intent.setDataAndType(uri, getString(R.string.image_jpg))
+        intent.putExtra(getString(R.string.mimeType), getString(R.string.image_jpg))
 
         startActivityForResult(
-            Intent.createChooser(
-                intent,
-                resources.getString(R.string.Set_As)
-            ), 200
+            Intent.createChooser(intent, getString(R.string.Set_As)), 200
         )
     }
 
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             Toast.makeText(
-                context, tags[0] + resources.getString(R.string.down_complete),
+                context, tags[0] + getString(R.string.down_complete),
                 Toast.LENGTH_SHORT
             ).show()
             downloadAnimationView?.hideAnimation()
@@ -153,7 +144,7 @@ class PicDetailActivity : AppCompatActivity() {
                 WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
             }
             Toast.makeText(
-                this@PicDetailActivity, resources.getString(R.string.wallpaper_is_install),
+                this@PicDetailActivity, getString(R.string.wallpaper_is_install),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -161,7 +152,7 @@ class PicDetailActivity : AppCompatActivity() {
         }, {
             Toast.makeText(
                 this@PicDetailActivity,
-                resources.getString(R.string.something_went_wrong),
+                getString(R.string.something_went_wrong),
                 Toast.LENGTH_SHORT
             )
                 .show()
@@ -311,7 +302,7 @@ class PicDetailActivity : AppCompatActivity() {
                     startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
                 } catch (e: AndroidRuntimeException) {
                     e.printStackTrace()
-                    Toast.makeText(this, "Can not share image", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.cant_share, Toast.LENGTH_SHORT).show()
                 }
                 R.id.action_download -> {
                     if (UtilityMethods.isNetworkAvailable) {
@@ -328,7 +319,7 @@ class PicDetailActivity : AppCompatActivity() {
                         }
                     } else {
                         Toast.makeText(
-                            this, resources.getString(R.string.no_internet),
+                            this, getString(R.string.no_internet),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -354,8 +345,8 @@ class PicDetailActivity : AppCompatActivity() {
         val request = DownloadManager.Request(uri)
 
         try {
-            request.setTitle(tags[0] + resources.getString(R.string.down))
-            request.setDescription(resources.getString(R.string.down_wallpapers))
+            request.setTitle(tags[0] + getString(R.string.down))
+            request.setDescription(getString(R.string.down_wallpapers))
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
                 request.setDestinationInExternalPublicDir(
                     "/" + resources

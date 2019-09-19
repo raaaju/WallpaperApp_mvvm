@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_container, MercedesFragment.newInstance(resources.getString(R.string.mercedes)))
+                .replace(R.id.frame_container, MercedesFragment.newInstance(getString(R.string.mercedes)))
                 .commit()
 
-        mercedesFragment = MercedesFragment.newInstance(resources.getString(R.string.mercedes))
+        mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes))
         bmwFragment = BmwFragment.newInstance("bmw")
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
@@ -60,18 +60,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_mercedes -> {
-                    toolbar.title = resources.getString(R.string.mercedes)
-                    openFragment(mercedesFragment, resources.getString(R.string.mercedes))
+                    toolbar.title = getString(R.string.mercedes)
+                    openFragment(mercedesFragment, getString(R.string.mercedes))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_bmw -> {
-                    toolbar.title = resources.getString(R.string.bmw)
-                    openFragment(bmwFragment, resources.getString(R.string.bmw))
+                    toolbar.title = getString(R.string.bmw)
+                    openFragment(bmwFragment, getString(R.string.bmw))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_gallery -> {
-                    toolbar.title = resources.getString(R.string.gallery)
-                    openFragment(categoryFragment, resources.getString(R.string.gallery))
+                    toolbar.title = getString(R.string.gallery)
+                    openFragment(categoryFragment, getString(R.string.gallery))
                     return@OnNavigationItemSelectedListener true
                 }
             }

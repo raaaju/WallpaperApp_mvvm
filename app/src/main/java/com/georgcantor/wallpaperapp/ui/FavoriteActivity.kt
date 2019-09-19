@@ -29,7 +29,7 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorite)
         setSupportActionBar(favToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = resources.getString(R.string.favorites)
+        supportActionBar?.title = getString(R.string.favorites)
 
         viewModel = getViewModel { parametersOf() }
         db = DatabaseHelper(this)
@@ -38,7 +38,7 @@ class FavoriteActivity : AppCompatActivity() {
             adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it)
             favGridView.adapter = adapter
         }, {
-            Toast.makeText(this, resources.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
         })
 
         toggleEmptyHistory()

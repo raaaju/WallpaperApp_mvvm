@@ -54,7 +54,7 @@ class ReviewFragment : Fragment() {
         }
 
         addReviewButton.setOnClickListener {
-            requireActivity().toolbar.title = resources.getString(R.string.app_name)
+            requireActivity().toolbar.title = getString(R.string.app_name)
             if (rating > 3) {
                 requireFragmentManager().popBackStack()
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
