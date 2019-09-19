@@ -1,39 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Wallpapers</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="app_detail_name"> </string>
-    <string name="action_settings">Настройки</string>
-    <string name="add_widget">Add widget</string>
     <string name="powered_by">Powered By: www.pixabay.com</string>
     <string name="by">By:</string>
     <string name="downloads">Downloads:</string>
-    <string name="update_dialog_yes">Да</string>
-    <string name="update_dialog_no">Нет</string>
     <string name="favourite">Favourites:</string>
     <string name="no_internet">Hет интернет соединения</string>
     <string name="something_went_wrong">Что-то пошло не так…</string>
     <string name="wallpaper_is_install">Обои установлены</string>
     <string name="navigation">navigation drawer</string>
-    <string name="desc_powered_image">pixabay</string>
     <string name="detail_image">detail image</string>
     <string name="explore_item">Category item</string>
-    <string name="latest">Последние</string>
-    <string name="latest_small">latest</string>
     <string name="about_us">О нас</string>
     <string name="rate_us">Оцените приложение</string>
     <string name="info">Инфо</string>
-    <string name="set_as">Установить как</string>
     <string name="download">Загрузить</string>
     <string name="user_name">фото предоставлено</string>
-    <string name="pixabay_link">https://pixabay.com</string>
-    <string name="collection_string">collection</string>
     <string name="jpg">.jpg</string>
-    <string name="choose_format">Выберите разрешение изображения</string>
-    <string name="popular">popular</string>
     <string name="package_drawable">com.georgcantor.wallpaperapp:drawable/</string>
     <string name="type_and_search">Введите слово или фразу</string>
+
     <string name="Animals">Животные</string>
     <string name="animals">animals</string>
     <string name="Textures">Текстуры</string>
@@ -74,33 +64,21 @@
     <string name="transportation">transportation</string>
     <string name="Travel">Путешествия</string>
     <string name="travel">travel</string>
-    <string name="No_Success">No Success</string>
+
     <string name="wrong_message">Что-то пошло не так…</string>
-    <string name="pixabay_api_link">http://pixabay.com/api/</string>
-    <string name="font_name">fonts/Satisfy-Regular.ttf</string>
-    <string name="ad_device_test">CADD03C7EC8C7AD4D6073860CC9B3BF7</string>
-    <string name="image_downloaded">Изображение уже загружено</string>
     <string name="Set_As">Установить как</string>
-    <string name="first_down">Необходимо сначала загрузить</string>
     <string name="down_wallpapers">Загружается из 4K Wallpapers</string>
     <string name="down_complete">.jpg Download Complete</string>
     <string name="down">.jpg Download</string>
     <string name="widget">widget</string>
-    <string name="Loading_view">Loading view</string>
-    <string name="URI">URI:</string>
     <string name="image_jpg">image/jpg</string>
     <string name="mimeType">mimeType</string>
-    <string name="widget_item">widget item</string>
-    <string name="about"> <b>Developer:</b> \t Alex Kirillov \n\nHigher School Of Economics \n\n<b>Email:</b>\n\n cupsman1986@gmail.com
-    </string>
     <string name="mercedes">Mercedes-Benz</string>
-    <string name="category">Категории</string>
     <string name="allow_app_use_mic">Для голосовых запросов необходимо это разрешение. Разрешить?</string>
     <string name="press_back">Нажмите еще раз, чтобы выйти</string>
     <string name="try_my_other_app">Другие приложения разработчика:</string>
     <string name="tv_made_by">Разработчик приложения:</string>
     <string name="title_about_the_app">О приложении</string>
-    <string name="msg_no_history">Список пуст</string>
     <string name="add_to_fav_toast">Добавлено в избранное</string>
     <string name="del_from_fav_toast">Удалено из избранного</string>
     <string name="del_from_fav_dialog">Удалить из избранного?</string>
@@ -123,4 +101,5 @@
     <string name="no_email_client">Отсутствуют приложения для отправки:(</string>
     <string name="cant_share">Невозможно поделиться изображением</string>
     <string name="update_dialog_message">Доступна новая версия приложения. Обновить?</string>
+
 </resources>

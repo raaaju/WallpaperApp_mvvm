@@ -6,10 +6,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         checkForUpdate()
 
         updateAvailable.observe(this, Observer {
-            if (it==false) showUpdateDialog()
+            if (it) showUpdateDialog()
         })
 
         supportFragmentManager.beginTransaction()
