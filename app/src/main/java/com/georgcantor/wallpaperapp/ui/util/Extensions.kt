@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.util
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.view.View
 import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
@@ -27,3 +28,17 @@ fun Context.shortToast(message: CharSequence) =
 
 fun Context.longToast(message: CharSequence) =
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+
+fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager =
+        this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+
+    connectivityManager?.let {
+        val networkInfo = it.activeNetworkInfo
+        networkInfo?.let { info ->
+            if (info.isConnected) return true
+        }
+    }
+
+    return false
+}

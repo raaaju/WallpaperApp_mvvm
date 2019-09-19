@@ -16,6 +16,7 @@ import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
@@ -37,7 +38,7 @@ class CarBrandFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!UtilityMethods.isNetworkAvailable) {
+        if (!requireActivity().isNetworkAvailable()) {
             requireActivity().longToast(getString(R.string.check_internet))
         }
         viewModel = getViewModel { parametersOf() }

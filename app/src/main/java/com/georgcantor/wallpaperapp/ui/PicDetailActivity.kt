@@ -78,7 +78,7 @@ class PicDetailActivity : AppCompatActivity() {
         initView()
 
         fabSetWall.setOnClickListener {
-            if (UtilityMethods.isNetworkAvailable) {
+            if (this.isNetworkAvailable()) {
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     val uri = Uri.fromFile(file)
                     pathOfFile = UtilityMethods.getPath(applicationContext, uri)
@@ -234,7 +234,7 @@ class PicDetailActivity : AppCompatActivity() {
         nameTextView.text = hit?.user
         downloadsTextView.text = hit?.downloads.toString()
         favoritesTextView.text = hit?.favorites.toString()
-        if (!UtilityMethods.isNetworkAvailable) {
+        if (!this.isNetworkAvailable()) {
             Picasso.with(this)
                 .load(R.drawable.memb)
                 .transform(CropCircleTransformation())
@@ -294,7 +294,7 @@ class PicDetailActivity : AppCompatActivity() {
                     this.shortToast(getString(R.string.cant_share))
                 }
                 R.id.action_download -> {
-                    if (UtilityMethods.isNetworkAvailable) {
+                    if (this.isNetworkAvailable()) {
                         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 downloadPictureQ(hit?.imageURL ?: "")

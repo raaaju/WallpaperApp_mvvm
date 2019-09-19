@@ -20,4 +20,5 @@ class OfflineResponseCacheInterceptor : Interceptor {
 
         return chain.proceed(request)
     }
+
 }
