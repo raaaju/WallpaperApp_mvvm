@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_mers" />
+        android:src="@drawable/splash" />
 
     <TextView
         android:id="@+id/aboutHeaderDescription"

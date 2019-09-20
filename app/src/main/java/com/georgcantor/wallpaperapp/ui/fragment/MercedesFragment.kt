@@ -15,7 +15,6 @@ import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
 import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.ui.util.longToast
