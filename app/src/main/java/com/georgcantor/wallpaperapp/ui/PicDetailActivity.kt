@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Hit
+import com.georgcantor.wallpaperapp.model.PicUrl
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
@@ -49,7 +50,7 @@ class PicDetailActivity : AppCompatActivity() {
         const val EXTRA_BOOLEAN = "isFromFavorite"
     }
 
-    private var hit: Hit? = null
+    private var hit: PicUrl? = null
     private val tags = ArrayList<String>()
     private var first = 0
     private lateinit var tagAdapter: TagAdapter
@@ -188,7 +189,7 @@ class PicDetailActivity : AppCompatActivity() {
         }
         hit?.let {
             var title = it.tags
-            while (title.contains(",")) {
+            while (title?.contains(",")!!) {
                 val element = title.substring(0, title.indexOf(","))
                 tags.add(element)
                 first = title.indexOf(",")
@@ -240,7 +241,7 @@ class PicDetailActivity : AppCompatActivity() {
                 .into(userImageView)
         } else {
             hit?.let {
-                if (it.userImageURL.isNotEmpty()) {
+                if (it.userImageURL?.isNotEmpty()!!) {
                     Picasso.with(this)
                         .load(hit?.userImageURL)
                         .transform(CropCircleTransformation())
@@ -271,16 +272,16 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         db?.let { db ->
             when (item.itemId) {
-                android.R.id.home -> onBackPressed()
-                R.id.action_add_to_fav -> if (!db.containFav(hit?.previewURL.toString())) {
-                    hit?.let { addToFavorite(it.previewURL.toString(), it.pageURL.toString(), it) }
-                    item.setIcon(R.drawable.ic_star_red_24dp)
-                    this.shortToast(getString(R.string.add_to_fav_toast))
-                } else {
-                    db.deleteFromFavorites(hit?.previewURL.toString())
-                    item.setIcon(R.drawable.ic_star_border_black_24dp)
-                    this.shortToast(getString(R.string.del_from_fav_toast))
-                }
+//                android.R.id.home -> onBackPressed()
+//                R.id.action_add_to_fav -> if (!db.containFav(hit?.previewURL.toString())) {
+//                    hit?.let { addToFavorite(it.previewURL.toString(), it.pageURL.toString(), it) }
+//                    item.setIcon(R.drawable.ic_star_red_24dp)
+//                    this.shortToast(getString(R.string.add_to_fav_toast))
+//                } else {
+//                    db.deleteFromFavorites(hit?.previewURL.toString())
+//                    item.setIcon(R.drawable.ic_star_border_black_24dp)
+//                    this.shortToast(getString(R.string.del_from_fav_toast))
+//                }
                 R.id.action_share -> try {
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "text/plain"

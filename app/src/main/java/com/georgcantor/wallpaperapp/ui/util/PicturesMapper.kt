@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.util
 
 import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.model.PicUrl
 import com.georgcantor.wallpaperapp.model.unsplash.Result
 
