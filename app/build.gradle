@@ -36,6 +36,7 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'API_KEY', "\"9179624-180dd31b7b27ed73810aeeb72\""
+        it.buildConfigField 'String', 'UNSPLASH_URL', "\"https://api.unsplash.com/search/photos\""
     }
     productFlavors {
     }

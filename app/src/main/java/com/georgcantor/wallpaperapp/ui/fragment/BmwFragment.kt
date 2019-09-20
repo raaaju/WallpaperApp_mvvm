@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
@@ -41,7 +42,8 @@ class BmwFragment : Fragment() {
     }
 
     private lateinit var viewModel: SearchViewModel
-    private var adapter: WallpAdapter? = null
+    //    private var adapter: WallpAdapter? = null
+    private var adapter: PicturesAdapter? = null
     private var columnNo: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +84,7 @@ class BmwFragment : Fragment() {
         }
         scrollListener.resetState()
         bmwRecyclerView.addOnScrollListener(scrollListener)
-        adapter = WallpAdapter(requireContext())
+        adapter = PicturesAdapter(requireContext())
         bmwRecyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
@@ -95,13 +97,24 @@ class BmwFragment : Fragment() {
     private fun loadData(index: Int) {
         animationView?.showAnimation()
 
-        val disposable =
-            viewModel.getPictures(arguments?.getString(REQUEST) ?: "", index).subscribe({
-                adapter?.setPicList(it.hits)
+//        val disposable =
+//            viewModel.getPictures(arguments?.getString(REQUEST) ?: "", index).subscribe({
+//                adapter?.setPicList(it.hits)
+//                animationView?.hideAnimation()
+//            }, {
+//                animationView?.hideAnimation()
+//                requireActivity().shortToast(getString(R.string.something_went_wrong))
+//            })
+//
+//        DisposableManager.add(disposable)
+
+        val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
+            .subscribe({
+                adapter?.setPicList(it)
                 animationView?.hideAnimation()
             }, {
                 animationView?.hideAnimation()
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
+                requireActivity().shortToast(it.message.toString())
             })
 
         DisposableManager.add(disposable)
