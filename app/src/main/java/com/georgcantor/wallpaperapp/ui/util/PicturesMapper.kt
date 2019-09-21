@@ -21,6 +21,7 @@ class PicturesMapper {
                             542,
                             "car, auto",
                             5923,
+                            urls?.full,
                             urls?.regular,
                             "George Smith",
                             it.hashCode(),
@@ -39,6 +40,7 @@ class PicturesMapper {
                         "car, auto",
                         4245,
                         it.urlImage,
+                        it.urlThumb,
                         "Mike Antony",
                         it.id?.toInt() ?: it.hashCode(),
                         it.urlThumb
@@ -55,6 +57,7 @@ class PicturesMapper {
                         it.tags,
                         it.downloads,
                         it.imageURL,
+                        it.webformatURL,
                         it.user,
                         it.id,
                         it.userImageURL

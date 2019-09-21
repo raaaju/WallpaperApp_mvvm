@@ -158,7 +158,7 @@ class PicDetailActivity : AppCompatActivity() {
             var result: Bitmap? = null
             try {
                 result = Picasso.with(applicationContext)
-                    .load(hit?.url)
+                    .load(hit?.imageURL)
                     .get()
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -218,7 +218,7 @@ class PicDetailActivity : AppCompatActivity() {
         )
 
         Picasso.with(this)
-            .load(hit?.url)
+            .load(hit?.fullHDURL)
             .placeholder(R.drawable.plh)
             .into(detailImageView, object : Callback {
                 override fun onSuccess() {
@@ -228,7 +228,7 @@ class PicDetailActivity : AppCompatActivity() {
                 override fun onError() {
                     progressAnimationView?.hideAnimation()
                     if (intent.hasExtra(EXTRA_BOOLEAN)) {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.url)))
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.imageURL)))
                         finish()
                     }
                 }
@@ -244,9 +244,9 @@ class PicDetailActivity : AppCompatActivity() {
                 .into(userImageView)
         } else {
             hit?.let {
-                if (it.url?.isNotEmpty()!!) {
+                if (it.userImageURL?.isNotEmpty()!!) {
                     Picasso.with(this)
-                        .load(hit?.url)
+                        .load(hit?.userImageURL)
                         .transform(CropCircleTransformation())
                         .into(userImageView)
                 } else {

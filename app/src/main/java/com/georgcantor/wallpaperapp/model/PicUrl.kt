@@ -21,7 +21,7 @@ data class PicUrl(
 //    var previewURL: String? = null,
 //    var webformatURL: String? = null,
     var imageURL: String? = null,
-//    var fullHDURL: String? = null,
+    var fullHDURL: String? = null,
 //    var imageWidth: Int = 0,
 //    var userId: Int = 0,
     var user: String? = null,
@@ -48,7 +48,7 @@ data class PicUrl(
 //        parcel.readString(),
 //        parcel.readString(),
         parcel.readString(),
-//        parcel.readString(),
+        parcel.readString(),
 //        parcel.readInt(),
 //        parcel.readInt(),
         parcel.readString(),
@@ -76,7 +76,7 @@ data class PicUrl(
 //        parcel.writeString(previewURL)
 //        parcel.writeString(webformatURL)
         parcel.writeString(imageURL)
-//        parcel.writeString(fullHDURL)
+        parcel.writeString(fullHDURL)
 //        parcel.writeInt(imageWidth)
 //        parcel.writeInt(userId)
         parcel.writeString(user)
