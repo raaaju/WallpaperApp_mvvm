@@ -34,7 +34,6 @@ class BmwFragment : Fragment() {
     }
 
     private lateinit var viewModel: SearchViewModel
-    //    private var adapter: WallpAdapter? = null
     private var adapter: PicturesAdapter? = null
     private var columnNo: Int = 0
 

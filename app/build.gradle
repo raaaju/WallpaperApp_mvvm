@@ -37,6 +37,7 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'API_KEY', "\"9179624-180dd31b7b27ed73810aeeb72\""
         it.buildConfigField 'String', 'UNSPLASH_URL', "\"https://api.unsplash.com/search/photos/?client_id=814e0183c60488e937f966c79d38a31401fcceb515aeee2448292a301665761e\""
+        it.buildConfigField 'String', 'ABYSS_URL', "\"https://wall.alphacoders.com/api2.0/get.php?auth=a2a6654af08aefbb169b39b361461cf0&method=search\""
     }
     productFlavors {
     }
