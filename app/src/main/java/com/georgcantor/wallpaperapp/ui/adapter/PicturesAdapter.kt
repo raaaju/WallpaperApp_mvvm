@@ -39,7 +39,12 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
             try {
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, pics?.get(position)?.heght?.let { height ->
                     PicUrl(url = pics[position].url,
-                            width = pics[position].width, heght = height)
+                            width = pics[position].width,
+                            heght = height,
+                            likes = pics[position].likes,
+                            imageURL = pics[position].imageURL,
+                            user = pics[position].user,
+                            userImageURL = pics[position].userImageURL)
                 })
             } catch (e: ArrayIndexOutOfBoundsException) {
                 context.longToast(context.resources.getString(R.string.something_went_wrong))

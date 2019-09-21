@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.Hit
+import com.georgcantor.wallpaperapp.model.PicUrl
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.FavoriteActivity
@@ -70,7 +70,7 @@ class FavoriteAdapter(private val context: Context,
             val hitJson = photo.hit
 
             val gson = Gson()
-            val hit = gson.fromJson(hitJson, Hit::class.java)
+            val hit = gson.fromJson(hitJson, PicUrl::class.java)
 
             val intent = Intent(context, PicDetailActivity::class.java)
             try {

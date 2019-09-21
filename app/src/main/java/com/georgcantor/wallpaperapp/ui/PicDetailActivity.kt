@@ -25,7 +25,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.PicUrl
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
@@ -110,8 +109,12 @@ class PicDetailActivity : AppCompatActivity() {
 
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            this@PicDetailActivity.shortToast(tags[0] + getString(R.string.down_complete))
-            downloadAnimationView?.hideAnimation()
+            try {
+                this@PicDetailActivity.shortToast(tags[0] + getString(R.string.down_complete))
+                downloadAnimationView?.hideAnimation()
+            } catch (e: IndexOutOfBoundsException) {
+                downloadAnimationView?.hideAnimation()
+            }
         }
     }
 
@@ -187,16 +190,16 @@ class PicDetailActivity : AppCompatActivity() {
         } else {
             throw IllegalArgumentException("Detail activity must receive a Hit parcelable")
         }
-//        hit?.let {
-//            var title = it.tags
-//            while (title?.contains(",")!!) {
-//                val element = title.substring(0, title.indexOf(","))
-//                tags.add(element)
-//                first = title.indexOf(",")
-//                title = title.substring(++first)
-//            }
-//            tags.add(title)
-//        }
+        hit?.let {
+            var title = it.tags
+            while (title?.contains(",") == true) {
+                val element = title.substring(0, title.indexOf(","))
+                tags.add(element)
+                first = title.indexOf(",")
+                title = title.substring(++first)
+            }
+            title?.let(tags::add)
+        }
 
         tagTitle?.text = tags[0]
         tagsRecyclerView.layoutManager = LinearLayoutManager(
@@ -206,13 +209,13 @@ class PicDetailActivity : AppCompatActivity() {
         tagAdapter = TagAdapter(this)
         tagAdapter.setTagList(tags)
         tagsRecyclerView.adapter = tagAdapter
-//        file = File(
-//            Environment.getExternalStoragePublicDirectory(
-//                "/" + resources
-//                    .getString(R.string.app_name)
-//            ), hit?.id.toString() + resources
-//                .getString(R.string.jpg)
-//        )
+        file = File(
+            Environment.getExternalStoragePublicDirectory(
+                "/" + resources
+                    .getString(R.string.app_name)
+            ), hit?.id.toString() + resources
+                .getString(R.string.jpg)
+        )
 
         Picasso.with(this)
             .load(hit?.url)
@@ -231,9 +234,9 @@ class PicDetailActivity : AppCompatActivity() {
                 }
             })
 
-//        nameTextView.text = hit?.user
-//        downloadsTextView.text = hit?.downloads.toString()
-//        favoritesTextView.text = hit?.favorites.toString()
+        nameTextView.text = hit?.user
+        downloadsTextView.text = hit?.downloads.toString()
+        favoritesTextView.text = hit?.favorites.toString()
         if (!this.isNetworkAvailable()) {
             Picasso.with(this)
                 .load(R.drawable.memb)
@@ -272,16 +275,16 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         db?.let { db ->
             when (item.itemId) {
-//                android.R.id.home -> onBackPressed()
-//                R.id.action_add_to_fav -> if (!db.containFav(hit?.previewURL.toString())) {
-//                    hit?.let { addToFavorite(it.previewURL.toString(), it.pageURL.toString(), it) }
-//                    item.setIcon(R.drawable.ic_star_red_24dp)
-//                    this.shortToast(getString(R.string.add_to_fav_toast))
-//                } else {
-//                    db.deleteFromFavorites(hit?.previewURL.toString())
-//                    item.setIcon(R.drawable.ic_star_border_black_24dp)
-//                    this.shortToast(getString(R.string.del_from_fav_toast))
-//                }
+                android.R.id.home -> onBackPressed()
+                R.id.action_add_to_fav -> if (!db.containFav(hit?.url.toString())) {
+                    hit?.let { addToFavorite(it.url.toString(), it.imageURL.toString(), it) }
+                    item.setIcon(R.drawable.ic_star_red_24dp)
+                    this.shortToast(getString(R.string.add_to_fav_toast))
+                } else {
+                    db.deleteFromFavorites(hit?.url.toString())
+                    item.setIcon(R.drawable.ic_star_border_black_24dp)
+                    this.shortToast(getString(R.string.del_from_fav_toast))
+                }
                 R.id.action_share -> try {
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "text/plain"
@@ -299,9 +302,9 @@ class PicDetailActivity : AppCompatActivity() {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 downloadPictureQ(hit?.url ?: "")
                             } else {
-                                val uri = hit?.url
+                                val uri = hit?.imageURL
                                 val imageUri = Uri.parse(uri)
-//                                downloadPicture(imageUri)
+                                downloadPicture(imageUri)
                             }
                         } else {
                             checkSavingPermission()
@@ -318,35 +321,37 @@ class PicDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    private fun downloadPicture(uri: Uri): Long {
-//        downloadAnimationView?.showAnimation()
-//
-//        val downloadReference: Long
-//        val downloadManager =
-//            getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-//
-//        var name = Environment.getExternalStorageDirectory().absolutePath
-//        name += "/YourDirectoryName/"
-//
-//        val request = DownloadManager.Request(uri)
-//
-//        try {
-//            request.setTitle(tags[0] + getString(R.string.down))
-//            request.setDescription(getString(R.string.down_wallpapers))
-//            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-//                request.setDestinationInExternalPublicDir(
-//                    "/" + resources
-//                        .getString(R.string.app_name), hit?.id.toString() + resources
-//                        .getString(R.string.jpg)
-//                )
-//            }
-//        } catch (e: IllegalStateException) {
-//            this.longToast(getString(R.string.something_went_wrong))
-//        }
-//        downloadReference = downloadManager.enqueue(request)
-//
-//        return downloadReference
-//    }
+    private fun downloadPicture(uri: Uri): Long {
+        downloadAnimationView?.showAnimation()
+
+        val downloadReference: Long
+        val downloadManager =
+            getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+        var name = Environment.getExternalStorageDirectory().absolutePath
+        name += "/YourDirectoryName/"
+
+        val request = DownloadManager.Request(uri)
+
+        try {
+            request.setTitle(tags[0] + getString(R.string.down))
+            request.setDescription(getString(R.string.down_wallpapers))
+            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+                request.setDestinationInExternalPublicDir(
+                    "/" + resources
+                        .getString(R.string.app_name), hit?.id.toString() + resources
+                        .getString(R.string.jpg)
+                )
+            }
+        } catch (e: IllegalStateException) {
+            this.shortToast(getString(R.string.something_went_wrong))
+        } catch (e:IndexOutOfBoundsException){
+            this.shortToast(getString(R.string.something_went_wrong))
+        }
+        downloadReference = downloadManager.enqueue(request)
+
+        return downloadReference
+    }
 
     private fun downloadPictureQ(url: String) {
         downloadAnimationView?.visibility = View.VISIBLE
@@ -399,9 +404,9 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun addToFavorite(imageUrl: String, hdUrl: String, hit: Hit) {
+    private fun addToFavorite(imageUrl: String, hdUrl: String, picUrl: PicUrl) {
         val gson = Gson()
-        val toStoreObject = gson.toJson(hit)
+        val toStoreObject = gson.toJson(picUrl)
         db?.insertToFavorites(imageUrl, hdUrl, toStoreObject)
     }
 
