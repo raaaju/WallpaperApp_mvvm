@@ -10,18 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
+import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment.Companion.REQUEST
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
-import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
-import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
-import com.georgcantor.wallpaperapp.ui.util.hideAnimation
-import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
-import com.georgcantor.wallpaperapp.ui.util.longToast
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.app_bar_main.navigation
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_mercedes.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -40,7 +33,7 @@ class MercedesFragment : Fragment() {
     }
 
     private lateinit var viewModel: SearchViewModel
-    private var adapter: WallpAdapter? = null
+    private var adapter: PicturesAdapter? = null
     private var columnNo: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +73,7 @@ class MercedesFragment : Fragment() {
         }
         scrollListener.resetState()
         mercedesRecyclerView.addOnScrollListener(scrollListener)
-        adapter = WallpAdapter(requireContext())
+        adapter = PicturesAdapter(requireContext())
         mercedesRecyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
@@ -93,14 +86,14 @@ class MercedesFragment : Fragment() {
     private fun loadData(index: Int) {
         animationView?.showAnimation()
 
-        val disposable =
-            viewModel.getPictures(arguments?.getString(REQUEST) ?: "", index).subscribe({
-                adapter?.setPicList(it.hits)
-                animationView?.hideAnimation()
-            }, {
-                animationView?.hideAnimation()
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
-            })
+        val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
+                .subscribe({
+                    adapter?.setPicList(it)
+                    animationView?.hideAnimation()
+                }, {
+                    animationView?.hideAnimation()
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
+                })
 
         DisposableManager.add(disposable)
     }

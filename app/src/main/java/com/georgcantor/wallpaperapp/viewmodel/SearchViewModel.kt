@@ -22,10 +22,9 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
 
     fun getPics(request: String, index: Int): Observable<ArrayList<PicUrl>> {
         return Observable.combineLatest<List<Hit>, List<Result>, ArrayList<PicUrl>>(
-            apiRepository.getPictures(request, index).map {
-                it.hits
-            }, apiRepository.getBmw(index).map(UnsplashResponse::results), BiFunction(
-                PicturesMapper.Companion::concatsResponses
+            apiRepository.getPictures(request, index).map { it.hits },
+                apiRepository.getUnsplashPictures(request,index).map(UnsplashResponse::results), BiFunction(
+                PicturesMapper.Companion::mergeResponses
             )
         )
             .subscribeOn(Schedulers.io())

@@ -26,11 +26,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
-import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
-import com.georgcantor.wallpaperapp.ui.util.hideAnimation
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
@@ -46,7 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SearchViewModel
     private var columnNo: Int = 0
-    lateinit var adapter: WallpAdapter
+    lateinit var adapter: PicturesAdapter
     private var index = 1
     private var voiceInvisible = false
 
@@ -97,7 +94,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
-        adapter = WallpAdapter(this)
+        adapter = PicturesAdapter(this)
         searchRecyclerView.adapter = adapter
     }
 
@@ -106,13 +103,13 @@ class SearchActivity : AppCompatActivity() {
         swipeRefreshLayoutSearch.isEnabled = true
         swipeRefreshLayoutSearch.isRefreshing = true
 
-        viewModel.getPictures(search, index).subscribe({
-            adapter.setPicList(it.hits)
+        val disposable = viewModel.getPics(search, index).subscribe({
+            adapter.setPicList(it)
             searchAnimationView?.hideAnimation()
             invalidateOptionsMenu()
             voiceInvisible = true
             editText_search.visibility = View.GONE
-            if (it.hits.isNullOrEmpty()) {
+            if (it.isNullOrEmpty()) {
                 searchAnimationView?.showAnimation()
             }
             swipeRefreshLayoutSearch.isRefreshing = false
@@ -123,6 +120,7 @@ class SearchActivity : AppCompatActivity() {
             swipeRefreshLayoutSearch.isEnabled = false
             this.shortToast(getString(R.string.something_went_wrong))
         })
+        DisposableManager.add(disposable)
     }
 
     private fun checkScreenSize() {
@@ -235,6 +233,11 @@ class SearchActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+    }
+
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
     }
 
 }

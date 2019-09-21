@@ -10,17 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.WallpAdapter
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
-import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
-import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
-import com.georgcantor.wallpaperapp.ui.util.hideAnimation
-import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
-import com.georgcantor.wallpaperapp.ui.util.longToast
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.app_bar_main.navigation
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_select_cat.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -32,7 +25,7 @@ class SelectCatFragment : Fragment() {
     }
 
     private lateinit var viewModel: SearchViewModel
-    lateinit var adapter: WallpAdapter
+    lateinit var adapter: PicturesAdapter
     private var type: String? = null
     private var columnNo: Int = 0
 
@@ -65,7 +58,7 @@ class SelectCatFragment : Fragment() {
             }
         }
         selectCatRecyclerView.addOnScrollListener(listener)
-        adapter = WallpAdapter(requireContext())
+        adapter = PicturesAdapter(requireContext())
         selectCatRecyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
@@ -78,13 +71,14 @@ class SelectCatFragment : Fragment() {
     private fun loadData(type: String, index: Int) {
         catAnimationView?.showAnimation()
 
-        val disposable = viewModel.getPictures(type, index).subscribe({
-            adapter.setPicList(it.hits)
-            catAnimationView?.hideAnimation()
-        }, {
-            catAnimationView?.hideAnimation()
-            requireActivity().shortToast(getString(R.string.something_went_wrong))
-        })
+        val disposable = viewModel.getPics(type, index)
+                .subscribe({
+                    adapter.setPicList(it)
+                    catAnimationView?.hideAnimation()
+                }, {
+                    catAnimationView?.hideAnimation()
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
+                })
 
         DisposableManager.add(disposable)
     }

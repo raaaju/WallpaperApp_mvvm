@@ -13,7 +13,7 @@ import com.georgcantor.wallpaperapp.ui.PicDetailActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.WallpViewHolder
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.squareup.picasso.Picasso
-import java.util.ArrayList
+import java.util.*
 
 class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<WallpViewHolder>() {
 
@@ -37,7 +37,10 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
             val position = wallpViewHolder.adapterPosition
             val intent = Intent(context, PicDetailActivity::class.java)
             try {
-                intent.putExtra(PicDetailActivity.EXTRA_PIC, pics?.get(position)?.url)
+                intent.putExtra(PicDetailActivity.EXTRA_PIC, pics?.get(position)?.heght?.let { height ->
+                    PicUrl(url = pics[position].url,
+                            width = pics[position].width, heght = height)
+                })
             } catch (e: ArrayIndexOutOfBoundsException) {
                 context.longToast(context.resources.getString(R.string.something_went_wrong))
             }

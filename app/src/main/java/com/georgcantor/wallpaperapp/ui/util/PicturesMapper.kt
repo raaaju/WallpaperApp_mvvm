@@ -7,12 +7,12 @@ import com.georgcantor.wallpaperapp.model.unsplash.Result
 class PicturesMapper {
 
     companion object {
-        fun concatsResponses(hits: List<Hit>, results: List<Result>): ArrayList<PicUrl> {
+        fun mergeResponses(hits: List<Hit>, results: List<Result>): ArrayList<PicUrl> {
             val strings = ArrayList<PicUrl>()
 
-            results.forEach {
+            results.map {
                 it.urls.takeUnless { urls ->
-                    strings.add(PicUrl(urls?.small!!, it.width!!, it.height!!))
+                    strings.add(PicUrl(urls?.small, it.width ?: 0, it.height ?: 0))
                 }
             }
 

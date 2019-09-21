@@ -17,10 +17,8 @@ interface ApiService {
     ): Observable<Pic>
 
     @GET
-    fun getBmw(@Url url: String,
-               @Query("page") page: Int): Observable<UnsplashResponse>
-
-    //563492ad6f917000010000012802dcdebfc2451ab06a0cdf7c62fe16 Pexels
-    //814e0183c60488e937f966c79d38a31401fcceb515aeee2448292a301665761e Unsplash
+    fun getUnsplashPictures(@Url url: String,
+                            @Query("query") query: String,
+                            @Query("page") page: Int): Observable<UnsplashResponse>
 
 }
