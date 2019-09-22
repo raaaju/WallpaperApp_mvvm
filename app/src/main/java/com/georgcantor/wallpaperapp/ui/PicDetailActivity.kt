@@ -137,11 +137,15 @@ class PicDetailActivity : AppCompatActivity() {
                     )
                 )
             } catch (e: IllegalArgumentException) {
-                val bitmap = MediaStore.Images.Media.getBitmap(
-                    contentResolver,
-                    it?.let { bitmap -> getImageUri(bitmap, applicationContext) }
-                )
-                WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                            contentResolver,
+                            it?.let { bitmap -> getImageUri(bitmap, applicationContext) }
+                    )
+                    WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
+                } catch (e: OutOfMemoryError) {
+                    this@PicDetailActivity.longToast(getString(R.string.something_went_wrong))
+                }
             }
 
             this@PicDetailActivity.shortToast(getString(R.string.wallpaper_is_install))
