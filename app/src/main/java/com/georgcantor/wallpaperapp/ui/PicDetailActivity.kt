@@ -47,6 +47,7 @@ class PicDetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_PIC = "picture"
         const val EXTRA_BOOLEAN = "isFromFavorite"
+        const val MY_PREFS = "my_prefs"
     }
 
     private var hit: PicUrl? = null
@@ -70,8 +71,8 @@ class PicDetailActivity : AppCompatActivity() {
 
         db = DatabaseHelper(this)
 
-        prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
-        picture = prefs.getString("picture", "") ?: ""
+        prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
+        picture = prefs.getString(EXTRA_PIC, "") ?: ""
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
@@ -91,7 +92,7 @@ class PicDetailActivity : AppCompatActivity() {
                     checkSavingPermission()
                 }
             } else {
-                this.longToast(getString(R.string.no_internet))
+                longToast(getString(R.string.no_internet))
             }
         }
     }
@@ -110,7 +111,7 @@ class PicDetailActivity : AppCompatActivity() {
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             try {
-                this@PicDetailActivity.shortToast(tags[0] + getString(R.string.down_complete))
+                shortToast(tags[0] + getString(R.string.down_complete))
                 downloadAnimationView?.hideAnimation()
             } catch (e: IndexOutOfBoundsException) {
                 downloadAnimationView?.hideAnimation()
@@ -144,14 +145,14 @@ class PicDetailActivity : AppCompatActivity() {
                     )
                     WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
                 } catch (e: OutOfMemoryError) {
-                    this@PicDetailActivity.longToast(getString(R.string.something_went_wrong))
+                    longToast(getString(R.string.something_went_wrong))
                 }
             }
 
-            this@PicDetailActivity.shortToast(getString(R.string.wallpaper_is_install))
+            shortToast(getString(R.string.wallpaper_is_install))
             recreate()
         }, {
-            this@PicDetailActivity.longToast(getString(R.string.something_went_wrong))
+            longToast(getString(R.string.something_went_wrong))
         })
 
         disposable?.let(DisposableManager::add)
@@ -192,7 +193,7 @@ class PicDetailActivity : AppCompatActivity() {
         if (intent.hasExtra(EXTRA_PIC)) {
             hit = intent.getParcelableExtra(EXTRA_PIC)
         } else {
-            throw IllegalArgumentException("Detail activity must receive a Hit parcelable")
+            shortToast(getString(R.string.something_went_wrong))
         }
         hit?.let {
             var title = it.tags
@@ -283,11 +284,11 @@ class PicDetailActivity : AppCompatActivity() {
                 R.id.action_add_to_fav -> if (!db.containFav(hit?.url.toString())) {
                     hit?.let { addToFavorite(it.url.toString(), it.imageURL.toString(), it) }
                     item.setIcon(R.drawable.ic_star_red_24dp)
-                    this.shortToast(getString(R.string.add_to_fav_toast))
+                    shortToast(getString(R.string.add_to_fav_toast))
                 } else {
                     db.deleteFromFavorites(hit?.url.toString())
                     item.setIcon(R.drawable.ic_star_border_black_24dp)
-                    this.shortToast(getString(R.string.del_from_fav_toast))
+                    shortToast(getString(R.string.del_from_fav_toast))
                 }
                 R.id.action_share -> try {
                     val intent = Intent(Intent.ACTION_SEND)
@@ -298,7 +299,7 @@ class PicDetailActivity : AppCompatActivity() {
                     startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
                 } catch (e: AndroidRuntimeException) {
                     e.printStackTrace()
-                    this.shortToast(getString(R.string.cant_share))
+                    shortToast(getString(R.string.cant_share))
                 }
                 R.id.action_download -> {
                     if (this.isNetworkAvailable()) {
@@ -314,7 +315,7 @@ class PicDetailActivity : AppCompatActivity() {
                             checkSavingPermission()
                         }
                     } else {
-                        this.shortToast(getString(R.string.no_internet))
+                        shortToast(getString(R.string.no_internet))
                     }
                 }
                 else -> {
@@ -348,9 +349,9 @@ class PicDetailActivity : AppCompatActivity() {
                 )
             }
         } catch (e: IllegalStateException) {
-            this.shortToast(getString(R.string.something_went_wrong))
+            shortToast(getString(R.string.something_went_wrong))
         } catch (e:IndexOutOfBoundsException){
-            this.shortToast(getString(R.string.something_went_wrong))
+            shortToast(getString(R.string.something_went_wrong))
         }
         downloadReference = downloadManager.enqueue(request)
 
@@ -373,8 +374,8 @@ class PicDetailActivity : AppCompatActivity() {
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
 
         downloadManager?.enqueue(request)
-        val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)?.edit()
-        editor?.putString("picture", hit?.url)
+        val editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)?.edit()
+        editor?.putString(EXTRA_PIC, hit?.url)
         editor?.apply()
     }
 
@@ -404,7 +405,7 @@ class PicDetailActivity : AppCompatActivity() {
             intent.data = uri
             startActivity(intent)
             finish()
-            this.longToast(getString(R.string.you_need_perm_toast))
+            longToast(getString(R.string.you_need_perm_toast))
         }
     }
 
