@@ -115,10 +115,10 @@ class SearchActivity : AppCompatActivity() {
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
         }, {
-            searchAnimationView?.hideAnimation()
+            searchAnimationView?.showAnimation()
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
-            this.shortToast(getString(R.string.something_went_wrong))
+            this.shortToast(getString(R.string.not_found))
         })
         DisposableManager.add(disposable)
     }

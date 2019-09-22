@@ -11,6 +11,7 @@
     <string name="favourite">Favourites:</string>
     <string name="no_internet">Hет интернет соединения</string>
     <string name="something_went_wrong">Что-то пошло не так…</string>
+    <string name="not_found">Ничего не найдено:(</string>
     <string name="wallpaper_is_install">Обои установлены</string>
     <string name="navigation">navigation drawer</string>
     <string name="detail_image">detail image</string>

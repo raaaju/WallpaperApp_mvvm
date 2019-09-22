@@ -11,6 +11,7 @@
     <string name="favourite">Favourites:</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="something_went_wrong">Something went wrong…</string>
+    <string name="not_found">Nothing found:(</string>
     <string name="wallpaper_is_install">Wallpaper installation completed successfully</string>
     <string name="navigation">navigation drawer</string>
     <string name="detail_image">detail image</string>
