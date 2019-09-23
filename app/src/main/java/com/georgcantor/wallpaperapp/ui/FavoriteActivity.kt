@@ -37,7 +37,7 @@ class FavoriteActivity : AppCompatActivity() {
             adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it)
             favGridView.adapter = adapter
         }, {
-            this.shortToast(getString(R.string.something_went_wrong))
+            shortToast(getString(R.string.something_went_wrong))
         })
 
         toggleEmptyHistory()

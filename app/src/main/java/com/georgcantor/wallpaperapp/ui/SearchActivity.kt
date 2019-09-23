@@ -111,6 +111,7 @@ class SearchActivity : AppCompatActivity() {
             editText_search.visibility = View.GONE
             if (it.isNullOrEmpty()) {
                 searchAnimationView?.showAnimation()
+                shortToast(getString(R.string.not_found))
             }
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
@@ -118,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
             searchAnimationView?.showAnimation()
             swipeRefreshLayoutSearch.isRefreshing = false
             swipeRefreshLayoutSearch.isEnabled = false
-            this.shortToast(getString(R.string.not_found))
+            shortToast(getString(R.string.not_found))
         })
         DisposableManager.add(disposable)
     }

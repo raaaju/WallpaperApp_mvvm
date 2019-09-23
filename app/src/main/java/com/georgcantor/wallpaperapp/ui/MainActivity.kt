@@ -260,7 +260,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 )
                 doubleTap -> super.onBackPressed()
                 else -> {
-                    this.shortToast(getString(R.string.press_back))
+                    shortToast(getString(R.string.press_back))
                     doubleTap = true
                     val handler = Handler()
                     handler.postDelayed({ doubleTap = false }, 2000)

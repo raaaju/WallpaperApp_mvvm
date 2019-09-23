@@ -96,7 +96,7 @@ class AboutActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(emailIntent, getString(R.string.message_choose_title)))
             finish()
         } catch (ex: android.content.ActivityNotFoundException) {
-            this.shortToast(getString(R.string.no_email_client))
+            shortToast(getString(R.string.no_email_client))
         }
     }
 

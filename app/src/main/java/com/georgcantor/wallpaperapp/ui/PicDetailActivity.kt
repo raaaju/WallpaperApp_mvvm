@@ -46,7 +46,7 @@ class PicDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PIC = "picture"
-        const val EXTRA_BOOLEAN = "isFromFavorite"
+        const val EXTRA_BOOLEAN = "is_from_favorite"
         const val MY_PREFS = "my_prefs"
     }
 
