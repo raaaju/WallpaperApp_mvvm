@@ -119,7 +119,6 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("CheckResult")
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setWallAsync() {
         val disposable = getBitmapAsync()?.subscribe({
@@ -153,8 +152,8 @@ class PicDetailActivity : AppCompatActivity() {
                             shortToast(getString(R.string.something_went_wrong))
                         }
                     }
-                }, {
-                    longToast(it.message.toString())
+                }, { throwable ->
+                    longToast(throwable.message.toString())
                 })
             }
             shortToast(getString(R.string.wallpaper_is_install))
@@ -402,6 +401,7 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -409,7 +409,8 @@ class PicDetailActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            this.recreate()
+            progressAnimationView?.showAnimation()
+            setWallAsync()
         } else {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
