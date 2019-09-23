@@ -124,31 +124,39 @@ class PicDetailActivity : AppCompatActivity() {
     private fun setWallAsync() {
         val disposable = getBitmapAsync()?.subscribe({
             val wallpaperManager = WallpaperManager.getInstance(baseContext)
-            try {
-                startActivity(
-                    Intent(
-                        wallpaperManager.getCropAndSetWallpaperIntent(
-                            it?.let { bitmap ->
-                                getImageUri(
-                                    bitmap,
-                                    applicationContext
+            it?.let { bitmap ->
+                getImageUri(bitmap, applicationContext).subscribe({ uri ->
+                    try {
+                        startActivity(
+                            Intent(
+                                wallpaperManager.getCropAndSetWallpaperIntent(
+                                    uri
                                 )
-                            }
+                            )
                         )
-                    )
-                )
-            } catch (e: IllegalArgumentException) {
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(
-                            contentResolver,
-                            it?.let { bitmap -> getImageUri(bitmap, applicationContext) }
-                    )
-                    WallpaperManager.getInstance(this@PicDetailActivity).setBitmap(bitmap)
-                } catch (e: OutOfMemoryError) {
-                    longToast(getString(R.string.something_went_wrong))
-                }
-            }
+                    } catch (e: IllegalArgumentException) {
+                        try {
+                            it.let { bitMap ->
+                                getImageUri(bitMap, applicationContext).subscribe({ uri ->
+                                    val bitmap2 = MediaStore.Images.Media.getBitmap(
+                                        contentResolver,
+                                        uri
+                                    )
+                                    WallpaperManager.getInstance(this@PicDetailActivity)
+                                        .setBitmap(bitmap2)
+                                }, {
+                                    shortToast(getString(R.string.something_went_wrong))
+                                })
+                            }
 
+                        } catch (e: OutOfMemoryError) {
+                            shortToast(getString(R.string.something_went_wrong))
+                        }
+                    }
+                }, {
+                    longToast(it.message.toString())
+                })
+            }
             shortToast(getString(R.string.wallpaper_is_install))
             recreate()
         }, {
@@ -174,14 +182,18 @@ class PicDetailActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun getImageUri(inImage: Bitmap, inContext: Context): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            inContext.contentResolver,
-            inImage, "Title", null
-        )
-        return Uri.parse(path)
+    private fun getImageUri(inImage: Bitmap, inContext: Context): Observable<Uri> {
+        return Observable.fromCallable {
+            val bytes = ByteArrayOutputStream()
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            val path = MediaStore.Images.Media.insertImage(
+                inContext.contentResolver,
+                inImage, "Title", null
+            )
+            Uri.parse(path)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun initView() {
@@ -350,7 +362,7 @@ class PicDetailActivity : AppCompatActivity() {
             }
         } catch (e: IllegalStateException) {
             shortToast(getString(R.string.something_went_wrong))
-        } catch (e:IndexOutOfBoundsException){
+        } catch (e: IndexOutOfBoundsException) {
             shortToast(getString(R.string.something_went_wrong))
         }
         downloadReference = downloadManager.enqueue(request)
