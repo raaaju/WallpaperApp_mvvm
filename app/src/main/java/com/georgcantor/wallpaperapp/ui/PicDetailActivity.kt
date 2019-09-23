@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.*
@@ -152,7 +151,6 @@ class PicDetailActivity : AppCompatActivity() {
                                     shortToast(getString(R.string.something_went_wrong))
                                 })
                             }
-
                         } catch (e: OutOfMemoryError) {
                             shortToast(getString(R.string.something_went_wrong))
                         }

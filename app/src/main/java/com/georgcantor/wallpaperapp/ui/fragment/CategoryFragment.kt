@@ -57,7 +57,7 @@ class CategoryFragment : Fragment() {
 
     private fun addToList() {
         categoryList.add(Category(resources.getString(R.string.Animals), resources.getString(R.string.animals)))
-        categoryList.add(Category(resources.getString(R.string.Textures), resources.getString(R.string.backgrounds)))
+        categoryList.add(Category(resources.getString(R.string.Textures), resources.getString(R.string.textures)))
         categoryList.add(Category(resources.getString(R.string.Architecture), resources.getString(R.string.buildings)))
         categoryList.add(Category(resources.getString(R.string.Business), resources.getString(R.string.business)))
         categoryList.add(Category(resources.getString(R.string.Communication), resources.getString(R.string.computer)))
