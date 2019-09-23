@@ -92,7 +92,7 @@ class MercedesFragment : Fragment() {
                     animationView?.hideAnimation()
                 }, {
                     animationView?.hideAnimation()
-                    requireActivity().shortToast(it.message.toString())
+                    requireActivity().longToast(it.message.toString())
                 })
 
         DisposableManager.add(disposable)
