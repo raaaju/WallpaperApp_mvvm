@@ -47,6 +47,7 @@ class PicDetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_PIC = "picture"
         const val EXTRA_BOOLEAN = "is_from_favorite"
+        const val PREF_BOOLEAN = "is_set_wall"
         const val MY_PREFS = "my_prefs"
     }
 
@@ -60,7 +61,7 @@ class PicDetailActivity : AppCompatActivity() {
     private var db: DatabaseHelper? = null
     private var pathOfFile: String? = null
     private lateinit var prefs: SharedPreferences
-    private lateinit var picture: String
+    private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +72,8 @@ class PicDetailActivity : AppCompatActivity() {
 
         db = DatabaseHelper(this)
 
+        editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE).edit()
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
-        picture = prefs.getString(EXTRA_PIC, "") ?: ""
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initView()
@@ -89,6 +90,8 @@ class PicDetailActivity : AppCompatActivity() {
                         setAsWallpaper()
                     }
                 } else {
+                    editor.putBoolean(PREF_BOOLEAN, true)
+                    editor.apply()
                     checkSavingPermission()
                 }
             } else {
@@ -121,6 +124,8 @@ class PicDetailActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setWallAsync() {
+        progressAnimationView?.showAnimation()
+
         val disposable = getBitmapAsync()?.subscribe({
             val wallpaperManager = WallpaperManager.getInstance(baseContext)
             it?.let { bitmap ->
@@ -318,9 +323,7 @@ class PicDetailActivity : AppCompatActivity() {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 downloadPictureQ(hit?.url ?: "")
                             } else {
-                                val uri = hit?.imageURL
-                                val imageUri = Uri.parse(uri)
-                                downloadPicture(imageUri)
+                                downloadPicture()
                             }
                         } else {
                             checkSavingPermission()
@@ -337,8 +340,10 @@ class PicDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun downloadPicture(uri: Uri): Long {
+    private fun downloadPicture(): Long {
         downloadAnimationView?.showAnimation()
+        val uri = hit?.imageURL
+        val imageUri = Uri.parse(uri)
 
         val downloadReference: Long
         val downloadManager =
@@ -347,7 +352,7 @@ class PicDetailActivity : AppCompatActivity() {
         var name = Environment.getExternalStorageDirectory().absolutePath
         name += "/YourDirectoryName/"
 
-        val request = DownloadManager.Request(uri)
+        val request = DownloadManager.Request(imageUri)
 
         try {
             request.setTitle(tags[0] + getString(R.string.down))
@@ -385,9 +390,6 @@ class PicDetailActivity : AppCompatActivity() {
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
 
         downloadManager?.enqueue(request)
-        val editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)?.edit()
-        editor?.putString(EXTRA_PIC, hit?.url)
-        editor?.apply()
     }
 
     private fun checkSavingPermission() {
@@ -409,8 +411,8 @@ class PicDetailActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            progressAnimationView?.showAnimation()
-            setWallAsync()
+            val isSetWall = prefs.getBoolean(PREF_BOOLEAN, false)
+            if (isSetWall) setWallAsync() else downloadPicture()
         } else {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
