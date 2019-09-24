@@ -8,11 +8,13 @@ import com.georgcantor.wallpaperapp.model.unsplash.Result
 class PicturesMapper {
 
     companion object {
+
         fun mergeResponses(
             hits: List<Hit>,
             results: List<Result>,
             walls: List<Wallpaper>
         ): ArrayList<CommonPic> {
+
             val pictures = ArrayList<CommonPic>()
 
             results.map {
@@ -76,6 +78,32 @@ class PicturesMapper {
 
             return pictures
         }
+
+        fun convertResponse(hits: List<Hit>): ArrayList<CommonPic> {
+            val pictures = ArrayList<CommonPic>()
+
+            hits.map {
+                pictures.add(
+                    CommonPic(
+                        it.webformatURL,
+                        it.imageWidth,
+                        it.imageHeight,
+                        it.likes,
+                        it.favorites,
+                        it.tags,
+                        it.downloads,
+                        it.imageURL,
+                        it.webformatURL,
+                        it.user,
+                        it.id,
+                        it.userImageURL
+                    )
+                )
+            }
+
+            return pictures
+        }
+
     }
 
 }

@@ -26,7 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.SearchAdapter
+import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
@@ -43,7 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SearchViewModel
     private var columnNo: Int = 0
-    lateinit var adapter: SearchAdapter
+    lateinit var adapter: PicturesAdapter
     private var index = 1
     private var voiceInvisible = false
 
@@ -95,7 +95,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
-        adapter = SearchAdapter(this)
+        adapter = PicturesAdapter(this)
         searchRecyclerView.adapter = adapter
     }
 
@@ -106,12 +106,12 @@ class SearchActivity : AppCompatActivity() {
 
         val disposable = viewModel.searchPics(search, index)
             .subscribe({
-                adapter.setPicList(it.hits)
+                adapter.setPicList(it)
                 searchAnimationView?.hideAnimation()
                 invalidateOptionsMenu()
                 voiceInvisible = true
                 searchEditText.visibility = View.GONE
-                if (it.hits.isNullOrEmpty()) {
+                if (it.isNullOrEmpty()) {
                     searchAnimationView?.showAnimation()
                     shortToast(getString(R.string.not_found))
                 }

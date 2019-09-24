@@ -2,7 +2,6 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
 import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
@@ -30,8 +29,11 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun searchPics(request: String, index: Int): Observable<Pic> =
+    fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> =
         apiRepository.getPixabayPictures(request, index)
+            .map {
+                PicturesMapper.convertResponse(it.hits)
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
