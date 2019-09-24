@@ -14,6 +14,7 @@ import com.georgcantor.wallpaperapp.ui.AboutActivity.Companion.FONT_PATH
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_review.*
 
@@ -21,6 +22,7 @@ class ReviewFragment : Fragment() {
 
     companion object {
         private const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
+        private const val RATING = "rating"
     }
 
     private var rating: Int = 0
@@ -37,8 +39,13 @@ class ReviewFragment : Fragment() {
         val typeface = Typeface.createFromAsset(assetManager, FONT_PATH)
         markTextView.typeface = typeface
 
+        val db = FirebaseFirestore.getInstance()
+        val mark: MutableMap<String, Int>
+        mark = HashMap()
+
         ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { _, ratingNumber, _ ->
             rating = ratingNumber.toInt()
+
             addReviewButton.visibility = if (rating > 0) View.VISIBLE else View.GONE
             if (rating in 1..3) {
                 cryAnimationView?.showAnimation()
@@ -55,6 +62,11 @@ class ReviewFragment : Fragment() {
 
         addReviewButton.setOnClickListener {
             requireActivity().toolbar.title = getString(R.string.app_name)
+
+            mark[RATING] = rating
+            db.collection(RATING)
+                .add(mark)
+
             if (rating > 3) {
                 requireFragmentManager().popBackStack()
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
