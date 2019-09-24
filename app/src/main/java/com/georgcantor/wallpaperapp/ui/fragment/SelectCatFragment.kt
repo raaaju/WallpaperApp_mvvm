@@ -67,7 +67,6 @@ class SelectCatFragment : Fragment() {
         loadData(type as String, 1)
     }
 
-    @SuppressLint("CheckResult")
     private fun loadData(type: String, index: Int) {
         catAnimationView?.showAnimation()
 

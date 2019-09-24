@@ -64,7 +64,6 @@ class CarBrandFragment : Fragment() {
         brandRecyclerView.addOnScrollListener(hideScrollListener)
     }
 
-    @SuppressLint("CheckResult")
     private fun loadData(index: Int) {
         brandAnimationView?.showAnimation()
 

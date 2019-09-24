@@ -61,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
-                searchEverything(searchEditText.text.toString().trim { it <= ' ' }, index)
+                search(searchEditText.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
             false
@@ -91,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                searchEverything(searchEditText.text.toString().trim { it <= ' ' }, page)
+                search(searchEditText.text.toString().trim { it <= ' ' }, page)
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
@@ -99,8 +99,7 @@ class SearchActivity : AppCompatActivity() {
         searchRecyclerView.adapter = adapter
     }
 
-    @SuppressLint("CheckResult")
-    fun searchEverything(search: String, index: Int) {
+    fun search(search: String, index: Int) {
         swipeRefreshLayoutSearch.isEnabled = true
         swipeRefreshLayoutSearch.isRefreshing = true
 
@@ -228,7 +227,7 @@ class SearchActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            arrayList?.toString()?.let { searchEverything(it, index) }
+            arrayList?.toString()?.let { search(it, index) }
             searchEditText.setText(arrayList?.toString())
         }
     }

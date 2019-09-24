@@ -84,7 +84,6 @@ class BmwFragment : Fragment() {
         loadData(1)
     }
 
-    @SuppressLint("CheckResult")
     private fun loadData(index: Int) {
         animationView?.showAnimation()
 
