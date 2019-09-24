@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.PicUrl
+import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.WallpViewHolder
 import com.georgcantor.wallpaperapp.ui.util.longToast
@@ -17,14 +17,14 @@ import java.util.*
 
 class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<WallpViewHolder>() {
 
-    private val pics: MutableList<PicUrl>?
+    private val commonPics: MutableList<CommonPic>?
 
     init {
-        this.pics = ArrayList()
+        this.commonPics = ArrayList()
     }
 
-    fun setPicList(strings: MutableList<PicUrl>) {
-        this.pics?.addAll(strings)
+    fun setPicList(strings: MutableList<CommonPic>) {
+        this.commonPics?.addAll(strings)
         notifyDataSetChanged()
     }
 
@@ -37,19 +37,19 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
             val position = wallpViewHolder.adapterPosition
             val intent = Intent(context, PicDetailActivity::class.java)
             try {
-                intent.putExtra(PicDetailActivity.EXTRA_PIC, pics?.get(position)?.heght?.let { height ->
-                    PicUrl(
-                            url = pics[position].url,
-                            width = pics[position].width,
+                intent.putExtra(PicDetailActivity.EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
+                    CommonPic(
+                            url = commonPics[position].url,
+                            width = commonPics[position].width,
                             heght = height,
-                            likes = pics[position].likes,
-                            favorites = pics[position].favorites,
-                            tags = pics[position].tags,
-                            downloads = pics[position].downloads,
-                            imageURL = pics[position].imageURL,
-                            fullHDURL = pics[position].fullHDURL,
-                            user = pics[position].user,
-                            userImageURL = pics[position].userImageURL
+                            likes = commonPics[position].likes,
+                            favorites = commonPics[position].favorites,
+                            tags = commonPics[position].tags,
+                            downloads = commonPics[position].downloads,
+                            imageURL = commonPics[position].imageURL,
+                            fullHDURL = commonPics[position].fullHDURL,
+                            user = commonPics[position].user,
+                            userImageURL = commonPics[position].userImageURL
                     )
                 })
             } catch (e: ArrayIndexOutOfBoundsException) {
@@ -63,7 +63,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
     }
 
     override fun onBindViewHolder(holder: WallpViewHolder, position: Int) {
-        this.pics.let {
+        this.commonPics.let {
             val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
             val height = it?.get(position)?.heght?.toFloat()
             val width = it?.get(position)?.width?.toFloat()
@@ -79,6 +79,6 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
         }
     }
 
-    override fun getItemCount(): Int = pics?.size ?: 0
+    override fun getItemCount(): Int = commonPics?.size ?: 0
 
 }

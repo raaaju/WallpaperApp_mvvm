@@ -1,7 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.util
 
 import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.PicUrl
+import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
 import com.georgcantor.wallpaperapp.model.unsplash.Result
 
@@ -12,13 +12,13 @@ class PicturesMapper {
             hits: List<Hit>,
             results: List<Result>,
             walls: List<Wallpaper>
-        ): ArrayList<PicUrl> {
-            val pictures = ArrayList<PicUrl>()
+        ): ArrayList<CommonPic> {
+            val pictures = ArrayList<CommonPic>()
 
             results.map {
                 it.urls.takeUnless { urls ->
                     pictures.add(
-                        PicUrl(
+                        CommonPic(
                             urls?.small,
                             it.width ?: 0,
                             it.height ?: 0,
@@ -38,7 +38,7 @@ class PicturesMapper {
 
             walls.map {
                 pictures.add(
-                    PicUrl(
+                    CommonPic(
                         it.urlThumb,
                         it.width?.toInt() ?: 0,
                         it.height?.toInt() ?: 0,
@@ -57,7 +57,7 @@ class PicturesMapper {
 
             hits.map {
                 pictures.add(
-                    PicUrl(
+                    CommonPic(
                         it.webformatURL,
                         it.imageWidth,
                         it.imageHeight,

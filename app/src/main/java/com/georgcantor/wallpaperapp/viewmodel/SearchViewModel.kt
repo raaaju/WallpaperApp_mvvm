@@ -3,7 +3,7 @@ package com.georgcantor.wallpaperapp.viewmodel
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.model.PicUrl
+import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
 import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
 import com.georgcantor.wallpaperapp.model.unsplash.Result
@@ -17,8 +17,8 @@ import io.reactivex.schedulers.Schedulers
 
 class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
 
-    fun getPics(request: String, index: Int): Observable<ArrayList<PicUrl>> {
-        return Observable.combineLatest<List<Hit>, List<Result>, List<Wallpaper>, ArrayList<PicUrl>>(
+    fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return Observable.combineLatest<List<Hit>, List<Result>, List<Wallpaper>, ArrayList<CommonPic>>(
             apiRepository.getPixabayPictures(request, index).map { it.hits },
                 apiRepository.getUnsplashPictures(request,index).map(UnsplashResponse::results),
                 apiRepository.getAbyssPictures(request,index).map(AbyssResponse::wallpapers),

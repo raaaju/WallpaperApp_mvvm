@@ -3,7 +3,7 @@ package com.georgcantor.wallpaperapp.model
 import android.os.Parcel
 import android.os.Parcelable
 
-data class PicUrl(
+data class CommonPic(
     val url: String?,
     val width: Int,
     val heght: Int,
@@ -88,10 +88,10 @@ data class PicUrl(
 
     override fun describeContents(): Int = 0
 
-    companion object CREATOR : Parcelable.Creator<PicUrl> {
-        override fun createFromParcel(parcel: Parcel): PicUrl = PicUrl(parcel)
+    companion object CREATOR : Parcelable.Creator<CommonPic> {
+        override fun createFromParcel(parcel: Parcel): CommonPic = CommonPic(parcel)
 
-        override fun newArray(size: Int): Array<PicUrl?> = arrayOfNulls(size)
+        override fun newArray(size: Int): Array<CommonPic?> = arrayOfNulls(size)
     }
 
 }

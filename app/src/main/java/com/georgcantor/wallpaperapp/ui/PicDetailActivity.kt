@@ -24,7 +24,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.PicUrl
+import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
@@ -50,7 +50,7 @@ class PicDetailActivity : AppCompatActivity() {
         const val MY_PREFS = "my_prefs"
     }
 
-    private var hit: PicUrl? = null
+    private var hit: CommonPic? = null
     private val tags = ArrayList<String>()
     private var first = 0
     private lateinit var tagAdapter: TagAdapter
@@ -422,9 +422,9 @@ class PicDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun addToFavorite(imageUrl: String, hdUrl: String, picUrl: PicUrl) {
+    private fun addToFavorite(imageUrl: String, hdUrl: String, commonPic: CommonPic) {
         val gson = Gson()
-        val toStoreObject = gson.toJson(picUrl)
+        val toStoreObject = gson.toJson(commonPic)
         db?.insertToFavorites(imageUrl, hdUrl, toStoreObject)
     }
 
