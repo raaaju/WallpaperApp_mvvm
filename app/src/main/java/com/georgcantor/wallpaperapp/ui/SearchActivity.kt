@@ -56,11 +56,12 @@ class SearchActivity : AppCompatActivity() {
         createToolbar()
         initViews()
 
-        editText_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
+        searchEditText.requestFocus()
+        searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                mgr.hideSoftInputFromWindow(v.windowToken, 0)
-                searchEverything(editText_search.text.toString().trim { it <= ' ' }, index)
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager.hideSoftInputFromWindow(v.windowToken, 0)
+                searchEverything(searchEditText.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
             false
@@ -68,12 +69,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun createToolbar() {
-        setSupportActionBar(toolbar_search)
+        setSupportActionBar(toolbarSearch)
         if (supportActionBar != null) {
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
-        toolbar_search.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
-        toolbar_search.setNavigationOnClickListener {
+        toolbarSearch.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
+        toolbarSearch.setNavigationOnClickListener {
             finish()
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
         }
@@ -90,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                searchEverything(editText_search.text.toString().trim { it <= ' ' }, page)
+                searchEverything(searchEditText.text.toString().trim { it <= ' ' }, page)
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
@@ -108,7 +109,7 @@ class SearchActivity : AppCompatActivity() {
             searchAnimationView?.hideAnimation()
             invalidateOptionsMenu()
             voiceInvisible = true
-            editText_search.visibility = View.GONE
+            searchEditText.visibility = View.GONE
             if (it.isNullOrEmpty()) {
                 searchAnimationView?.showAnimation()
                 shortToast(getString(R.string.not_found))
@@ -227,7 +228,7 @@ class SearchActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             arrayList?.toString()?.let { searchEverything(it, index) }
-            editText_search.setText(arrayList?.toString())
+            searchEditText.setText(arrayList?.toString())
         }
     }
 

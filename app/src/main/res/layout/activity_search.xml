@@ -10,14 +10,13 @@
     tools:context=".ui.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="2dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_search"
+            android:id="@+id/toolbarSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -25,7 +24,7 @@
             app:theme="@style/ThemeOverlay.AppCompat.Light">
 
             <EditText
-                android:id="@+id/editText_search"
+                android:id="@+id/searchEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
