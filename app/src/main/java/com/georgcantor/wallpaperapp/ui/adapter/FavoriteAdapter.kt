@@ -36,7 +36,6 @@ class FavoriteAdapter(private val context: Context,
 
     private inner class ViewHolder {
         internal lateinit var imageView: ImageView
-        internal lateinit var textView: TextView
     }
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup): View? {
@@ -49,7 +48,6 @@ class FavoriteAdapter(private val context: Context,
             row = inflater.inflate(layout, null)
 
             if (row != null) {
-                holder.textView = row.timestampTextView
                 holder.imageView = row.imgFavorite
                 row.tag = holder
             }

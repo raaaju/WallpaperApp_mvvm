@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.util.*
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
-        DATABASE_NAME,
-        null,
-        DATABASE_VERSION) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(
+    context,
+    DATABASE_NAME,
+    null,
+    DATABASE_VERSION
+) {
 
     companion object {
         private const val DATABASE_VERSION = 3
@@ -101,5 +103,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
 
         return false
     }
+
 }
 

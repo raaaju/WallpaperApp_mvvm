@@ -34,7 +34,7 @@ class ReviewFragment : Fragment() {
     ): View? = inflater.inflate(R.layout.fragment_review, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        requireActivity().toolbar.title = "Rating"
+        requireActivity().toolbar.title = getString(R.string.rating_toolbar)
         val assetManager = requireContext().applicationContext.assets
         val typeface = Typeface.createFromAsset(assetManager, FONT_PATH)
         markTextView.typeface = typeface
