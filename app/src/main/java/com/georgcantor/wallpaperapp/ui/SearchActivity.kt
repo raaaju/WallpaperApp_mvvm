@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -120,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
                 searchAnimationView?.showAnimation()
                 swipeRefreshLayoutSearch.isRefreshing = false
                 swipeRefreshLayoutSearch.isEnabled = false
-                shortToast(it.message.toString())
+                shortToast(getString(R.string.something_went_wrong))
             })
         DisposableManager.add(disposable)
     }

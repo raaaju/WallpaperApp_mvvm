@@ -91,7 +91,7 @@ class MercedesFragment : Fragment() {
                     animationView?.hideAnimation()
                 }, {
                     animationView?.hideAnimation()
-                    requireActivity().longToast(it.message.toString())
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
                 })
 
         DisposableManager.add(disposable)
