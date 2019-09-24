@@ -16,19 +16,12 @@
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="@dimen/card_layout_elevation">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true">
+    <ImageView
+        android:id="@+id/imgFavorite"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        android:scaleType="centerCrop" />
 
-        <ImageView
-            android:id="@+id/imgFavorite"
-            android:layout_width="160dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp"
-            android:scaleType="centerCrop" />
-
-    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
