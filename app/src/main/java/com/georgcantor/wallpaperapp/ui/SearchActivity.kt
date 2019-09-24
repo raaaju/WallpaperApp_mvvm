@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.ui.adapter.SearchAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
@@ -43,7 +44,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SearchViewModel
     private var columnNo: Int = 0
-    lateinit var adapter: PicturesAdapter
+    lateinit var adapter: SearchAdapter
     private var index = 1
     private var voiceInvisible = false
 
@@ -95,7 +96,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
-        adapter = PicturesAdapter(this)
+        adapter = SearchAdapter(this)
         searchRecyclerView.adapter = adapter
     }
 
@@ -104,24 +105,25 @@ class SearchActivity : AppCompatActivity() {
         swipeRefreshLayoutSearch.isEnabled = true
         swipeRefreshLayoutSearch.isRefreshing = true
 
-        val disposable = viewModel.getPics(search, index).subscribe({
-            adapter.setPicList(it)
-            searchAnimationView?.hideAnimation()
-            invalidateOptionsMenu()
-            voiceInvisible = true
-            searchEditText.visibility = View.GONE
-            if (it.isNullOrEmpty()) {
+        val disposable = viewModel.searchPics(search, index)
+            .subscribe({
+                adapter.setPicList(it.hits)
+                searchAnimationView?.hideAnimation()
+                invalidateOptionsMenu()
+                voiceInvisible = true
+                searchEditText.visibility = View.GONE
+                if (it.hits.isNullOrEmpty()) {
+                    searchAnimationView?.showAnimation()
+                    shortToast(getString(R.string.not_found))
+                }
+                swipeRefreshLayoutSearch.isRefreshing = false
+                swipeRefreshLayoutSearch.isEnabled = false
+            }, {
                 searchAnimationView?.showAnimation()
-                shortToast(getString(R.string.not_found))
-            }
-            swipeRefreshLayoutSearch.isRefreshing = false
-            swipeRefreshLayoutSearch.isEnabled = false
-        }, {
-            searchAnimationView?.showAnimation()
-            swipeRefreshLayoutSearch.isRefreshing = false
-            swipeRefreshLayoutSearch.isEnabled = false
-            shortToast(getString(R.string.not_found))
-        })
+                swipeRefreshLayoutSearch.isRefreshing = false
+                swipeRefreshLayoutSearch.isEnabled = false
+                shortToast(it.message.toString())
+            })
         DisposableManager.add(disposable)
     }
 

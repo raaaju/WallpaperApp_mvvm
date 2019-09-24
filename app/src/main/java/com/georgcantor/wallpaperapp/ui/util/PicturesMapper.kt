@@ -8,12 +8,17 @@ import com.georgcantor.wallpaperapp.model.unsplash.Result
 class PicturesMapper {
 
     companion object {
-        fun mergeResponses(hits: List<Hit>, results: List<Result>, walls: List<Wallpaper>): ArrayList<PicUrl> {
+        fun mergeResponses(
+            hits: List<Hit>,
+            results: List<Result>,
+            walls: List<Wallpaper>
+        ): ArrayList<PicUrl> {
             val pictures = ArrayList<PicUrl>()
 
             results.map {
                 it.urls.takeUnless { urls ->
-                    pictures.add(PicUrl(
+                    pictures.add(
+                        PicUrl(
                             urls?.small,
                             it.width ?: 0,
                             it.height ?: 0,
@@ -26,12 +31,14 @@ class PicturesMapper {
                             "George Smith",
                             it.hashCode(),
                             urls?.thumb
-                        ))
+                        )
+                    )
                 }
             }
 
             walls.map {
-                pictures.add(PicUrl(
+                pictures.add(
+                    PicUrl(
                         it.urlThumb,
                         it.width?.toInt() ?: 0,
                         it.height?.toInt() ?: 0,
@@ -44,11 +51,13 @@ class PicturesMapper {
                         "Mike Antony",
                         it.id?.toInt() ?: it.hashCode(),
                         it.urlThumb
-                    ))
+                    )
+                )
             }
 
             hits.map {
-                pictures.add(PicUrl(
+                pictures.add(
+                    PicUrl(
                         it.webformatURL,
                         it.imageWidth,
                         it.imageHeight,
@@ -61,7 +70,8 @@ class PicturesMapper {
                         it.user,
                         it.id,
                         it.userImageURL
-                   ))
+                    )
+                )
             }
 
             return pictures
