@@ -5,11 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
@@ -17,7 +14,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -157,7 +153,8 @@ class SearchActivity : AppCompatActivity() {
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED
+            ) {
                 requestAudioPermission()
             } else {
                 speak()
@@ -178,35 +175,23 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun requestAudioPermission() {
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.RECORD_AUDIO), PERMISSION_REQUEST_CODE)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.RECORD_AUDIO), PERMISSION_REQUEST_CODE
+        )
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == PERMISSION_REQUEST_CODE && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 speak()
-            } else {
-                startPermissionDialog()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    private fun startPermissionDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.allow_app_use_mic)
-        builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:$packageName"))
-            startActivity(intent)
-            finish()
-        }
-        builder.setNegativeButton(getString(R.string.no)) { _, _ -> }
-        builder.setNeutralButton(getString(R.string.cancel)) { _, _ -> }
-        builder.create().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

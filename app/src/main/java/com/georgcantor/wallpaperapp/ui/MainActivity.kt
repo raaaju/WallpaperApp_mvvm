@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +19,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.georgcantor.wallpaperapp.ui.util.showDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         checkForUpdate()
 
         updateAvailable.observe(this, Observer {
-            if (it) showUpdateDialog()
+            if (it) showDialog(getString(R.string.update_dialog_message), ::goToGooglePlay)
         })
 
         supportFragmentManager.beginTransaction()
@@ -128,15 +128,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun showUpdateDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(getString(R.string.update_dialog_message))
-        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
-            finish()
-        }
-        builder.setNegativeButton(getString(R.string.no)) { _, _ -> }
-        builder.create().show()
+    private fun goToGooglePlay() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
+        finish()
     }
 
     private fun openFragment(fragment: Fragment, tag: String) {

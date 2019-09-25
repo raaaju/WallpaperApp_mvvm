@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
 
