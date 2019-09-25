@@ -82,6 +82,7 @@
     <string name="add_to_fav_toast">Добавлено в избранное</string>
     <string name="del_from_fav_toast">Удалено из избранного</string>
     <string name="del_from_fav_dialog">Удалить из избранного?</string>
+    <string name="delete_all">Удалить все</string>
     <string name="cancel_dialog">Отмена</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>

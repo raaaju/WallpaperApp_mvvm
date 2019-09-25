@@ -50,6 +50,7 @@
     <string name="add_to_fav_toast">Zu Favoriten hinzugefügt</string>
     <string name="del_from_fav_toast">Aus den Favoriten entfernt</string>
     <string name="del_from_fav_dialog">Von Favoriten entfernen?</string>
+    <string name="delete_all">Alles löschen</string>
     <string name="cancel_dialog">Stornieren</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
