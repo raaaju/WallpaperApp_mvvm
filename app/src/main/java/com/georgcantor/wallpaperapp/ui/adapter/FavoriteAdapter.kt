@@ -74,7 +74,6 @@ class FavoriteAdapter(
             val intent = Intent(context, PicDetailActivity::class.java)
             try {
                 intent.putExtra(PicDetailActivity.EXTRA_PIC, hit)
-                intent.putExtra(PicDetailActivity.EXTRA_BOOLEAN, true)
             } catch (e: ArrayIndexOutOfBoundsException) {
                 context.longToast(context.resources.getString(R.string.something_went_wrong))
             }

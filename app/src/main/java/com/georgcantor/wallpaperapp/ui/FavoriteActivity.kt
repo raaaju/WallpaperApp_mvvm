@@ -73,7 +73,7 @@ class FavoriteActivity : AppCompatActivity() {
             }
             R.id.action_remove_all -> {
                 showDialog(
-                    resources.getString(R.string.remove_fav_dialog_message),
+                    getString(R.string.remove_fav_dialog_message),
                     ::deleteAll
                 )
             }

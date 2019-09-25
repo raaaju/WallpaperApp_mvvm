@@ -45,7 +45,6 @@ class PicDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PIC = "picture"
-        const val EXTRA_BOOLEAN = "is_from_favorite"
         const val PREF_BOOLEAN = "is_set_wall"
         const val MY_PREFS = "my_prefs"
     }
@@ -246,10 +245,7 @@ class PicDetailActivity : AppCompatActivity() {
 
                 override fun onError() {
                     progressAnimationView?.hideAnimation()
-                    if (intent.hasExtra(EXTRA_BOOLEAN)) {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(hit?.imageURL)))
-                        finish()
-                    }
+                    shortToast(getString(R.string.something_went_wrong))
                 }
             })
 
