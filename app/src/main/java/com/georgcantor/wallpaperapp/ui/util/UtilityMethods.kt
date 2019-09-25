@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.ui.util
 
 import android.content.ContentUris
 import android.content.Context
+import android.content.res.Configuration
 import android.database.Cursor
 import android.net.ConnectivityManager
 import android.net.Uri
@@ -21,6 +22,20 @@ object UtilityMethods {
             return connectivityManager.activeNetworkInfo != null
                     && connectivityManager.activeNetworkInfo?.isConnected ?: false
         }
+
+    fun getScreenSize(context: Context): Int {
+        val screenSize =
+            context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
+
+        return when (screenSize) {
+            Configuration.SCREENLAYOUT_SIZE_XLARGE -> 4
+            Configuration.SCREENLAYOUT_SIZE_UNDEFINED -> 3
+            Configuration.SCREENLAYOUT_SIZE_LARGE -> 3
+            Configuration.SCREENLAYOUT_SIZE_NORMAL -> 2
+            Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
+            else -> 2
+        }
+    }
 
     fun getPath(context: Context, uri: Uri): String? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(

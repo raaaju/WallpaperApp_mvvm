@@ -41,7 +41,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private lateinit var viewModel: SearchViewModel
-    private var columnNo: Int = 0
     lateinit var adapter: PicturesAdapter
     private var index = 1
     private var voiceInvisible = false
@@ -82,10 +81,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun initViews() {
         searchRecyclerView.setHasFixedSize(true)
-        checkScreenSize()
 
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(columnNo,
-                StaggeredGridLayoutManager.VERTICAL)
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(
+            UtilityMethods.getScreenSize(this),
+            StaggeredGridLayoutManager.VERTICAL
+        )
         searchRecyclerView.layoutManager = staggeredGridLayoutManager
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
@@ -122,19 +122,6 @@ class SearchActivity : AppCompatActivity() {
                 shortToast(getString(R.string.something_went_wrong))
             })
         DisposableManager.add(disposable)
-    }
-
-    private fun checkScreenSize() {
-        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
-
-        columnNo = when (screenSize) {
-            Configuration.SCREENLAYOUT_SIZE_XLARGE -> 4
-            Configuration.SCREENLAYOUT_SIZE_UNDEFINED -> 3
-            Configuration.SCREENLAYOUT_SIZE_LARGE -> 3
-            Configuration.SCREENLAYOUT_SIZE_NORMAL -> 2
-            Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
-            else -> 2
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

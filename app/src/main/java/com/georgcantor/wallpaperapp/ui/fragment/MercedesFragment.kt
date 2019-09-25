@@ -33,7 +33,6 @@ class MercedesFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private var adapter: PicturesAdapter? = null
-    private var columnNo: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,9 +58,11 @@ class MercedesFragment : Fragment() {
             loadData(1)
             mercedesRefreshLayout.isRefreshing = false
         }
-        checkScreenSize()
 
-        val gridLayoutManager = StaggeredGridLayoutManager(columnNo, StaggeredGridLayoutManager.VERTICAL)
+        val gridLayoutManager = StaggeredGridLayoutManager(
+            UtilityMethods.getScreenSize(requireContext()),
+            StaggeredGridLayoutManager.VERTICAL
+        )
         mercedesRecyclerView.setHasFixedSize(true)
         mercedesRecyclerView.layoutManager = gridLayoutManager
 
@@ -94,19 +95,6 @@ class MercedesFragment : Fragment() {
                 })
 
         DisposableManager.add(disposable)
-    }
-
-    private fun checkScreenSize() {
-        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
-
-        columnNo = when (screenSize) {
-            Configuration.SCREENLAYOUT_SIZE_XLARGE -> 4
-            Configuration.SCREENLAYOUT_SIZE_UNDEFINED -> 3
-            Configuration.SCREENLAYOUT_SIZE_LARGE -> 3
-            Configuration.SCREENLAYOUT_SIZE_NORMAL -> 2
-            Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
-            else -> 2
-        }
     }
 
     override fun onDestroy() {
