@@ -9,7 +9,7 @@ android {
         Wallpapers {
             keyAlias 'key0'
             keyPassword 'cupsmana16'
-            storeFile file('D:/Alex/wallpapers.jks')
+//            storeFile file('D:/Alex/wallpapers.jks')
             storePassword 'cupsmana16'
         }
     }
@@ -27,9 +27,19 @@ android {
         buildConfigField "String", "BASE_URL", "\"http://pixabay.com/api/\""
 
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
             shrinkResources false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
