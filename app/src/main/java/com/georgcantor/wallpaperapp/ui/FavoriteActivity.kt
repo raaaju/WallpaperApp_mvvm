@@ -11,6 +11,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.georgcantor.wallpaperapp.ui.util.showDialog
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -72,24 +73,20 @@ class FavoriteActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
             }
             R.id.action_remove_all -> {
-                showDeleteDialog()
+                showDialog(
+                    resources.getString(R.string.remove_fav_dialog_message),
+                    ::deleteAll
+                )
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showDeleteDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.remove_fav_dialog_message)
-        builder.setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
-            if (db.historyCount > 0) {
-                db.deleteAll()
-                this.recreate()
-            }
+    private fun deleteAll() {
+        if (db.historyCount > 0) {
+            db.deleteAll()
+            this.recreate()
         }
-        builder.setNegativeButton(resources.getString(R.string.no)) { _, _ -> }
-        builder.setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
-        builder.create().show()
     }
 
 }

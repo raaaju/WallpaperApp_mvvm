@@ -4,7 +4,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
+import com.georgcantor.wallpaperapp.R
 
 fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
@@ -41,4 +44,20 @@ fun Context.isNetworkAvailable(): Boolean {
     }
 
     return false
+}
+
+fun Context.showDialog(
+    message: CharSequence,
+    function: () -> (Unit)
+) {
+    val builder = AlertDialog.Builder(this)
+        .setMessage(message)
+        .setNegativeButton(this.resources.getString(R.string.no)) { _, _ ->
+        }
+        .setPositiveButton(this.resources.getString(R.string.yes)) { _, _ ->
+            function()
+        }
+
+    val dialog: AlertDialog = builder.create()
+    dialog.show()
 }

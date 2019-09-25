@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
@@ -16,14 +15,17 @@ import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.FavoriteActivity
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
 import com.georgcantor.wallpaperapp.ui.util.longToast
+import com.georgcantor.wallpaperapp.ui.util.showDialog
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.favorite_list_row.view.*
 import java.util.*
 
-class FavoriteAdapter(private val context: Context,
-                      private val layout: Int,
-                      private val favoriteArrayList: ArrayList<Favorite>) : BaseAdapter() {
+class FavoriteAdapter(
+    private val context: Context,
+    private val layout: Int,
+    private val favoriteArrayList: ArrayList<Favorite>
+) : BaseAdapter() {
 
     private lateinit var db: DatabaseHelper
 
@@ -43,7 +45,7 @@ class FavoriteAdapter(private val context: Context,
 
         if (row == null) {
             val inflater =
-                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             row = inflater.inflate(layout, null)
 
             if (row != null) {
@@ -57,9 +59,9 @@ class FavoriteAdapter(private val context: Context,
         val favorite = favoriteArrayList[position]
 
         Picasso.with(context)
-                .load(favorite.imageUrl)
-                .placeholder(R.drawable.plh)
-                .into(holder.imageView)
+            .load(favorite.imageUrl)
+            .placeholder(R.drawable.plh)
+            .into(holder.imageView)
 
         holder.imageView.setOnClickListener {
             val activity = context as Activity
@@ -85,26 +87,22 @@ class FavoriteAdapter(private val context: Context,
             val url = photo.imageUrl
             db = DatabaseHelper(context)
 
-            val builder = AlertDialog.Builder(context)
-            builder.setMessage(R.string.del_from_fav_dialog)
-
-            builder.setPositiveButton(R.string.yes) { _, _ ->
-                if (url != null) {
-                    db.deleteFromFavorites(url)
-                }
-                val intent = Intent(context, FavoriteActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                context.startActivity(intent)
+            context.showDialog(context.resources.getString(R.string.del_from_fav_dialog)) {
+                deleteFromFavorites(url)
             }
-
-            builder.setNeutralButton(R.string.cancel_dialog) { _, _ -> }
-
-            builder.setNegativeButton(R.string.no) { _, _ -> }
-            builder.create().show()
             false
         }
 
         return row
+    }
+
+    private fun deleteFromFavorites(url: String?) {
+        if (url != null) {
+            db.deleteFromFavorites(url)
+        }
+        val intent = Intent(context, FavoriteActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivity(intent)
     }
 
 }
