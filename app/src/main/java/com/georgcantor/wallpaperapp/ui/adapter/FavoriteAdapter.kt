@@ -18,7 +18,7 @@ import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.favorite_list_row.view.*
+import kotlinx.android.synthetic.main.favorite_item.view.*
 import java.util.*
 
 class FavoriteAdapter(

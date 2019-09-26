@@ -33,12 +33,13 @@ class FavoriteActivity : AppCompatActivity() {
         viewModel = getViewModel { parametersOf() }
         db = DatabaseHelper(this)
 
-        viewModel.getFavorites().subscribe({
-            adapter = FavoriteAdapter(this, R.layout.favorite_list_row, it)
-            favGridView.adapter = adapter
-        }, {
-            shortToast(getString(R.string.something_went_wrong))
-        })
+        viewModel.getFavorites()
+            .subscribe({
+                adapter = FavoriteAdapter(this, R.layout.favorite_item, it)
+                favGridView.adapter = adapter
+            }, {
+                shortToast(getString(R.string.something_went_wrong))
+            })
 
         toggleEmptyHistory()
     }
