@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -39,7 +38,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var viewModel: SearchViewModel
     lateinit var adapter: PicturesAdapter
     private var index = 1
-    private var voiceInvisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +53,7 @@ class SearchActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
+                adapter.clearPicList()
                 search(searchEditText.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
@@ -103,8 +102,6 @@ class SearchActivity : AppCompatActivity() {
                 adapter.setPicList(it)
                 searchAnimationView?.hideAnimation()
                 invalidateOptionsMenu()
-                voiceInvisible = true
-                searchEditText.visibility = View.GONE
                 if (it.isNullOrEmpty()) {
                     searchAnimationView?.showAnimation()
                     shortToast(getString(R.string.not_found))
@@ -135,13 +132,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val item = menu.findItem(R.id.action_voice_search)
-        item.isVisible = !voiceInvisible
-
-        return true
     }
 
     private fun resetActivity() {

@@ -28,6 +28,12 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
         notifyDataSetChanged()
     }
 
+    fun clearPicList() {
+        val size = commonPics?.size
+        commonPics?.clear()
+        size?.let { notifyItemRangeRemoved(0, it) }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null)
         val wallpViewHolder = WallpViewHolder(itemView)
