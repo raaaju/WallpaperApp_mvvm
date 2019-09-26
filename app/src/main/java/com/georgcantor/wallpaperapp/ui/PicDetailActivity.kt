@@ -36,7 +36,15 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.activity_detail.detailImageView
+import kotlinx.android.synthetic.main.activity_detail.downloadAnimationView
+import kotlinx.android.synthetic.main.activity_detail.downloadsTextView
+import kotlinx.android.synthetic.main.activity_detail.fabSetWall
+import kotlinx.android.synthetic.main.activity_detail.favoritesTextView
+import kotlinx.android.synthetic.main.activity_detail.nameTextView
+import kotlinx.android.synthetic.main.activity_detail.progressAnimationView
+import kotlinx.android.synthetic.main.activity_detail.tagsRecyclerView
+import kotlinx.android.synthetic.main.activity_detail.userImageView
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -65,7 +73,7 @@ class PicDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        setContentView(R.layout.fragment_detail)
+        setContentView(R.layout.activity_detail)
         progressAnimationView?.showAnimation()
 
         db = DatabaseHelper(this)
