@@ -24,15 +24,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <GridView
-        android:id="@+id/favGridView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/favAppBar"
-        android:layout_centerHorizontal="true"
-        android:columnWidth="120dp"
-        android:gravity="center"
-        android:numColumns="auto_fit" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/emptyAnimationView"

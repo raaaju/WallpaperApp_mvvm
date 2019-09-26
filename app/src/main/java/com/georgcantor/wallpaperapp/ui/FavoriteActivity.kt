@@ -6,9 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
+import com.georgcantor.wallpaperapp.ui.adapter.FavAdapter
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
@@ -19,7 +21,7 @@ import org.koin.core.parameter.parametersOf
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var db: DatabaseHelper
-    private lateinit var adapter: FavoriteAdapter
+    private lateinit var adapter: FavAdapter
     private lateinit var viewModel: FavoriteViewModel
 
     @SuppressLint("CheckResult")
@@ -33,13 +35,20 @@ class FavoriteActivity : AppCompatActivity() {
         viewModel = getViewModel { parametersOf() }
         db = DatabaseHelper(this)
 
+        val gridLayoutManager = StaggeredGridLayoutManager(
+            UtilityMethods.getScreenSize(this),
+            StaggeredGridLayoutManager.VERTICAL
+        )
+        favRecyclerView.setHasFixedSize(true)
+        favRecyclerView.layoutManager = gridLayoutManager
+
+        adapter = FavAdapter(this)
+        favRecyclerView.adapter = adapter
+
         viewModel.getFavorites()
-            .subscribe({
-                adapter = FavoriteAdapter(this, R.layout.favorite_item, it)
-                favGridView.adapter = adapter
-            }, {
+            .subscribe(adapter::setFavList) {
                 shortToast(getString(R.string.something_went_wrong))
-            })
+            }
 
         toggleEmptyHistory()
     }

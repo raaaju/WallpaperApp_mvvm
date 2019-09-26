@@ -19,7 +19,7 @@ class FavoriteViewModel(private val context: Context) : ViewModel() {
         return Observable.fromCallable {
             list
         }
-            .subscribeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 

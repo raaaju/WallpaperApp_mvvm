@@ -24,8 +24,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         get() {
             val favoriteList = ArrayList<Favorite>()
 
-            val selectQuery = "SELECT  * FROM " + Favorite.TABLE_NAME + " ORDER BY " +
-                    Favorite.COLUMN_TIMESTAMP + " DESC"
+            val selectQuery = "SELECT  * FROM " + Favorite.TABLE_NAME + " DESC"
 
             val db = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
@@ -36,7 +35,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
                     favorite.imageUrl = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_URL))
                     favorite.hdUrl = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_HD_URL))
                     favorite.hit = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_HIT))
-                    favorite.timestamp = cursor.getString(cursor.getColumnIndex(Favorite.COLUMN_TIMESTAMP))
 
                     favoriteList.add(favorite)
                 } while (cursor.moveToNext())
