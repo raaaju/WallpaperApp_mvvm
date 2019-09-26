@@ -125,19 +125,13 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_cancel -> resetActivity()
+            R.id.action_cancel -> recreate()
             R.id.action_voice_search -> checkPermission()
             else -> {
             }
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun resetActivity() {
-        val intent = Intent(this, SearchActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
     }
 
     private fun checkPermission() {
