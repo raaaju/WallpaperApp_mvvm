@@ -9,12 +9,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
-import com.georgcantor.wallpaperapp.ui.adapter.holder.ExploreViewHolder
+import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.SelectCatFragment
 import java.util.*
 
 class CategoryAdapter(private val context: Context,
-                      private val fragmentManager: FragmentManager) : RecyclerView.Adapter<ExploreViewHolder>() {
+                      private val fragmentManager: FragmentManager) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     private val categoryList: MutableList<Category>?
 
@@ -22,9 +22,9 @@ class CategoryAdapter(private val context: Context,
         this.categoryList = ArrayList()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExploreViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.item_explore, null)
-        val viewHolder = ExploreViewHolder(itemView)
+        val viewHolder = CategoryViewHolder(itemView)
 
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
@@ -39,7 +39,7 @@ class CategoryAdapter(private val context: Context,
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: ExploreViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categoryList?.get(position)
         val id = context.resources.getIdentifier(context.resources
                 .getString(R.string.package_drawable) + category?.categoryDrawId, null, null)

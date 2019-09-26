@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.ui.PicDetailActivity
-import com.georgcantor.wallpaperapp.ui.adapter.holder.WallpViewHolder
+import com.georgcantor.wallpaperapp.ui.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.squareup.picasso.Picasso
 import java.util.*
 
-class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<WallpViewHolder>() {
+class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<PictureViewHolder>() {
 
     private val commonPics: MutableList<CommonPic>?
 
@@ -34,9 +34,9 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
         size?.let { notifyItemRangeRemoved(0, it) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null)
-        val wallpViewHolder = WallpViewHolder(itemView)
+        val wallpViewHolder = PictureViewHolder(itemView)
 
         itemView.setOnClickListener {
             val activity = context as Activity
@@ -68,7 +68,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Wallp
         return wallpViewHolder
     }
 
-    override fun onBindViewHolder(holder: WallpViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
         this.commonPics.let {
             val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
             val height = it?.get(position)?.heght?.toFloat()
