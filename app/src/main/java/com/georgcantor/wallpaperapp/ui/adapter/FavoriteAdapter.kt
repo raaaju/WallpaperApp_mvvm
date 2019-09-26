@@ -19,7 +19,7 @@ import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import java.util.ArrayList
 
-class FavAdapter(private val context: Context) : RecyclerView.Adapter<FavoriteViewHolder>() {
+class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
     private val favorites: MutableList<Favorite>?
     private val activity = context as Activity

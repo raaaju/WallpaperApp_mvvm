@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.ui.adapter.FavAdapter
+import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
@@ -21,7 +21,7 @@ import org.koin.core.parameter.parametersOf
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var db: DatabaseHelper
-    private lateinit var adapter: FavAdapter
+    private lateinit var adapter: FavoriteAdapter
     private lateinit var viewModel: FavoriteViewModel
 
     @SuppressLint("CheckResult")
@@ -42,7 +42,7 @@ class FavoriteActivity : AppCompatActivity() {
         favRecyclerView.setHasFixedSize(true)
         favRecyclerView.layoutManager = gridLayoutManager
 
-        adapter = FavAdapter(this)
+        adapter = FavoriteAdapter(this)
         favRecyclerView.adapter = adapter
 
         viewModel.getFavorites()
