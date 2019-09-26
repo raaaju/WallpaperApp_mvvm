@@ -6,6 +6,7 @@ import android.app.WallpaperManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -65,7 +66,6 @@ class PicDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.fragment_detail)
-
         progressAnimationView?.showAnimation()
 
         db = DatabaseHelper(this)
@@ -73,7 +73,10 @@ class PicDetailActivity : AppCompatActivity() {
         editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE).edit()
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
 
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)))
+
         initView()
 
         fabSetWall.setOnClickListener {
@@ -297,7 +300,7 @@ class PicDetailActivity : AppCompatActivity() {
                     shortToast(getString(R.string.add_to_fav_toast))
                 } else {
                     db.deleteFromFavorites(hit?.url.toString())
-                    item.setIcon(R.drawable.ic_star_border_black_24dp)
+                    item.setIcon(R.drawable.ic_star_border)
                     shortToast(getString(R.string.del_from_fav_toast))
                 }
                 R.id.action_share -> try {
