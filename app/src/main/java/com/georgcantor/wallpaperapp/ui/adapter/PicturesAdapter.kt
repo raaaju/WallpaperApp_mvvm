@@ -35,7 +35,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.wallp_item, null)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.picture_item, null)
         val wallpViewHolder = PictureViewHolder(itemView)
 
         itemView.setOnClickListener {
