@@ -44,7 +44,7 @@ class CategoryAdapter(private val context: Context,
         val id = context.resources.getIdentifier(context.resources
                 .getString(R.string.package_drawable) + category?.categoryDrawId, null, null)
         holder.categoryName.text = category?.categoryName
-        holder.category.setImageResource(id)
+        holder.categoryImage.setImageResource(id)
     }
 
     override fun getItemCount(): Int = categoryList?.size ?: 0

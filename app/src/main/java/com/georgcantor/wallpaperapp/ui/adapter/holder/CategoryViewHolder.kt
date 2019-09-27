@@ -8,6 +8,6 @@ import kotlinx.android.synthetic.main.item_explore.view.*
 
 class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    var category: ImageView = itemView.explore_view
-    var categoryName: TextView = itemView.expText
+    var categoryImage: ImageView = itemView.categoryImageView
+    var categoryName: TextView = itemView.categoryTitle
 }
