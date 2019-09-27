@@ -12,4 +12,5 @@
     <color name="no_internet_back">#F7F7F7</color>
     <color name="link">#363eab</color>
     <color name="colorSearchHint">#FFFF</color>
+    <color name="drawer_text">#FFFF</color>
 </resources>
