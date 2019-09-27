@@ -104,6 +104,7 @@
     <string name="tv_made_by">App developed by</string>
     <string name="title_about_the_app">About The App</string>
     <string name="favorites">Favorites</string>
+    <string name="favorites_toolbar" translatable="false">Favorites</string>
     <string name="add_to_fav_toast">Added to favorites</string>
     <string name="del_from_fav_toast">Removed from favorites</string>
     <string name="del_from_fav_dialog">Remove from favorites?</string>

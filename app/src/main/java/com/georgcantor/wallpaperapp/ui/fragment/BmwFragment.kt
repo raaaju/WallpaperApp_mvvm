@@ -12,7 +12,7 @@ import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_bmw.*
+import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -46,7 +46,7 @@ class BmwFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_bmw, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,17 +54,17 @@ class BmwFragment : Fragment() {
             noInternetImageView.visibility = View.VISIBLE
         }
 
-        bmwRefreshLayout.setOnRefreshListener {
+        refreshLayout.setOnRefreshListener {
             loadData(1)
-            bmwRefreshLayout.isRefreshing = false
+            refreshLayout.isRefreshing = false
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
             UtilityMethods.getScreenSize(requireContext()),
             StaggeredGridLayoutManager.VERTICAL
         )
-        bmwRecyclerView.setHasFixedSize(true)
-        bmwRecyclerView.layoutManager = gridLayoutManager
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = gridLayoutManager
 
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -72,12 +72,12 @@ class BmwFragment : Fragment() {
             }
         }
         scrollListener.resetState()
-        bmwRecyclerView.addOnScrollListener(scrollListener)
+        recyclerView.addOnScrollListener(scrollListener)
         adapter = PicturesAdapter(requireContext())
-        bmwRecyclerView.adapter = adapter
+        recyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        bmwRecyclerView.addOnScrollListener(hideScrollListener)
+        recyclerView.addOnScrollListener(hideScrollListener)
 
         loadData(1)
     }

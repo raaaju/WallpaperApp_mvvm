@@ -31,7 +31,6 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorite)
         setSupportActionBar(favToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.favorites)
 
         viewModel = getViewModel { parametersOf() }
         db = DatabaseHelper(this)

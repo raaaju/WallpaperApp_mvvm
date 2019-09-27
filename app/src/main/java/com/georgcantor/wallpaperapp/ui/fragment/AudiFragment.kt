@@ -20,10 +20,10 @@ import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.navigation
-import kotlinx.android.synthetic.main.fragment_bmw.animationView
-import kotlinx.android.synthetic.main.fragment_bmw.bmwRecyclerView
-import kotlinx.android.synthetic.main.fragment_bmw.bmwRefreshLayout
-import kotlinx.android.synthetic.main.fragment_bmw.noInternetImageView
+import kotlinx.android.synthetic.main.fragment_common.animationView
+import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
+import kotlinx.android.synthetic.main.fragment_common.recyclerView
+import kotlinx.android.synthetic.main.fragment_common.refreshLayout
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -57,7 +57,7 @@ class AudiFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_bmw, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,17 +65,17 @@ class AudiFragment: Fragment() {
             noInternetImageView.visibility = View.VISIBLE
         }
 
-        bmwRefreshLayout.setOnRefreshListener {
+        refreshLayout.setOnRefreshListener {
             loadData(1)
-            bmwRefreshLayout.isRefreshing = false
+            refreshLayout.isRefreshing = false
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
             UtilityMethods.getScreenSize(requireContext()),
             StaggeredGridLayoutManager.VERTICAL
         )
-        bmwRecyclerView.setHasFixedSize(true)
-        bmwRecyclerView.layoutManager = gridLayoutManager
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = gridLayoutManager
 
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -83,12 +83,12 @@ class AudiFragment: Fragment() {
             }
         }
         scrollListener.resetState()
-        bmwRecyclerView.addOnScrollListener(scrollListener)
+        recyclerView.addOnScrollListener(scrollListener)
         adapter = PicturesAdapter(requireContext())
-        bmwRecyclerView.adapter = adapter
+        recyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        bmwRecyclerView.addOnScrollListener(hideScrollListener)
+        recyclerView.addOnScrollListener(hideScrollListener)
 
         loadData(1)
     }

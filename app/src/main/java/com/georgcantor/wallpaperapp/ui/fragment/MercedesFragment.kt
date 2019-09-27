@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui.fragment
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,10 @@ import com.georgcantor.wallpaperapp.ui.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_mercedes.*
+import kotlinx.android.synthetic.main.fragment_common.animationView
+import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
+import kotlinx.android.synthetic.main.fragment_common.recyclerView
+import kotlinx.android.synthetic.main.fragment_common.refreshLayout
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -46,7 +48,7 @@ class MercedesFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_mercedes, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,17 +56,17 @@ class MercedesFragment : Fragment() {
             noInternetImageView.visibility = View.VISIBLE
         }
 
-        mercedesRefreshLayout.setOnRefreshListener {
+        refreshLayout.setOnRefreshListener {
             loadData(1)
-            mercedesRefreshLayout.isRefreshing = false
+            refreshLayout.isRefreshing = false
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
             UtilityMethods.getScreenSize(requireContext()),
             StaggeredGridLayoutManager.VERTICAL
         )
-        mercedesRecyclerView.setHasFixedSize(true)
-        mercedesRecyclerView.layoutManager = gridLayoutManager
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = gridLayoutManager
 
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -72,12 +74,12 @@ class MercedesFragment : Fragment() {
             }
         }
         scrollListener.resetState()
-        mercedesRecyclerView.addOnScrollListener(scrollListener)
+        recyclerView.addOnScrollListener(scrollListener)
         adapter = PicturesAdapter(requireContext())
-        mercedesRecyclerView.adapter = adapter
+        recyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        mercedesRecyclerView.addOnScrollListener(hideScrollListener)
+        recyclerView.addOnScrollListener(hideScrollListener)
 
         loadData(1)
     }
