@@ -83,20 +83,18 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
             false
         }
 
-        this.favorites.let {
-            val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
-            val height = pic.heght.toFloat()
-            val width = pic.width.toFloat()
-            val ratio = height.div(width)
-            layoutParams.height = (layoutParams.width * ratio).toInt()
-            holder.imageView.layoutParams = layoutParams
-            holder.imageView.setRatio(ratio)
+        val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
+        val height = pic.heght.toFloat()
+        val width = pic.width.toFloat()
+        val ratio = height.div(width)
+        layoutParams.height = (layoutParams.width * ratio).toInt()
+        holder.imageView.layoutParams = layoutParams
+        holder.imageView.setRatio(ratio)
 
-            Picasso.with(context)
-                .load(pic.url)
-                .placeholder(R.drawable.plh)
-                .into(holder.imageView)
-        }
+        Picasso.with(context)
+            .load(pic.url)
+            .placeholder(R.drawable.plh)
+            .into(holder.imageView)
     }
 
     override fun getItemCount(): Int = favorites?.size ?: 0
