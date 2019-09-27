@@ -132,7 +132,10 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_cancel -> recreate()
+            R.id.action_cancel -> {
+                viewModel.isSearchingActive.value = false
+                recreate()
+            }
             R.id.action_voice_search -> checkPermission()
             else -> {
             }
