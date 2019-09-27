@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/off_white"
+    android:background="@color/colorDetailPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.AboutActivity"
     tools:showIn="@layout/activity_about">
@@ -49,6 +49,14 @@
             <include layout="@layout/card_new_app" />
 
             <include layout="@layout/card_music_app" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/welcomeAnimationView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:lottie_fileName="welcome.json" />
 
         </LinearLayout>
 

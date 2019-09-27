@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.about_header.*
 import kotlinx.android.synthetic.main.activity_about.*
@@ -32,6 +33,8 @@ class AboutActivity : AppCompatActivity() {
         setSupportActionBar(aboutToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        welcomeAnimationView.showAnimation()
 
         aboutFab.setOnClickListener { sendEmail() }
 
