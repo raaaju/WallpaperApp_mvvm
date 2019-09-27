@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.CommonPic
@@ -16,6 +17,8 @@ import io.reactivex.schedulers.Schedulers
 
 class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
 
+    val isSearchingActive = MutableLiveData<Boolean>()
+
     fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return Observable.combineLatest<List<Hit>, List<Result>, List<Wallpaper>, ArrayList<CommonPic>>(
             apiRepository.getPixabayPictures(request, index).map { it.hits },
@@ -29,12 +32,15 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> =
-        apiRepository.getPixabayPictures(request, index)
+    fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        isSearchingActive.value = true
+        return apiRepository.getPixabayPictures(request, index)
             .map {
                 PicturesMapper.convertResponse(it.hits)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+    }
+
 
 }

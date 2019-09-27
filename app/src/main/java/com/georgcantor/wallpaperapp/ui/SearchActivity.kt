@@ -50,7 +50,7 @@ class SearchActivity : AppCompatActivity() {
 
         searchEditText.requestFocus()
         searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
                 adapter.clearPicList()
@@ -115,6 +115,13 @@ class SearchActivity : AppCompatActivity() {
                 shortToast(getString(R.string.something_went_wrong))
             })
         DisposableManager.add(disposable)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val cancel = menu?.findItem(R.id.action_cancel)
+        cancel?.isVisible = viewModel.isSearchingActive.value == true
+
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
