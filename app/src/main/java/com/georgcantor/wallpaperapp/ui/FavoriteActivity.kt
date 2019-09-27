@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
@@ -45,10 +46,11 @@ class FavoriteActivity : AppCompatActivity() {
         adapter = FavoriteAdapter(this)
         favRecyclerView.adapter = adapter
 
-        viewModel.getFavorites()
+        val disposable = viewModel.getFavorites()
             .subscribe(adapter::setFavList) {
                 shortToast(getString(R.string.something_went_wrong))
             }
+        DisposableManager.add(disposable)
 
         toggleEmptyHistory()
     }
@@ -96,6 +98,11 @@ class FavoriteActivity : AppCompatActivity() {
             db.deleteAll()
             this.recreate()
         }
+    }
+
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
     }
 
 }

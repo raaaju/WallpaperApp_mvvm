@@ -73,13 +73,13 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
             val height = it?.get(position)?.heght?.toFloat()
             val width = it?.get(position)?.width?.toFloat()
-            val ratio = height?.div(width!!)
-            layoutParams.height = (layoutParams.width * ratio!!).toInt()
+            val ratio = width?.let { widthFloat -> height?.div(widthFloat) } ?: 0F
+            layoutParams.height = (layoutParams.width * ratio).toInt()
             holder.imageView.layoutParams = layoutParams
             holder.imageView.setRatio(ratio)
 
             Picasso.with(context)
-                .load(it[position].url)
+                .load(it?.get(position)?.url)
                 .placeholder(R.drawable.plh)
                 .into(holder.imageView)
         }

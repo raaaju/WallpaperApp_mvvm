@@ -17,7 +17,7 @@ object DisposableManager {
     }
 
     private fun getCompositeDisposable(): CompositeDisposable {
-        if (compositeDisposable == null || compositeDisposable!!.isDisposed) {
+        if (compositeDisposable == null || compositeDisposable?.isDisposed == true) {
             compositeDisposable = CompositeDisposable()
         }
 

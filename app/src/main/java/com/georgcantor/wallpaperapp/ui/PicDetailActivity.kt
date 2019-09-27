@@ -270,7 +270,7 @@ class PicDetailActivity : AppCompatActivity() {
                 .into(userImageView)
         } else {
             hit?.let {
-                if (it.userImageURL?.isNotEmpty()!!) {
+                if (it.userImageURL?.isNotEmpty() == true) {
                     Picasso.with(this)
                         .load(hit?.userImageURL)
                         .transform(CropCircleTransformation())
