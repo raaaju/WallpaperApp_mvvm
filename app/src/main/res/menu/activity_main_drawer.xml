@@ -10,11 +10,6 @@
             android:title="@string/aston" />
 
         <item
-            android:id="@+id/nav_audi"
-            android:icon="@drawable/audi"
-            android:title="@string/audi_walp" />
-
-        <item
             android:id="@+id/nav_bentley"
             android:icon="@drawable/bentley"
             android:title="@string/bentley" />
@@ -43,6 +38,11 @@
             android:id="@+id/nav_porsche"
             android:icon="@drawable/porsche"
             android:title="@string/porsche_walp" />
+
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_image"
+            android:title="@string/gallery" />
 
         <item
             android:id="@+id/nav_favorites"

@@ -9,20 +9,31 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
-import com.georgcantor.wallpaperapp.ui.util.*
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
+import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
+import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
+import com.georgcantor.wallpaperapp.ui.util.longToast
+import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_bmw.*
+import kotlinx.android.synthetic.main.app_bar_main.navigation
+import kotlinx.android.synthetic.main.fragment_bmw.animationView
+import kotlinx.android.synthetic.main.fragment_bmw.bmwRecyclerView
+import kotlinx.android.synthetic.main.fragment_bmw.bmwRefreshLayout
+import kotlinx.android.synthetic.main.fragment_bmw.noInternetImageView
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
-class BmwFragment : Fragment() {
+class AudiFragment: Fragment() {
 
     companion object {
         const val REQUEST = "request"
 
-        fun newInstance(arguments: String): BmwFragment {
-            val fragment = BmwFragment()
+        fun newInstance(arguments: String): AudiFragment {
+            val fragment = AudiFragment()
             val args = Bundle()
             args.putString(REQUEST, arguments)
             fragment.arguments = args

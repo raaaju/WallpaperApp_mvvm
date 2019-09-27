@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var updateManager: AppUpdateManager
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
+    private lateinit var audiFragment: Fragment
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
     private lateinit var reviewFragment: Fragment
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes))
         bmwFragment = BmwFragment.newInstance("bmw")
+        audiFragment = AudiFragment.newInstance(getString(R.string.audi))
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
         reviewFragment = ReviewFragment()
@@ -101,9 +103,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     openFragment(bmwFragment, getString(R.string.bmw))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.nav_gallery -> {
-                    toolbar.title = getString(R.string.gallery)
-                    openFragment(categoryFragment, getString(R.string.gallery))
+                R.id.nav_audi -> {
+                    toolbar.title = getString(R.string.audi)
+                    openFragment(audiFragment, getString(R.string.audi))
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -196,12 +198,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.porsche))
             }
-            R.id.nav_audi -> {
-                toolbar.title = getString(R.string.audi)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.audi))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.audi))
-            }
             R.id.nav_bugatti -> {
                 toolbar.title = getString(R.string.bugatti)
                 bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.bugatti))
@@ -225,6 +221,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.lamborghini))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.lamborghini))
+            }
+            R.id.nav_gallery -> {
+                toolbar.title = getString(R.string.gallery_toolbar)
+                openFragment(categoryFragment, getString(R.string.gallery_toolbar))
             }
             R.id.nav_favorites -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))

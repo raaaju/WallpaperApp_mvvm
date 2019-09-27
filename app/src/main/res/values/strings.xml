@@ -75,6 +75,7 @@
     <string name="image_jpg">image/jpg</string>
     <string name="mimeType">mimeType</string>
     <string name="gallery">Gallery</string>
+    <string name="gallery_toolbar" translatable="false">Gallery</string>
 
     <string name="aston">Aston Martin</string>
     <string name="audi_walp">Audi</string>
@@ -87,7 +88,7 @@
     <string name="mclaren">McLaren</string>
     <string name="porsche_walp">Porsche</string>
     <string name="porsche">Porsche</string>
-    <string name="audi">Audi</string>
+    <string name="audi" translatable="false">Audi</string>
     <string name="bugatti">Bugatti</string>
     <string name="lamborghini">Lamborghini</string>
     <string name="ferrari">Ferrari</string>

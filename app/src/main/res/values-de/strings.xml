@@ -38,10 +38,11 @@
     <string name="Sports">Sport</string>
     <string name="Transportation">Transport</string>
     <string name="Travel">Reise</string>
+    <string name="gallery">Galerie</string>
+
     <string name="image_downloaded">Bild bereits heruntergeladen</string>
     <string name="Set_As">Festlegen als</string>
     <string name="first_down">Bitte zuerst herunterladen</string>
-    <string name="category">Kategorie</string>
     <string name="allow_app_use_mic">Für Sprachanfragen benötigen Sie diese Berechtigung. Ermöglichen?</string>
     <string name="press_back">Drücken Sie erneut ZURÜCK, um den Vorgang zu beenden</string>
     <string name="try_my_other_app">Probieren Sie meine andere App aus</string>
