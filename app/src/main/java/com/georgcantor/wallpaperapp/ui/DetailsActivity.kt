@@ -29,7 +29,7 @@ import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
-import com.google.gson.Gson
+import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
@@ -37,6 +37,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_detail.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -61,13 +63,15 @@ class DetailsActivity : AppCompatActivity() {
     private var pathOfFile: String? = null
     private lateinit var prefs: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+    private lateinit var viewModel: DetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_detail)
-        progressAnimationView?.showAnimation()
 
+        viewModel = getViewModel { parametersOf() }
+        progressAnimationView?.showAnimation()
         db = DatabaseHelper(this)
 
         editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE).edit()
@@ -294,16 +298,11 @@ class DetailsActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_add_to_fav -> {
-                db?.let { db ->
-                    if (!db.containFav(hit?.url.toString())) {
-                        hit?.let { addToFavorite(it.url.toString(), it.imageURL.toString(), it) }
-                        item.setIcon(R.drawable.ic_star_red_24dp)
-                        shortToast(getString(R.string.add_to_fav_toast))
-                    } else {
-                        db.deleteFromFavorites(hit?.url.toString())
-                        item.setIcon(R.drawable.ic_star_border)
-                        shortToast(getString(R.string.del_from_fav_toast))
-                    }
+                hit?.let(viewModel::setFavoriteStatus)
+                if (viewModel.isImageFavorite.value == true) {
+                    item.setIcon(R.drawable.ic_star_red_24dp)
+                } else {
+                    item.setIcon(R.drawable.ic_star_border)
                 }
             }
             R.id.action_share -> share()
@@ -423,12 +422,6 @@ class DetailsActivity : AppCompatActivity() {
             finish()
             longToast(getString(R.string.you_need_perm_toast))
         }
-    }
-
-    private fun addToFavorite(imageUrl: String, hdUrl: String, commonPic: CommonPic) {
-        val gson = Gson()
-        val toStoreObject = gson.toJson(commonPic)
-        db?.insertToFavorites(imageUrl, hdUrl, toStoreObject)
     }
 
     override fun onBackPressed() {
