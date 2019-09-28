@@ -164,7 +164,7 @@ class SearchActivity : AppCompatActivity() {
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speak_something))
             startActivityForResult(intent, REQUEST_CODE)
         } catch (e: Exception) {
-            e.printStackTrace()
+            shortToast(getString(R.string.something_went_wrong))
         }
     }
 

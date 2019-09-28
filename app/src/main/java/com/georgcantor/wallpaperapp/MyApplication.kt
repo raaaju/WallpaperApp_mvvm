@@ -37,15 +37,12 @@ class MyApplication : Application() {
         try {
             SSLContext.getInstance("TLSv1.2")
         } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
         }
 
         try {
             ProviderInstaller.installIfNeeded(context.applicationContext)
         } catch (e: GooglePlayServicesRepairableException) {
-            e.printStackTrace()
         } catch (e: GooglePlayServicesNotAvailableException) {
-            e.printStackTrace()
         }
     }
 

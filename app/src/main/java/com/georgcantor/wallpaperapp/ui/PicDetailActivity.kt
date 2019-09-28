@@ -36,15 +36,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.activity_detail.detailImageView
-import kotlinx.android.synthetic.main.activity_detail.downloadAnimationView
-import kotlinx.android.synthetic.main.activity_detail.downloadsTextView
-import kotlinx.android.synthetic.main.activity_detail.fabSetWall
-import kotlinx.android.synthetic.main.activity_detail.favoritesTextView
-import kotlinx.android.synthetic.main.activity_detail.nameTextView
-import kotlinx.android.synthetic.main.activity_detail.progressAnimationView
-import kotlinx.android.synthetic.main.activity_detail.tagsRecyclerView
-import kotlinx.android.synthetic.main.activity_detail.userImageView
+import kotlinx.android.synthetic.main.activity_detail.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -186,7 +178,7 @@ class PicDetailActivity : AppCompatActivity() {
                     .load(hit?.imageURL)
                     .get()
             } catch (e: IOException) {
-                e.printStackTrace()
+                shortToast(getString(R.string.something_went_wrong))
             }
             result
         }
@@ -299,50 +291,54 @@ class PicDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        db?.let { db ->
-            when (item.itemId) {
-                android.R.id.home -> onBackPressed()
-                R.id.action_add_to_fav -> if (!db.containFav(hit?.url.toString())) {
-                    hit?.let { addToFavorite(it.url.toString(), it.imageURL.toString(), it) }
-                    item.setIcon(R.drawable.ic_star_red_24dp)
-                    shortToast(getString(R.string.add_to_fav_toast))
-                } else {
-                    db.deleteFromFavorites(hit?.url.toString())
-                    item.setIcon(R.drawable.ic_star_border)
-                    shortToast(getString(R.string.del_from_fav_toast))
-                }
-                R.id.action_share -> try {
-                    val intent = Intent(Intent.ACTION_SEND)
-                    intent.type = "text/plain"
-                    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-                    val sAux = hit?.url
-                    intent.putExtra(Intent.EXTRA_TEXT, sAux)
-                    startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
-                } catch (e: AndroidRuntimeException) {
-                    e.printStackTrace()
-                    shortToast(getString(R.string.cant_share))
-                }
-                R.id.action_download -> {
-                    if (this.isNetworkAvailable()) {
-                        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                downloadPictureQ(hit?.url ?: "")
-                            } else {
-                                downloadPicture()
-                            }
-                        } else {
-                            checkSavingPermission()
-                        }
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            R.id.action_add_to_fav -> {
+                db?.let { db ->
+                    if (!db.containFav(hit?.url.toString())) {
+                        hit?.let { addToFavorite(it.url.toString(), it.imageURL.toString(), it) }
+                        item.setIcon(R.drawable.ic_star_red_24dp)
+                        shortToast(getString(R.string.add_to_fav_toast))
                     } else {
-                        shortToast(getString(R.string.no_internet))
+                        db.deleteFromFavorites(hit?.url.toString())
+                        item.setIcon(R.drawable.ic_star_border)
+                        shortToast(getString(R.string.del_from_fav_toast))
                     }
                 }
-                else -> {
-                }
             }
+            R.id.action_share -> share()
+            R.id.action_download -> startDownloading()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun share() {
+        try {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+            intent.putExtra(Intent.EXTRA_TEXT, hit?.url)
+            startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
+        } catch (e: AndroidRuntimeException) {
+            shortToast(getString(R.string.cant_share))
+        }
+    }
+
+    private fun startDownloading() {
+        if (!this.isNetworkAvailable()) {
+            shortToast(getString(R.string.no_internet))
+            return
+        }
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                downloadPictureQ(hit?.url ?: "")
+            } else {
+                downloadPicture()
+            }
+        } else {
+            checkSavingPermission()
+        }
     }
 
     private fun downloadPicture(): Long {
@@ -444,7 +440,7 @@ class PicDetailActivity : AppCompatActivity() {
         try {
             unregisterReceiver(downloadReceiver)
         } catch (e: Exception) {
-            e.printStackTrace()
+            shortToast(getString(R.string.something_went_wrong))
         }
         DisposableManager.dispose()
         super.onDestroy()
