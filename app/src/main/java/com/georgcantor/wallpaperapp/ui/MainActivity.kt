@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_container, MercedesFragment.newInstance(getString(R.string.mercedes)))
+                .replace(R.id.frame_container, BmwFragment.newInstance(getString(R.string.bmw)))
                 .commit()
 
         mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes))
@@ -166,8 +166,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_search -> {
-                openSearchActivity()
+            R.id.action_search -> openSearchActivity()
+            R.id.action_gallery -> {
+                toolbar.title = getString(R.string.gallery_toolbar)
+                openFragment(categoryFragment, getString(R.string.gallery_toolbar))
             }
         }
         return super.onOptionsItemSelected(item)
@@ -221,10 +223,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.lamborghini))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.lamborghini))
-            }
-            R.id.nav_gallery -> {
-                toolbar.title = getString(R.string.gallery_toolbar)
-                openFragment(categoryFragment, getString(R.string.gallery_toolbar))
             }
             R.id.nav_favorites -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))

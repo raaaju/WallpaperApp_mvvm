@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
 
@@ -38,11 +37,6 @@
             android:id="@+id/nav_porsche"
             android:icon="@drawable/porsche"
             android:title="@string/porsche_walp" />
-
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_image"
-            android:title="@string/gallery" />
 
         <item
             android:id="@+id/nav_favorites"
