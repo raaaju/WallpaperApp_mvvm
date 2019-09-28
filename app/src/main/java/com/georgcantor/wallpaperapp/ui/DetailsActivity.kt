@@ -42,7 +42,7 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
-class PicDetailActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PIC = "picture"
@@ -147,7 +147,7 @@ class PicDetailActivity : AppCompatActivity() {
                                         contentResolver,
                                         uri
                                     )
-                                    WallpaperManager.getInstance(this@PicDetailActivity)
+                                    WallpaperManager.getInstance(this@DetailsActivity)
                                         .setBitmap(bitmap2)
                                 }, {
                                     shortToast(getString(R.string.something_went_wrong))

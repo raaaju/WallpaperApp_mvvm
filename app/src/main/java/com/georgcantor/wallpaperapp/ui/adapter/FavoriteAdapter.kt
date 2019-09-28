@@ -11,7 +11,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
-import com.georgcantor.wallpaperapp.ui.PicDetailActivity
+import com.georgcantor.wallpaperapp.ui.DetailsActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
@@ -48,10 +48,10 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
         val pic = gson.fromJson(hitJson, CommonPic::class.java)
 
         holder.imageView.setOnClickListener {
-            val intent = Intent(context, PicDetailActivity::class.java)
+            val intent = Intent(context, DetailsActivity::class.java)
             try {
                 intent.putExtra(
-                    PicDetailActivity.EXTRA_PIC,
+                    DetailsActivity.EXTRA_PIC,
                     CommonPic(
                         url = pic.url,
                         width = pic.width,

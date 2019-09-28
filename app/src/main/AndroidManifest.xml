@@ -28,7 +28,7 @@
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.PicDetailActivity"
+            android:name=".ui.DetailsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_detail_name"
             android:theme="@style/AppThemeDetail" />

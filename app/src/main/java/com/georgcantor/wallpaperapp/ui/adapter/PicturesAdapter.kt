@@ -9,7 +9,7 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
-import com.georgcantor.wallpaperapp.ui.PicDetailActivity
+import com.georgcantor.wallpaperapp.ui.DetailsActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.squareup.picasso.Picasso
@@ -41,9 +41,9 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
         itemView.setOnClickListener {
             val activity = context as Activity
             val position = wallpViewHolder.adapterPosition
-            val intent = Intent(context, PicDetailActivity::class.java)
+            val intent = Intent(context, DetailsActivity::class.java)
             try {
-                intent.putExtra(PicDetailActivity.EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
+                intent.putExtra(DetailsActivity.EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
                     CommonPic(
                             url = commonPics[position].url,
                             width = commonPics[position].width,

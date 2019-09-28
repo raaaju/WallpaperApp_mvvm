@@ -27,12 +27,6 @@ class MyApplication : Application() {
         }
     }
 
-    companion object {
-        @get:Synchronized
-        var instance: MyApplication? = null
-            private set
-    }
-
     private fun initializeSSLContext(context: Context) {
         try {
             SSLContext.getInstance("TLSv1.2")
@@ -44,6 +38,12 @@ class MyApplication : Application() {
         } catch (e: GooglePlayServicesRepairableException) {
         } catch (e: GooglePlayServicesNotAvailableException) {
         }
+    }
+
+    companion object {
+        @get:Synchronized
+        var instance: MyApplication? = null
+            private set
     }
 
 }
