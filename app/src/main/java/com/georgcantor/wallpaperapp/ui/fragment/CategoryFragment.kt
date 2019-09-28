@@ -54,6 +54,7 @@ class CategoryFragment : Fragment() {
         categoryRecyclerView.adapter = categoryAdapter
 
         viewModel.getCategories()
+                .retry(3)
                 .subscribe(categoryAdapter::setCategoryList) {
                     requireActivity().shortToast(getString(R.string.something_went_wrong))
                 }
@@ -61,28 +62,5 @@ class CategoryFragment : Fragment() {
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         categoryRecyclerView.addOnScrollListener(hideScrollListener)
     }
-
-//    private fun addToList() {
-//        categoryList.add(Category(getString(R.string.Animals), getString(R.string.animals)))
-////        categoryList.add(Category(getString(R.string.Textures), getString(R.string.textures)))
-////        categoryList.add(Category(getString(R.string.Architecture), getString(R.string.buildings)))
-////        categoryList.add(Category(getString(R.string.Business), getString(R.string.business)))
-////        categoryList.add(Category(getString(R.string.Communication), getString(R.string.computer)))
-////        categoryList.add(Category(getString(R.string.Education), getString(R.string.education)))
-////        categoryList.add(Category(getString(R.string.Fashion), getString(R.string.fashion)))
-////        categoryList.add(Category(getString(R.string.Emotions), getString(R.string.feelings)))
-////        categoryList.add(Category(getString(R.string.Food), getString(R.string.food)))
-////        categoryList.add(Category(getString(R.string.Health), getString(R.string.health)))
-////        categoryList.add(Category(getString(R.string.Craft), getString(R.string.industry)))
-////        categoryList.add(Category(getString(R.string.Music), getString(R.string.music)))
-////        categoryList.add(Category(getString(R.string.Nature), getString(R.string.nature)))
-////        categoryList.add(Category(getString(R.string.People), getString(R.string.people)))
-////        categoryList.add(Category(getString(R.string.Places), getString(R.string.places)))
-////        categoryList.add(Category(getString(R.string.Religion), getString(R.string.religion)))
-////        categoryList.add(Category(getString(R.string.Technology), getString(R.string.science)))
-////        categoryList.add(Category(getString(R.string.Sports), getString(R.string.sports)))
-////        categoryList.add(Category(getString(R.string.Transportation), getString(R.string.transportation)))
-////        categoryList.add(Category(getString(R.string.Travel), getString(R.string.travel)))
-//    }
 
 }

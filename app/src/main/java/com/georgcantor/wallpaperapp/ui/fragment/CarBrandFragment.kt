@@ -67,6 +67,7 @@ class CarBrandFragment : Fragment() {
         brandAnimationView?.showAnimation()
 
         val disposable = viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
+                .retry(3)
                 .subscribe({
                     adapter.setPicList(it)
                     brandAnimationView?.hideAnimation()

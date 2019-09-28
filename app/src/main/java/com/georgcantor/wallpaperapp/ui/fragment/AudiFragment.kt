@@ -9,21 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
-import com.georgcantor.wallpaperapp.ui.util.EndlessRecyclerViewScrollListener
-import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import com.georgcantor.wallpaperapp.ui.util.hideAnimation
-import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
-import com.georgcantor.wallpaperapp.ui.util.longToast
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.app_bar_main.navigation
-import kotlinx.android.synthetic.main.fragment_common.animationView
-import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
-import kotlinx.android.synthetic.main.fragment_common.recyclerView
-import kotlinx.android.synthetic.main.fragment_common.refreshLayout
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -97,13 +86,14 @@ class AudiFragment: Fragment() {
         animationView?.showAnimation()
 
         val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-            .subscribe({
-                adapter?.setPicList(it)
-                animationView?.hideAnimation()
-            }, {
-                animationView?.hideAnimation()
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
-            })
+                .retry(3)
+                .subscribe({
+                    adapter?.setPicList(it)
+                    animationView?.hideAnimation()
+                }, {
+                    animationView?.hideAnimation()
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
+                })
 
         DisposableManager.add(disposable)
     }

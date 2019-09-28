@@ -86,13 +86,14 @@ class BmwFragment : Fragment() {
         animationView?.showAnimation()
 
         val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-            .subscribe({
-                adapter?.setPicList(it)
-                animationView?.hideAnimation()
-            }, {
-                animationView?.hideAnimation()
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
-            })
+                .retry(3)
+                .subscribe({
+                    adapter?.setPicList(it)
+                    animationView?.hideAnimation()
+                }, {
+                    animationView?.hideAnimation()
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
+                })
 
         DisposableManager.add(disposable)
     }
