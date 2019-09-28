@@ -2,8 +2,8 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.CommonPic
+import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
 import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
 import com.georgcantor.wallpaperapp.model.unsplash.Result
@@ -41,6 +41,5 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
-
 
 }

@@ -52,7 +52,7 @@ class DetailsActivity : AppCompatActivity() {
         const val MY_PREFS = "my_prefs"
     }
 
-    private var hit: CommonPic? = null
+    private var pic: CommonPic? = null
     private val tags = ArrayList<String>()
     private var first = 0
     private lateinit var tagAdapter: TagAdapter
@@ -179,7 +179,7 @@ class DetailsActivity : AppCompatActivity() {
             var result: Bitmap? = null
             try {
                 result = Picasso.with(applicationContext)
-                    .load(hit?.imageURL)
+                    .load(pic?.imageURL)
                     .get()
             } catch (e: IOException) {
                 shortToast(getString(R.string.something_went_wrong))
@@ -211,11 +211,11 @@ class DetailsActivity : AppCompatActivity() {
         )
 
         if (intent.hasExtra(EXTRA_PIC)) {
-            hit = intent.getParcelableExtra(EXTRA_PIC)
+            pic = intent.getParcelableExtra(EXTRA_PIC)
         } else {
             shortToast(getString(R.string.something_went_wrong))
         }
-        hit?.let {
+        pic?.let {
             var title = it.tags
             while (title?.contains(",") == true) {
                 val element = title.substring(0, title.indexOf(","))
@@ -238,12 +238,12 @@ class DetailsActivity : AppCompatActivity() {
             Environment.getExternalStoragePublicDirectory(
                 "/" + resources
                     .getString(R.string.app_name)
-            ), hit?.id.toString() + resources
+            ), pic?.id.toString() + resources
                 .getString(R.string.jpg)
         )
 
         Picasso.with(this)
-            .load(hit?.fullHDURL)
+            .load(pic?.fullHDURL)
             .placeholder(R.drawable.plh)
             .into(detailImageView, object : Callback {
                 override fun onSuccess() {
@@ -256,19 +256,19 @@ class DetailsActivity : AppCompatActivity() {
                 }
             })
 
-        nameTextView.text = hit?.user
-        downloadsTextView.text = hit?.downloads.toString()
-        favoritesTextView.text = hit?.favorites.toString()
+        nameTextView.text = pic?.user
+        downloadsTextView.text = pic?.downloads.toString()
+        favoritesTextView.text = pic?.favorites.toString()
         if (!this.isNetworkAvailable()) {
             Picasso.with(this)
                 .load(R.drawable.memb)
                 .transform(CropCircleTransformation())
                 .into(userImageView)
         } else {
-            hit?.let {
+            pic?.let {
                 if (it.userImageURL?.isNotEmpty() == true) {
                     Picasso.with(this)
-                        .load(hit?.userImageURL)
+                        .load(pic?.userImageURL)
                         .transform(CropCircleTransformation())
                         .into(userImageView)
                 } else {
@@ -286,7 +286,7 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fav, menu)
         db?.let {
-            if (it.containFav(hit?.url.toString())) {
+            if (it.containFav(pic?.url.toString())) {
                 menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp)
             }
         }
@@ -298,7 +298,7 @@ class DetailsActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_add_to_fav -> {
-                hit?.let(viewModel::setFavoriteStatus)
+                pic?.let(viewModel::setFavoriteStatus)
                 if (viewModel.isImageFavorite.value == true) {
                     item.setIcon(R.drawable.ic_star_red_24dp)
                 } else {
@@ -317,7 +317,7 @@ class DetailsActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-            intent.putExtra(Intent.EXTRA_TEXT, hit?.url)
+            intent.putExtra(Intent.EXTRA_TEXT, pic?.url)
             startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
         } catch (e: AndroidRuntimeException) {
             shortToast(getString(R.string.cant_share))
@@ -331,7 +331,7 @@ class DetailsActivity : AppCompatActivity() {
         }
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                downloadPictureQ(hit?.url ?: "")
+                downloadPictureQ(pic?.url ?: "")
             } else {
                 downloadPicture()
             }
@@ -342,7 +342,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun downloadPicture(): Long {
         downloadAnimationView?.showAnimation()
-        val uri = hit?.imageURL
+        val uri = pic?.imageURL
         val imageUri = Uri.parse(uri)
 
         val downloadReference: Long
@@ -360,7 +360,7 @@ class DetailsActivity : AppCompatActivity() {
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
                 request.setDestinationInExternalPublicDir(
                     "/" + resources
-                        .getString(R.string.app_name), hit?.id.toString() + resources
+                        .getString(R.string.app_name), pic?.id.toString() + resources
                         .getString(R.string.jpg)
                 )
             }
