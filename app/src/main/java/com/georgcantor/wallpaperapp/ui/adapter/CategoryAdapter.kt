@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
-import com.georgcantor.wallpaperapp.ui.fragment.SelectCatFragment
+import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 import java.util.*
 
 class CategoryAdapter(private val context: Context,
@@ -23,14 +23,14 @@ class CategoryAdapter(private val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.item_explore, null)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
         val viewHolder = CategoryViewHolder(itemView)
 
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(SelectCatFragment.EXTRA_CAT, categoryList?.get(position)?.categoryDrawId)
-            val fragment = SelectCatFragment()
+            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position)?.categoryDrawId)
+            val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
             openFragment(fragment)

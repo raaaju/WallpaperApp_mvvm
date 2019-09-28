@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import kotlinx.android.synthetic.main.app_bar_main.navigation
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_category.*
 import java.util.*
 
@@ -43,8 +42,11 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         categoryRecyclerView.setHasFixedSize(true)
-        categoryRecyclerView.layoutManager =
-            GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
+        categoryRecyclerView.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+        )
 
         val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
         categoryAdapter.setCategoryList(categoryList)
