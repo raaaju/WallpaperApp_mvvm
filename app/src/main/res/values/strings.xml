@@ -26,19 +26,19 @@
     <string name="package_drawable">com.georgcantor.wallpaperapp:drawable/</string>
 
     <string name="Animals">Animals</string>
-    <string name="animals">animals</string>
+    <string name="animals" translatable="false">animals</string>
     <string name="Textures">Textures</string>
-    <string name="textures">textures</string>
+    <string name="textures" translatable="false">textures</string>
     <string name="Architecture">Architecture</string>
-    <string name="buildings">buildings</string>
+    <string name="buildings" translatable="false">buildings</string>
     <string name="Business">Business</string>
-    <string name="business">business</string>
+    <string name="business" translatable="false">business</string>
     <string name="Communication">Communication</string>
     <string name="computer">computer</string>
     <string name="Education">Education</string>
-    <string name="education">education</string>
+    <string name="education" translatable="false">education</string>
     <string name="Fashion">Fashion</string>
-    <string name="fashion">fashion</string>
+    <string name="fashion" translatable="false">fashion</string>
     <string name="Emotions">Emotions</string>
     <string name="feelings">feelings</string>
     <string name="Food">Food</string>
@@ -48,9 +48,9 @@
     <string name="Craft">Craft</string>
     <string name="industry">industry</string>
     <string name="Music">Music</string>
-    <string name="music">music</string>
+    <string name="music" translatable="false">music</string>
     <string name="Nature">Nature</string>
-    <string name="nature">nature</string>
+    <string name="nature" translatable="false">nature</string>
     <string name="People">People</string>
     <string name="people">people</string>
     <string name="Places">Places</string>
@@ -64,7 +64,7 @@
     <string name="Transportation">Transportation</string>
     <string name="transportation">transportation</string>
     <string name="Travel">Travel</string>
-    <string name="travel">travel</string>
+    <string name="travel" translatable="false">travel</string>
 
     <string name="Set_As">Set As</string>
     <string name="down_wallpapers">Downloading from 4K Wallpapers</string>

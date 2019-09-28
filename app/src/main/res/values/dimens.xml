@@ -14,9 +14,10 @@
     <dimen name="text_size0">15sp</dimen>
     <dimen name="text_size">18sp</dimen>
     <dimen name="text_size2">20sp</dimen>
+    <dimen name="text_size24">24sp</dimen>
     <dimen name="user_size">100dp</dimen>
     <dimen name="nav_image">82dp</dimen>
-    <dimen name="category_item_height">150dp</dimen>
+    <dimen name="category_item_height">250dp</dimen>
     <dimen name="margin0">4dp</dimen>
     <dimen name="margin">6dp</dimen>
     <dimen name="margin1">8dp</dimen>

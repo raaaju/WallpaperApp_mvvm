@@ -11,6 +11,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
+import com.squareup.picasso.Picasso
 import java.util.*
 
 class CategoryAdapter(private val context: Context,
@@ -29,7 +30,7 @@ class CategoryAdapter(private val context: Context,
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position)?.categoryDrawId)
+            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position)?.categoryName)
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
@@ -41,10 +42,12 @@ class CategoryAdapter(private val context: Context,
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categoryList?.get(position)
-        val id = context.resources.getIdentifier(context.resources
-                .getString(R.string.package_drawable) + category?.categoryDrawId, null, null)
         holder.categoryName.text = category?.categoryName
-        holder.categoryImage.setImageResource(id)
+
+        Picasso.with(context)
+                .load(category?.categoryUrl)
+                .placeholder(R.drawable.plh)
+                .into(holder.categoryImage)
     }
 
     override fun getItemCount(): Int = categoryList?.size ?: 0
