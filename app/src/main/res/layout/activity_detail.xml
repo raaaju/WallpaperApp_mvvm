@@ -212,6 +212,6 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_photo" />
+        app:srcCompat="@drawable/ic_wallpaper" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
