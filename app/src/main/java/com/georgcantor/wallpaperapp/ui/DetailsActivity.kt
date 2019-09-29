@@ -65,6 +65,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var viewModel: DetailsViewModel
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -88,12 +89,8 @@ class DetailsActivity : AppCompatActivity() {
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     val uri = Uri.fromFile(file)
                     pathOfFile = UtilityMethods.getPath(applicationContext, uri)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        progressAnimationView?.showAnimation()
-                        setWallAsync()
-                    } else {
-                        setAsWallpaper()
-                    }
+                    progressAnimationView?.showAnimation()
+                    setWallAsync()
                 } else {
                     editor.putBoolean(PREF_BOOLEAN, true)
                     editor.apply()
@@ -103,17 +100,6 @@ class DetailsActivity : AppCompatActivity() {
                 longToast(getString(R.string.no_internet))
             }
         }
-    }
-
-    private fun setAsWallpaper() {
-        val uri = Uri.fromFile(file)
-        val intent = Intent(Intent.ACTION_ATTACH_DATA)
-        intent.setDataAndType(uri, getString(R.string.image_jpg))
-        intent.putExtra(getString(R.string.mimeType), getString(R.string.image_jpg))
-
-        startActivityForResult(
-            Intent.createChooser(intent, getString(R.string.Set_As)), 200
-        )
     }
 
     private val downloadReceiver = object : BroadcastReceiver() {
