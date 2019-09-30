@@ -11,7 +11,9 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.ui.util.hideAnimation
 import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_category.*
@@ -46,18 +48,23 @@ class CategoryFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        animationView.showAnimation()
+
         categoryRecyclerView.setHasFixedSize(true)
         categoryRecyclerView.layoutManager =
-                GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
+            GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
 
         val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
         categoryRecyclerView.adapter = categoryAdapter
 
         viewModel.getCategories()
-                .retry(3)
-                .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().shortToast(getString(R.string.something_went_wrong))
-                }
+            .retry(3)
+            .doOnComplete {
+                animationView.hideAnimation()
+            }
+            .subscribe(categoryAdapter::setCategoryList) {
+                requireActivity().shortToast(getString(R.string.something_went_wrong))
+            }
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         categoryRecyclerView.addOnScrollListener(hideScrollListener)
