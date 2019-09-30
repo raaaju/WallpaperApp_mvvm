@@ -12,6 +12,7 @@ import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
+import com.georgcantor.wallpaperapp.ui.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
@@ -47,6 +48,9 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!requireActivity().isNetworkAvailable()) {
+            noInternetImageView.visibility = View.VISIBLE
+        }
         categoryRecyclerView.setHasFixedSize(true)
         categoryRecyclerView.layoutManager =
             GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))

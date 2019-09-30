@@ -13,7 +13,9 @@ import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_common.animationView
+import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
 import kotlinx.android.synthetic.main.fragment_common.recyclerView
+import kotlinx.android.synthetic.main.fragment_common.refreshLayout
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -42,6 +44,9 @@ class CarBrandFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!requireActivity().isNetworkAvailable()) {
+            noInternetImageView.visibility = View.VISIBLE
+        }
         recyclerView.setHasFixedSize(true)
 
         val gridLayoutManager = StaggeredGridLayoutManager(
@@ -49,15 +54,21 @@ class CarBrandFragment : Fragment() {
             StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.layoutManager = gridLayoutManager
+        adapter = PicturesAdapter(requireContext())
+        recyclerView.adapter = adapter
 
         val listener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 loadData(page)
             }
         }
+
+        refreshLayout.setOnRefreshListener {
+            loadData(1)
+            refreshLayout.isRefreshing = false
+        }
+
         recyclerView.addOnScrollListener(listener)
-        adapter = PicturesAdapter(requireContext())
-        recyclerView.adapter = adapter
         loadData(1)
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}

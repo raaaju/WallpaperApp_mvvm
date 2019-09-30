@@ -55,17 +55,14 @@ class BmwFragment : Fragment() {
             noInternetImageView.visibility = View.VISIBLE
         }
 
-        refreshLayout.setOnRefreshListener {
-            loadData(1)
-            refreshLayout.isRefreshing = false
-        }
-
         val gridLayoutManager = StaggeredGridLayoutManager(
             UtilityMethods.getScreenSize(requireContext()),
             StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = gridLayoutManager
+        adapter = PicturesAdapter(requireContext())
+        recyclerView.adapter = adapter
 
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -74,8 +71,11 @@ class BmwFragment : Fragment() {
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
-        adapter = PicturesAdapter(requireContext())
-        recyclerView.adapter = adapter
+
+        refreshLayout.setOnRefreshListener {
+            loadData(1)
+            refreshLayout.isRefreshing = false
+        }
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         recyclerView.addOnScrollListener(hideScrollListener)
