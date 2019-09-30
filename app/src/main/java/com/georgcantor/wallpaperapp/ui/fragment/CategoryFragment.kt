@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
+import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.HideNavScrollListener
 import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
@@ -57,17 +58,24 @@ class CategoryFragment : Fragment() {
         val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
         categoryRecyclerView.adapter = categoryAdapter
 
-        viewModel.getCategories()
+        val disposable = viewModel.getCategories()
             .retry(3)
-            .doOnComplete {
-                animationView.hideAnimation()
+            .doOnTerminate {
+                animationView?.hideAnimation()
             }
             .subscribe(categoryAdapter::setCategoryList) {
                 requireActivity().shortToast(getString(R.string.something_went_wrong))
             }
 
+        DisposableManager.add(disposable)
+
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         categoryRecyclerView.addOnScrollListener(hideScrollListener)
+    }
+
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
     }
 
 }

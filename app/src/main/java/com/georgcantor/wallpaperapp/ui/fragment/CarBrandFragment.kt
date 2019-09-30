@@ -67,14 +67,13 @@ class CarBrandFragment : Fragment() {
         brandAnimationView?.showAnimation()
 
         val disposable = viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
-                .retry(3)
-                .subscribe({
-                    adapter.setPicList(it)
-                    brandAnimationView?.hideAnimation()
-                }, {
-                    brandAnimationView?.hideAnimation()
-                    requireActivity().shortToast(getString(R.string.something_went_wrong))
-                })
+            .retry(3)
+            .doOnTerminate {
+                brandAnimationView?.hideAnimation()
+            }
+            .subscribe(adapter::setPicList) {
+                requireActivity().shortToast(getString(R.string.something_went_wrong))
+            }
 
         DisposableManager.add(disposable)
     }
