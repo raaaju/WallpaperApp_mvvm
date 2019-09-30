@@ -22,9 +22,9 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
     fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return Observable.combineLatest<List<Hit>, List<Result>, List<Wallpaper>, ArrayList<CommonPic>>(
             apiRepository.getPixabayPictures(request, index).map { it.hits },
-                apiRepository.getUnsplashPictures(request,index).map(UnsplashResponse::results),
-                apiRepository.getAbyssPictures(request,index).map(AbyssResponse::wallpapers),
-                Function3(
+            apiRepository.getUnsplashPictures(request, index).map(UnsplashResponse::results),
+            apiRepository.getAbyssPictures(request, index).map(AbyssResponse::wallpapers),
+            Function3(
                 PicturesMapper.Companion::mergeResponses
             )
         )

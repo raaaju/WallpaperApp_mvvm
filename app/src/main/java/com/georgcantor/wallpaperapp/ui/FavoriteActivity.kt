@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -25,7 +24,6 @@ class FavoriteActivity : AppCompatActivity() {
     private lateinit var adapter: FavoriteAdapter
     private lateinit var viewModel: FavoriteViewModel
 
-    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
