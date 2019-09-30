@@ -77,21 +77,23 @@
     <string name="gallery">Gallery</string>
     <string name="gallery_toolbar" translatable="false">Gallery</string>
 
-    <string name="aston">Aston Martin</string>
-    <string name="audi_walp">Audi</string>
-    <string name="bentley">Bentley</string>
-    <string name="bmw">BMW</string>
-    <string name="bugatti_walp">Bugatti</string>
-    <string name="mercedes">Mercedes-Benz</string>
-    <string name="ferrari_walp">Ferrari</string>
-    <string name="lambo_walp">Lamborghini</string>
-    <string name="mclaren">McLaren</string>
-    <string name="porsche_walp">Porsche</string>
-    <string name="porsche">Porsche</string>
+    <string name="aston" translatable="false">Aston Martin</string>
+    <string name="audi_walp" translatable="false">Audi</string>
+    <string name="bentley" translatable="false">Bentley</string>
+    <string name="bmw" translatable="false">BMW</string>
+    <string name="bugatti_walp" translatable="false">Bugatti</string>
+    <string name="mercedes" translatable="false">Mercedes-Benz</string>
+    <string name="ferrari_walp" translatable="false">Ferrari</string>
+    <string name="lambo_walp" translatable="false">Lamborghini</string>
+    <string name="mclaren" translatable="false">McLaren</string>
+    <string name="porsche_walp" translatable="false">Porsche</string>
+    <string name="porsche" translatable="false">Porsche</string>
     <string name="audi" translatable="false">Audi</string>
-    <string name="bugatti">Bugatti</string>
-    <string name="lamborghini">Lamborghini</string>
-    <string name="ferrari">Ferrari</string>
+    <string name="bugatti" translatable="false">Bugatti</string>
+    <string name="lamborghini" translatable="false">Lamborghini</string>
+    <string name="ferrari" translatable="false">Ferrari</string>
+    <string name="rolls" translatable="false">Rolls-Royce</string>
+
     <string name="search">Search</string>
     <string name="type_and_search">Type and Search</string>
     <string name="cancel">Cancel</string>

@@ -224,6 +224,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.lamborghini))
             }
+            R.id.nav_rolls -> {
+                toolbar.title = getString(R.string.rolls)
+                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.rolls))
+                brandFragment.arguments = bundle
+                openFragment(brandFragment, getString(R.string.rolls))
+            }
             R.id.nav_favorites -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)

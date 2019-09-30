@@ -39,6 +39,11 @@
             android:title="@string/porsche_walp" />
 
         <item
+            android:id="@+id/nav_rolls"
+            android:icon="@drawable/rollsroyce"
+            android:title="@string/rolls" />
+
+        <item
             android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_star_red_24dp"
             android:title="@string/favorites" />
