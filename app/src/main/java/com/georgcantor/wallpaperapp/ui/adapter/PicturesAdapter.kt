@@ -59,7 +59,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                     )
                 })
             } catch (e: ArrayIndexOutOfBoundsException) {
-                context.longToast(context.resources.getString(R.string.something_went_wrong))
+                context.longToast(context.getString(R.string.something_went_wrong))
             }
             context.startActivity(intent)
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)

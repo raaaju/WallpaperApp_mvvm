@@ -67,7 +67,7 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
                     )
                 )
             } catch (e: ArrayIndexOutOfBoundsException) {
-                context.longToast(context.resources.getString(R.string.something_went_wrong))
+                context.longToast(context.getString(R.string.something_went_wrong))
             }
             context.startActivity(intent)
             activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
@@ -77,7 +77,7 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
             val photo = favorites?.get(position)
             val url = photo?.imageUrl
 
-            context.showDialog(context.resources.getString(R.string.del_from_fav_dialog)) {
+            context.showDialog(context.getString(R.string.del_from_fav_dialog)) {
                 deleteFromFavorites(url)
             }
             false
