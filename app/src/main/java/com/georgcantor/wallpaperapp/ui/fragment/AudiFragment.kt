@@ -83,10 +83,11 @@ class AudiFragment: Fragment() {
     }
 
     private fun loadData(index: Int) {
-        animationView?.showAnimation()
-
         val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
             .retry(3)
+            .doOnSubscribe {
+                animationView?.showAnimation()
+            }
             .doOnTerminate {
                 animationView?.hideAnimation()
             }

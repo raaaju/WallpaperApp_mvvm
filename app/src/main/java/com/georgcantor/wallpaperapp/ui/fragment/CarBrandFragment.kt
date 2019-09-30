@@ -34,14 +34,13 @@ class CarBrandFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_car_brand, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadData(1)
         brandRecyclerView.setHasFixedSize(true)
 
         val gridLayoutManager = StaggeredGridLayoutManager(
@@ -58,16 +57,18 @@ class CarBrandFragment : Fragment() {
         brandRecyclerView.addOnScrollListener(listener)
         adapter = PicturesAdapter(requireContext())
         brandRecyclerView.adapter = adapter
+        loadData(1)
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         brandRecyclerView.addOnScrollListener(hideScrollListener)
     }
 
     private fun loadData(index: Int) {
-        brandAnimationView?.showAnimation()
-
         val disposable = viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
             .retry(3)
+            .doOnSubscribe {
+                brandAnimationView?.showAnimation()
+            }
             .doOnTerminate {
                 brandAnimationView?.hideAnimation()
             }

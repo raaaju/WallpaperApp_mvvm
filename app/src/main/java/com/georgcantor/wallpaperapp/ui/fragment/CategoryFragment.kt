@@ -49,8 +49,6 @@ class CategoryFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        animationView.showAnimation()
-
         categoryRecyclerView.setHasFixedSize(true)
         categoryRecyclerView.layoutManager =
             GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
@@ -60,6 +58,9 @@ class CategoryFragment : Fragment() {
 
         val disposable = viewModel.getCategories()
             .retry(3)
+            .doOnSubscribe {
+                animationView?.showAnimation()
+            }
             .doOnTerminate {
                 animationView?.hideAnimation()
             }
