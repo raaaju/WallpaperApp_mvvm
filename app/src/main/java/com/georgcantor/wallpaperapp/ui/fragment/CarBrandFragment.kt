@@ -12,7 +12,8 @@ import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_car_brand.*
+import kotlinx.android.synthetic.main.fragment_common.animationView
+import kotlinx.android.synthetic.main.fragment_common.recyclerView
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -37,40 +38,40 @@ class CarBrandFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_car_brand, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        brandRecyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
 
         val gridLayoutManager = StaggeredGridLayoutManager(
             UtilityMethods.getScreenSize(requireContext()),
             StaggeredGridLayoutManager.VERTICAL
         )
-        brandRecyclerView.layoutManager = gridLayoutManager
+        recyclerView.layoutManager = gridLayoutManager
 
         val listener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 loadData(page)
             }
         }
-        brandRecyclerView.addOnScrollListener(listener)
+        recyclerView.addOnScrollListener(listener)
         adapter = PicturesAdapter(requireContext())
-        brandRecyclerView.adapter = adapter
+        recyclerView.adapter = adapter
         loadData(1)
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        brandRecyclerView.addOnScrollListener(hideScrollListener)
+        recyclerView.addOnScrollListener(hideScrollListener)
     }
 
     private fun loadData(index: Int) {
         val disposable = viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
             .retry(3)
             .doOnSubscribe {
-                brandAnimationView?.showAnimation()
+                animationView?.showAnimation()
             }
             .doOnTerminate {
-                brandAnimationView?.hideAnimation()
+                animationView?.hideAnimation()
             }
             .subscribe(adapter::setPicList) {
                 requireActivity().shortToast(getString(R.string.something_went_wrong))
