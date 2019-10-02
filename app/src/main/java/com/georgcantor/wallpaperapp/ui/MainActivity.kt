@@ -20,6 +20,7 @@ import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
+import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -31,6 +32,8 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     InstallStateUpdatedListener {
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
     private lateinit var reviewFragment: Fragment
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var bundle: Bundle
     private var doubleTap = false
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        viewModel = getViewModel { parametersOf() }
 
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
@@ -95,17 +100,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             when (item.itemId) {
                 R.id.nav_mercedes -> {
                     toolbar.title = getString(R.string.mercedes)
-                    openFragment(mercedesFragment, getString(R.string.mercedes))
+                    viewModel.openFragment(
+                        supportFragmentManager,
+                        mercedesFragment,
+                        getString(R.string.mercedes)
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_bmw -> {
                     toolbar.title = getString(R.string.bmw)
-                    openFragment(bmwFragment, getString(R.string.bmw))
+                    viewModel.openFragment(
+                        supportFragmentManager,
+                        bmwFragment,
+                        getString(R.string.bmw)
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_audi -> {
                     toolbar.title = getString(R.string.audi)
-                    openFragment(audiFragment, getString(R.string.audi))
+                    viewModel.openFragment(
+                        supportFragmentManager,
+                        audiFragment,
+                        getString(R.string.audi)
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
             }
