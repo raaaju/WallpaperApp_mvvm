@@ -100,29 +100,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             when (item.itemId) {
                 R.id.nav_mercedes -> {
                     toolbar.title = getString(R.string.mercedes)
-                    viewModel.openFragment(
-                        supportFragmentManager,
-                        mercedesFragment,
-                        getString(R.string.mercedes)
-                    )
+                    openFragment(mercedesFragment, getString(R.string.mercedes))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_bmw -> {
                     toolbar.title = getString(R.string.bmw)
-                    viewModel.openFragment(
-                        supportFragmentManager,
-                        bmwFragment,
-                        getString(R.string.bmw)
-                    )
+                    openFragment(bmwFragment, getString(R.string.bmw))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_audi -> {
                     toolbar.title = getString(R.string.audi)
-                    viewModel.openFragment(
-                        supportFragmentManager,
-                        audiFragment,
-                        getString(R.string.audi)
-                    )
+                    openFragment(audiFragment, getString(R.string.audi))
                     return@OnNavigationItemSelectedListener true
                 }
             }
