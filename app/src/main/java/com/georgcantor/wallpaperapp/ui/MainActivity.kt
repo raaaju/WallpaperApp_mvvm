@@ -257,7 +257,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-                openFragment(reviewFragment, "review")
+                openFragment(reviewFragment, getString(R.string.review))
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
