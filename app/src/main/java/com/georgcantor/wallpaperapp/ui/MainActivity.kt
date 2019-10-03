@@ -20,7 +20,6 @@ import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.ui.util.DisposableManager
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
-import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -32,8 +31,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     InstallStateUpdatedListener {
@@ -52,7 +49,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
     private lateinit var reviewFragment: Fragment
-    private lateinit var viewModel: MainViewModel
 
     private lateinit var bundle: Bundle
     private var doubleTap = false
@@ -64,7 +60,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        viewModel = getViewModel { parametersOf() }
 
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
