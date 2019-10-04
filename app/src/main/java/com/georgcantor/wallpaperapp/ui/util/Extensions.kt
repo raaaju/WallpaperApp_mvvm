@@ -1,12 +1,15 @@
 package com.georgcantor.wallpaperapp.ui.util
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
+import com.squareup.picasso.Picasso
 
 fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
@@ -59,4 +62,11 @@ fun Context.showDialog(
 
     val dialog: AlertDialog = builder.create()
     dialog.show()
+}
+
+fun Context.loadImage(url: String, drawable: Drawable, view: ImageView) {
+    Picasso.with(this)
+        .load(url)
+        .placeholder(drawable)
+        .into(view)
 }

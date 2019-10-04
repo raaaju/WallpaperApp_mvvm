@@ -254,19 +254,15 @@ class DetailsActivity : AppCompatActivity() {
 
                 DisposableManager.add(disposable)
             } else {
-                Picasso.with(this)
-                    .load(pic.fullHDURL)
-                    .placeholder(R.drawable.plh)
-                    .into(detailImageView, object : Callback {
-                        override fun onSuccess() {
-                            progressAnimationView?.hideAnimation()
-                        }
-
-                        override fun onError() {
-                            progressAnimationView?.hideAnimation()
-                            shortToast(getString(R.string.something_went_wrong))
-                        }
-                    })
+                progressAnimationView?.hideAnimation()
+                longToast(getString(R.string.no_internet))
+                pic.fullHDURL?.let {
+                    loadImage(
+                        it,
+                        resources.getDrawable(R.drawable.plh),
+                        detailImageView
+                    )
+                }
             }
         }
 
