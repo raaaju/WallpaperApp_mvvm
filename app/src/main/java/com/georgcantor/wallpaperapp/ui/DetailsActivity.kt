@@ -231,7 +231,7 @@ class DetailsActivity : AppCompatActivity() {
         )
 
         pic?.let { pic ->
-            if (UtilityMethods.isNetworkAvailable) {
+            if (isNetworkAvailable()) {
                 val disposable = viewModel.imageSize(pic)
                     .subscribe({ size ->
                         Picasso.with(this)
