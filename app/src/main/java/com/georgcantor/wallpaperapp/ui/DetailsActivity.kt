@@ -232,9 +232,9 @@ class DetailsActivity : AppCompatActivity() {
 
         pic?.let { pic ->
             val disposable = viewModel.imageSize(pic)
-                .subscribe({
+                .subscribe({ size ->
                     Picasso.with(this)
-                        .load(if (it < 9999999) pic.fullHDURL else pic.url)
+                        .load(if (size < 9999999) pic.fullHDURL else pic.url)
                         .placeholder(R.drawable.plh)
                         .into(detailImageView, object : Callback {
                             override fun onSuccess() {
