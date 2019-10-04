@@ -50,7 +50,7 @@ class PicturesMapper {
                         "car, auto",
                         4245,
                         it.urlImage,
-                        it.urlThumb,
+                        it.urlImage,
                         "Mike Antony",
                         it.id?.toInt() ?: it.hashCode(),
                         it.urlThumb
