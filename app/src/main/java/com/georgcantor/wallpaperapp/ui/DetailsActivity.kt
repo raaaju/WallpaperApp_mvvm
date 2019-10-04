@@ -264,17 +264,10 @@ class DetailsActivity : AppCompatActivity() {
                 .into(userImageView)
         } else {
             pic?.let {
-                if (it.userImageURL?.isNotEmpty() == true) {
-                    Picasso.with(this)
-                        .load(pic?.userImageURL)
-                        .transform(CropCircleTransformation())
-                        .into(userImageView)
-                } else {
-                    Picasso.with(this)
-                        .load(R.drawable.memb)
-                        .transform(CropCircleTransformation())
-                        .into(userImageView)
-                }
+                Picasso.with(this)
+                    .load(if (it.userImageURL?.isNotEmpty() == true) it.userImageURL else it.url)
+                    .transform(CropCircleTransformation())
+                    .into(userImageView)
             }
         }
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
