@@ -7,10 +7,17 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.net.URL
 
-class DetailsViewModel(private val context: Context,
-                       private val db: DatabaseHelper) : ViewModel() {
+class DetailsViewModel(
+    private val context: Context,
+    private val db: DatabaseHelper
+) : ViewModel() {
 
     val isImageFavorite = MutableLiveData<Boolean>()
 
@@ -30,6 +37,15 @@ class DetailsViewModel(private val context: Context,
         val gson = Gson()
         val toStoreObject = gson.toJson(commonPic)
         db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
+    }
+
+    fun imageSize(pic: CommonPic): Observable<Int> {
+        return Observable.fromCallable {
+            val url = URL(pic.fullHDURL)
+            return@fromCallable IOUtils.toByteArray(url.openStream()).size
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
 }

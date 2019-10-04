@@ -31,7 +31,6 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
-import com.google.android.gms.common.util.IOUtils
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
@@ -44,7 +43,6 @@ import org.koin.core.parameter.parametersOf
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.net.URL
 import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
@@ -232,25 +230,29 @@ class DetailsActivity : AppCompatActivity() {
                 .getString(R.string.jpg)
         )
 
-        imageSize()
-            .subscribe({
-                Picasso.with(this)
-                    .load(if (it < 9999999) pic?.fullHDURL else pic?.url)
-                    .placeholder(R.drawable.plh)
-                    .into(detailImageView, object : Callback {
-                        override fun onSuccess() {
-                            progressAnimationView?.hideAnimation()
-                        }
+        pic?.let { pic ->
+            val disposable = viewModel.imageSize(pic)
+                .subscribe({
+                    Picasso.with(this)
+                        .load(if (it < 9999999) pic.fullHDURL else pic.url)
+                        .placeholder(R.drawable.plh)
+                        .into(detailImageView, object : Callback {
+                            override fun onSuccess() {
+                                progressAnimationView?.hideAnimation()
+                            }
 
-                        override fun onError() {
-                            progressAnimationView?.hideAnimation()
-                            shortToast(getString(R.string.something_went_wrong))
-                        }
-                    })
+                            override fun onError() {
+                                progressAnimationView?.hideAnimation()
+                                shortToast(getString(R.string.something_went_wrong))
+                            }
+                        })
 
-            }, {
-                shortToast(getString(R.string.something_went_wrong))
-            })
+                }, {
+                    shortToast(getString(R.string.something_went_wrong))
+                })
+
+            DisposableManager.add(disposable)
+        }
 
         nameTextView.text = pic?.user
         downloadsTextView.text = pic?.downloads.toString()
@@ -277,15 +279,6 @@ class DetailsActivity : AppCompatActivity() {
         }
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         registerReceiver(downloadReceiver, filter)
-    }
-
-    private fun imageSize(): Observable<Int> {
-        return Observable.fromCallable {
-            val url = URL(pic?.fullHDURL)
-            return@fromCallable IOUtils.toByteArray(url.openStream()).size
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
