@@ -231,27 +231,43 @@ class DetailsActivity : AppCompatActivity() {
         )
 
         pic?.let { pic ->
-            val disposable = viewModel.imageSize(pic)
-                .subscribe({ size ->
-                    Picasso.with(this)
-                        .load(if (size < 9999999) pic.fullHDURL else pic.url)
-                        .placeholder(R.drawable.plh)
-                        .into(detailImageView, object : Callback {
-                            override fun onSuccess() {
-                                progressAnimationView?.hideAnimation()
-                            }
+            if (UtilityMethods.isNetworkAvailable) {
+                val disposable = viewModel.imageSize(pic)
+                    .subscribe({ size ->
+                        Picasso.with(this)
+                            .load(if (size < 9999999) pic.fullHDURL else pic.url)
+                            .placeholder(R.drawable.plh)
+                            .into(detailImageView, object : Callback {
+                                override fun onSuccess() {
+                                    progressAnimationView?.hideAnimation()
+                                }
 
-                            override fun onError() {
-                                progressAnimationView?.hideAnimation()
-                                shortToast(getString(R.string.something_went_wrong))
-                            }
-                        })
+                                override fun onError() {
+                                    progressAnimationView?.hideAnimation()
+                                    shortToast(getString(R.string.something_went_wrong))
+                                }
+                            })
 
-                }, {
-                    shortToast(getString(R.string.something_went_wrong))
-                })
+                    }, {
+                        shortToast(getString(R.string.something_went_wrong))
+                    })
 
-            DisposableManager.add(disposable)
+                DisposableManager.add(disposable)
+            } else {
+                Picasso.with(this)
+                    .load(pic.fullHDURL)
+                    .placeholder(R.drawable.plh)
+                    .into(detailImageView, object : Callback {
+                        override fun onSuccess() {
+                            progressAnimationView?.hideAnimation()
+                        }
+
+                        override fun onError() {
+                            progressAnimationView?.hideAnimation()
+                            shortToast(getString(R.string.something_went_wrong))
+                        }
+                    })
+            }
         }
 
         nameTextView.text = pic?.user

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
