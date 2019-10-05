@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.AndroidRuntimeException
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.URL
 import java.util.*
@@ -141,6 +143,20 @@ class DetailsViewModel(
                 context.shortToast(context.getString(R.string.something_went_wrong))
             }
             result
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getImageUri(bitmap: Bitmap): Observable<Uri> {
+        return Observable.fromCallable {
+            val bytes = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            val path = MediaStore.Images.Media.insertImage(
+                    context.contentResolver,
+                    bitmap, "Title", null
+            )
+            Uri.parse(path)
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

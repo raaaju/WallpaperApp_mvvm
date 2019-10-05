@@ -6,7 +6,6 @@ import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -28,13 +27,9 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
 
@@ -69,7 +64,6 @@ class DetailsActivity : AppCompatActivity() {
         viewModel = getViewModel { parametersOf() }
         progressAnimationView?.showAnimation()
         db = DatabaseHelper(this)
-
         editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE).edit()
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
 
@@ -116,13 +110,13 @@ class DetailsActivity : AppCompatActivity() {
             viewModel.getBitmapAsync(pic)?.subscribe({
                 val wallpaperManager = WallpaperManager.getInstance(baseContext)
                 it?.let { bitmap ->
-                    getImageUri(bitmap, applicationContext).subscribe({ uri ->
+                    viewModel.getImageUri(bitmap).subscribe({ uri ->
                         try {
                             startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
                         } catch (e: IllegalArgumentException) {
                             try {
                                 it.let { bitMap ->
-                                    getImageUri(bitMap, applicationContext)
+                                    viewModel.getImageUri(bitMap)
                                             .subscribe({ uri ->
                                                 val bitmap2 = MediaStore.Images.Media.getBitmap(
                                                         contentResolver,
@@ -150,20 +144,6 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         disposable?.let(DisposableManager::add)
-    }
-
-    private fun getImageUri(inImage: Bitmap, inContext: Context): Observable<Uri> {
-        return Observable.fromCallable {
-            val bytes = ByteArrayOutputStream()
-            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-            val path = MediaStore.Images.Media.insertImage(
-                inContext.contentResolver,
-                inImage, "Title", null
-            )
-            Uri.parse(path)
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
     @SuppressLint("CheckResult")
