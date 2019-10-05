@@ -6,6 +6,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.util.AndroidRuntimeException
@@ -22,9 +23,11 @@ import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.IOException
 import java.net.URL
 import java.util.*
 
@@ -125,6 +128,22 @@ class DetailsViewModel(
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
 
         downloadManager?.enqueue(request)
+    }
+
+    fun getBitmapAsync(pic: CommonPic): Observable<Bitmap?>? {
+        return Observable.fromCallable {
+            var result: Bitmap? = null
+            try {
+                result = Picasso.with(context.applicationContext)
+                        .load(pic.imageURL)
+                        .get()
+            } catch (e: IOException) {
+                context.shortToast(context.getString(R.string.something_went_wrong))
+            }
+            result
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun checkSavingPermission(permissionCheck: Int, activity: Activity) {

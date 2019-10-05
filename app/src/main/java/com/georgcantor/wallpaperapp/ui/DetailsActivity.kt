@@ -28,7 +28,6 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
-import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -37,7 +36,6 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
@@ -114,63 +112,44 @@ class DetailsActivity : AppCompatActivity() {
     private fun setWallAsync() {
         progressAnimationView?.showAnimation()
 
-        val disposable = getBitmapAsync()?.subscribe({
-            val wallpaperManager = WallpaperManager.getInstance(baseContext)
-            it?.let { bitmap ->
-                getImageUri(bitmap, applicationContext).subscribe({ uri ->
-                    try {
-                        startActivity(
-                            Intent(
-                                wallpaperManager.getCropAndSetWallpaperIntent(
-                                    uri
-                                )
-                            )
-                        )
-                    } catch (e: IllegalArgumentException) {
+        val disposable = pic?.let { pic ->
+            viewModel.getBitmapAsync(pic)?.subscribe({
+                val wallpaperManager = WallpaperManager.getInstance(baseContext)
+                it?.let { bitmap ->
+                    getImageUri(bitmap, applicationContext).subscribe({ uri ->
                         try {
-                            it.let { bitMap ->
-                                getImageUri(bitMap, applicationContext).subscribe({ uri ->
-                                    val bitmap2 = MediaStore.Images.Media.getBitmap(
-                                        contentResolver,
-                                        uri
-                                    )
-                                    WallpaperManager.getInstance(this@DetailsActivity)
-                                        .setBitmap(bitmap2)
-                                }, {
-                                    shortToast(getString(R.string.something_went_wrong))
-                                })
+                            startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
+                        } catch (e: IllegalArgumentException) {
+                            try {
+                                it.let { bitMap ->
+                                    getImageUri(bitMap, applicationContext)
+                                            .subscribe({ uri ->
+                                                val bitmap2 = MediaStore.Images.Media.getBitmap(
+                                                        contentResolver,
+                                                        uri
+                                                )
+                                                WallpaperManager.getInstance(this@DetailsActivity)
+                                                        .setBitmap(bitmap2)
+                                            }, {
+                                                shortToast(getString(R.string.something_went_wrong))
+                                            })
+                                }
+                            } catch (e: OutOfMemoryError) {
+                                shortToast(getString(R.string.something_went_wrong))
                             }
-                        } catch (e: OutOfMemoryError) {
-                            shortToast(getString(R.string.something_went_wrong))
                         }
-                    }
-                }, { throwable ->
-                    longToast(throwable.message.toString())
-                })
-            }
-            shortToast(getString(R.string.wallpaper_is_install))
-            recreate()
-        }, {
-            longToast(getString(R.string.something_went_wrong))
-        })
+                    }, { throwable ->
+                        longToast(throwable.message.toString())
+                    })
+                }
+                shortToast(getString(R.string.wallpaper_is_install))
+                recreate()
+            }, {
+                longToast(getString(R.string.something_went_wrong))
+            })
+        }
 
         disposable?.let(DisposableManager::add)
-    }
-
-    private fun getBitmapAsync(): Observable<Bitmap?>? {
-        return Observable.fromCallable {
-            var result: Bitmap? = null
-            try {
-                result = Picasso.with(applicationContext)
-                    .load(pic?.imageURL)
-                    .get()
-            } catch (e: IOException) {
-                shortToast(getString(R.string.something_went_wrong))
-            }
-            result
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun getImageUri(inImage: Bitmap, inContext: Context): Observable<Uri> {
