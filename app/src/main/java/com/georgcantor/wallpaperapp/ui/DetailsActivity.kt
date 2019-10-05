@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.AndroidRuntimeException
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -290,23 +289,11 @@ class DetailsActivity : AppCompatActivity() {
                     item.setIcon(R.drawable.ic_star_border)
                 }
             }
-            R.id.action_share -> share()
+            R.id.action_share -> pic?.url?.let(viewModel::share)
             R.id.action_download -> startDownloading()
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun share() {
-        try {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-            intent.putExtra(Intent.EXTRA_TEXT, pic?.url)
-            startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
-        } catch (e: AndroidRuntimeException) {
-            shortToast(getString(R.string.cant_share))
-        }
     }
 
     private fun startDownloading() {
