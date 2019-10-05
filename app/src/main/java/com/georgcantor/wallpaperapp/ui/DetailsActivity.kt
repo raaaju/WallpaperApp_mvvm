@@ -47,6 +47,7 @@ class DetailsActivity : AppCompatActivity() {
         const val EXTRA_PIC = "picture"
         const val PREF_BOOLEAN = "is_set_wall"
         const val MY_PREFS = "my_prefs"
+        const val SIZE_IN_BYTES = 9999999
     }
 
     private var pic: CommonPic? = null
@@ -231,7 +232,7 @@ class DetailsActivity : AppCompatActivity() {
                 val disposable = viewModel.imageSize(pic)
                     .subscribe({ size ->
                         loadImage(
-                                if (size < 9999999) pic.fullHDURL ?: "" else pic.url ?: "",
+                                if (size < SIZE_IN_BYTES) pic.fullHDURL ?: "" else pic.url ?: "",
                                 resources.getDrawable(R.drawable.plh),
                                 detailImageView,
                                 progressAnimationView
