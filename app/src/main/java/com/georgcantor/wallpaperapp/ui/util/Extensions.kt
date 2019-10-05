@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
@@ -64,9 +66,30 @@ fun Context.showDialog(
     dialog.show()
 }
 
-fun Context.loadImage(url: String, drawable: Drawable, view: ImageView) {
+fun Context.loadImage(url: String,
+                      drawable: Drawable,
+                      view: ImageView,
+                      animView: LottieAnimationView) {
+
     Picasso.with(this)
-        .load(url)
-        .placeholder(drawable)
-        .into(view)
+            .load(url)
+            .placeholder(drawable)
+            .into(view, object : Callback {
+                override fun onSuccess() {
+                    animView.hideAnimation()
+                }
+
+                override fun onError() {
+                    animView.hideAnimation()
+                    shortToast(getString(R.string.something_went_wrong))
+                }
+            })
+}
+
+fun Context.loadCircleImage(url: String, view: ImageView) {
+    Picasso.with(this)
+            .load(url)
+            .transform(CropCircleTransformation())
+            .placeholder(R.drawable.memb)
+            .into(view)
 }

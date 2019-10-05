@@ -31,12 +31,10 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.ui.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -234,54 +232,38 @@ class DetailsActivity : AppCompatActivity() {
             if (isNetworkAvailable()) {
                 val disposable = viewModel.imageSize(pic)
                     .subscribe({ size ->
-                        Picasso.with(this)
-                            .load(if (size < 9999999) pic.fullHDURL else pic.url)
-                            .placeholder(R.drawable.plh)
-                            .into(detailImageView, object : Callback {
-                                override fun onSuccess() {
-                                    progressAnimationView?.hideAnimation()
-                                }
-
-                                override fun onError() {
-                                    progressAnimationView?.hideAnimation()
-                                    shortToast(getString(R.string.something_went_wrong))
-                                }
-                            })
-
+                        loadImage(
+                                if (size < 9999999) pic.fullHDURL ?: "" else pic.url ?: "",
+                                resources.getDrawable(R.drawable.plh),
+                                detailImageView,
+                                progressAnimationView
+                        )
                     }, {
                         shortToast(getString(R.string.something_went_wrong))
                     })
 
                 DisposableManager.add(disposable)
             } else {
-                progressAnimationView?.hideAnimation()
                 longToast(getString(R.string.no_internet))
                 pic.fullHDURL?.let {
                     loadImage(
                         it,
                         resources.getDrawable(R.drawable.plh),
-                        detailImageView
+                        detailImageView,
+                        progressAnimationView
                     )
                 }
             }
-        }
 
+            loadCircleImage(
+                    if (pic.userImageURL?.isNotEmpty() == true) pic.userImageURL ?: "" else pic.url ?: "",
+                    userImageView
+            )
+        }
         nameTextView.text = pic?.user
         downloadsTextView.text = pic?.downloads.toString()
         favoritesTextView.text = pic?.favorites.toString()
-        if (!this.isNetworkAvailable()) {
-            Picasso.with(this)
-                .load(R.drawable.memb)
-                .transform(CropCircleTransformation())
-                .into(userImageView)
-        } else {
-            pic?.let {
-                Picasso.with(this)
-                    .load(if (it.userImageURL?.isNotEmpty() == true) it.userImageURL else it.url)
-                    .transform(CropCircleTransformation())
-                    .into(userImageView)
-            }
-        }
+
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         registerReceiver(downloadReceiver, filter)
     }
