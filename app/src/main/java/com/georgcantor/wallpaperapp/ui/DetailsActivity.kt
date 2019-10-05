@@ -20,7 +20,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -44,10 +43,10 @@ import java.util.*
 class DetailsActivity : AppCompatActivity() {
 
     companion object {
+        private const val SIZE_IN_BYTES = 9999999
         const val EXTRA_PIC = "picture"
         const val PREF_BOOLEAN = "is_set_wall"
         const val MY_PREFS = "my_prefs"
-        const val SIZE_IN_BYTES = 9999999
     }
 
     private var pic: CommonPic? = null
@@ -92,7 +91,7 @@ class DetailsActivity : AppCompatActivity() {
                 } else {
                     editor.putBoolean(PREF_BOOLEAN, true)
                     editor.apply()
-                    checkSavingPermission()
+                    viewModel.checkSavingPermission(permissionCheck, this)
                 }
             } else {
                 longToast(getString(R.string.no_internet))
@@ -308,18 +307,7 @@ class DetailsActivity : AppCompatActivity() {
                 pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
             }
         } else {
-            checkSavingPermission()
-        }
-    }
-
-    private fun checkSavingPermission() {
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            val requestCode = 102
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                requestCode
-            )
+            viewModel.checkSavingPermission(permissionCheck, this)
         }
     }
 

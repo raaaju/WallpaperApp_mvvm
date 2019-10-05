@@ -1,11 +1,15 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
+import android.Manifest
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import android.util.AndroidRuntimeException
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -121,6 +125,17 @@ class DetailsViewModel(
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
 
         downloadManager?.enqueue(request)
+    }
+
+    fun checkSavingPermission(permissionCheck: Int, activity: Activity) {
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            val requestCode = 102
+            ActivityCompat.requestPermissions(
+                    activity,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    requestCode
+            )
+        }
     }
 
 }
