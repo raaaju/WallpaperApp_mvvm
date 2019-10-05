@@ -13,6 +13,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.ui.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.gms.common.util.IOUtils
@@ -82,16 +83,12 @@ class DetailsViewModel(
         animationView.showAnimation()
         val uri = pic.imageURL
         val imageUri = Uri.parse(uri)
-
         val downloadReference: Long
-        val downloadManager =
-                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         var name = Environment.getExternalStorageDirectory().absolutePath
         name += "/YourDirectoryName/"
 
         val request = DownloadManager.Request(imageUri)
-
         try {
             request.setTitle(tags[0] + context.getString(R.string.down))
             request.setDescription(context.getString(R.string.down_wallpapers))
@@ -110,6 +107,20 @@ class DetailsViewModel(
         downloadReference = downloadManager.enqueue(request)
 
         return downloadReference
+    }
+
+    fun downloadPictureQ(url: String, animationView: LottieAnimationView) {
+        animationView.showAnimation()
+        val name = url.getImageNameFromUrl()
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                .setAllowedOverRoaming(false)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
+
+        downloadManager?.enqueue(request)
     }
 
 }

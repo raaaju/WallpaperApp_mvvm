@@ -16,7 +16,6 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -303,31 +302,13 @@ class DetailsActivity : AppCompatActivity() {
         }
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                downloadPictureQ(pic?.url ?: "")
+                pic?.url?.let { viewModel.downloadPictureQ(it, downloadAnimationView) }
             } else {
                 pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
             }
         } else {
             checkSavingPermission()
         }
-    }
-
-    private fun downloadPictureQ(url: String) {
-        downloadAnimationView?.visibility = View.VISIBLE
-        downloadAnimationView?.playAnimation()
-        downloadAnimationView?.loop(true)
-
-        val name = url.getImageNameFromUrl()
-
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
-        val request = DownloadManager.Request(Uri.parse(url))
-
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setAllowedOverRoaming(false)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
-
-        downloadManager?.enqueue(request)
     }
 
     private fun checkSavingPermission() {
