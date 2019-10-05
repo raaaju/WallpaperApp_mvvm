@@ -305,45 +305,11 @@ class DetailsActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 downloadPictureQ(pic?.url ?: "")
             } else {
-                downloadPicture()
+                pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
             }
         } else {
             checkSavingPermission()
         }
-    }
-
-    private fun downloadPicture(): Long {
-        downloadAnimationView?.showAnimation()
-        val uri = pic?.imageURL
-        val imageUri = Uri.parse(uri)
-
-        val downloadReference: Long
-        val downloadManager =
-            getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        var name = Environment.getExternalStorageDirectory().absolutePath
-        name += "/YourDirectoryName/"
-
-        val request = DownloadManager.Request(imageUri)
-
-        try {
-            request.setTitle(tags[0] + getString(R.string.down))
-            request.setDescription(getString(R.string.down_wallpapers))
-            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-                request.setDestinationInExternalPublicDir(
-                    "/" + resources
-                        .getString(R.string.app_name), pic?.id.toString() + resources
-                        .getString(R.string.jpg)
-                )
-            }
-        } catch (e: IllegalStateException) {
-            shortToast(getString(R.string.something_went_wrong))
-        } catch (e: IndexOutOfBoundsException) {
-            shortToast(getString(R.string.something_went_wrong))
-        }
-        downloadReference = downloadManager.enqueue(request)
-
-        return downloadReference
     }
 
     private fun downloadPictureQ(url: String) {
@@ -384,7 +350,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             val isSetWall = prefs.getBoolean(PREF_BOOLEAN, false)
-            if (isSetWall) setWallAsync() else downloadPicture()
+            if (isSetWall) setWallAsync() else pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
         } else {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS

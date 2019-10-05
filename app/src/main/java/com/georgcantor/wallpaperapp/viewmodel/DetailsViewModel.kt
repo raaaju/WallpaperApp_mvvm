@@ -1,21 +1,27 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Environment
 import android.util.AndroidRuntimeException
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.util.shortToast
+import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.net.URL
+import java.util.*
 
 class DetailsViewModel(
     private val context: Context,
@@ -66,6 +72,44 @@ class DetailsViewModel(
         } catch (e: AndroidRuntimeException) {
             context.shortToast(context.getString(R.string.cant_share))
         }
+    }
+
+    fun downloadPicture(
+            pic: CommonPic,
+            tags: ArrayList<String>,
+            animationView: LottieAnimationView
+    ): Long {
+        animationView.showAnimation()
+        val uri = pic.imageURL
+        val imageUri = Uri.parse(uri)
+
+        val downloadReference: Long
+        val downloadManager =
+                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+        var name = Environment.getExternalStorageDirectory().absolutePath
+        name += "/YourDirectoryName/"
+
+        val request = DownloadManager.Request(imageUri)
+
+        try {
+            request.setTitle(tags[0] + context.getString(R.string.down))
+            request.setDescription(context.getString(R.string.down_wallpapers))
+            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+                request.setDestinationInExternalPublicDir(
+                        "/" + context.resources
+                                .getString(R.string.app_name), pic.id.toString() + context.resources
+                        .getString(R.string.jpg)
+                )
+            }
+        } catch (e: IllegalStateException) {
+            context.shortToast(context.getString(R.string.something_went_wrong))
+        } catch (e: IndexOutOfBoundsException) {
+            context.shortToast(context.getString(R.string.something_went_wrong))
+        }
+        downloadReference = downloadManager.enqueue(request)
+
+        return downloadReference
     }
 
 }
