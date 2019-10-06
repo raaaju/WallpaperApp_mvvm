@@ -17,11 +17,10 @@ class FavoriteViewModel(
 ) : ViewModel() {
 
     fun getFavorites(): Observable<ArrayList<Favorite>> {
-        val db = DatabaseHelper(context)
-        val list: ArrayList<Favorite> = ArrayList()
-        list.addAll(db.allFavorites)
-
         return Observable.fromCallable {
+            val db = DatabaseHelper(context)
+            val list: ArrayList<Favorite> = ArrayList()
+            list.addAll(db.allFavorites)
             list
         }
             .subscribeOn(Schedulers.io())

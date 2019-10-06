@@ -30,6 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.io.InterruptedIOException
 import java.net.URL
 import java.util.*
 
@@ -61,7 +62,12 @@ class DetailsViewModel(
     fun imageSize(pic: CommonPic): Observable<Int> {
         return Observable.fromCallable {
             val url = URL(pic.fullHDURL)
-            return@fromCallable IOUtils.toByteArray(url.openStream()).size
+            var defaultSize = 0
+            try {
+                defaultSize = IOUtils.toByteArray(url.openStream()).size
+            } catch (e: InterruptedIOException) {
+            }
+            return@fromCallable defaultSize
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
