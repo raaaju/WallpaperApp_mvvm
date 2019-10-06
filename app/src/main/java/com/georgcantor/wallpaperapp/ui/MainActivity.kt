@@ -74,9 +74,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.frame_container, BmwFragment.newInstance(getString(R.string.bmw)))
                 .commit()
 
-        mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes))
-        bmwFragment = BmwFragment.newInstance("bmw")
-        audiFragment = AudiFragment.newInstance(getString(R.string.audi))
+        mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes_request))
+        bmwFragment = BmwFragment.newInstance(getString(R.string.bmw_request))
+        audiFragment = AudiFragment.newInstance(getString(R.string.audi_request))
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
         reviewFragment = ReviewFragment()

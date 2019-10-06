@@ -54,7 +54,6 @@
     <string name="widget">widget</string>
     <string name="image_jpg">image/jpg</string>
     <string name="mimeType">mimeType</string>
-    <string name="mercedes">Mercedes-Benz</string>
     <string name="allow_app_use_mic">Для голосовых запросов необходимо это разрешение. Разрешить?</string>
     <string name="press_back">Нажмите еще раз, чтобы выйти</string>
     <string name="try_my_other_app">Другие приложения разработчика:</string>

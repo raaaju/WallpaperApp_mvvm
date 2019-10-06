@@ -81,14 +81,17 @@
     <string name="audi_walp" translatable="false">Audi</string>
     <string name="bentley" translatable="false">Bentley</string>
     <string name="bmw" translatable="false">BMW</string>
+    <string name="bmw_request" translatable="false">bmw</string>
     <string name="bugatti_walp" translatable="false">Bugatti</string>
     <string name="mercedes" translatable="false">Mercedes-Benz</string>
+    <string name="mercedes_request" translatable="false">mercedes-benz</string>
     <string name="ferrari_walp" translatable="false">Ferrari</string>
     <string name="lambo_walp" translatable="false">Lamborghini</string>
     <string name="mclaren" translatable="false">McLaren</string>
     <string name="porsche_walp" translatable="false">Porsche</string>
     <string name="porsche" translatable="false">Porsche</string>
     <string name="audi" translatable="false">Audi</string>
+    <string name="audi_request" translatable="false">audi</string>
     <string name="bugatti" translatable="false">Bugatti</string>
     <string name="lamborghini" translatable="false">Lamborghini</string>
     <string name="ferrari" translatable="false">Ferrari</string>

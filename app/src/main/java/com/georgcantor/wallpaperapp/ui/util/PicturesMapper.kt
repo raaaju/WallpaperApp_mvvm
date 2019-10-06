@@ -97,9 +97,8 @@ class PicturesMapper {
                             )
                     )
             }
-            val shuffledList = pictures.shuffled()
 
-            return shuffledList as ArrayList<CommonPic>
+            return pictures.shuffled() as ArrayList<CommonPic>
         }
 
         fun convertResponse(hits: List<Hit>): ArrayList<CommonPic> {
