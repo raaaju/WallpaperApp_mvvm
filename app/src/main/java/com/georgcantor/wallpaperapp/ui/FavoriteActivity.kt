@@ -42,13 +42,17 @@ class FavoriteActivity : AppCompatActivity() {
         adapter = FavoriteAdapter(this)
         favRecyclerView.adapter = adapter
 
-        val disposable = viewModel.getFavorites()
-            .subscribe(adapter::setFavList) {
-                shortToast(getString(R.string.something_went_wrong))
-            }
-        DisposableManager.add(disposable)
-
         viewModel.isEmptyAnimVisible(emptyAnimationView)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyItemRangeRemoved(0, db.allFavorites.size)
+        val disposable = viewModel.getFavorites()
+                .subscribe(adapter::setFavList) {
+                    shortToast(getString(R.string.something_went_wrong))
+                }
+        DisposableManager.add(disposable)
     }
 
     override fun onBackPressed() {

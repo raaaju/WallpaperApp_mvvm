@@ -17,7 +17,7 @@ import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.showDialog
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import java.util.ArrayList
+import java.util.*
 
 class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
@@ -30,8 +30,15 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
     }
 
     fun setFavList(strings: MutableList<Favorite>) {
+        clearPicList()
         this.favorites?.addAll(strings)
         notifyDataSetChanged()
+    }
+
+    private fun clearPicList() {
+        val size = favorites?.size
+        favorites?.clear()
+        size?.let { notifyItemRangeRemoved(0, it) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
