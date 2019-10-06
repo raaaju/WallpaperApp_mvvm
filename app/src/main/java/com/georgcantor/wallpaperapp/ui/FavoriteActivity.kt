@@ -47,7 +47,6 @@ class FavoriteActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        adapter.notifyItemRangeRemoved(0, db.allFavorites.size)
         val disposable = viewModel.getFavorites()
                 .subscribe(adapter::setFavList) {
                     shortToast(getString(R.string.something_went_wrong))
