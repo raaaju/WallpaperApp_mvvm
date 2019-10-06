@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.model.remote
 
 import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.MyApplication
+import com.georgcantor.wallpaperapp.model.AuthInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,6 +26,7 @@ object ApiClient {
         val okHttpClient = OkHttpClient().newBuilder()
                 .addNetworkInterceptor(ResponseCacheInterceptor())
                 .addInterceptor(OfflineResponseCacheInterceptor())
+                .addInterceptor(AuthInterceptor())
                 .cache(Cache(File(MyApplication.instance?.cacheDir,
                         "ResponsesCache"), (10 * 1024 * 1024).toLong()))
                 .connectTimeout(20, TimeUnit.SECONDS)

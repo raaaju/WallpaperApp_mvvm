@@ -4,6 +4,7 @@ import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
+import com.georgcantor.wallpaperapp.model.pexels.Photo
 import com.georgcantor.wallpaperapp.model.unsplash.Result
 
 class PicturesMapper {
@@ -13,7 +14,8 @@ class PicturesMapper {
         fun mergeResponses(
             hits: List<Hit>,
             results: List<Result>,
-            walls: List<Wallpaper>
+            walls: List<Wallpaper>,
+            photos: List<Photo>
         ): ArrayList<CommonPic> {
 
             val pictures = ArrayList<CommonPic>()
@@ -75,6 +77,25 @@ class PicturesMapper {
                         it.userImageURL
                     )
                 )
+            }
+
+            photos.map {
+                    pictures.add(
+                            CommonPic(
+                                    it.src.takeIf { it != null }?.medium,
+                                    it.width,
+                                    it.height,
+                                    217,
+                                    328,
+                                    "auto, automobile",
+                                    3846,
+                                    it.src.takeIf { it != null }?.original,
+                                    it.src.takeIf { it != null }?.large,
+                                    it.photographer,
+                                    it.id,
+                                    it.src.takeIf { it != null }?.small
+                            )
+                    )
             }
 
             return pictures

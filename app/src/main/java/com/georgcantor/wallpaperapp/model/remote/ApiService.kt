@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.model.remote
 import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
+import com.georgcantor.wallpaperapp.model.pexels.PhotoResponse
 import com.georgcantor.wallpaperapp.model.unsplash.UnsplashResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -27,4 +28,9 @@ interface ApiService {
                          @Query("term") term: String,
                          @Query("page") page: Int): Observable<AbyssResponse>
 
+    @GET
+    fun getPexelsPictures(@Url url: String,
+                          @Query("query") query: String,
+                          @Query("per_page") count: Int,
+                          @Query("page") page: Int): Observable<PhotoResponse>
 }

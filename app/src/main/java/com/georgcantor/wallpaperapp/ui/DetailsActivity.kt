@@ -181,8 +181,7 @@ class DetailsActivity : AppCompatActivity() {
             Environment.getExternalStoragePublicDirectory(
                 "/" + resources
                     .getString(R.string.app_name)
-            ), pic?.id.toString() + resources
-                .getString(R.string.jpg)
+            ), pic?.id.toString() + resources.getString(R.string.jpg)
         )
 
         pic?.let { pic ->

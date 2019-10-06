@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.repository
 import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.model.Pic
 import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
+import com.georgcantor.wallpaperapp.model.pexels.PhotoResponse
 import com.georgcantor.wallpaperapp.model.remote.ApiService
 import com.georgcantor.wallpaperapp.model.unsplash.UnsplashResponse
 import io.reactivex.Observable
@@ -25,5 +26,8 @@ class ApiRepository(private val apiService: ApiService) {
                     query,
                     page
             )
+
+    fun getPexelsPictures(query: String, page: Int): Observable<PhotoResponse> =
+            apiService.getPexelsPictures(BuildConfig.PEXELS_URL, query, 15, page)
 
 }
