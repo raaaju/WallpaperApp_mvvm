@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -49,16 +48,7 @@ class FavoriteActivity : AppCompatActivity() {
             }
         DisposableManager.add(disposable)
 
-        toggleEmptyHistory()
-    }
-
-    private fun toggleEmptyHistory() {
-        if (db.historyCount > 0) {
-            emptyAnimationView.visibility = View.GONE
-        } else {
-            emptyAnimationView.visibility = View.VISIBLE
-            emptyAnimationView.playAnimation()
-        }
+        viewModel.isEmptyAnimVisible(emptyAnimationView)
     }
 
     override fun onBackPressed() {
