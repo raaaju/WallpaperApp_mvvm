@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
@@ -33,6 +34,13 @@ class FavoriteViewModel(
         } else {
             animationView.visibility = View.VISIBLE
             animationView.playAnimation()
+        }
+    }
+
+    fun deleteAll(activity: Activity) {
+        if (db.historyCount > 0) {
+            db.deleteAll()
+            activity.recreate()
         }
     }
 

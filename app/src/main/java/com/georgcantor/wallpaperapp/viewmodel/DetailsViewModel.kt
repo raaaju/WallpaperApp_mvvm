@@ -62,12 +62,12 @@ class DetailsViewModel(
     fun imageSize(pic: CommonPic): Observable<Int> {
         return Observable.fromCallable {
             val url = URL(pic.fullHDURL)
-            var defaultSize = 0
+            var size = 0
             try {
-                defaultSize = IOUtils.toByteArray(url.openStream()).size
+                size = IOUtils.toByteArray(url.openStream()).size
             } catch (e: InterruptedIOException) {
             }
-            return@fromCallable defaultSize
+            return@fromCallable size
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

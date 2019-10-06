@@ -81,10 +81,7 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun deleteAll() {
-        if (db.historyCount > 0) {
-            db.deleteAll()
-            this.recreate()
-        }
+        viewModel.deleteAll(this)
     }
 
     override fun onDestroy() {
