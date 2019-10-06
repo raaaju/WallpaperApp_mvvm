@@ -12,7 +12,7 @@
     <string name="no_internet">Hет интернет соединения</string>
     <string name="something_went_wrong">Что-то пошло не так…</string>
     <string name="not_found">Ничего не найдено:(</string>
-    <string name="wallpaper_is_install">Обои установлены</string>
+    <string name="wallpaper_is_install">Устанавливаем…</string>
     <string name="navigation">navigation drawer</string>
     <string name="detail_image">detail image</string>
     <string name="explore_item">Category item</string>
@@ -49,7 +49,7 @@
 
     <string name="Set_As">Установить как</string>
     <string name="down_wallpapers">Загружается из 4K Wallpapers</string>
-    <string name="down_complete">.jpg Download Complete</string>
+    <string name="down_complete">.jpg Сохранено</string>
     <string name="down">.jpg Download</string>
     <string name="widget">widget</string>
     <string name="image_jpg">image/jpg</string>

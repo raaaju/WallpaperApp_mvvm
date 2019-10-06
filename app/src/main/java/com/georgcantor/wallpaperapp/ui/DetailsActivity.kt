@@ -136,7 +136,7 @@ class DetailsActivity : AppCompatActivity() {
                         longToast(throwable.message.toString())
                     })
                 }
-                shortToast(getString(R.string.wallpaper_is_install))
+                longToast(getString(R.string.wallpaper_is_install))
                 recreate()
             }, {
                 longToast(getString(R.string.something_went_wrong))
