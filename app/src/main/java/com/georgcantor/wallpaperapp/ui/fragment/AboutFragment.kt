@@ -29,7 +29,7 @@ class AboutFragment : Fragment() {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"
         private const val NEWS_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.vipnews&hl=en"
         private const val MUSIC_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.player"
-        const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
+        private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
     }
 
     override fun onCreateView(
