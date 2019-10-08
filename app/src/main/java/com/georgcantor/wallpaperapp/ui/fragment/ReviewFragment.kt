@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.AboutActivity.Companion.FONT_PATH
 import com.georgcantor.wallpaperapp.ui.util.hideAnimation
 import com.georgcantor.wallpaperapp.ui.util.longToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
@@ -23,6 +22,7 @@ class ReviewFragment : Fragment() {
     companion object {
         private const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         private const val RATING = "rating"
+        private const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
     }
 
     private var rating: Int = 0

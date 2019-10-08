@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
     private lateinit var reviewFragment: Fragment
+    private lateinit var aboutFragment: Fragment
 
     private lateinit var bundle: Bundle
     private var doubleTap = false
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
         reviewFragment = ReviewFragment()
+        aboutFragment = AboutFragment()
 
         bundle = Bundle()
 
@@ -235,9 +237,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_about -> {
-                val intentAbout = Intent(this, AboutActivity::class.java)
-                this.startActivity(intentAbout)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                openFragment(aboutFragment, "about")
             }
             R.id.nav_rate_us -> {
                 openFragment(reviewFragment, getString(R.string.review))

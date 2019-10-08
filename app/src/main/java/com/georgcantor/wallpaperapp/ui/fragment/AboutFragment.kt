@@ -1,23 +1,29 @@
-package com.georgcantor.wallpaperapp.ui
+package com.georgcantor.wallpaperapp.ui.fragment
 
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.about_header.*
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.card_info.*
-import kotlinx.android.synthetic.main.card_music_app.*
-import kotlinx.android.synthetic.main.card_new_app.*
-import kotlinx.android.synthetic.main.content_about.*
+import kotlinx.android.synthetic.main.about_header.aboutHeaderDescription
+import kotlinx.android.synthetic.main.activity_about.aboutAppBar
+import kotlinx.android.synthetic.main.activity_about.aboutFab
+import kotlinx.android.synthetic.main.card_info.infoCardView
+import kotlinx.android.synthetic.main.card_info.infoTextView
+import kotlinx.android.synthetic.main.card_music_app.playerAppCardView
+import kotlinx.android.synthetic.main.card_new_app.newsAppCardView
+import kotlinx.android.synthetic.main.content_about.developedByTextView
+import kotlinx.android.synthetic.main.content_about.tryAppTextView
+import kotlinx.android.synthetic.main.content_about.welcomeAnimationView
 
-class AboutActivity : AppCompatActivity() {
+class AboutFragment : Fragment() {
 
     companion object {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916&hl=en"
@@ -26,13 +32,14 @@ class AboutActivity : AppCompatActivity() {
         const val FONT_PATH = "fonts/Montserrat-Regular.ttf"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.activity_about, container, false)
 
-        setSupportActionBar(aboutToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         welcomeAnimationView.showAnimation()
 
@@ -54,7 +61,7 @@ class AboutActivity : AppCompatActivity() {
             }
         })
 
-        val assetManager = this.applicationContext.assets
+        val assetManager = requireActivity().assets
         val typeface = Typeface.createFromAsset(assetManager, FONT_PATH)
 
         aboutHeaderDescription.typeface = typeface
@@ -75,18 +82,6 @@ class AboutActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun sendEmail() {
         val value = arrayOf(getString(R.string.email))
         val emailIntent = Intent(Intent.ACTION_SEND)
@@ -97,15 +92,9 @@ class AboutActivity : AppCompatActivity() {
 
         try {
             startActivity(Intent.createChooser(emailIntent, getString(R.string.message_choose_title)))
-            finish()
         } catch (ex: android.content.ActivityNotFoundException) {
-            shortToast(getString(R.string.no_email_client))
+            context?.shortToast(getString(R.string.no_email_client))
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
 }
