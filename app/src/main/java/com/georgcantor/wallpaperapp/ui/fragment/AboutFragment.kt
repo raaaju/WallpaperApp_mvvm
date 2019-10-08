@@ -14,7 +14,6 @@ import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.about_header.aboutHeaderDescription
 import kotlinx.android.synthetic.main.fragment_about.aboutAppBar
-import kotlinx.android.synthetic.main.fragment_about.aboutFab
 import kotlinx.android.synthetic.main.card_info.infoCardView
 import kotlinx.android.synthetic.main.card_info.infoTextView
 import kotlinx.android.synthetic.main.card_music_app.playerAppCardView
@@ -22,6 +21,7 @@ import kotlinx.android.synthetic.main.card_new_app.newsAppCardView
 import kotlinx.android.synthetic.main.content_about.developedByTextView
 import kotlinx.android.synthetic.main.content_about.tryAppTextView
 import kotlinx.android.synthetic.main.content_about.welcomeAnimationView
+import kotlinx.android.synthetic.main.fragment_about.sendFab
 
 class AboutFragment : Fragment() {
 
@@ -40,10 +40,11 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         welcomeAnimationView.showAnimation()
 
-        aboutFab.setOnClickListener { sendEmail() }
+        sendFab.setOnClickListener {
+            sendEmail()
+        }
 
         aboutAppBar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             var isShow = false
@@ -85,7 +86,6 @@ class AboutFragment : Fragment() {
     private fun sendEmail() {
         val value = arrayOf(getString(R.string.email))
         val emailIntent = Intent(Intent.ACTION_SEND)
-
         emailIntent.data = Uri.parse("mail to: ")
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, value)

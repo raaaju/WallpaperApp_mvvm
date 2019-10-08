@@ -66,24 +66,26 @@ fun Context.showDialog(
     dialog.show()
 }
 
-fun Context.loadImage(url: String,
-                      drawable: Drawable,
-                      view: ImageView,
-                      animView: LottieAnimationView) {
+fun Context.loadImage(
+    url: String,
+    drawable: Drawable,
+    view: ImageView,
+    animView: LottieAnimationView
+) {
 
     Picasso.with(this)
-            .load(url)
-            .placeholder(drawable)
-            .into(view, object : Callback {
-                override fun onSuccess() {
-                    animView.hideAnimation()
-                }
+        .load(url)
+        .placeholder(drawable)
+        .into(view, object : Callback {
+            override fun onSuccess() {
+                animView.hideAnimation()
+            }
 
-                override fun onError() {
-                    animView.hideAnimation()
-                    shortToast(getString(R.string.something_went_wrong))
-                }
-            })
+            override fun onError() {
+                animView.hideAnimation()
+                shortToast(getString(R.string.something_went_wrong))
+            }
+        })
 }
 
 fun Context.loadCircleImage(url: String, view: ImageView) {
