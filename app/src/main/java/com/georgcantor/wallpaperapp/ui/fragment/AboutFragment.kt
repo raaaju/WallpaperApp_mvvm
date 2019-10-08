@@ -13,8 +13,8 @@ import com.georgcantor.wallpaperapp.ui.util.shortToast
 import com.georgcantor.wallpaperapp.ui.util.showAnimation
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.about_header.aboutHeaderDescription
-import kotlinx.android.synthetic.main.activity_about.aboutAppBar
-import kotlinx.android.synthetic.main.activity_about.aboutFab
+import kotlinx.android.synthetic.main.fragment_about.aboutAppBar
+import kotlinx.android.synthetic.main.fragment_about.aboutFab
 import kotlinx.android.synthetic.main.card_info.infoCardView
 import kotlinx.android.synthetic.main.card_info.infoTextView
 import kotlinx.android.synthetic.main.card_music_app.playerAppCardView
@@ -36,7 +36,7 @@ class AboutFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.activity_about, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_about, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
