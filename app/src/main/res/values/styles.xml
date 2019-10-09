@@ -40,8 +40,8 @@
     </style>
 
     <style name="NavigationViewTheme" >
-        <item name="android:listDivider">@color/colorDetailPrimary</item>
-        <item name="android:textColorSecondary">@color/colorDetailPrimary</item>
+        <item name="android:listDivider">@color/colorDetailBackground</item>
+        <item name="android:textColorSecondary">@color/off_white</item>
     </style>
 
 </resources>
