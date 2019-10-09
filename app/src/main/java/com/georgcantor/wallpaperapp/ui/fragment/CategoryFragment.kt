@@ -8,13 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
-import com.georgcantor.wallpaperapp.util.DisposableManager
-import com.georgcantor.wallpaperapp.util.HideNavScrollListener
-import com.georgcantor.wallpaperapp.util.UtilityMethods
-import com.georgcantor.wallpaperapp.util.hideAnimation
-import com.georgcantor.wallpaperapp.util.isNetworkAvailable
-import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.showAnimation
+import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_category.*
@@ -58,7 +52,7 @@ class CategoryFragment : Fragment() {
         val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
         categoryRecyclerView.adapter = categoryAdapter
 
-        val disposable = viewModel.getCategories()
+        val disposable = viewModel.getAllCategories()
             .retry(3)
             .doOnSubscribe {
                 animationView?.showAnimation()

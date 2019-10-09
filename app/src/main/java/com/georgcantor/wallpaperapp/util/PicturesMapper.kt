@@ -151,6 +151,34 @@ class PicturesMapper {
             return categories
         }
 
+        fun mergeCategories2(
+                hits: List<Hit>,
+                hits2: List<Hit>,
+                hits3: List<Hit>,
+                hits4: List<Hit>,
+                hits5: List<Hit>,
+                hits6: List<Hit>,
+                hits7: List<Hit>,
+                hits8: List<Hit>
+        ): ArrayList<Category> {
+
+            val categories = ArrayList<Category>()
+
+            categories.add(Category("Computer", hits[0].webformatURL))
+            categories.add(Category("Feelings", hits2[0].webformatURL))
+            categories.add(Category("Food", hits3[0].webformatURL))
+            categories.add(Category("Health", hits4[0].webformatURL))
+            categories.add(Category("People", hits5[0].webformatURL))
+            categories.add(Category("Places", hits6[0].webformatURL))
+            categories.add(Category("Science", hits7[0].webformatURL))
+            categories.add(Category("Sports", hits8[0].webformatURL))
+
+            return categories
+        }
+
+        fun mergeCategories(categories: List<Category>,
+                            categories2: List<Category>): List<Category> = categories.plus(categories2)
+
     }
 
 }
