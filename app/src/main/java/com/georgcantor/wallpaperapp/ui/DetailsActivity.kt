@@ -226,17 +226,18 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fav, menu)
+        val starItem = menu.findItem(R.id.action_add_to_fav)
         db?.let {
             if (it.containFav(pic?.url.toString())) {
-                menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp)
+                starItem.setIcon(R.drawable.ic_star_red_24dp)
             }
         }
+        pic?.let { viewModel.doubleClickDetect(detailImageView, it, starItem) }
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        pic?.let { viewModel.doubleClickDetect(detailImageView, it, item) }
-
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_add_to_fav -> {
