@@ -265,9 +265,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         } else {
-            try {
-                super.onBackPressed()
-            } catch (e: IllegalStateException) {
+            when {
+                drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(
+                    GravityCompat.START
+                )
+                else -> {
+                    try {
+                        super.onBackPressed()
+                    } catch (e: IllegalStateException) {
+                    }
+                }
             }
         }
     }
