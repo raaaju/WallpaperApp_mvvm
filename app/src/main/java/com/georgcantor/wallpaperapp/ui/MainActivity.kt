@@ -237,7 +237,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_about -> {
-                openFragment(aboutFragment, "about")
+                openFragment(aboutFragment, getString(R.string.about))
             }
             R.id.nav_rate_us -> {
                 openFragment(reviewFragment, getString(R.string.review))

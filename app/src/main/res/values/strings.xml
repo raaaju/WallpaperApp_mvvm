@@ -97,6 +97,7 @@
     <string name="ferrari" translatable="false">Ferrari</string>
     <string name="rolls" translatable="false">Rolls-Royce</string>
     <string name="review" translatable="false">review</string>
+    <string name="about" translatable="false">about</string>
 
     <string name="search">Search</string>
     <string name="type_and_search">Type and Search</string>
