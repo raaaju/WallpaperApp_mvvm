@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.util
 
+import android.animation.Animator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -17,6 +18,27 @@ fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
     this.playAnimation()
     this.loop(true)
+}
+
+fun LottieAnimationView.showSingleAnimation() {
+    val animation = this
+    this.visibility = View.VISIBLE
+    this.playAnimation()
+    this.repeatCount = 0
+    this.addAnimatorListener(object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(p0: Animator?) {
+        }
+
+        override fun onAnimationEnd(p0: Animator?) {
+            animation.visibility = View.GONE
+        }
+
+        override fun onAnimationCancel(p0: Animator?) {
+        }
+
+        override fun onAnimationStart(p0: Animator?) {
+        }
+    })
 }
 
 fun LottieAnimationView.hideAnimation() {

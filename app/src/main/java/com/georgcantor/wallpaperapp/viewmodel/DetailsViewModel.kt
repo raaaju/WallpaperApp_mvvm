@@ -16,7 +16,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
@@ -25,6 +24,7 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showAnimation
+import com.georgcantor.wallpaperapp.util.showSingleAnimation
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -44,15 +44,20 @@ class DetailsViewModel(
     private val db: DatabaseHelper
 ) : ViewModel() {
 
-    fun setFavoriteStatus(pic: CommonPic, menuItem: MenuItem) {
+    fun setFavoriteStatus(
+            pic: CommonPic,
+            menuItem: MenuItem,
+            starAnimation: LottieAnimationView,
+            unStarAnimation: LottieAnimationView
+    ) {
         if (db.containFav(pic.url.toString())) {
             db.deleteFromFavorites(pic.url.toString())
-            context.shortToast(context.getString(R.string.del_from_fav_toast))
             menuItem.setIcon(R.drawable.ic_star_border)
+            unStarAnimation.showSingleAnimation()
         } else {
             addToFavorites(pic.url.toString(), pic.imageURL.toString(), pic)
-            context.shortToast(context.getString(R.string.add_to_fav_toast))
             menuItem.setIcon(R.drawable.ic_star_red_24dp)
+            starAnimation.showSingleAnimation()
         }
     }
 
@@ -63,7 +68,13 @@ class DetailsViewModel(
     }
 
     @SuppressLint("CheckResult")
-    fun doubleClickDetect(view: View, pic: CommonPic, menuItem: MenuItem) {
+    fun doubleClickDetect(
+            view: View,
+            pic: CommonPic,
+            menuItem: MenuItem,
+            starAnimation: LottieAnimationView,
+            unStarAnimation: LottieAnimationView
+    ) {
         val publishSubject = PublishSubject.create<Int>()
         publishSubject
             .buffer(publishSubject.debounce(200, TimeUnit.MILLISECONDS))
@@ -71,7 +82,7 @@ class DetailsViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                setFavoriteStatus(pic, menuItem)
+                setFavoriteStatus(pic, menuItem, starAnimation, unStarAnimation)
             }
         view.setOnClickListener {
             publishSubject.onNext(0)

@@ -27,6 +27,22 @@
                 android:orientation="vertical">
 
                 <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/unstarAnimationView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:lottie_fileName="unstar.json" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/starAnimationView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:lottie_fileName="star.json" />
+
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/progressAnimationView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

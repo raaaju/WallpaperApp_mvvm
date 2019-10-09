@@ -9,7 +9,7 @@ android {
         Wallpapers {
             keyAlias 'key0'
             keyPassword 'cupsmana16'
-//            storeFile file('D:/Alex/wallpapers.jks')
+            storeFile file('D:/Alex/wallpapers.jks')
             storePassword 'cupsmana16'
         }
     }

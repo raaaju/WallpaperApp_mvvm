@@ -232,7 +232,7 @@ class DetailsActivity : AppCompatActivity() {
                 starItem.setIcon(R.drawable.ic_star_red_24dp)
             }
         }
-        pic?.let { viewModel.doubleClickDetect(detailImageView, it, starItem) }
+        pic?.let { viewModel.doubleClickDetect(detailImageView, it, starItem, starAnimationView, unstarAnimationView) }
 
         return true
     }
@@ -241,7 +241,7 @@ class DetailsActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_add_to_fav -> {
-                pic?.let { viewModel.setFavoriteStatus(it, item) }
+                pic?.let { viewModel.setFavoriteStatus(it, item, starAnimationView, unstarAnimationView) }
             }
             R.id.action_share -> pic?.url?.let(viewModel::share)
             R.id.action_download -> startDownloading()
