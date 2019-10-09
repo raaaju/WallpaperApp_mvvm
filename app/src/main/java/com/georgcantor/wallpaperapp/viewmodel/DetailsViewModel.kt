@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
@@ -11,6 +12,8 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.AndroidRuntimeException
+import android.view.MenuItem
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
@@ -28,28 +31,28 @@ import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InterruptedIOException
 import java.net.URL
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class DetailsViewModel(
     private val context: Context,
     private val db: DatabaseHelper
 ) : ViewModel() {
 
-    val isImageFavorite = MutableLiveData<Boolean>()
-
-    fun setFavoriteStatus(pic: CommonPic) {
+    fun setFavoriteStatus(pic: CommonPic, menuItem: MenuItem) {
         if (db.containFav(pic.url.toString())) {
             db.deleteFromFavorites(pic.url.toString())
             context.shortToast(context.getString(R.string.del_from_fav_toast))
-            isImageFavorite.value = false
+            menuItem.setIcon(R.drawable.ic_star_border)
         } else {
             addToFavorites(pic.url.toString(), pic.imageURL.toString(), pic)
             context.shortToast(context.getString(R.string.add_to_fav_toast))
-            isImageFavorite.value = true
+            menuItem.setIcon(R.drawable.ic_star_red_24dp)
         }
     }
 
@@ -57,6 +60,22 @@ class DetailsViewModel(
         val gson = Gson()
         val toStoreObject = gson.toJson(commonPic)
         db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
+    }
+
+    @SuppressLint("CheckResult")
+    fun doubleClickDetect(view: View, pic: CommonPic, menuItem: MenuItem) {
+        val publishSubject = PublishSubject.create<Int>()
+        publishSubject
+            .buffer(publishSubject.debounce(200, TimeUnit.MILLISECONDS))
+            .filter { list -> list.size > 1 }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                setFavoriteStatus(pic, menuItem)
+            }
+        view.setOnClickListener {
+            publishSubject.onNext(0)
+        }
     }
 
     fun imageSize(pic: CommonPic): Observable<Int> {

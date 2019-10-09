@@ -231,25 +231,20 @@ class DetailsActivity : AppCompatActivity() {
                 menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp)
             }
         }
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        pic?.let { viewModel.doubleClickDetect(detailImageView, it, item) }
+
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_add_to_fav -> {
-                pic?.let(viewModel::setFavoriteStatus)
-                if (viewModel.isImageFavorite.value == true) {
-                    item.setIcon(R.drawable.ic_star_red_24dp)
-                } else {
-                    item.setIcon(R.drawable.ic_star_border)
-                }
+                pic?.let { viewModel.setFavoriteStatus(it, item) }
             }
             R.id.action_share -> pic?.url?.let(viewModel::share)
             R.id.action_download -> startDownloading()
         }
-
         return super.onOptionsItemSelected(item)
     }
 
