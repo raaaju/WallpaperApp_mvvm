@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.georgcantor.wallpaperapp.ui.util.DynamicHeightImageView
+    <com.georgcantor.wallpaperapp.util.DynamicHeightImageView
         android:id="@+id/favoriteImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

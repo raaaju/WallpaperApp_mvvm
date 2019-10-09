@@ -11,7 +11,7 @@ import com.georgcantor.wallpaperapp.model.pexels.PhotoResponse
 import com.georgcantor.wallpaperapp.model.unsplash.Result
 import com.georgcantor.wallpaperapp.model.unsplash.UnsplashResponse
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.ui.util.PicturesMapper
+import com.georgcantor.wallpaperapp.util.PicturesMapper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4

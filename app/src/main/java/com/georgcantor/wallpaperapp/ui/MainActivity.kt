@@ -17,9 +17,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showDialog
+import com.georgcantor.wallpaperapp.util.DisposableManager
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.showDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateInfo

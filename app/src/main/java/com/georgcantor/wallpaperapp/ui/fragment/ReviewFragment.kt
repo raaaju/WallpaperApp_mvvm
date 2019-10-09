@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.util.hideAnimation
-import com.georgcantor.wallpaperapp.ui.util.longToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.util.hideAnimation
+import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.util.showAnimation
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_review.*

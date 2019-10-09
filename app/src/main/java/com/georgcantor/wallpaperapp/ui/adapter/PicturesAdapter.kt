@@ -11,7 +11,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.ui.DetailsActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.PictureViewHolder
-import com.georgcantor.wallpaperapp.ui.util.longToast
+import com.georgcantor.wallpaperapp.util.longToast
 import com.squareup.picasso.Picasso
 import java.util.*
 

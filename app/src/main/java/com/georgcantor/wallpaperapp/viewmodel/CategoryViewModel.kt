@@ -6,7 +6,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.model.Hit
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.ui.util.PicturesMapper
+import com.georgcantor.wallpaperapp.util.PicturesMapper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function8

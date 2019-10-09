@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.util
+package com.georgcantor.wallpaperapp.util
 
 import android.content.ContentUris
 import android.content.Context

@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
-import com.georgcantor.wallpaperapp.ui.util.DisposableManager
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showDialog
+import com.georgcantor.wallpaperapp.util.DisposableManager
+import com.georgcantor.wallpaperapp.util.UtilityMethods
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel

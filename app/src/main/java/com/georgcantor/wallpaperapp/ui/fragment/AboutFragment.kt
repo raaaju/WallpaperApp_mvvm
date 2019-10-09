@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.showAnimation
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.about_header.aboutHeaderDescription
 import kotlinx.android.synthetic.main.fragment_about.aboutAppBar

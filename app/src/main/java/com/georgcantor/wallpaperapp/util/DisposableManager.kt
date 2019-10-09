@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.util
+package com.georgcantor.wallpaperapp.util
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

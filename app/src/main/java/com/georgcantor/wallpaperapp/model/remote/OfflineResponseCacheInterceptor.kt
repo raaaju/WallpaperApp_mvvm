@@ -1,6 +1,6 @@
 package com.georgcantor.wallpaperapp.model.remote
 
-import com.georgcantor.wallpaperapp.ui.util.UtilityMethods
+import com.georgcantor.wallpaperapp.util.UtilityMethods
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException

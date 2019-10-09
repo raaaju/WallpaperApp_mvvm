@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.util
+package com.georgcantor.wallpaperapp.util
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

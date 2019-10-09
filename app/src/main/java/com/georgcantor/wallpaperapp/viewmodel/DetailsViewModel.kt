@@ -19,9 +19,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.ui.util.getImageNameFromUrl
-import com.georgcantor.wallpaperapp.ui.util.shortToast
-import com.georgcantor.wallpaperapp.ui.util.showAnimation
+import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.showAnimation
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso

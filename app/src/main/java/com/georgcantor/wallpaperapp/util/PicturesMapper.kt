@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.util
+package com.georgcantor.wallpaperapp.util
 
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.model.CommonPic

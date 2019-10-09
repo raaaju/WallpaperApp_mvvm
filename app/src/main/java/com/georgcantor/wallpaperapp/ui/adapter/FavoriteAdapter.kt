@@ -13,8 +13,8 @@ import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.DetailsActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.FavoriteViewHolder
-import com.georgcantor.wallpaperapp.ui.util.longToast
-import com.georgcantor.wallpaperapp.ui.util.showDialog
+import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.util.showDialog
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import java.util.*
