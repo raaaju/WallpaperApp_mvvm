@@ -17,8 +17,6 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-
         initializeSSLContext(this)
 
         startKoin {
@@ -38,12 +36,6 @@ class MyApplication : Application() {
         } catch (e: GooglePlayServicesRepairableException) {
         } catch (e: GooglePlayServicesNotAvailableException) {
         }
-    }
-
-    companion object {
-        @get:Synchronized
-        var instance: MyApplication? = null
-            private set
     }
 
 }

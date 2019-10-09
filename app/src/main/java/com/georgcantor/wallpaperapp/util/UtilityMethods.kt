@@ -4,24 +4,13 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.res.Configuration
 import android.database.Cursor
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import com.georgcantor.wallpaperapp.MyApplication
 
 object UtilityMethods {
-
-    val isNetworkAvailable: Boolean
-        get() {
-            val connectivityManager =
-                MyApplication.instance?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-            return connectivityManager.activeNetworkInfo != null
-                    && connectivityManager.activeNetworkInfo?.isConnected ?: false
-        }
 
     fun getScreenSize(context: Context): Int {
         val screenSize =

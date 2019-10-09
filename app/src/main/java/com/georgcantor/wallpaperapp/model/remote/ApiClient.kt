@@ -1,7 +1,7 @@
 package com.georgcantor.wallpaperapp.model.remote
 
+import android.content.Context
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.model.AuthInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -16,7 +16,7 @@ object ApiClient {
 
     private lateinit var retrofit: Retrofit
 
-    fun create(): ApiService {
+    fun create(context: Context): ApiService {
 
         if (BuildConfig.DEBUG) {
             val logging = HttpLoggingInterceptor()
@@ -25,9 +25,9 @@ object ApiClient {
 
         val okHttpClient = OkHttpClient().newBuilder()
                 .addNetworkInterceptor(ResponseCacheInterceptor())
-                .addInterceptor(OfflineResponseCacheInterceptor())
+                .addInterceptor(OfflineResponseCacheInterceptor(context))
                 .addInterceptor(AuthInterceptor())
-                .cache(Cache(File(MyApplication.instance?.cacheDir,
+                .cache(Cache(File(context.cacheDir,
                         "ResponsesCache"), (10 * 1024 * 1024).toLong()))
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -42,14 +42,6 @@ object ApiClient {
             .build()
 
         return retrofit.create(ApiService::class.java)
-    }
-
-    fun get(): ApiService {
-        return if (ApiClient::retrofit.isInitialized) {
-            retrofit.create(ApiService::class.java)
-        } else {
-            create()
-        }
     }
 
 }

@@ -1,17 +1,18 @@
 package com.georgcantor.wallpaperapp.model.remote
 
-import com.georgcantor.wallpaperapp.util.UtilityMethods
+import android.content.Context
+import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
-class OfflineResponseCacheInterceptor : Interceptor {
+class OfflineResponseCacheInterceptor(private val context: Context) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
 
-        if (!UtilityMethods.isNetworkAvailable) {
+        if (!context.isNetworkAvailable()) {
             request = request.newBuilder()
                     .removeHeader("Pragma")
                     .header("Cache-Control", "public, only-if-cached, max-stale=" + 2419200)

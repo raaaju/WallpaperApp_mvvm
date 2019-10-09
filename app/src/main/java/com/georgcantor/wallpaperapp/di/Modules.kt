@@ -31,5 +31,5 @@ val viewModelModule = module {
 }
 
 val appModule = module {
-    single { ApiClient.create() }
+    single { ApiClient.create(get()) }
 }
