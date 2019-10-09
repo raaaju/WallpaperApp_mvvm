@@ -36,6 +36,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private lateinit var viewModel: SearchViewModel
+    private lateinit var manager: InputMethodManager
     lateinit var adapter: PicturesAdapter
     private var index = 1
 
@@ -51,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.requestFocus()
         searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
                 adapter.clearPicList()
                 search(searchEditText.text.toString().trim { it <= ' ' }, index)
@@ -71,7 +72,6 @@ class SearchActivity : AppCompatActivity() {
             finish()
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
         }
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun initViews() {
@@ -135,6 +135,7 @@ class SearchActivity : AppCompatActivity() {
             R.id.action_cancel -> {
                 viewModel.isSearchingActive.value = false
                 recreate()
+                manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
             R.id.action_voice_search -> checkPermission()
             else -> {
