@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,7 +14,11 @@ import com.georgcantor.wallpaperapp.ui.DetailsActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
 import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<PictureViewHolder>() {
 
@@ -34,17 +39,23 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
         size?.let { notifyItemRangeRemoved(0, it) }
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.picture_item, null)
         val wallpViewHolder = PictureViewHolder(itemView)
 
-        itemView.setOnClickListener {
-            val activity = context as Activity
-            val position = wallpViewHolder.adapterPosition
-            val intent = Intent(context, DetailsActivity::class.java)
-            try {
-                intent.putExtra(DetailsActivity.EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
-                    CommonPic(
+        val publishSubject = PublishSubject.create<Int>()
+        publishSubject
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val activity = context as Activity
+                val position = wallpViewHolder.adapterPosition
+                val intent = Intent(context, DetailsActivity::class.java)
+                try {
+                    intent.putExtra(DetailsActivity.EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
+                        CommonPic(
                             url = commonPics[position].url,
                             width = commonPics[position].width,
                             heght = height,
@@ -56,13 +67,17 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                             fullHDURL = commonPics[position].fullHDURL,
                             user = commonPics[position].user,
                             userImageURL = commonPics[position].userImageURL
-                    )
-                })
-            } catch (e: ArrayIndexOutOfBoundsException) {
-                context.longToast(context.getString(R.string.something_went_wrong))
+                        )
+                    })
+                } catch (e: ArrayIndexOutOfBoundsException) {
+                    context.longToast(context.getString(R.string.something_went_wrong))
+                }
+                context.startActivity(intent)
+                activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            context.startActivity(intent)
-            activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+
+        itemView.setOnClickListener {
+            publishSubject.onNext(0)
         }
 
         return wallpViewHolder
