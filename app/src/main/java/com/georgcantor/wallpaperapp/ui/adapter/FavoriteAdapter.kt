@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -17,7 +18,11 @@ import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
@@ -47,6 +52,7 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
         return FavoriteViewHolder(itemView)
     }
 
+    @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val favorite = favorites?.get(position)
         val hitJson = favorite?.hit
@@ -54,30 +60,39 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
         val gson = Gson()
         val pic = gson.fromJson(hitJson, CommonPic::class.java)
 
-        holder.imageView.setOnClickListener {
-            val intent = Intent(context, DetailsActivity::class.java)
-            try {
-                intent.putExtra(
-                    DetailsActivity.EXTRA_PIC,
-                    CommonPic(
-                        url = pic.url,
-                        width = pic.width,
-                        heght = pic.heght,
-                        likes = pic.likes,
-                        favorites = pic.favorites,
-                        tags = pic.tags,
-                        downloads = pic.downloads,
-                        imageURL = pic.imageURL,
-                        fullHDURL = pic.fullHDURL,
-                        user = pic.user,
-                        userImageURL = pic.userImageURL
+        val publishSubject = PublishSubject.create<Int>()
+        publishSubject
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val intent = Intent(context, DetailsActivity::class.java)
+                try {
+                    intent.putExtra(
+                        DetailsActivity.EXTRA_PIC,
+                        CommonPic(
+                            url = pic.url,
+                            width = pic.width,
+                            heght = pic.heght,
+                            likes = pic.likes,
+                            favorites = pic.favorites,
+                            tags = pic.tags,
+                            downloads = pic.downloads,
+                            imageURL = pic.imageURL,
+                            fullHDURL = pic.fullHDURL,
+                            user = pic.user,
+                            userImageURL = pic.userImageURL
+                        )
                     )
-                )
-            } catch (e: ArrayIndexOutOfBoundsException) {
-                context.longToast(context.getString(R.string.something_went_wrong))
+                } catch (e: ArrayIndexOutOfBoundsException) {
+                    context.longToast(context.getString(R.string.something_went_wrong))
+                }
+                context.startActivity(intent)
+                activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
-            context.startActivity(intent)
-            activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+
+        holder.imageView.setOnClickListener {
+            publishSubject.onNext(0)
         }
 
         holder.imageView.setOnLongClickListener {
