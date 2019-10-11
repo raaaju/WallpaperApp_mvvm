@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.util
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -9,8 +10,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
@@ -88,6 +93,7 @@ fun Context.showDialog(
     dialog.show()
 }
 
+@SuppressLint("CheckResult")
 fun Context.loadImage(
     url: String,
     drawable: Drawable,
@@ -95,19 +101,34 @@ fun Context.loadImage(
     animView: LottieAnimationView
 ) {
 
-    Picasso.with(this)
+    Glide.with(this)
         .load(url)
         .placeholder(drawable)
-        .into(view, object : Callback {
-            override fun onSuccess() {
-                animView.hideAnimation()
-            }
-
-            override fun onError() {
+        .thumbnail(0.1f)
+        .listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any,
+                target: Target<Drawable>,
+                isFirstResource: Boolean
+            ): Boolean {
                 animView.hideAnimation()
                 shortToast(getString(R.string.something_went_wrong))
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable,
+                model: Any,
+                target: Target<Drawable>,
+                dataSource: DataSource,
+                isFirstResource: Boolean
+            ): Boolean {
+                animView.hideAnimation()
+                return false
             }
         })
+        .into(view)
 }
 
 fun Context.loadCircleImage(url: String, view: ImageView) {

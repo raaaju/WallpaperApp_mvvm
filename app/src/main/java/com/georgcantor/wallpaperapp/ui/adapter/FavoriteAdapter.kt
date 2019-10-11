@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
@@ -113,9 +114,10 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
         holder.imageView.layoutParams = layoutParams
         holder.imageView.setRatio(ratio)
 
-        Picasso.with(context)
+        Glide.with(context)
             .load(pic.url)
             .placeholder(R.drawable.plh)
+            .thumbnail(0.1f)
             .into(holder.imageView)
     }
 

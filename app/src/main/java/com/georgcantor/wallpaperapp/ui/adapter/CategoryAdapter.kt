@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
@@ -44,10 +45,11 @@ class CategoryAdapter(private val context: Context,
         val category = categoryList?.get(position)
         holder.categoryName.text = category?.categoryName
 
-        Picasso.with(context)
-                .load(category?.categoryUrl)
-                .placeholder(R.drawable.plh)
-                .into(holder.categoryImage)
+        Glide.with(context)
+            .load(category?.categoryUrl)
+            .thumbnail(0.1f)
+            .placeholder(R.drawable.plh)
+            .into(holder.categoryImage)
     }
 
     override fun getItemCount(): Int = categoryList?.size ?: 0
