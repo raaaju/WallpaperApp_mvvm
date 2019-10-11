@@ -50,6 +50,7 @@
     <string name="Set_As">Установить как</string>
     <string name="down_wallpapers">Загружается из 4K Wallpapers</string>
     <string name="down_complete">.jpg Сохранено</string>
+    <string name="set_wall_complete">Обои установлены</string>
     <string name="down">.jpg Download</string>
     <string name="widget">widget</string>
     <string name="image_jpg">image/jpg</string>

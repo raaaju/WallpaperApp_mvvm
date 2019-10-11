@@ -122,8 +122,7 @@ class DetailsActivity : AppCompatActivity() {
                                                         contentResolver,
                                                         uri
                                                 )
-                                                WallpaperManager.getInstance(this@DetailsActivity)
-                                                        .setBitmap(bitmap2)
+                                                viewModel.setBitmapAsync(bitmap2, this)
                                             }, {
                                                 shortToast(getString(R.string.something_went_wrong))
                                             })
@@ -139,7 +138,7 @@ class DetailsActivity : AppCompatActivity() {
                 longToast(getString(R.string.wallpaper_is_install))
                 recreate()
             }, {
-                longToast(getString(R.string.something_went_wrong))
+                shortToast(getString(R.string.something_went_wrong))
             })
         }
 

@@ -18,8 +18,9 @@
     <string name="user_name">"Bild bereitgestellt von "</string>
     <string name="choose_format">"Wählen Sie eine Bildauflösung "</string>
     <string name="Animals">Tiere</string>
-    <string name="wallpaper_is_install">Die Hintergrundinstallation wurde erfolgreich abgeschlossen</string>
+    <string name="wallpaper_is_install">Hintergrundbild wird eingestellt</string>
     <string name="down_complete">.jpg Download abgeschlossen</string>
+    <string name="set_wall_complete">Hintergrundbild-Setup abgeschlossen</string>
 
     <string name="Textures">"Texturen "</string>
     <string name="Architecture">Die Architektur</string>

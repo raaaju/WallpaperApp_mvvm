@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DownloadManager
+import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -29,6 +30,7 @@ import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -116,7 +118,6 @@ class DetailsViewModel(
                     null
                 )
         } catch (e: AndroidRuntimeException) {
-            context.shortToast(context.getString(R.string.cant_share))
         }
     }
 
@@ -145,9 +146,7 @@ class DetailsViewModel(
                 )
             }
         } catch (e: IllegalStateException) {
-            context.shortToast(context.getString(R.string.something_went_wrong))
         } catch (e: IndexOutOfBoundsException) {
-            context.shortToast(context.getString(R.string.something_went_wrong))
         }
         downloadReference = downloadManager.enqueue(request)
 
@@ -176,7 +175,6 @@ class DetailsViewModel(
                         .load(pic.imageURL)
                         .get()
             } catch (e: IOException) {
-                context.shortToast(context.getString(R.string.something_went_wrong))
             }
             result
         }
@@ -196,6 +194,26 @@ class DetailsViewModel(
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun setBitmapAsync(bitmap: Bitmap, activity: Activity) {
+        Single.fromCallable {
+            WallpaperManager.getInstance(context)
+                .setBitmap(bitmap)
+        }
+            .doOnSuccess {
+                activity.runOnUiThread {
+                    context.shortToast(context.getString(R.string.set_wall_complete))
+                }
+            }
+            .onErrorReturn {
+                activity.runOnUiThread {
+                    context.shortToast(context.getString(R.string.something_went_wrong))
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
     }
 
     fun checkSavingPermission(permissionCheck: Int, activity: Activity) {
