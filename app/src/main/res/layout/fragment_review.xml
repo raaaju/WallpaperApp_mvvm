@@ -49,28 +49,48 @@
                 app:layout_constraintTop_toBottomOf="@+id/markTextView" />
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/cryAnimationView"
+                android:id="@+id/rating5AnimationView"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="84dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-                app:lottie_fileName="cry.json"
+                app:layout_constraintTop_toBottomOf="@+id/addReviewButton"
+                app:lottie_fileName="5smile.json"
                 tools:visibility="visible" />
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/joyAnimationView"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_centerInParent="true"
+                android:id="@+id/rating4AnimationView"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/markTextView"
-                app:lottie_fileName="joy.json"
+                app:layout_constraintTop_toBottomOf="@+id/addReviewButton"
+                app:lottie_fileName="4smile.json"
+                tools:visibility="visible" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/rating3AnimationView"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addReviewButton"
+                app:lottie_fileName="3smile.json"
+                tools:visibility="visible" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/rating2AnimationView"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addReviewButton"
+                app:lottie_fileName="2smile.json"
                 tools:visibility="visible" />
 
             <Button

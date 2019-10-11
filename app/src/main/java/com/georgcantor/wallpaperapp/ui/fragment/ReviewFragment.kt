@@ -47,16 +47,37 @@ class ReviewFragment : Fragment() {
             rating = ratingNumber.toInt()
 
             addReviewButton.visibility = if (rating > 0) View.VISIBLE else View.GONE
-            if (rating in 1..3) {
-                cryAnimationView?.showAnimation()
-            } else {
-                cryAnimationView?.hideAnimation()
-            }
-
-            if (rating > 3) {
-                joyAnimationView?.showAnimation()
-            } else {
-                joyAnimationView?.hideAnimation()
+            when (rating) {
+                1 -> {
+                    rating2AnimationView?.showAnimation()
+                    rating3AnimationView?.hideAnimation()
+                    rating4AnimationView?.hideAnimation()
+                    rating5AnimationView?.hideAnimation()
+                }
+                2 -> {
+                    rating2AnimationView?.showAnimation()
+                    rating3AnimationView?.hideAnimation()
+                    rating4AnimationView?.hideAnimation()
+                    rating5AnimationView?.hideAnimation()
+                }
+                3 -> {
+                    rating3AnimationView?.showAnimation()
+                    rating2AnimationView?.hideAnimation()
+                    rating4AnimationView?.hideAnimation()
+                    rating5AnimationView?.hideAnimation()
+                }
+                4 -> {
+                    rating4AnimationView?.showAnimation()
+                    rating3AnimationView?.hideAnimation()
+                    rating2AnimationView?.hideAnimation()
+                    rating5AnimationView?.hideAnimation()
+                }
+                5 -> {
+                    rating5AnimationView?.showAnimation()
+                    rating3AnimationView?.hideAnimation()
+                    rating2AnimationView?.hideAnimation()
+                    rating4AnimationView?.hideAnimation()
+                }
             }
         }
 
