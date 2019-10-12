@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.unsplash
+package com.georgcantor.wallpaperapp.model.data.unsplash
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

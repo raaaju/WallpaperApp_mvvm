@@ -2,14 +2,14 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.georgcantor.wallpaperapp.model.CommonPic
-import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
-import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
-import com.georgcantor.wallpaperapp.model.pexels.Photo
-import com.georgcantor.wallpaperapp.model.pexels.PhotoResponse
-import com.georgcantor.wallpaperapp.model.unsplash.Result
-import com.georgcantor.wallpaperapp.model.unsplash.UnsplashResponse
+import com.georgcantor.wallpaperapp.model.data.CommonPic
+import com.georgcantor.wallpaperapp.model.data.pixabay.Hit
+import com.georgcantor.wallpaperapp.model.data.abyss.AbyssResponse
+import com.georgcantor.wallpaperapp.model.data.abyss.Wallpaper
+import com.georgcantor.wallpaperapp.model.data.pexels.Photo
+import com.georgcantor.wallpaperapp.model.data.pexels.PhotoResponse
+import com.georgcantor.wallpaperapp.model.data.unsplash.Result
+import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.PicturesMapper
 import io.reactivex.Observable

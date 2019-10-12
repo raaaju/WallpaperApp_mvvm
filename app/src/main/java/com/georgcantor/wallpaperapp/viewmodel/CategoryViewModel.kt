@@ -3,8 +3,8 @@ package com.georgcantor.wallpaperapp.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.Category
-import com.georgcantor.wallpaperapp.model.Hit
+import com.georgcantor.wallpaperapp.model.data.Category
+import com.georgcantor.wallpaperapp.model.data.pixabay.Hit
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.PicturesMapper
 import io.reactivex.Observable

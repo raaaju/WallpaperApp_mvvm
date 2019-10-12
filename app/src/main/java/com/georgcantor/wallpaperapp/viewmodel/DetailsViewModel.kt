@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.CommonPic
+import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.util.shortToast

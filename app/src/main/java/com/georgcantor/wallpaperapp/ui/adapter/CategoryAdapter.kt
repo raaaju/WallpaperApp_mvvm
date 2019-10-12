@@ -9,10 +9,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.Category
+import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
-import com.squareup.picasso.Picasso
 import java.util.*
 
 class CategoryAdapter(private val context: Context,

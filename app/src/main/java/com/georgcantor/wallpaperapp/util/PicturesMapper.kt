@@ -1,21 +1,21 @@
 package com.georgcantor.wallpaperapp.util
 
-import com.georgcantor.wallpaperapp.model.Category
-import com.georgcantor.wallpaperapp.model.CommonPic
-import com.georgcantor.wallpaperapp.model.Hit
-import com.georgcantor.wallpaperapp.model.abyss.Wallpaper
-import com.georgcantor.wallpaperapp.model.pexels.Photo
-import com.georgcantor.wallpaperapp.model.unsplash.Result
+import com.georgcantor.wallpaperapp.model.data.Category
+import com.georgcantor.wallpaperapp.model.data.CommonPic
+import com.georgcantor.wallpaperapp.model.data.pixabay.Hit
+import com.georgcantor.wallpaperapp.model.data.abyss.Wallpaper
+import com.georgcantor.wallpaperapp.model.data.pexels.Photo
+import com.georgcantor.wallpaperapp.model.data.unsplash.Result
 
 class PicturesMapper {
 
     companion object {
 
         fun mergeResponses(
-            hits: List<Hit>,
-            results: List<Result>,
-            walls: List<Wallpaper>,
-            photos: List<Photo>
+                hits: List<Hit>,
+                results: List<Result>,
+                walls: List<Wallpaper>,
+                photos: List<Photo>
         ): ArrayList<CommonPic> {
 
             val pictures = ArrayList<CommonPic>()
@@ -23,59 +23,59 @@ class PicturesMapper {
             results.map {
                 it.urls.takeUnless { urls ->
                     pictures.add(
-                        CommonPic(
-                            urls?.small,
-                            it.width ?: 0,
-                            it.height ?: 0,
-                            it.likes ?: 365,
-                            542,
-                            "car, auto",
-                            5923,
-                            urls?.full,
-                            urls?.regular,
-                            "George Smith",
-                            it.hashCode(),
-                            urls?.thumb
-                        )
+                            CommonPic(
+                                    urls?.small,
+                                    it.width ?: 0,
+                                    it.height ?: 0,
+                                    it.likes ?: 365,
+                                    542,
+                                    "car, auto",
+                                    5923,
+                                    urls?.full,
+                                    urls?.regular,
+                                    "George Smith",
+                                    it.hashCode(),
+                                    urls?.thumb
+                            )
                     )
                 }
             }
 
             walls.map {
                 pictures.add(
-                    CommonPic(
-                        it.urlThumb,
-                        it.width?.toInt() ?: 0,
-                        it.height?.toInt() ?: 0,
-                        481,
-                        542,
-                        "car, auto",
-                        4245,
-                        it.urlImage,
-                        it.urlImage,
-                        "Mike Antony",
-                        it.id?.toInt() ?: it.hashCode(),
-                        it.urlThumb
-                    )
+                        CommonPic(
+                                it.urlThumb,
+                                it.width?.toInt() ?: 0,
+                                it.height?.toInt() ?: 0,
+                                481,
+                                542,
+                                "car, auto",
+                                4245,
+                                it.urlImage,
+                                it.urlImage,
+                                "Mike Antony",
+                                it.id?.toInt() ?: it.hashCode(),
+                                it.urlThumb
+                        )
                 )
             }
 
             hits.map {
                 pictures.add(
-                    CommonPic(
-                        it.webformatURL,
-                        it.imageWidth,
-                        it.imageHeight,
-                        it.likes,
-                        it.favorites,
-                        it.tags,
-                        it.downloads,
-                        it.imageURL,
-                        it.webformatURL,
-                        it.user,
-                        it.id,
-                        it.userImageURL
-                    )
+                        CommonPic(
+                                it.webformatURL,
+                                it.imageWidth,
+                                it.imageHeight,
+                                it.likes,
+                                it.favorites,
+                                it.tags,
+                                it.downloads,
+                                it.imageURL,
+                                it.webformatURL,
+                                it.user,
+                                it.id,
+                                it.userImageURL
+                        )
                 )
             }
 
@@ -106,20 +106,20 @@ class PicturesMapper {
 
             hits.map {
                 pictures.add(
-                    CommonPic(
-                        it.webformatURL,
-                        it.imageWidth,
-                        it.imageHeight,
-                        it.likes,
-                        it.favorites,
-                        it.tags,
-                        it.downloads,
-                        it.imageURL,
-                        it.webformatURL,
-                        it.user,
-                        it.id,
-                        it.userImageURL
-                    )
+                        CommonPic(
+                                it.webformatURL,
+                                it.imageWidth,
+                                it.imageHeight,
+                                it.likes,
+                                it.favorites,
+                                it.tags,
+                                it.downloads,
+                                it.imageURL,
+                                it.webformatURL,
+                                it.user,
+                                it.id,
+                                it.userImageURL
+                        )
                 )
             }
 

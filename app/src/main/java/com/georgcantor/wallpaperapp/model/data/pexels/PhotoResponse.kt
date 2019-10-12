@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.pexels
+package com.georgcantor.wallpaperapp.model.data.pexels
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

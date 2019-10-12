@@ -10,7 +10,7 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.CommonPic
+import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.ui.DetailsActivity
@@ -18,7 +18,6 @@ import com.georgcantor.wallpaperapp.ui.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -71,19 +70,19 @@ class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<Favor
                 try {
                     intent.putExtra(
                         DetailsActivity.EXTRA_PIC,
-                        CommonPic(
-                            url = pic.url,
-                            width = pic.width,
-                            heght = pic.heght,
-                            likes = pic.likes,
-                            favorites = pic.favorites,
-                            tags = pic.tags,
-                            downloads = pic.downloads,
-                            imageURL = pic.imageURL,
-                            fullHDURL = pic.fullHDURL,
-                            user = pic.user,
-                            userImageURL = pic.userImageURL
-                        )
+                            CommonPic(
+                                    url = pic.url,
+                                    width = pic.width,
+                                    heght = pic.heght,
+                                    likes = pic.likes,
+                                    favorites = pic.favorites,
+                                    tags = pic.tags,
+                                    downloads = pic.downloads,
+                                    imageURL = pic.imageURL,
+                                    fullHDURL = pic.fullHDURL,
+                                    user = pic.user,
+                                    userImageURL = pic.userImageURL
+                            )
                     )
                 } catch (e: ArrayIndexOutOfBoundsException) {
                     context.longToast(context.getString(R.string.something_went_wrong))

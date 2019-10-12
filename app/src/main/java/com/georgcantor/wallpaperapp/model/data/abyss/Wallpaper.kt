@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.abyss
+package com.georgcantor.wallpaperapp.model.data.abyss
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

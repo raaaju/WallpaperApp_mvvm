@@ -1,11 +1,11 @@
 package com.georgcantor.wallpaperapp.repository
 
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
-import com.georgcantor.wallpaperapp.model.pexels.PhotoResponse
+import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
+import com.georgcantor.wallpaperapp.model.data.abyss.AbyssResponse
+import com.georgcantor.wallpaperapp.model.data.pexels.PhotoResponse
 import com.georgcantor.wallpaperapp.model.remote.ApiService
-import com.georgcantor.wallpaperapp.model.unsplash.UnsplashResponse
+import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import io.reactivex.Observable
 
 class ApiRepository(private val apiService: ApiService) {

@@ -1,10 +1,10 @@
 package com.georgcantor.wallpaperapp.model.remote
 
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.model.Pic
-import com.georgcantor.wallpaperapp.model.abyss.AbyssResponse
-import com.georgcantor.wallpaperapp.model.pexels.PhotoResponse
-import com.georgcantor.wallpaperapp.model.unsplash.UnsplashResponse
+import com.georgcantor.wallpaperapp.model.data.abyss.AbyssResponse
+import com.georgcantor.wallpaperapp.model.data.pexels.PhotoResponse
+import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
+import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

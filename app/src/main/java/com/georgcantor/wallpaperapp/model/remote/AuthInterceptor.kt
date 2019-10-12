@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model
+package com.georgcantor.wallpaperapp.model.remote
 
 import com.georgcantor.wallpaperapp.BuildConfig
 import okhttp3.Interceptor

@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model;
+package com.georgcantor.wallpaperapp.model.data.pixabay;
 
 import android.os.Parcel;
 import android.os.Parcelable;
