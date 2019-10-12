@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.util.DisposableManager
+import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -135,22 +136,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun goToGooglePlay() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
         finish()
-    }
-
-    private fun openFragment(fragment: Fragment, tag: String) {
-        val transaction = supportFragmentManager.beginTransaction()
-        if (fragment == brandFragment) transaction.remove(fragment)
-
-        val lastIndex = supportFragmentManager.fragments.lastIndex
-        val current = supportFragmentManager.fragments[lastIndex]
-
-        if (fragment == current && fragment != brandFragment) {
-            return
-        } else {
-            transaction.replace(R.id.frame_container, fragment)
-            transaction.addToBackStack(tag)
-            transaction.commit()
-        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {

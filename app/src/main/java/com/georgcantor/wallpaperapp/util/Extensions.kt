@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -16,8 +18,26 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+
+fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
+    val brandFragment = CarBrandFragment()
+    val transaction = supportFragmentManager.beginTransaction()
+    if (fragment == brandFragment) transaction.remove(fragment)
+
+    val lastIndex = supportFragmentManager.fragments.lastIndex
+    val current = supportFragmentManager.fragments[lastIndex]
+
+    if (fragment == current && fragment != brandFragment) {
+        return
+    } else {
+        transaction.replace(R.id.frame_container, fragment)
+        transaction.addToBackStack(tag)
+        transaction.commit()
+    }
+}
 
 fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
