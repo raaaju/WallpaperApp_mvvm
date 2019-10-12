@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         private const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
+        private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
     }
 
     override fun onStateUpdate(installState: InstallState) {
@@ -50,7 +51,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
     private lateinit var reviewFragment: Fragment
-    private lateinit var aboutFragment: Fragment
 
     private lateinit var bundle: Bundle
     private var doubleTap = false
@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
         reviewFragment = ReviewFragment()
-        aboutFragment = AboutFragment()
 
         bundle = Bundle()
 
@@ -222,7 +221,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_about -> {
-                openFragment(aboutFragment, getString(R.string.about))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL)))
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
                 openFragment(reviewFragment, getString(R.string.review))
