@@ -27,6 +27,10 @@ class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHol
         this.tags?.let {
             val tag = it[position]
             holder.tag.text = tag
+
+            holder.tag.setOnClickListener {
+
+            }
         }
     }
 

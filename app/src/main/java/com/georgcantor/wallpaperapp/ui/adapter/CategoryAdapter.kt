@@ -4,18 +4,17 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
+import com.georgcantor.wallpaperapp.util.openFragment
 import java.util.*
 
-class CategoryAdapter(private val context: Context,
-                      private val fragmentManager: FragmentManager) : RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     private val categoryList: MutableList<Category>?
 
@@ -26,6 +25,7 @@ class CategoryAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
         val viewHolder = CategoryViewHolder(itemView)
+        val activity = context as AppCompatActivity
 
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
@@ -34,7 +34,7 @@ class CategoryAdapter(private val context: Context,
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
-            openFragment(fragment)
+            activity.openFragment(fragment, categoryList?.get(position)?.categoryName ?: "")
         }
 
         return viewHolder
@@ -59,14 +59,6 @@ class CategoryAdapter(private val context: Context,
             this.categoryList?.addAll(categories)
             notifyDataSetChanged()
         }
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        val transaction = fragmentManager.beginTransaction()
-        transaction.remove(fragment)
-        transaction.replace(R.id.frame_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
 }

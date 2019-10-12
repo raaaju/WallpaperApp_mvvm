@@ -23,14 +23,13 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
-    val brandFragment = CarBrandFragment()
     val transaction = supportFragmentManager.beginTransaction()
-    if (fragment == brandFragment) transaction.remove(fragment)
+    if (fragment is CarBrandFragment) transaction.remove(fragment)
 
     val lastIndex = supportFragmentManager.fragments.lastIndex
     val current = supportFragmentManager.fragments[lastIndex]
 
-    if (fragment == current && fragment != brandFragment) {
+    if (fragment == current && fragment !is CarBrandFragment) {
         return
     } else {
         transaction.replace(R.id.frame_container, fragment)
