@@ -127,26 +127,26 @@ class PicturesMapper {
         }
 
         fun mergeCategories(
-                hits: List<Hit>,
-                hits2: List<Hit>,
-                hits3: List<Hit>,
-                hits4: List<Hit>,
-                hits5: List<Hit>,
-                hits6: List<Hit>,
-                hits7: List<Hit>,
-                hits8: List<Hit>
+                hits:  List<Result>,
+                hits2:  List<Result>,
+                hits3:  List<Result>,
+                hits4:  List<Result>,
+                hits5:  List<Result>,
+                hits6:  List<Result>,
+                hits7:  List<Result>,
+                hits8:  List<Result>
         ): ArrayList<Category> {
 
             val categories = ArrayList<Category>()
 
-            categories.add(Category("Animals", hits[0].webformatURL))
-            categories.add(Category("Textures", hits2[0].webformatURL))
-            categories.add(Category("Buildings", hits3[0].webformatURL))
-            categories.add(Category("Nature", hits4[0].webformatURL))
-            categories.add(Category("Music", hits5[0].webformatURL))
-            categories.add(Category("Travel", hits6[0].webformatURL))
-            categories.add(Category("Business", hits7[0].webformatURL))
-            categories.add(Category("Fashion", hits8[0].webformatURL))
+            hits[0].urls.takeIf { it != null }?.regular?.let { Category("Animals", it) }?.let(categories::add)
+            hits2[0].urls.takeIf { it != null }?.regular?.let { Category("Textures", it) }?.let(categories::add)
+            hits3[0].urls.takeIf { it != null }?.regular?.let { Category("Buildings", it) }?.let(categories::add)
+            hits4[0].urls.takeIf { it != null }?.regular?.let { Category("Nature", it) }?.let(categories::add)
+            hits5[0].urls.takeIf { it != null }?.regular?.let { Category("Music", it) }?.let(categories::add)
+            hits6[0].urls.takeIf { it != null }?.regular?.let { Category("Travel", it) }?.let(categories::add)
+            hits7[0].urls.takeIf { it != null }?.regular?.let { Category("Business", it) }?.let(categories::add)
+            hits8[0].urls.takeIf { it != null }?.regular?.let { Category("Fashion", it) }?.let(categories::add)
 
             return categories
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.model.data.pixabay.Hit
+import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.PicturesMapper
 import io.reactivex.Observable
@@ -29,23 +30,23 @@ class CategoryViewModel(private val context: Context,
     }
 
     private fun getCategories(): Observable<List<Category>> {
-        return Observable.combineLatest<List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
+        return Observable.combineLatest<List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
+                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
                 List<Category>>(
-                apiRepository.getPixabayPictures(context.getString(R.string.animals), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.textures), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.buildings), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.nature), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.music), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.travel), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.business), 1).map { it.hits },
-                apiRepository.getPixabayPictures(context.getString(R.string.fashion), 1).map { it.hits },
+                apiRepository.getUnsplashPictures(context.getString(R.string.animals), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.textures), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.buildings), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.nature), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.music), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.travel), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.business), 1).map(UnsplashResponse::results),
+                apiRepository.getUnsplashPictures(context.getString(R.string.fashion), 1).map(UnsplashResponse::results),
                 Function8(PicturesMapper.Companion::mergeCategories)
         )
                 .subscribeOn(Schedulers.io())
