@@ -49,7 +49,7 @@ class CategoryFragment : Fragment() {
         categoryRecyclerView.layoutManager =
             GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
 
-        val categoryAdapter = CategoryAdapter(requireContext(), requireFragmentManager())
+        val categoryAdapter = CategoryAdapter(requireContext())
         categoryRecyclerView.adapter = categoryAdapter
 
         val disposable = viewModel.getAllCategories()
