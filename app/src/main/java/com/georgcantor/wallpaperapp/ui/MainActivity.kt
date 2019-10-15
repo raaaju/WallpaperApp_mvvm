@@ -90,9 +90,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val myTitle = toolbar.getChildAt(0) as TextView
         myTitle.typeface = Typeface.create("cursive", Typeface.NORMAL)
 
-        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar,
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -117,8 +117,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         navigation.setOnNavigationItemSelectedListener(itemSelectedListener)
-        nav_view.setNavigationItemSelectedListener(this)
-        nav_view.itemIconTintList = null
+        navView.setNavigationItemSelectedListener(this)
+        navView.itemIconTintList = null
     }
 
     private fun checkForUpdate() {
@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 openFragment(reviewFragment, getString(R.string.review))
             }
         }
-        drawer_layout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawer(GravityCompat.START)
 
         return true
     }
@@ -239,8 +239,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar.title = getString(R.string.app_name)
         val stackEntryCount = supportFragmentManager.backStackEntryCount
         if (stackEntryCount == 0) {
-            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-                drawer_layout.closeDrawer(GravityCompat.START)
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
             } else {
                 val disposable = backPressedSubject
                     .buffer(2, 1)
@@ -260,7 +260,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         } else {
             when {
-                drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(
+                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(
                     GravityCompat.START
                 )
                 else -> {
