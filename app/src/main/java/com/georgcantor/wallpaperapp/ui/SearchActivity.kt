@@ -200,7 +200,10 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        try {
+            manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        } catch (e: UninitializedPropertyAccessException) {
+        }
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
