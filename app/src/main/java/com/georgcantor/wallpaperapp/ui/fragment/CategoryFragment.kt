@@ -11,7 +11,9 @@ import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_category.*
+import kotlinx.android.synthetic.main.fragment_common.animationView
+import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
+import kotlinx.android.synthetic.main.fragment_common.recyclerView
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -38,19 +40,19 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_category, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!requireActivity().isNetworkAvailable()) {
             noInternetImageView.visibility = View.VISIBLE
         }
-        categoryRecyclerView.setHasFixedSize(true)
-        categoryRecyclerView.layoutManager =
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager =
             GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
 
         val categoryAdapter = CategoryAdapter(requireContext())
-        categoryRecyclerView.adapter = categoryAdapter
+        recyclerView.adapter = categoryAdapter
 
         val disposable = viewModel.getAllCategories()
             .retry(3)
@@ -67,7 +69,7 @@ class CategoryFragment : Fragment() {
         DisposableManager.add(disposable)
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        categoryRecyclerView.addOnScrollListener(hideScrollListener)
+        recyclerView.addOnScrollListener(hideScrollListener)
     }
 
     override fun onDestroy() {
