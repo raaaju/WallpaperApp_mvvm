@@ -237,8 +237,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed() {
         toolbar.title = getString(R.string.app_name)
-        val stackEntryCount = supportFragmentManager.backStackEntryCount
-        if (stackEntryCount == 0) {
+        if (supportFragmentManager.backStackEntryCount == 0) {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
