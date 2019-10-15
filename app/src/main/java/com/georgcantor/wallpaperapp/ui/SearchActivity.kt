@@ -134,7 +134,7 @@ class SearchActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_cancel -> {
                 viewModel.isSearchingActive.value = false
-                recreate()
+                searchEditText.setText("")
                 manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
             R.id.action_voice_search -> checkPermission()
@@ -200,6 +200,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
