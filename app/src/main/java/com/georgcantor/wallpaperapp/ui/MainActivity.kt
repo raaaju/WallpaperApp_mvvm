@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -30,8 +29,11 @@ import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     InstallStateUpdatedListener {
@@ -53,8 +55,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var reviewFragment: Fragment
 
     private lateinit var bundle: Bundle
-    private var doubleTap = false
 
+    private val backPressedSubject = BehaviorSubject.createDefault(0L)
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
     private var updateInfo: AppUpdateInfo? = null
 
@@ -237,17 +239,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar.title = getString(R.string.app_name)
         val stackEntryCount = supportFragmentManager.backStackEntryCount
         if (stackEntryCount == 0) {
-            when {
-                drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(
-                    GravityCompat.START
-                )
-                doubleTap -> super.onBackPressed()
-                else -> {
-                    shortToast(getString(R.string.press_back))
-                    doubleTap = true
-                    val handler = Handler()
-                    handler.postDelayed({ doubleTap = false }, 2000)
-                }
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
+            } else {
+                val disposable = backPressedSubject
+                    .buffer(2, 1)
+                    .map { Pair(it[0], it[1]) }
+                    .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { willFinish ->
+                        if (willFinish) {
+                            super.onBackPressed()
+                        } else {
+                            shortToast(getString(R.string.press_back))
+                        }
+                    }
+                DisposableManager.add(disposable)
+
+                backPressedSubject.onNext(System.currentTimeMillis())
             }
         } else {
             when {
