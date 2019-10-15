@@ -44,6 +44,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_search)
+        manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         viewModel = getViewModel { parametersOf() }
         createToolbar()
@@ -52,7 +53,6 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.requestFocus()
         searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
                 adapter.clearPicList()
                 search(searchEditText.text.toString().trim { it <= ' ' }, index)
@@ -200,10 +200,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        try {
-            manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        } catch (e: UninitializedPropertyAccessException) {
-        }
+        manager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
