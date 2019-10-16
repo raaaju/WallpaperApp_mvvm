@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
@@ -28,7 +29,6 @@ import com.georgcantor.wallpaperapp.util.showAnimation
 import com.georgcantor.wallpaperapp.util.showSingleAnimation
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -171,15 +171,17 @@ class DetailsViewModel(
         return Observable.fromCallable {
             var result: Bitmap? = null
             try {
-                result = Picasso.with(context.applicationContext)
-                        .load(pic.imageURL)
-                        .get()
+                result = Glide.with(context.applicationContext)
+                    .asBitmap()
+                    .load(pic.imageURL)
+                    .submit()
+                    .get()
             } catch (e: IOException) {
             }
             result
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getImageUri(bitmap: Bitmap): Observable<Uri> {

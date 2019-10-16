@@ -16,11 +16,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
-import com.squareup.picasso.Picasso
-import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     val transaction = supportFragmentManager.beginTransaction()
@@ -152,9 +151,9 @@ fun Context.loadImage(
 }
 
 fun Context.loadCircleImage(url: String, view: ImageView) {
-    Picasso.with(this)
-            .load(url)
-            .transform(CropCircleTransformation())
-            .placeholder(R.drawable.memb)
-            .into(view)
+    Glide.with(this)
+        .load(url)
+        .placeholder(R.drawable.memb)
+        .apply(RequestOptions.circleCropTransform())
+        .into(view)
 }
