@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import androidx.fragment.app.Fragment
+import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.hideAnimation
 import com.georgcantor.wallpaperapp.util.longToast
@@ -26,6 +27,7 @@ class ReviewFragment : Fragment() {
     }
 
     private var rating: Int = 0
+    private lateinit var animArray: Array<LottieAnimationView>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,41 +45,23 @@ class ReviewFragment : Fragment() {
         val mark: MutableMap<String, Int>
         mark = HashMap()
 
+        animArray = arrayOf(
+            rating2AnimationView,
+            rating3AnimationView,
+            rating4AnimationView,
+            rating5AnimationView
+        )
+
         ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { _, ratingNumber, _ ->
             rating = ratingNumber.toInt()
 
             addReviewButton.visibility = if (rating > 0) View.VISIBLE else View.GONE
             when (rating) {
-                1 -> {
-                    rating2AnimationView?.showAnimation()
-                    rating3AnimationView?.hideAnimation()
-                    rating4AnimationView?.hideAnimation()
-                    rating5AnimationView?.hideAnimation()
-                }
-                2 -> {
-                    rating2AnimationView?.showAnimation()
-                    rating3AnimationView?.hideAnimation()
-                    rating4AnimationView?.hideAnimation()
-                    rating5AnimationView?.hideAnimation()
-                }
-                3 -> {
-                    rating3AnimationView?.showAnimation()
-                    rating2AnimationView?.hideAnimation()
-                    rating4AnimationView?.hideAnimation()
-                    rating5AnimationView?.hideAnimation()
-                }
-                4 -> {
-                    rating4AnimationView?.showAnimation()
-                    rating3AnimationView?.hideAnimation()
-                    rating2AnimationView?.hideAnimation()
-                    rating5AnimationView?.hideAnimation()
-                }
-                5 -> {
-                    rating5AnimationView?.showAnimation()
-                    rating3AnimationView?.hideAnimation()
-                    rating2AnimationView?.hideAnimation()
-                    rating4AnimationView?.hideAnimation()
-                }
+                1 -> hideAllExceptOne(rating2AnimationView)
+                2 -> hideAllExceptOne(rating2AnimationView)
+                3 -> hideAllExceptOne(rating3AnimationView)
+                4 -> hideAllExceptOne(rating4AnimationView)
+                5 -> hideAllExceptOne(rating5AnimationView)
             }
         }
 
@@ -94,6 +78,16 @@ class ReviewFragment : Fragment() {
             } else {
                 requireFragmentManager().popBackStack()
                 requireActivity().longToast(getString(R.string.thanks_for_feedback))
+            }
+        }
+    }
+
+    private fun hideAllExceptOne(animationView: LottieAnimationView) {
+        animArray.map {
+            if (it != animationView) {
+                it.hideAnimation()
+            } else {
+                it.showAnimation()
             }
         }
     }
