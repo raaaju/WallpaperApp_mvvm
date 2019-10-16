@@ -55,11 +55,11 @@ class DetailsViewModel(
         if (db.containFav(pic.url.toString())) {
             db.deleteFromFavorites(pic.url.toString())
             menuItem.setIcon(R.drawable.ic_star_border)
-            unStarAnimation.showSingleAnimation()
+            unStarAnimation.showSingleAnimation(1.5F)
         } else {
             addToFavorites(pic.url.toString(), pic.imageURL.toString(), pic)
             menuItem.setIcon(R.drawable.ic_star_red_24dp)
-            starAnimation.showSingleAnimation()
+            starAnimation.showSingleAnimation(1F)
         }
     }
 

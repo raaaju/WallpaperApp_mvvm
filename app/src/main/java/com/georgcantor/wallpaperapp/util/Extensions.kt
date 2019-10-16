@@ -44,11 +44,12 @@ fun LottieAnimationView.showAnimation() {
     this.loop(true)
 }
 
-fun LottieAnimationView.showSingleAnimation() {
+fun LottieAnimationView.showSingleAnimation(speed: Float) {
     val animation = this
     this.visibility = View.VISIBLE
     this.playAnimation()
     this.repeatCount = 0
+    this.speed = speed
     this.addAnimatorListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(p0: Animator?) {
         }
