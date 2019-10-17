@@ -17,6 +17,7 @@ import com.georgcantor.wallpaperapp.util.showAnimation
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_review.*
+import java.util.Calendar
 
 class ReviewFragment : Fragment() {
 
@@ -42,7 +43,7 @@ class ReviewFragment : Fragment() {
         markTextView.typeface = typeface
 
         val db = FirebaseFirestore.getInstance()
-        val mark: MutableMap<String, Int>
+        val mark: MutableMap<String, Pair<String, Int>>
         mark = HashMap()
 
         animArray = arrayOf(
@@ -68,7 +69,7 @@ class ReviewFragment : Fragment() {
         addReviewButton.setOnClickListener {
             requireActivity().toolbar.title = getString(R.string.app_name)
 
-            mark[RATING] = rating
+            mark[RATING] = Pair(Calendar.getInstance().time.toString(), rating)
             db.collection(RATING)
                 .add(mark)
 
