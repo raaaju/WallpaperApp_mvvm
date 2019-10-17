@@ -19,6 +19,8 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
             apiRepository.getAbyssPictures(request, index),
             apiRepository.getPexelsPictures(request, index)
         )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
