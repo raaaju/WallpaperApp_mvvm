@@ -106,7 +106,7 @@ class DetailsActivity : AppCompatActivity() {
     private fun setWallAsync() {
         progressAnimationView?.showAnimation()
 
-        val disposable = pic?.let { pic ->
+        pic?.let { pic ->
             viewModel.getBitmapAsync(pic)?.subscribe({
                 val wallpaperManager = WallpaperManager.getInstance(baseContext)
                 it?.let { bitmap ->
@@ -141,8 +141,6 @@ class DetailsActivity : AppCompatActivity() {
                 shortToast(getString(R.string.something_went_wrong))
             })
         }
-
-        disposable?.let(DisposableManager::add)
     }
 
     @SuppressLint("CheckResult")
