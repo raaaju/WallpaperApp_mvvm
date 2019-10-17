@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_common.animationView
 import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
 import kotlinx.android.synthetic.main.fragment_common.recyclerView
+import kotlinx.android.synthetic.main.fragment_common.refreshLayout
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -30,6 +31,7 @@ class CategoryFragment : Fragment() {
     }
 
     private lateinit var viewModel: CategoryViewModel
+    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +53,21 @@ class CategoryFragment : Fragment() {
         recyclerView.layoutManager =
             GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
 
-        val categoryAdapter = CategoryAdapter(requireContext())
+        categoryAdapter = CategoryAdapter(requireContext())
         recyclerView.adapter = categoryAdapter
 
+        refreshLayout.setOnRefreshListener {
+            loadData()
+            refreshLayout.isRefreshing = false
+        }
+
+        loadData()
+
+        val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
+        recyclerView.addOnScrollListener(hideScrollListener)
+    }
+
+    private fun loadData() {
         val disposable = viewModel.getAllCategories()
             .retry(3)
             .doOnSubscribe {
@@ -67,9 +81,6 @@ class CategoryFragment : Fragment() {
             }
 
         DisposableManager.add(disposable)
-
-        val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        recyclerView.addOnScrollListener(hideScrollListener)
     }
 
     override fun onDestroy() {

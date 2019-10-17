@@ -106,7 +106,7 @@ class DetailsActivity : AppCompatActivity() {
     private fun setWallAsync() {
         progressAnimationView?.showAnimation()
 
-        pic?.let { pic ->
+        val disposable = pic?.let { pic ->
             viewModel.getBitmapAsync(pic)?.subscribe({
                 val wallpaperManager = WallpaperManager.getInstance(baseContext)
                 it?.let { bitmap ->
@@ -117,15 +117,15 @@ class DetailsActivity : AppCompatActivity() {
                             try {
                                 it.let { bitMap ->
                                     viewModel.getImageUri(bitMap)
-                                            .subscribe({ uri ->
-                                                val bitmap2 = MediaStore.Images.Media.getBitmap(
-                                                        contentResolver,
-                                                        uri
-                                                )
-                                                viewModel.setBitmapAsync(bitmap2, this)
-                                            }, {
-                                                shortToast(getString(R.string.something_went_wrong))
-                                            })
+                                        .subscribe({ uri ->
+                                            val bitmap2 = MediaStore.Images.Media.getBitmap(
+                                                contentResolver,
+                                                uri
+                                            )
+                                            viewModel.setBitmapAsync(bitmap2, this)
+                                        }, {
+                                            shortToast(getString(R.string.something_went_wrong))
+                                        })
                                 }
                             } catch (e: OutOfMemoryError) {
                                 shortToast(getString(R.string.something_went_wrong))
@@ -141,6 +141,7 @@ class DetailsActivity : AppCompatActivity() {
                 shortToast(getString(R.string.something_went_wrong))
             })
         }
+        disposable?.let(DisposableManager::add)
     }
 
     @SuppressLint("CheckResult")
@@ -294,7 +295,6 @@ class DetailsActivity : AppCompatActivity() {
         } catch (e: Exception) {
             shortToast(getString(R.string.something_went_wrong))
         }
-        DisposableManager.dispose()
         super.onDestroy()
     }
 
