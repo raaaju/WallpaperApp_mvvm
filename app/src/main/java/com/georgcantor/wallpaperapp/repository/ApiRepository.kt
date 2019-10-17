@@ -1,33 +1,162 @@
 package com.georgcantor.wallpaperapp.repository
 
 import com.georgcantor.wallpaperapp.BuildConfig
+import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
-import com.georgcantor.wallpaperapp.model.data.abyss.AbyssResponse
-import com.georgcantor.wallpaperapp.model.data.pexels.PhotoResponse
-import com.georgcantor.wallpaperapp.model.remote.ApiService
 import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
+import com.georgcantor.wallpaperapp.model.remote.ApiService
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class ApiRepository(private val apiService: ApiService) {
 
-    fun getPixabayPictures(request: String, index: Int): Observable<Pic> =
+    fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        val pictures = ArrayList<CommonPic>()
+
+        return apiService.getPixabayPictures(request, index)
+            .flatMap { pic ->
+                Observable.fromCallable {
+                    pic.hits.map { hit ->
+                        pictures.add(
+                            CommonPic(
+                                hit.webformatURL,
+                                hit.imageWidth,
+                                hit.imageHeight,
+                                hit.likes,
+                                hit.favorites,
+                                hit.tags,
+                                hit.downloads,
+                                hit.imageURL,
+                                hit.webformatURL,
+                                hit.user,
+                                hit.id,
+                                hit.userImageURL
+                            )
+                        )
+                    }
+                    pictures.shuffle()
+                    pictures
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getUnsplashPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
+        val pictures = ArrayList<CommonPic>()
+
+        return apiService.getUnsplashPictures(
+            BuildConfig.UNSPLASH_URL,
+            query,
+            page
+        )
+            .flatMap { response ->
+                Observable.fromCallable {
+                    response.results?.map {
+                        it.urls.takeUnless { urls ->
+                            pictures.add(
+                                CommonPic(
+                                    urls?.small,
+                                    it.width ?: 0,
+                                    it.height ?: 0,
+                                    it.likes ?: 365,
+                                    542,
+                                    "car, auto",
+                                    5923,
+                                    urls?.full,
+                                    urls?.regular,
+                                    "George Smith",
+                                    it.hashCode(),
+                                    urls?.thumb
+                                )
+                            )
+                        }
+                    }
+                    pictures.shuffle()
+                    pictures
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getAbyssPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
+        val pictures = ArrayList<CommonPic>()
+
+        return apiService.getAbyssPictures(
+            BuildConfig.ABYSS_URL,
+            query,
+            page
+        )
+            .flatMap { response ->
+                Observable.fromCallable {
+                    response.wallpapers?.map {
+                        pictures.add(
+                            CommonPic(
+                                it.urlThumb,
+                                it.width?.toInt() ?: 0,
+                                it.height?.toInt() ?: 0,
+                                481,
+                                542,
+                                "car, auto",
+                                4245,
+                                it.urlImage,
+                                it.urlImage,
+                                "Mike Antony",
+                                it.id?.toInt() ?: it.hashCode(),
+                                it.urlThumb
+                            )
+                        )
+                    }
+                    pictures.shuffle()
+                    pictures
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getPexelsPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
+        val pictures = ArrayList<CommonPic>()
+
+        return apiService.getPexelsPictures(BuildConfig.PEXELS_URL, query, 15, page)
+            .flatMap { response ->
+                Observable.fromCallable {
+                    response.photos?.map {
+                        pictures.add(
+                            CommonPic(
+                                it.src.takeIf { it != null }?.medium,
+                                it.width,
+                                it.height,
+                                217,
+                                328,
+                                "auto, automobile",
+                                3846,
+                                it.src.takeIf { it != null }?.original,
+                                it.src.takeIf { it != null }?.large,
+                                it.photographer,
+                                it.id,
+                                it.src.takeIf { it != null }?.small
+                            )
+                        )
+                    }
+                    pictures.shuffle()
+                    pictures
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getCategoriesPictures(request: String, index: Int): Observable<Pic> =
         apiService.getPixabayPictures(request, index)
 
-    fun getUnsplashPictures(query: String, page: Int): Observable<UnsplashResponse> =
-            apiService.getUnsplashPictures(
-                    BuildConfig.UNSPLASH_URL,
-                    query,
-                    page
-            )
-
-    fun getAbyssPictures(query: String, page: Int): Observable<AbyssResponse> =
-            apiService.getAbyssPictures(
-                    BuildConfig.ABYSS_URL,
-                    query,
-                    page
-            )
-
-    fun getPexelsPictures(query: String, page: Int): Observable<PhotoResponse> =
-            apiService.getPexelsPictures(BuildConfig.PEXELS_URL, query, 15, page)
+    fun getCategoriesUnsplashPictures(query: String, page: Int): Observable<UnsplashResponse> =
+        apiService.getUnsplashPictures(
+            BuildConfig.UNSPLASH_URL,
+            query,
+            page
+        )
 
 }
