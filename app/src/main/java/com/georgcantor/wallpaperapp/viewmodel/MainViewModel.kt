@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.widget.LinearLayout
 import android.widget.RatingBar
@@ -16,7 +17,7 @@ import java.util.Calendar
 
 class MainViewModel(private val context: Context) : ViewModel() {
 
-    fun showRatingDialog(activity: MainActivity) {
+    fun showRatingDialog(activity: MainActivity, editor: SharedPreferences.Editor) {
         val ratingDialog = AlertDialog.Builder(activity)
         val linearLayout = LinearLayout(context)
         val ratingBar = RatingBar(context)
@@ -51,6 +52,8 @@ class MainViewModel(private val context: Context) : ViewModel() {
                 if (userMark > 0) {
                     db.collection(MainActivity.RATING)
                         .add(mark)
+                    editor.putBoolean(MainActivity.IS_RATING_EXIST, true)
+                    editor.apply()
                 }
                 if (userMark > 3) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(MainActivity.APP_URL))

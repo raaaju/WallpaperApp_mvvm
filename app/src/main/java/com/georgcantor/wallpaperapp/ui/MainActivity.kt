@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
+        const val IS_RATING_EXIST = "isRatingExist"
+        const val LAUNCHES = "launches"
         const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         const val RATING = "rating"
     }
@@ -123,6 +126,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigation.setOnNavigationItemSelectedListener(itemSelectedListener)
         navView.setNavigationItemSelectedListener(this)
         navView.itemIconTintList = null
+
+        checkNumberOfLaunches()
     }
 
     private fun checkForUpdate() {
@@ -134,6 +139,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 updateAvailable.value = true
             } else {
                 updateAvailable.value = false
+            }
+        }
+    }
+
+    private fun checkNumberOfLaunches() {
+        var numberOfLaunches = getPreferences(Context.MODE_PRIVATE).getInt(LAUNCHES, 0)
+        if (numberOfLaunches < 4) {
+            numberOfLaunches++
+            getPreferences(Context.MODE_PRIVATE).edit().putInt(LAUNCHES, numberOfLaunches).apply()
+            if (numberOfLaunches > 3 && !getPreferences(Context.MODE_PRIVATE).getBoolean(IS_RATING_EXIST, false)) {
+                viewModel.showRatingDialog(this, getPreferences(Context.MODE_PRIVATE).edit())
             }
         }
     }
@@ -231,7 +247,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-                viewModel.showRatingDialog(this)
+                viewModel.showRatingDialog(this, getPreferences(Context.MODE_PRIVATE).edit())
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
