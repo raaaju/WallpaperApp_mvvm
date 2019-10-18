@@ -31,7 +31,7 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     if (fragment == current && fragment !is CarBrandFragment) {
         return
     } else {
-        transaction.setCustomAnimations(R.anim.pull_in_right, R.anim.push_out_left)
+        transaction.setCustomAnimations(R.anim.pull_in_right, R.anim.push_out_left, R.anim.pull_in_left, R.anim.push_out_right)
         transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(tag)
         transaction.commit()
