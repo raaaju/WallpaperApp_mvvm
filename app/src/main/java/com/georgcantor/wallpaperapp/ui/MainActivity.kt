@@ -20,6 +20,7 @@ import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
+import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -33,14 +34,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     InstallStateUpdatedListener {
 
     companion object {
-        private const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
+        const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
+        const val RATING = "rating"
     }
 
     override fun onStateUpdate(installState: InstallState) {
@@ -52,8 +56,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var audiFragment: Fragment
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
-    private lateinit var reviewFragment: Fragment
 
+    private lateinit var viewModel:MainViewModel
     private lateinit var bundle: Bundle
 
     private val backPressedSubject = BehaviorSubject.createDefault(0L)
@@ -64,6 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        viewModel = getViewModel { parametersOf() }
 
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
@@ -83,7 +88,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         audiFragment = AudiFragment.newInstance(getString(R.string.audi_request))
         categoryFragment = CategoryFragment.newInstance()
         brandFragment = CarBrandFragment()
-        reviewFragment = ReviewFragment()
 
         bundle = Bundle()
 
@@ -227,7 +231,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-                openFragment(reviewFragment, getString(R.string.review))
+                viewModel.showRatingDialog(this)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
