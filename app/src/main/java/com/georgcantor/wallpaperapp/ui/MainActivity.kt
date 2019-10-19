@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
+        const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         const val IS_RATING_EXIST = "isRatingExist"
         const val LAUNCHES = "launches"
-        const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         const val RATING = "rating"
     }
 
@@ -97,8 +97,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val myTitle = toolbar.getChildAt(0) as TextView
         myTitle.typeface = Typeface.create("cursive", Typeface.NORMAL)
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -122,7 +127,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             false
         }
-
         navigation.setOnNavigationItemSelectedListener(itemSelectedListener)
         navView.setNavigationItemSelectedListener(this)
         navView.itemIconTintList = null
