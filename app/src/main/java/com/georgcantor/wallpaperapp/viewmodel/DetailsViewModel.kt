@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DownloadManager
 import android.app.WallpaperManager
@@ -14,7 +13,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.AndroidRuntimeException
 import android.view.MenuItem
-import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
@@ -33,13 +31,11 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InterruptedIOException
 import java.net.URL
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class DetailsViewModel(
     private val context: Context,
@@ -67,28 +63,6 @@ class DetailsViewModel(
         val gson = Gson()
         val toStoreObject = gson.toJson(commonPic)
         db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
-    }
-
-    @SuppressLint("CheckResult")
-    fun doubleClickDetect(
-            view: View,
-            pic: CommonPic,
-            menuItem: MenuItem,
-            starAnimation: LottieAnimationView,
-            unStarAnimation: LottieAnimationView
-    ) {
-        val publishSubject = PublishSubject.create<Int>()
-        publishSubject
-            .buffer(publishSubject.debounce(200, TimeUnit.MILLISECONDS))
-            .filter { list -> list.size > 1 }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                setFavoriteStatus(pic, menuItem, starAnimation, unStarAnimation)
-            }
-        view.setOnClickListener {
-            publishSubject.onNext(0)
-        }
     }
 
     fun imageSize(pic: CommonPic): Observable<Int> {

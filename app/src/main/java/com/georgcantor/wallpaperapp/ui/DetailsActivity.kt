@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
@@ -45,15 +46,18 @@ class DetailsActivity : AppCompatActivity() {
     private var pic: CommonPic? = null
     private val tags = ArrayList<String>()
     private var first = 0
-    private lateinit var tagAdapter: TagAdapter
     private var file: File? = null
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
     private var pathOfFile: String? = null
+
+    private lateinit var tagAdapter: TagAdapter
     private lateinit var prefs: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var viewModel: DetailsViewModel
+    private lateinit var zoomyBuilder: Zoomy.Builder
+    private lateinit var menu: Menu
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +74,15 @@ class DetailsActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)))
+
+        zoomyBuilder = Zoomy.Builder(this)
+                .target(detailImageView)
+                .doubleTapListener {
+                    pic?.let {
+                        viewModel.setFavoriteStatus(it, menu.findItem(R.id.action_add_to_fav), starAnimationView, unstarAnimationView)
+                    }
+                }
+        zoomyBuilder.register()
 
         initView()
 
@@ -224,14 +237,13 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fav, menu)
+        this.menu = menu
         val starItem = menu.findItem(R.id.action_add_to_fav)
         db?.let {
             if (it.containFav(pic?.url.toString())) {
                 starItem.setIcon(R.drawable.ic_star_red_24dp)
             }
         }
-        pic?.let { viewModel.doubleClickDetect(detailImageView, it, starItem, starAnimationView, unstarAnimationView) }
-
         return true
     }
 
@@ -295,6 +307,7 @@ class DetailsActivity : AppCompatActivity() {
         } catch (e: Exception) {
             shortToast(getString(R.string.something_went_wrong))
         }
+        Zoomy.unregister(detailImageView)
         super.onDestroy()
     }
 

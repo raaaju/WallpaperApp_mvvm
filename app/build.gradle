@@ -83,6 +83,8 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:3.0.7'
 
+    implementation 'com.ablanco.zoomy:zoomy:1.1.0'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
