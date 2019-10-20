@@ -12,10 +12,7 @@ import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_common.animationView
-import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
-import kotlinx.android.synthetic.main.fragment_common.recyclerView
-import kotlinx.android.synthetic.main.fragment_common.refreshLayout
+import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
