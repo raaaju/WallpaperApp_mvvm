@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.util
 
 import android.animation.Animator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -113,7 +112,6 @@ fun Context.showDialog(
     dialog.show()
 }
 
-@SuppressLint("CheckResult")
 fun Context.loadImage(
     url: String,
     drawable: Drawable,
