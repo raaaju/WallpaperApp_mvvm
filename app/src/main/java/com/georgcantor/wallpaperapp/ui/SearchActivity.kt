@@ -69,7 +69,8 @@ class SearchActivity : AppCompatActivity() {
         }
         toolbarSearch.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
         toolbarSearch.setNavigationOnClickListener {
-            finish()
+            super.onBackPressed()
+            manager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
         }
     }
