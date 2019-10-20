@@ -79,8 +79,8 @@ class SearchActivity : AppCompatActivity() {
         searchRecyclerView.setHasFixedSize(true)
 
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(
-            UtilityMethods.getScreenSize(this),
-            StaggeredGridLayoutManager.VERTICAL
+                getScreenSize(),
+                StaggeredGridLayoutManager.VERTICAL
         )
         searchRecyclerView.layoutManager = staggeredGridLayoutManager
 

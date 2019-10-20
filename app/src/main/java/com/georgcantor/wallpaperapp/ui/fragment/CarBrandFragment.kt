@@ -47,8 +47,8 @@ class CarBrandFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         val gridLayoutManager = StaggeredGridLayoutManager(
-            UtilityMethods.getScreenSize(requireContext()),
-            StaggeredGridLayoutManager.VERTICAL
+                requireContext().getScreenSize(),
+                StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.layoutManager = gridLayoutManager
         adapter = PicturesAdapter(requireContext())

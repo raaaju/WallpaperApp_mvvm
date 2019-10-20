@@ -59,8 +59,8 @@ class MercedesFragment : Fragment() {
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
-            UtilityMethods.getScreenSize(requireContext()),
-            StaggeredGridLayoutManager.VERTICAL
+                requireContext().getScreenSize(),
+                StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = gridLayoutManager

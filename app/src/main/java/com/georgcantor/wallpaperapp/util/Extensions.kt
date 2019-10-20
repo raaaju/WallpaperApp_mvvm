@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.util
 
 import android.animation.Animator
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
@@ -35,6 +36,17 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
         transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(tag)
         transaction.commit()
+    }
+}
+
+fun Context.getScreenSize(): Int {
+    return when (this.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) {
+        Configuration.SCREENLAYOUT_SIZE_XLARGE -> 4
+        Configuration.SCREENLAYOUT_SIZE_UNDEFINED -> 3
+        Configuration.SCREENLAYOUT_SIZE_LARGE -> 3
+        Configuration.SCREENLAYOUT_SIZE_NORMAL -> 2
+        Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
+        else -> 2
     }
 }
 

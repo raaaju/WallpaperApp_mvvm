@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -161,14 +160,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun goToGooglePlay() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
         finish()
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            val searchItem = menu?.findItem(R.id.action_search)
-            searchItem?.isVisible = false
-        }
-        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

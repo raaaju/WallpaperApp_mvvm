@@ -16,7 +16,6 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -50,7 +49,6 @@ class DetailsActivity : AppCompatActivity() {
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
-    private var pathOfFile: String? = null
 
     private lateinit var tagAdapter: TagAdapter
     private lateinit var prefs: SharedPreferences
@@ -59,7 +57,6 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -89,8 +86,6 @@ class DetailsActivity : AppCompatActivity() {
         fabSetWall.setOnClickListener {
             if (this.isNetworkAvailable()) {
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                    val uri = Uri.fromFile(file)
-                    pathOfFile = UtilityMethods.getPath(applicationContext, uri)
                     progressAnimationView?.showAnimation()
                     setWallAsync()
                 } else {
@@ -115,7 +110,6 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setWallAsync() {
         progressAnimationView?.showAnimation()
 
@@ -275,7 +269,6 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,

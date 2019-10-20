@@ -11,10 +11,7 @@ import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_common.animationView
-import kotlinx.android.synthetic.main.fragment_common.noInternetImageView
-import kotlinx.android.synthetic.main.fragment_common.recyclerView
-import kotlinx.android.synthetic.main.fragment_common.refreshLayout
+import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -50,8 +47,7 @@ class CategoryFragment : Fragment() {
             noInternetImageView.visibility = View.VISIBLE
         }
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager =
-            GridLayoutManager(activity, UtilityMethods.getScreenSize(requireContext()))
+        recyclerView.layoutManager = GridLayoutManager(activity, requireContext().getScreenSize())
 
         categoryAdapter = CategoryAdapter(requireContext())
         recyclerView.adapter = categoryAdapter

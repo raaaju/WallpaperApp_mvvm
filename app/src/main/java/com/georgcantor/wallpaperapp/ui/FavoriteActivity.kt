@@ -9,7 +9,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.util.DisposableManager
-import com.georgcantor.wallpaperapp.util.UtilityMethods
+import com.georgcantor.wallpaperapp.util.getScreenSize
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
@@ -33,8 +33,8 @@ class FavoriteActivity : AppCompatActivity() {
         db = DatabaseHelper(this)
 
         val gridLayoutManager = StaggeredGridLayoutManager(
-            UtilityMethods.getScreenSize(this),
-            StaggeredGridLayoutManager.VERTICAL
+                getScreenSize(),
+                StaggeredGridLayoutManager.VERTICAL
         )
         favRecyclerView.setHasFixedSize(true)
         favRecyclerView.layoutManager = gridLayoutManager

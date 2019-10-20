@@ -60,7 +60,7 @@ class AudiFragment: Fragment() {
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
-            UtilityMethods.getScreenSize(requireContext()),
+            requireContext().getScreenSize(),
             StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.setHasFixedSize(true)
