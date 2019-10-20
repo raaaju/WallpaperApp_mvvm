@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -30,7 +31,7 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     if (fragment == current && fragment !is CarBrandFragment) {
         return
     } else {
-        transaction.setCustomAnimations(R.anim.pull_in_right, R.anim.push_out_left, R.anim.pull_in_left, R.anim.push_out_right)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(R.anim.pull_in_right, R.anim.push_out_left, R.anim.pull_in_left, R.anim.push_out_right)
         transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(tag)
         transaction.commit()
