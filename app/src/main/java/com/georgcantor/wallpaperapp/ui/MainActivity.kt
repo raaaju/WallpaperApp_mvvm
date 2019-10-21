@@ -18,7 +18,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.openFragment
-import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -30,13 +29,11 @@ import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     InstallStateUpdatedListener {
@@ -49,7 +46,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val RATING = "rating"
         const val TAG_EXTRA_OPEN = "openFromTag"
         const val TAG_EXTRA = "tag_extra"
-        const val IS_LAUNCH_FROM_TAG = "from_tag"
     }
 
     override fun onStateUpdate(installState: InstallState) {
@@ -137,8 +133,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (intent.getStringExtra(TAG_EXTRA_OPEN)) {
             TAG_EXTRA_OPEN -> {
-                getPreferences(Context.MODE_PRIVATE).edit().putBoolean(IS_LAUNCH_FROM_TAG, true).apply()
-
                 val bundle = Bundle()
                 bundle.putString(CarBrandFragment.FETCH_TYPE, intent.getStringExtra(TAG_EXTRA))
                 brandFragment.arguments = bundle
@@ -266,42 +260,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (getPreferences(Context.MODE_PRIVATE).getBoolean(IS_LAUNCH_FROM_TAG, false)) {
-            getPreferences(Context.MODE_PRIVATE).edit().putBoolean(IS_LAUNCH_FROM_TAG, false).apply()
-            super.onBackPressed()
-            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-            return
-        }
-
         toolbar.title = getString(R.string.app_name)
         if (supportFragmentManager.backStackEntryCount == 0) {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
-                val disposable = backPressedSubject
-                    .buffer(2, 1)
-                    .map { Pair(it[0], it[1]) }
-                    .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { willFinish ->
-                        if (willFinish) {
-                            super.onBackPressed()
-                        } else {
-                            shortToast(getString(R.string.press_back))
-                        }
-                    }
-                DisposableManager.add(disposable)
-
-                backPressedSubject.onNext(System.currentTimeMillis())
+                super.onBackPressed()
+                overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
             }
         } else {
             when {
                 drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(
-                    GravityCompat.START
+                        GravityCompat.START
                 )
                 else -> {
                     try {
                         super.onBackPressed()
+                        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
                     } catch (e: IllegalStateException) {
                     }
                 }
