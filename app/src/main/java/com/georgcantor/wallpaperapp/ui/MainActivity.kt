@@ -29,7 +29,6 @@ import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -61,7 +60,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var viewModel:MainViewModel
     private lateinit var bundle: Bundle
 
-    private val backPressedSubject = BehaviorSubject.createDefault(0L)
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
     private var updateInfo: AppUpdateInfo? = null
 
