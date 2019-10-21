@@ -143,6 +143,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 bundle.putString(CarBrandFragment.FETCH_TYPE, intent.getStringExtra(TAG_EXTRA))
                 brandFragment.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.frame_container, brandFragment).commit()
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
         }
     }
@@ -268,6 +269,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (getPreferences(Context.MODE_PRIVATE).getBoolean(IS_LAUNCH_FROM_TAG, false)) {
             getPreferences(Context.MODE_PRIVATE).edit().putBoolean(IS_LAUNCH_FROM_TAG, false).apply()
             super.onBackPressed()
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
             return
         }
 
