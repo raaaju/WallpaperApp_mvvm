@@ -4,77 +4,37 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
-import com.georgcantor.wallpaperapp.model.data.pixabay.Hit
-import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.util.PicturesMapper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function8
 import io.reactivex.schedulers.Schedulers
 
 class CategoryViewModel(private val context: Context,
                         private val apiRepository: ApiRepository) : ViewModel() {
 
-    fun getAllCategories(): Observable<List<Category>> {
-        return Observable.combineLatest<List<Category>, List<Category>, List<Category>>(
-                getCategories(),
-                getCategories2(),
-                BiFunction(
-                        PicturesMapper.Companion::mergeCategories
-                )
-        )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    private fun getCategories(): Observable<List<Category>> {
-        return Observable.combineLatest<List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                 List<com.georgcantor.wallpaperapp.model.data.unsplash.Result>,
-                List<Category>>(
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.animals), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.textures), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.buildings), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.nature), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.music), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.travel), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.business), 1).map(UnsplashResponse::results),
-                apiRepository.getCategoriesUnsplashPictures(context.getString(R.string.fashion), 1).map(UnsplashResponse::results),
-                Function8(PicturesMapper.Companion::mergeCategories)
-        )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    private fun getCategories2(): Observable<List<Category>> {
-        return Observable.combineLatest<List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Hit>,
-                List<Category>>(
-                apiRepository.getCategoriesPictures(context.getString(R.string.computer), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.feelings), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.food), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.health), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.people), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.places), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.science), 1).map { it.hits },
-                apiRepository.getCategoriesPictures(context.getString(R.string.sports), 1).map { it.hits },
-                Function8(PicturesMapper.Companion::mergeCategories2)
-        )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+    fun getCategories(): Observable<ArrayList<Category>> {
+        return Observable.fromCallable {
+            val list = ArrayList<Category>()
+            apiRepository.getCategories(context.getString(R.string.animals)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.buildings)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.computer)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.education)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.health)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.fashion)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.feelings)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.food)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.music)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.nature)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.people)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.places)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.science)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.sports)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.textures)).subscribe ({ list.add(it) }, {})
+            apiRepository.getCategories(context.getString(R.string.travel)).subscribe ({ list.add(it) }, {})
+            list
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
 }

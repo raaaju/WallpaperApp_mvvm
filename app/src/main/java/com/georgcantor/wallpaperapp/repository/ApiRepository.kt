@@ -1,9 +1,8 @@
 package com.georgcantor.wallpaperapp.repository
 
 import com.georgcantor.wallpaperapp.BuildConfig
+import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
-import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import com.georgcantor.wallpaperapp.model.remote.ApiService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -149,14 +148,13 @@ class ApiRepository(private val apiService: ApiService) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getCategoriesPictures(request: String, index: Int): Observable<Pic> =
-        apiService.getPixabayPictures(request, index)
-
-    fun getCategoriesUnsplashPictures(query: String, page: Int): Observable<UnsplashResponse> =
-        apiService.getUnsplashPictures(
-            BuildConfig.UNSPLASH_URL,
-            query,
-            page
-        )
+    fun getCategories(request: String):Observable<Category> {
+           return apiService.getPixabayPictures(request, 1)
+                .flatMap {
+                    Observable.fromCallable {
+                        Category(request, it.hits[0].webformatURL)
+                    }
+                }
+    }
 
 }

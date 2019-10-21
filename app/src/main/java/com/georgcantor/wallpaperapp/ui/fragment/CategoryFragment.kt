@@ -64,8 +64,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        val disposable = viewModel.getAllCategories()
-            .retry(3)
+        val disposable = viewModel.getCategories()
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
