@@ -180,7 +180,7 @@ class DetailsActivity : AppCompatActivity() {
             LinearLayoutManager.HORIZONTAL, false
         )
         tagAdapter = TagAdapter(this)
-        tagAdapter.setTagList(tags)
+        tagAdapter.setTagList(tags, this)
         tagsRecyclerView.adapter = tagAdapter
         file = File(
             Environment.getExternalStoragePublicDirectory(

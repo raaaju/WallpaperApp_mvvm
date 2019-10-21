@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val IS_RATING_EXIST = "isRatingExist"
         const val LAUNCHES = "launches"
         const val RATING = "rating"
+        const val TAG_EXTRA_OPEN = "openFromTag"
+        const val TAG_EXTRA = "tag_extra"
+        const val IS_LAUNCH_FROM_TAG = "from_tag"
     }
 
     override fun onStateUpdate(installState: InstallState) {
@@ -131,6 +134,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.itemIconTintList = null
 
         checkNumberOfLaunches()
+
+        when (intent.getStringExtra(TAG_EXTRA_OPEN)) {
+            TAG_EXTRA_OPEN -> {
+                getPreferences(Context.MODE_PRIVATE).edit().putBoolean(IS_LAUNCH_FROM_TAG, true).apply()
+
+                val bundle = Bundle()
+                bundle.putString(CarBrandFragment.FETCH_TYPE, intent.getStringExtra(TAG_EXTRA))
+                brandFragment.arguments = bundle
+                supportFragmentManager.beginTransaction().replace(R.id.frame_container, brandFragment).commit()
+            }
+        }
     }
 
     private fun checkForUpdate() {
@@ -251,6 +265,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        if (getPreferences(Context.MODE_PRIVATE).getBoolean(IS_LAUNCH_FROM_TAG, false)) {
+            getPreferences(Context.MODE_PRIVATE).edit().putBoolean(IS_LAUNCH_FROM_TAG, false).apply()
+            super.onBackPressed()
+            return
+        }
+
         toolbar.title = getString(R.string.app_name)
         if (supportFragmentManager.backStackEntryCount == 0) {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
