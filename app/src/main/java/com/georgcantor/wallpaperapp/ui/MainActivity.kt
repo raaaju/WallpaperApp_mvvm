@@ -261,24 +261,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed() {
         toolbar.title = getString(R.string.app_name)
-        if (supportFragmentManager.backStackEntryCount == 0) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        when {
+            drawerLayout.isDrawerOpen(GravityCompat.START) -> {
                 drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                super.onBackPressed()
-                overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
             }
-        } else {
-            when {
-                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(
-                        GravityCompat.START
-                )
-                else -> {
-                    try {
-                        super.onBackPressed()
-                        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-                    } catch (e: IllegalStateException) {
-                    }
+            else -> {
+                try {
+                    super.onBackPressed()
+                    overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+                } catch (e: IllegalStateException) {
                 }
             }
         }
