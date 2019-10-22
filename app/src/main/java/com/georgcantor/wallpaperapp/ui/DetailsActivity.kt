@@ -151,7 +151,6 @@ class DetailsActivity : AppCompatActivity() {
         disposable?.let(DisposableManager::add)
     }
 
-    @SuppressLint("CheckResult")
     private fun initView() {
         permissionCheck = ContextCompat.checkSelfPermission(
             this,
