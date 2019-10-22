@@ -34,6 +34,8 @@ class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<Simila
     override fun onBindViewHolder(holder: SimilarViewHolder, position: Int) {
         Glide.with(context)
             .load(similarList?.get(position)?.url)
+            .placeholder(R.drawable.plh)
+            .thumbnail(0.1f)
             .into(holder.imageView)
 
         holder.itemView.setOnClickListener {
