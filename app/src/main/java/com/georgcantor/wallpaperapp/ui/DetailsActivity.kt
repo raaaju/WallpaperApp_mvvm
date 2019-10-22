@@ -169,7 +169,6 @@ class DetailsActivity : AppCompatActivity() {
         similarRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         similarAdapter = SimilarAdapter(this)
         similarRecyclerView.adapter = similarAdapter
-        loadData(1)
 
         if (intent.hasExtra(EXTRA_PIC)) {
             pic = intent.getParcelableExtra(EXTRA_PIC)
@@ -240,10 +239,12 @@ class DetailsActivity : AppCompatActivity() {
 
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         registerReceiver(downloadReceiver, filter)
+
+        loadSimilarImages()
     }
 
-    private fun loadData(index: Int) {
-        val disposable = viewModel.getSimilarImages("auto", index)
+    private fun loadSimilarImages() {
+        val disposable = viewModel.getSimilarImages(tags[0], 1)
             .retry(3)
             .doOnSubscribe {
                 animationView?.showAnimation()
