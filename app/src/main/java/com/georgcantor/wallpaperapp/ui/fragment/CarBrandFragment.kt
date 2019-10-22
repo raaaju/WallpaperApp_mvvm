@@ -78,7 +78,7 @@ class CarBrandFragment : Fragment() {
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
-            .doOnTerminate {
+            .doFinally {
                 animationView?.hideAnimation()
             }
             .subscribe(adapter::setPicList) {

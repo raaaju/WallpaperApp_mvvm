@@ -92,7 +92,7 @@ class MercedesFragment : Fragment() {
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
-            .doOnTerminate {
+            .doFinally {
                 animationView?.hideAnimation()
             }
             .subscribe({

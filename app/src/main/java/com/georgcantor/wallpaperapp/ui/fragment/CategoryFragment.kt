@@ -68,7 +68,7 @@ class CategoryFragment : Fragment() {
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
-            .doOnTerminate {
+            .doFinally {
                 animationView?.hideAnimation()
             }
             .subscribe(categoryAdapter::setCategoryList) {

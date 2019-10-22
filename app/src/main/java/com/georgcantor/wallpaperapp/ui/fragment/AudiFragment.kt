@@ -93,7 +93,7 @@ class AudiFragment: Fragment() {
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
-            .doOnTerminate {
+            .doFinally {
                 animationView?.hideAnimation()
             }
             .subscribe({

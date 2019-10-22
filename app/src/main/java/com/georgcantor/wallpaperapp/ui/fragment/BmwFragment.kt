@@ -93,7 +93,7 @@ class BmwFragment : Fragment() {
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
-            .doOnTerminate {
+            .doFinally {
                 animationView?.hideAnimation()
             }
             .subscribe({
