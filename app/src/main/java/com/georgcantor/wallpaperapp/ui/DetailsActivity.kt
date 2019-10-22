@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.*
@@ -15,19 +14,26 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.ui.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.fragment_common.animationView
+import kotlinx.android.synthetic.main.similar_pictures_view.similarBottomSheet
+import kotlinx.android.synthetic.main.similar_pictures_view.similarRecyclerView
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
@@ -51,11 +57,13 @@ class DetailsActivity : AppCompatActivity() {
     private var db: DatabaseHelper? = null
 
     private lateinit var tagAdapter: TagAdapter
+    private lateinit var similarAdapter: SimilarAdapter
     private lateinit var prefs: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,6 +165,12 @@ class DetailsActivity : AppCompatActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
+        bottomSheetBehavior = BottomSheetBehavior.from(similarBottomSheet)
+        similarRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        similarAdapter = SimilarAdapter(this)
+        similarRecyclerView.adapter = similarAdapter
+        loadData(1)
+
         if (intent.hasExtra(EXTRA_PIC)) {
             pic = intent.getParcelableExtra(EXTRA_PIC)
         } else {
@@ -226,6 +240,22 @@ class DetailsActivity : AppCompatActivity() {
 
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         registerReceiver(downloadReceiver, filter)
+    }
+
+    private fun loadData(index: Int) {
+        val disposable = viewModel.getSimilarImages("auto", index)
+            .retry(3)
+            .doOnSubscribe {
+                animationView?.showAnimation()
+            }
+            .doFinally {
+                animationView?.hideAnimation()
+            }
+            .subscribe(similarAdapter::setList) {
+                shortToast(getString(R.string.something_went_wrong))
+            }
+
+        DisposableManager.add(disposable)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

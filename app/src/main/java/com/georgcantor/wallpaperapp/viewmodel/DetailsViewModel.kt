@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showAnimation
@@ -39,7 +40,8 @@ import java.util.*
 
 class DetailsViewModel(
     private val context: Context,
-    private val db: DatabaseHelper
+    private val db: DatabaseHelper,
+    private val apiRepository: ApiRepository
 ) : ViewModel() {
 
     fun setFavoriteStatus(
@@ -63,6 +65,12 @@ class DetailsViewModel(
         val gson = Gson()
         val toStoreObject = gson.toJson(commonPic)
         db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
+    }
+
+    fun getSimilarImages(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return apiRepository.getPixabayPictures(request, index)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun imageSize(pic: CommonPic): Observable<Int> {

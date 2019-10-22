@@ -27,7 +27,7 @@ val viewModelModule = module {
         SearchViewModel(get())
     }
     viewModel {
-        DetailsViewModel(get(), get())
+        DetailsViewModel(get(), get(), get())
     }
     viewModel {
         CategoryViewModel(get(), get())
