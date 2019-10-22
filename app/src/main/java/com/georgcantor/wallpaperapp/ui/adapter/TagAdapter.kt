@@ -10,7 +10,11 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.DetailsActivity
 import com.georgcantor.wallpaperapp.ui.MainActivity
 import com.georgcantor.wallpaperapp.ui.adapter.holder.TagViewHolder
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHolder>() {
 
@@ -31,11 +35,20 @@ class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHol
             val tag = it[position]
             holder.tag.text = tag
 
+            val publishSubject = PublishSubject.create<Int>()
+            publishSubject
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    val intent = Intent(activity, MainActivity::class.java)
+                    intent.putExtra(MainActivity.TAG_EXTRA_OPEN, MainActivity.TAG_EXTRA_OPEN)
+                    intent.putExtra(MainActivity.TAG_EXTRA, tag)
+                    startActivity(context, intent, null)
+                }
+
             holder.tag.setOnClickListener {
-                val intent = Intent(activity, MainActivity::class.java)
-                intent.putExtra(MainActivity.TAG_EXTRA_OPEN, MainActivity.TAG_EXTRA_OPEN)
-                intent.putExtra(MainActivity.TAG_EXTRA, tag)
-                startActivity(context, intent, null)
+                publishSubject.onNext(0)
             }
         }
     }
