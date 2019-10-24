@@ -5,16 +5,13 @@ import android.app.Activity
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.AndroidRuntimeException
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
@@ -85,22 +82,6 @@ class DetailsViewModel(
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun share(url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name))
-            intent.putExtra(Intent.EXTRA_TEXT, url)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(
-                    context,
-                    Intent.createChooser(intent, context.getString(R.string.choose_share)),
-                    null
-                )
-        } catch (e: AndroidRuntimeException) {
-        }
     }
 
     fun downloadPicture(
