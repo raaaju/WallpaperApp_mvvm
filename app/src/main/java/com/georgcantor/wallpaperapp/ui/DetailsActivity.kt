@@ -29,11 +29,8 @@ import com.georgcantor.wallpaperapp.ui.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_common.animationView
-import kotlinx.android.synthetic.main.similar_pictures_view.similarBottomSheet
-import kotlinx.android.synthetic.main.similar_pictures_view.similarRecyclerView
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
@@ -63,7 +60,6 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,7 +161,6 @@ class DetailsActivity : AppCompatActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
-        bottomSheetBehavior = BottomSheetBehavior.from(similarBottomSheet)
         similarRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         similarAdapter = SimilarAdapter(this)
         similarRecyclerView.adapter = similarAdapter

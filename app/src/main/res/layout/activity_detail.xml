@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppDetailTheme"
@@ -133,6 +134,30 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="cursive"
+                    android:text="Similar images:"
+                    android:textSize="@dimen/text_size0" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="@dimen/card_elevation_small"
+                    app:cardUseCompatPadding="true">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/similarRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:overScrollMode="never"
+                        tools:context=".ui.DetailsActivity" />
+
+                </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -228,7 +253,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_wallpaper" />
-
-    <include layout="@layout/similar_pictures_view"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
