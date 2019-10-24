@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/similarImageView"
         android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:foreground="?android:attr/actionBarItemBackground"
         android:orientation="horizontal"
         android:scaleType="centerCrop" />
