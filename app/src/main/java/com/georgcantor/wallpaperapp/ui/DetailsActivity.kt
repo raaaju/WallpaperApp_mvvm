@@ -252,9 +252,11 @@ class DetailsActivity : AppCompatActivity() {
             .doFinally {
                 animationView?.hideAnimation()
             }
-            .subscribe(similarAdapter::setList) {
+            .subscribe({
+                similarAdapter.setList(it, this)
+            }, {
                 shortToast(getString(R.string.something_went_wrong))
-            }
+            })
 
         DisposableManager.add(disposable)
     }
