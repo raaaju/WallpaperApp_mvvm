@@ -53,10 +53,9 @@ class DetailsActivity : AppCompatActivity() {
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
 
+    private lateinit var prefManager: PreferenceManager
     private lateinit var tagAdapter: TagAdapter
     private lateinit var similarAdapter: SimilarAdapter
-    private lateinit var prefs: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
@@ -65,12 +64,11 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_detail)
-
         viewModel = getViewModel { parametersOf() }
-        progressAnimationView?.showAnimation()
+        prefManager = PreferenceManager(this)
         db = DatabaseHelper(this)
-        editor = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE).edit()
-        prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
+
+        progressAnimationView?.showAnimation()
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -93,8 +91,7 @@ class DetailsActivity : AppCompatActivity() {
                     progressAnimationView?.showAnimation()
                     setWallAsync()
                 } else {
-                    editor.putBoolean(PREF_BOOLEAN, true)
-                    editor.apply()
+                    prefManager.saveBoolean(PREF_BOOLEAN, true)
                     viewModel.checkSavingPermission(permissionCheck, this)
                 }
             } else {
@@ -315,7 +312,7 @@ class DetailsActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            val isSetWall = prefs.getBoolean(PREF_BOOLEAN, false)
+            val isSetWall = prefManager.getBoolean(PREF_BOOLEAN)
             if (isSetWall) setWallAsync() else pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
         } else {
             val intent = Intent()

@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -17,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.*
 import com.georgcantor.wallpaperapp.util.DisposableManager
+import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onStateUpdate(installState: InstallState) {
     }
 
+    private lateinit var prefManager: PreferenceManager
     private lateinit var updateManager: AppUpdateManager
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel = getViewModel { parametersOf() }
-
+        prefManager = PreferenceManager(this)
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 
@@ -154,12 +155,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun checkNumberOfLaunches() {
-        var numberOfLaunches = getPreferences(Context.MODE_PRIVATE).getInt(LAUNCHES, 0)
+        var numberOfLaunches = prefManager.getInt(LAUNCHES)
         if (numberOfLaunches < 4) {
             numberOfLaunches++
-            getPreferences(Context.MODE_PRIVATE).edit().putInt(LAUNCHES, numberOfLaunches).apply()
-            if (numberOfLaunches > 3 && !getPreferences(Context.MODE_PRIVATE).getBoolean(IS_RATING_EXIST, false)) {
-                viewModel.showRatingDialog(this, getPreferences(Context.MODE_PRIVATE).edit())
+            prefManager.saveInt(LAUNCHES, numberOfLaunches)
+            if (numberOfLaunches > 3 && !prefManager.getBoolean(IS_RATING_EXIST)) {
+                viewModel.showRatingDialog(this, prefManager)
             }
         }
     }
@@ -249,7 +250,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-                viewModel.showRatingDialog(this, getPreferences(Context.MODE_PRIVATE).edit())
+                viewModel.showRatingDialog(this, prefManager)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
