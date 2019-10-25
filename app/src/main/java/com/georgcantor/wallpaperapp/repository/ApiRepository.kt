@@ -1,5 +1,7 @@
 package com.georgcantor.wallpaperapp.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.model.data.CommonPic
@@ -10,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 
 class ApiRepository(private val apiService: ApiService) {
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         val pictures = ArrayList<CommonPic>()
 
@@ -33,6 +36,12 @@ class ApiRepository(private val apiService: ApiService) {
                                 hit.userImageURL
                             )
                         )
+                    }
+                    pictures.removeIf {
+                        it.imageURL == "https://pixabay.com/get/57e5dd444a51b114a6d1857ace2e357a083edbe252587848722872.png"
+                    }
+                    pictures.removeIf {
+                        it.imageURL == "https://pixabay.com/get/57e5dd444a56b114a6d1857ace2e357a083edbe252587848722872.png"
                     }
                     pictures.shuffle()
                     pictures
