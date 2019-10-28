@@ -3,18 +3,20 @@ package com.georgcantor.wallpaperapp.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.repository.ApiRepository
+import com.georgcantor.wallpaperapp.util.PreferenceManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class CategoryViewModel(private val context: Context,
-                        private val apiRepository: ApiRepository) : ViewModel() {
+class CategoryViewModel(
+    private val context: Context,
+    private val apiRepository: ApiRepository
+) : ViewModel() {
 
-    fun getCategories(): Observable<ArrayList<Category>> {
+    fun getCategories(preferenceManager: PreferenceManager): Observable<ArrayList<String>?> {
         return Observable.fromCallable {
-            val list = ArrayList<Category>()
+            val list = ArrayList<String>()
             apiRepository.getCategories(context.getString(R.string.animals)).subscribe ({ list.add(it) }, {})
             apiRepository.getCategories(context.getString(R.string.buildings)).subscribe ({ list.add(it) }, {})
             apiRepository.getCategories(context.getString(R.string.computer)).subscribe ({ list.add(it) }, {})
@@ -31,10 +33,20 @@ class CategoryViewModel(private val context: Context,
             apiRepository.getCategories(context.getString(R.string.sports)).subscribe ({ list.add(it) }, {})
             apiRepository.getCategories(context.getString(R.string.textures)).subscribe ({ list.add(it) }, {})
             apiRepository.getCategories(context.getString(R.string.travel)).subscribe ({ list.add(it) }, {})
+            val urls = ArrayList<String>()
+            list.map(urls::add)
+            preferenceManager.saveCategories("cat", urls)
             list
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getSavedCategories(preferenceManager: PreferenceManager): Observable<ArrayList<String>?> {
+        return Observable.fromCallable {
+            val savedUrls = preferenceManager.getCategories("cat")
+            savedUrls
+        }
     }
 
 }

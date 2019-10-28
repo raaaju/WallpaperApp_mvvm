@@ -29,10 +29,12 @@ class CategoryFragment : Fragment() {
 
     private lateinit var viewModel: CategoryViewModel
     private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var preferenceManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel { parametersOf() }
+        preferenceManager = PreferenceManager(requireActivity())
     }
 
     override fun onCreateView(
@@ -64,18 +66,33 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        val disposable = viewModel.getCategories()
-            .doOnSubscribe {
-                animationView?.showAnimation()
-            }
-            .doFinally {
-                animationView?.hideAnimation()
-            }
-            .subscribe(categoryAdapter::setCategoryList) {
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
-            }
+        if (preferenceManager.getCategories("cat").isNullOrEmpty()) {
+            val disposable = viewModel.getCategories(preferenceManager)
+                .doOnSubscribe {
+                    animationView?.showAnimation()
+                }
+                .doFinally {
+                    animationView?.hideAnimation()
+                }
+                .subscribe(categoryAdapter::setCategoryList) {
+                    requireActivity().longToast(it.message.toString())
+                }
 
-        DisposableManager.add(disposable)
+            DisposableManager.add(disposable)
+        } else {
+            val disposable = viewModel.getSavedCategories(preferenceManager)
+                .doOnSubscribe {
+                    animationView?.showAnimation()
+                }
+                .doFinally {
+                    animationView?.hideAnimation()
+                }
+                .subscribe(categoryAdapter::setCategoryList) {
+                    requireActivity().longToast(it.message.toString())
+                }
+
+            DisposableManager.add(disposable)
+        }
     }
 
     override fun onDestroy() {

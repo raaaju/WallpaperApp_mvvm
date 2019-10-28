@@ -157,11 +157,11 @@ class ApiRepository(private val apiService: ApiService) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getCategories(request: String): Observable<Category> {
+    fun getCategories(request: String): Observable<String> {
         return apiService.getPixabayPictures(request, 1)
             .flatMap {
                 Observable.fromCallable {
-                    Category(request, it.hits[0].webformatURL)
+                    it.hits[0].webformatURL
                 }
             }
     }

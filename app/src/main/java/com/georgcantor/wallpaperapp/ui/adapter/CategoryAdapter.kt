@@ -16,7 +16,7 @@ import java.util.*
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
 
-    private val categoryList: MutableList<Category>?
+    private val categoryList: MutableList<String>?
 
     init {
         this.categoryList = ArrayList()
@@ -30,11 +30,11 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position)?.categoryName)
+            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position))
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
-            activity.openFragment(fragment, categoryList?.get(position)?.categoryName ?: "")
+            activity.openFragment(fragment, categoryList?.get(position) ?: "")
         }
 
         return viewHolder
@@ -42,10 +42,10 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categoryList?.get(position)
-        holder.categoryName.text = category?.categoryName
+//        holder.categoryName.text = category?.categoryName
 
         Glide.with(context)
-            .load(category?.categoryUrl)
+            .load(category)
             .thumbnail(0.1f)
             .placeholder(R.drawable.plh)
             .into(holder.categoryImage)
@@ -53,7 +53,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
 
     override fun getItemCount(): Int = categoryList?.size ?: 0
 
-    fun setCategoryList(categories: List<Category>?) {
+    fun setCategoryList(categories: List<String>?) {
         if (categories != null) {
             this.categoryList?.clear()
             this.categoryList?.addAll(categories)
