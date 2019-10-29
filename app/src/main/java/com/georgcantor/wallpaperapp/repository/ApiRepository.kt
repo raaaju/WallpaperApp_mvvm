@@ -37,7 +37,7 @@ class ApiRepository(private val apiService: ApiService) {
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         pictures.removeIf {
-                            it.width == 1920 && it.heght == 1337
+                            it.id == 158703 || it.id == 158704
                         }
                     }
                     pictures.shuffle()
