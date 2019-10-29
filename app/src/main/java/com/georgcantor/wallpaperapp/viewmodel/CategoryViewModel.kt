@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.repository.ApiRepository
+import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment.Companion.CATEGORIES
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,7 +36,7 @@ class CategoryViewModel(
             apiRepository.getCategories(context.getString(R.string.travel)).subscribe ({ list.add(it) }, {})
             val urls = ArrayList<String>()
             list.map(urls::add)
-            preferenceManager.saveCategories("cat", urls)
+            preferenceManager.saveCategories(CATEGORIES, urls)
             list
         }
             .subscribeOn(Schedulers.io())
@@ -44,7 +45,7 @@ class CategoryViewModel(
 
     fun getSavedCategories(preferenceManager: PreferenceManager): Observable<ArrayList<String>?> {
         return Observable.fromCallable {
-            val savedUrls = preferenceManager.getCategories("cat")
+            val savedUrls = preferenceManager.getCategories(CATEGORIES)
             savedUrls
         }
     }

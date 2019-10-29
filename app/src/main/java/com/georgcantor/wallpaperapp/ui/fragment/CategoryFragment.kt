@@ -18,6 +18,8 @@ import org.koin.core.parameter.parametersOf
 class CategoryFragment : Fragment() {
 
     companion object {
+        const val CATEGORIES = "categories"
+
         fun newInstance(): CategoryFragment {
             val fragment = CategoryFragment()
             val args = Bundle()
@@ -66,7 +68,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        if (preferenceManager.getCategories("cat").isNullOrEmpty()) {
+        if (preferenceManager.getCategories(CATEGORIES).isNullOrEmpty()) {
             val disposable = viewModel.getCategories(preferenceManager)
                 .doOnSubscribe {
                     animationView?.showAnimation()
