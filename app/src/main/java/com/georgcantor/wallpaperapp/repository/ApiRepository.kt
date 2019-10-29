@@ -37,10 +37,7 @@ class ApiRepository(private val apiService: ApiService) {
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         pictures.removeIf {
-                            it.imageURL == "https://pixabay.com/get/57e5dd444a51b114a6d1857ace2e357a083edbe252587848722872.png"
-                        }
-                        pictures.removeIf {
-                            it.imageURL == "https://pixabay.com/get/57e5dd444a56b114a6d1857ace2e357a083edbe252587848722872.png"
+                            it.width == 1920 && it.heght == 1337
                         }
                     }
                     pictures.shuffle()
