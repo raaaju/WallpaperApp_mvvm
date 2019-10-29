@@ -50,4 +50,27 @@ class CategoryViewModel(
         }
     }
 
+    fun getCategoryNames(): Observable<ArrayList<String>> {
+        return Observable.fromCallable {
+            val names = ArrayList<String>()
+            names.add(context.getString(R.string.animals))
+            names.add(context.getString(R.string.buildings))
+            names.add(context.getString(R.string.computer))
+            names.add(context.getString(R.string.education))
+            names.add(context.getString(R.string.health))
+            names.add(context.getString(R.string.fashion))
+            names.add(context.getString(R.string.feelings))
+            names.add(context.getString(R.string.food))
+            names.add(context.getString(R.string.music))
+            names.add(context.getString(R.string.nature))
+            names.add(context.getString(R.string.people))
+            names.add(context.getString(R.string.places))
+            names.add(context.getString(R.string.science))
+            names.add(context.getString(R.string.sports))
+            names.add(context.getString(R.string.textures))
+            names.add(context.getString(R.string.travel))
+            names
+        }
+    }
+
 }

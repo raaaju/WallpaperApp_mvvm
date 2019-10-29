@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes_request))
         bmwFragment = BmwFragment.newInstance(getString(R.string.bmw_request))
         audiFragment = AudiFragment.newInstance(getString(R.string.audi_request))
-        categoryFragment = CategoryFragment.newInstance()
+        categoryFragment = CategoryFragment()
         brandFragment = CarBrandFragment()
 
         bundle = Bundle()

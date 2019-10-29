@@ -11,15 +11,12 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.util.openFragment
-import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
 
-    private val categoryList: MutableList<String>?
-
-    init {
-        this.categoryList = ArrayList()
-    }
+    private val categoryList: MutableList<String>? = ArrayList()
+    private val names: MutableList<String> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
@@ -41,7 +38,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categoryList?.get(position)
-//        holder.categoryName.text = category?.categoryName
+        holder.categoryName.text = names[position]
 
         Glide.with(context)
             .load(category)
@@ -58,6 +55,10 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
             this.categoryList?.addAll(categories)
             notifyDataSetChanged()
         }
+    }
+
+    fun setCategoryNames(names: ArrayList<String>) {
+        this.names.addAll(names)
     }
 
 }

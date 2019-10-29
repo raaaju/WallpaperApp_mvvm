@@ -20,14 +20,6 @@ class CategoryFragment : Fragment() {
 
     companion object {
         const val CATEGORIES = "categories"
-
-        fun newInstance(): CategoryFragment {
-            val fragment = CategoryFragment()
-            val args = Bundle()
-            fragment.arguments = args
-
-            return fragment
-        }
     }
 
     private lateinit var viewModel: CategoryViewModel
@@ -79,7 +71,7 @@ class CategoryFragment : Fragment() {
                     animationView?.hideAnimation()
                 }
                 .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().longToast(it.message.toString())
+                    requireActivity().shortToast(it.message.toString())
                 }
         } else {
             disposable = viewModel.getSavedCategories(preferenceManager)
@@ -93,7 +85,12 @@ class CategoryFragment : Fragment() {
                     requireActivity().longToast(it.message.toString())
                 }
         }
+        val nameDisposable =
+            viewModel.getCategoryNames().subscribe(categoryAdapter::setCategoryNames) {
+                requireActivity().shortToast(it.message.toString())
+            }
         DisposableManager.add(disposable)
+        DisposableManager.add(nameDisposable)
     }
 
     override fun onDestroy() {
