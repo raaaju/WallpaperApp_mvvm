@@ -22,9 +22,9 @@ import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 
-fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
+fun AppCompatActivity.openFragment(fragment: Fragment, tag: String, mustRemove: Boolean) {
     val transaction = supportFragmentManager.beginTransaction()
-    if (fragment is CarBrandFragment) transaction.remove(fragment)
+    if (fragment is CarBrandFragment && mustRemove) transaction.remove(fragment)
 
     val lastIndex = supportFragmentManager.fragments.lastIndex
     val current = supportFragmentManager.fragments[lastIndex]

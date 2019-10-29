@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.util.openFragment
@@ -34,7 +33,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
-            activity.openFragment(fragment, categoryList?.get(position) ?: "")
+            activity.openFragment(fragment, categoryList?.get(position) ?: "", false)
         }
 
         return viewHolder
