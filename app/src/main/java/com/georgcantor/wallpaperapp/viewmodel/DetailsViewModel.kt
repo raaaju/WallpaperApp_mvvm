@@ -78,7 +78,7 @@ class DetailsViewModel(
                 size = IOUtils.toByteArray(url.openStream()).size
             } catch (e: InterruptedIOException) {
             }
-            return@fromCallable size
+            size
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
