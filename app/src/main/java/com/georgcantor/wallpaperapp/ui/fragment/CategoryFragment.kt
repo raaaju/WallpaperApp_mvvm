@@ -62,6 +62,7 @@ class CategoryFragment : Fragment() {
 
     private fun loadData() {
         val disposable: Disposable
+        val manager = DisposableManager
         if (preferenceManager.getCategories(CATEGORIES).isNullOrEmpty()) {
             disposable = viewModel.getCategories(preferenceManager)
                 .doOnSubscribe {
@@ -89,8 +90,8 @@ class CategoryFragment : Fragment() {
             viewModel.getCategoryNames().subscribe(categoryAdapter::setCategoryNames) {
                 requireActivity().shortToast(getString(R.string.something_went_wrong))
             }
-        DisposableManager.add(disposable)
-        DisposableManager.add(nameDisposable)
+        manager.add(disposable)
+        manager.add(nameDisposable)
     }
 
     override fun onDestroy() {
