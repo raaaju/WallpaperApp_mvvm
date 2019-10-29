@@ -71,7 +71,7 @@ class CategoryFragment : Fragment() {
                     animationView?.hideAnimation()
                 }
                 .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().shortToast(it.message.toString())
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
                 }
         } else {
             disposable = viewModel.getSavedCategories(preferenceManager)
@@ -82,12 +82,12 @@ class CategoryFragment : Fragment() {
                     animationView?.hideAnimation()
                 }
                 .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().longToast(it.message.toString())
+                    requireActivity().shortToast(getString(R.string.something_went_wrong))
                 }
         }
         val nameDisposable =
             viewModel.getCategoryNames().subscribe(categoryAdapter::setCategoryNames) {
-                requireActivity().shortToast(it.message.toString())
+                requireActivity().shortToast(getString(R.string.something_went_wrong))
             }
         DisposableManager.add(disposable)
         DisposableManager.add(nameDisposable)
