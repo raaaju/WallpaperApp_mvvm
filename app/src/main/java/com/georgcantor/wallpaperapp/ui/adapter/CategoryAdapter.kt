@@ -26,7 +26,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position))
+            bundle.putString(CarBrandFragment.FETCH_TYPE, names[position])
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
