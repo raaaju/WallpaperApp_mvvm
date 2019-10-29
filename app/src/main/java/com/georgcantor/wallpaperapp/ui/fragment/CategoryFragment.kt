@@ -10,6 +10,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -68,8 +69,9 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
+        val disposable: Disposable
         if (preferenceManager.getCategories(CATEGORIES).isNullOrEmpty()) {
-            val disposable = viewModel.getCategories(preferenceManager)
+            disposable = viewModel.getCategories(preferenceManager)
                 .doOnSubscribe {
                     animationView?.showAnimation()
                 }
@@ -79,10 +81,8 @@ class CategoryFragment : Fragment() {
                 .subscribe(categoryAdapter::setCategoryList) {
                     requireActivity().longToast(it.message.toString())
                 }
-
-            DisposableManager.add(disposable)
         } else {
-            val disposable = viewModel.getSavedCategories(preferenceManager)
+            disposable = viewModel.getSavedCategories(preferenceManager)
                 .doOnSubscribe {
                     animationView?.showAnimation()
                 }
@@ -92,9 +92,8 @@ class CategoryFragment : Fragment() {
                 .subscribe(categoryAdapter::setCategoryList) {
                     requireActivity().longToast(it.message.toString())
                 }
-
-            DisposableManager.add(disposable)
         }
+        DisposableManager.add(disposable)
     }
 
     override fun onDestroy() {
