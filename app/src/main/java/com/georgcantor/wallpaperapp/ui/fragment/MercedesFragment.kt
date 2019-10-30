@@ -81,11 +81,6 @@ class MercedesFragment : Fragment() {
         loadData(1)
     }
 
-    override fun onResume() {
-        super.onResume()
-        requireActivity().navigation.menu.getItem(2).isChecked = true
-    }
-
     private fun loadData(index: Int) {
         val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
             .retry(3)
