@@ -288,7 +288,7 @@ class DetailsActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-            intent.putExtra(Intent.EXTRA_TEXT, pic?.url)
+            intent.putExtra(Intent.EXTRA_TEXT, pic?.imageURL)
             startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
         } catch (e: AndroidRuntimeException) {
             shortToast(getString(R.string.cant_share))
