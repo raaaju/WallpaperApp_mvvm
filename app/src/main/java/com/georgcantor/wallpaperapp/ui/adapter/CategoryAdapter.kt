@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.util.openFragment
@@ -15,8 +16,7 @@ import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
 
-    private val categoryList: MutableList<String>? = ArrayList()
-    private val names: MutableList<String> = ArrayList()
+    private val categoryList: MutableList<Category>? = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
@@ -26,39 +26,34 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(CarBrandFragment.FETCH_TYPE, names[position])
+            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position)?.categoryName)
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
-            activity.openFragment(fragment, categoryList?.get(position) ?: "", false)
+            activity.openFragment(fragment, categoryList?.get(position)?.categoryName ?: "", false)
         }
 
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val category = categoryList?.get(position)
-        holder.categoryName.text = names[position]
+        holder.categoryName.text = categoryList?.get(position)?.categoryName
 
         Glide.with(context)
-            .load(category)
-            .thumbnail(0.1f)
+            .load(categoryList?.get(position)?.categoryUrl)
+            .thumbnail(0.1F)
             .placeholder(R.drawable.plh)
             .into(holder.categoryImage)
     }
 
     override fun getItemCount(): Int = categoryList?.size ?: 0
 
-    fun setCategoryList(categories: List<String>?) {
+    fun setCategoryList(categories: List<Category>?) {
         if (categories != null) {
             this.categoryList?.clear()
             this.categoryList?.addAll(categories)
             notifyDataSetChanged()
         }
-    }
-
-    fun setCategoryNames(names: ArrayList<String>) {
-        this.names.addAll(names)
     }
 
 }

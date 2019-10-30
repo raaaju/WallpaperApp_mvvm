@@ -2,7 +2,6 @@ package com.georgcantor.wallpaperapp.repository
 
 import android.os.Build
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.remote.ApiService
 import io.reactivex.Observable

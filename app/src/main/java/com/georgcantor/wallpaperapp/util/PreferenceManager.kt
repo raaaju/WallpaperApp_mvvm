@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.util
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.ui.DetailsActivity.Companion.MY_PREFS
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -17,21 +18,19 @@ class PreferenceManager(activity: Activity) {
 
     fun saveInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
 
-    fun saveCategories(key: String, categories: ArrayList<String>) {
+    fun saveCategories(key: String, categories: ArrayList<Category>) {
         json = gson.toJson(categories)
         prefs.edit().putString(key, json).apply()
     }
-
 
     fun getBoolean(key: String): Boolean = prefs.getBoolean(key, false)
 
     fun getInt(key: String): Int = prefs.getInt(key, 0)
 
-    fun getCategories(key: String): ArrayList<String>? {
-        val type = object : TypeToken<ArrayList<String>>() {}.type
-        json = prefs.getString(key, "") ?: ""
+    fun getCategories(): ArrayList<Category>? {
+        val type = object : TypeToken<ArrayList<Category>>() {}.type
 
-        return gson.fromJson<ArrayList<String>>(json, type)
+        return gson.fromJson(json, type)
     }
 
 }
