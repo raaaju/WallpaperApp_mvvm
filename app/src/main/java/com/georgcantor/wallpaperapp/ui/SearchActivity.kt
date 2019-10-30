@@ -103,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
                 adapter.setPicList(it)
                 searchAnimationView?.hideAnimation()
                 invalidateOptionsMenu()
-                if (it.isNullOrEmpty()) {
+                if (adapter.itemCount == 0) {
                     searchAnimationView?.showAnimation()
                     shortToast(getString(R.string.not_found))
                 }
@@ -134,6 +134,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_cancel -> {
+                searchAnimationView?.hideAnimation()
                 viewModel.isSearchingActive.value = false
                 searchEditText.setText("")
                 manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
