@@ -245,10 +245,10 @@ class DetailsActivity : AppCompatActivity() {
         val disposable = viewModel.getSimilarImages(request, 1)
             .retry(3)
             .doOnSubscribe {
-                animationView?.showAnimation()
+                similarProgressAnimView?.showAnimation()
             }
             .doFinally {
-                animationView?.hideAnimation()
+                similarProgressAnimView?.hideAnimation()
             }
             .subscribe({
                 similarAdapter.setList(it, this)

@@ -149,6 +149,14 @@
                     app:cardElevation="@dimen/card_elevation_small"
                     app:cardUseCompatPadding="true">
 
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/similarProgressAnimView"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:lottie_fileName="loading.json" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/similarRecyclerView"
                         android:layout_width="wrap_content"
