@@ -68,7 +68,7 @@
     <string name="cancel">Отмена</string>
     <string name="add_to_favorites">Добавить в избранное</string>
     <string name="share">Поделиться</string>
-    <string name="choose_share">Выберите</string>
+    <string name="choose_share">Выберите приложение</string>
     <string name="you_need_perm_toast">Чтобы сохранять изображения необходимо это разрешение</string>
     <string name="speak_something">Говорите…</string>
     <string name="check_internet">Проверьте интернет соединение</string>
