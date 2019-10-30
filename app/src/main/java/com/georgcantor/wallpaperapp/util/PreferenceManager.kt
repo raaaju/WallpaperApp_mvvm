@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class PreferenceManager(activity: Activity) {
+
     private val gson = Gson()
     private var json = ""
 
@@ -27,8 +28,9 @@ class PreferenceManager(activity: Activity) {
 
     fun getInt(key: String): Int = prefs.getInt(key, 0)
 
-    fun getCategories(): ArrayList<Category>? {
+    fun getCategories(key: String): ArrayList<Category>? {
         val type = object : TypeToken<ArrayList<Category>>() {}.type
+        val json = prefs.getString(key, "")
 
         return gson.fromJson(json, type)
     }

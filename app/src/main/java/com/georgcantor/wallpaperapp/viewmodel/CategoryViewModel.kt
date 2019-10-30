@@ -64,7 +64,7 @@ class CategoryViewModel(
 
     fun getSavedCategories(preferenceManager: PreferenceManager): Observable<ArrayList<Category>?> {
         return Observable.fromCallable {
-            val savedUrls = preferenceManager.getCategories()
+            val savedUrls = preferenceManager.getCategories(CATEGORIES)
             savedUrls
         }
     }
