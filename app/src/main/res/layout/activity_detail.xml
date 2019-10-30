@@ -69,7 +69,7 @@
                     android:contentDescription="@string/detail_image" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/reviewCardView"
+                    android:id="@+id/tagsCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"

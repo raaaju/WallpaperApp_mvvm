@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.AndroidRuntimeException
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -168,14 +169,21 @@ class DetailsActivity : AppCompatActivity() {
             shortToast(getString(R.string.something_went_wrong))
         }
         pic?.let {
-            var title = it.tags
-            while (title?.contains(",") == true) {
-                val element = title.substring(0, title.indexOf(","))
-                tags.add(element)
-                first = title.indexOf(",")
-                title = title.substring(++first)
+            if (it.tags.isNullOrEmpty()) {
+                tagsCardView.visibility = View.GONE
+                loadSimilarImages("")
+            } else {
+                var title = it.tags
+                while (title?.contains(",") == true) {
+                    val element = title.substring(0, title.indexOf(","))
+                    tags.add(element)
+                    first = title.indexOf(",")
+                    title = title.substring(++first)
+                }
+                title?.let(tags::add)
+
+                loadSimilarImages(tags[0])
             }
-            title?.let(tags::add)
         }
 
         tagTitle?.text = tags[0]
@@ -231,12 +239,10 @@ class DetailsActivity : AppCompatActivity() {
 
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         registerReceiver(downloadReceiver, filter)
-
-        loadSimilarImages()
     }
 
-    private fun loadSimilarImages() {
-        val disposable = viewModel.getSimilarImages(tags[0], 1)
+    private fun loadSimilarImages(request: String) {
+        val disposable = viewModel.getSimilarImages(request, 1)
             .retry(3)
             .doOnSubscribe {
                 animationView?.showAnimation()
