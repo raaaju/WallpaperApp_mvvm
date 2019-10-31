@@ -4,8 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="app_detail_name"> </string>
-    <string name="add_widget">Add widget</string>
-    <string name="powered_by">Powered By: www.pixabay.com</string>
     <string name="by">By:</string>
     <string name="downloads">Downloads:</string>
     <string name="favourite">Favourites:</string>
@@ -18,35 +16,29 @@
     <string name="explore_item">Category item</string>
     <string name="about_us">About Us</string>
     <string name="rate_us">Rate Us</string>
-    <string name="rating_toolbar" translatable="false">Rating</string>
     <string name="info">Info</string>
     <string name="download">Download</string>
     <string name="user_name">image provided by</string>
     <string name="jpg">.jpg</string>
-    <string name="package_drawable">com.georgcantor.wallpaperapp:drawable/</string>
 
     <string name="Animals">Animals</string>
     <string name="animals" translatable="false">animals</string>
     <string name="Textures">Textures</string>
     <string name="textures" translatable="false">textures</string>
-    <string name="Architecture">Architecture</string>
     <string name="buildings" translatable="false">buildings</string>
-    <string name="Business">Business</string>
-    <string name="business" translatable="false">business</string>
-    <string name="Communication">Communication</string>
+    <string name="Buildings" translatable="false">Buildings</string>
     <string name="computer">computer</string>
+    <string name="Computer">Computer</string>
     <string name="Education">Education</string>
     <string name="education" translatable="false">education</string>
     <string name="Fashion">Fashion</string>
     <string name="fashion" translatable="false">fashion</string>
-    <string name="Emotions">Emotions</string>
     <string name="feelings">feelings</string>
+    <string name="Feelings">Feelings</string>
     <string name="Food">Food</string>
     <string name="food">food</string>
     <string name="Health">Health</string>
     <string name="health">health</string>
-    <string name="Craft">Craft</string>
-    <string name="industry">industry</string>
     <string name="Music">Music</string>
     <string name="music" translatable="false">music</string>
     <string name="Nature">Nature</string>
@@ -59,22 +51,18 @@
     <string name="religion">religion</string>
     <string name="Technology">Technology</string>
     <string name="science">science</string>
+    <string name="Science">Science</string>
     <string name="Sports">Sports</string>
     <string name="sports">sports</string>
-    <string name="Transportation">Transportation</string>
-    <string name="transportation">transportation</string>
     <string name="Travel">Travel</string>
     <string name="travel" translatable="false">travel</string>
 
-    <string name="Set_As">Set As</string>
-    <string name="down_wallpapers">Downloading from 4K Wallpapers</string>
+    <string name="down_wallpapers">Download from Wallpapers</string>
     <string name="down_complete">.jpg Download Complete</string>
     <string name="set_wall_complete">Wallpaper setup complete</string>
     <string name="down">.jpg Download</string>
     <string name="widget">widget</string>
     <string name="URI">URI:</string>
-    <string name="image_jpg">image/jpg</string>
-    <string name="mimeType">mimeType</string>
     <string name="gallery">Gallery</string>
     <string name="gallery_toolbar" translatable="false">Gallery</string>
 
@@ -98,23 +86,14 @@
     <string name="ferrari" translatable="false">Ferrari</string>
     <string name="rolls" translatable="false">Rolls-Royce</string>
     <string name="review" translatable="false">review</string>
-    <string name="about" translatable="false">about</string>
 
     <string name="search">Search</string>
     <string name="type_and_search">Type and Search</string>
     <string name="cancel">Cancel</string>
-    <string name="allow_app_use_mic">For voice requests, you need this permission. Allow?</string>
     <string name="press_back">Press BACK again to exit</string>
-    <string name="alex_kirillov">Alex Kirillov</string>
-    <string name="ad_free_news">World News</string>
-    <string name="music_app">Music Player</string>
-    <string name="try_my_other_app">Try my other Apps</string>
-    <string name="tv_made_by">App developed by</string>
-    <string name="title_about_the_app">About The App</string>
     <string name="favorites">Favorites</string>
     <string name="favorites_toolbar" translatable="false">Favorites</string>
     <string name="del_from_fav_dialog">Remove from favorites?</string>
-    <string name="cancel_dialog">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="add_to_favorites">Add to favorites</string>
@@ -124,14 +103,10 @@
     <string name="speak_something">Speak something…</string>
     <string name="check_internet">Check internet connection</string>
     <string name="email" translatable="false">cupsman1986@gmail.com</string>
-    <string name="message_choose_title">Send a message</string>
     <string name="add_review">Send feedback</string>
-    <string name="rating">Rating</string>
     <string name="thanks_for_feedback">Thank you for rating</string>
     <string name="remove_fav_dialog_message">Delete all favorites?</string>
     <string name="delete_all">Delete all</string>
-    <string name="hd" translatable="false">HD</string>
-    <string name="no_email_client">There is no email client installed:(</string>
     <string name="cant_share">Unable to share</string>
     <string name="update_dialog_message">A new version of the app is available. Download?</string>
 

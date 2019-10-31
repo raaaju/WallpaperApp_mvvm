@@ -20,37 +20,37 @@ class CategoryViewModel(
         return Observable.fromCallable {
             val list = ArrayList<Category>()
             apiRepository.getCategories(context.getString(R.string.animals)).subscribe ({
-                list.add(Category(context.getString(R.string.animals), it)) }, {})
+                list.add(Category(context.getString(R.string.Animals), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.buildings)).subscribe ({
-                list.add(Category(context.getString(R.string.buildings), it)) }, {})
+                list.add(Category(context.getString(R.string.Buildings), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.computer)).subscribe ({
-                list.add(Category(context.getString(R.string.computer), it)) }, {})
+                list.add(Category(context.getString(R.string.Computer), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.education)).subscribe ({
-                list.add(Category(context.getString(R.string.education), it)) }, {})
+                list.add(Category(context.getString(R.string.Education), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.health)).subscribe ({
-                list.add(Category(context.getString(R.string.health), it)) }, {})
+                list.add(Category(context.getString(R.string.Health), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.fashion)).subscribe ({
-                list.add(Category(context.getString(R.string.fashion), it)) }, {})
+                list.add(Category(context.getString(R.string.Fashion), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.feelings)).subscribe ({
-                list.add(Category(context.getString(R.string.feelings), it)) }, {})
+                list.add(Category(context.getString(R.string.Feelings), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.food)).subscribe ({
-                list.add(Category(context.getString(R.string.food), it)) }, {})
+                list.add(Category(context.getString(R.string.Food), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.music)).subscribe ({
-                list.add(Category(context.getString(R.string.music), it)) }, {})
+                list.add(Category(context.getString(R.string.Music), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.nature)).subscribe ({
-                list.add(Category(context.getString(R.string.nature), it)) }, {})
+                list.add(Category(context.getString(R.string.Nature), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.people)).subscribe ({
-                list.add(Category(context.getString(R.string.people), it)) }, {})
+                list.add(Category(context.getString(R.string.People), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.places)).subscribe ({
-                list.add(Category(context.getString(R.string.places), it)) }, {})
+                list.add(Category(context.getString(R.string.Places), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.science)).subscribe ({
-                list.add(Category(context.getString(R.string.science), it)) }, {})
+                list.add(Category(context.getString(R.string.Science), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.sports)).subscribe ({
-                list.add(Category(context.getString(R.string.sports), it)) }, {})
+                list.add(Category(context.getString(R.string.Sports), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.textures)).subscribe ({
-                list.add(Category(context.getString(R.string.textures), it)) }, {})
+                list.add(Category(context.getString(R.string.Textures), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.travel)).subscribe ({
-                list.add(Category(context.getString(R.string.travel), it)) }, {})
+                list.add(Category(context.getString(R.string.Travel), it)) }, {})
             val urls = ArrayList<Category>()
             list.map {
                 urls.add(Category(it.categoryName, it.categoryUrl))
