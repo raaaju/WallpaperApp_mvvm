@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
+import com.georgcantor.wallpaperapp.util.hideAnimation
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -30,7 +31,7 @@ class FavoriteViewModel(
 
     fun isEmptyAnimVisible(animationView: LottieAnimationView) {
         if (db.historyCount > 0) {
-            animationView.visibility = View.GONE
+            animationView.hideAnimation()
         } else {
             animationView.visibility = View.VISIBLE
             animationView.playAnimation()

@@ -41,8 +41,6 @@ class FavoriteActivity : AppCompatActivity() {
 
         adapter = FavoriteAdapter(this)
         favRecyclerView.adapter = adapter
-
-        viewModel.isEmptyAnimVisible(emptyAnimationView)
     }
 
     override fun onResume() {
@@ -52,6 +50,8 @@ class FavoriteActivity : AppCompatActivity() {
                     shortToast(getString(R.string.something_went_wrong))
                 }
         DisposableManager.add(disposable)
+        viewModel.isEmptyAnimVisible(emptyAnimationView)
+        invalidateOptionsMenu()
     }
 
     override fun onBackPressed() {
