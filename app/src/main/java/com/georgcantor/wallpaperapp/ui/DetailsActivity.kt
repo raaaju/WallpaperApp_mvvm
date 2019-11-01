@@ -206,7 +206,7 @@ class DetailsActivity : AppCompatActivity() {
                 val disposable = viewModel.imageSize(pic)
                     .subscribe({ size ->
                         loadImage(
-                                if (size < SIZE_IN_BYTES) pic.fullHDURL ?: "" else pic.url ?: "",
+                                if (size < SIZE_IN_BYTES) pic.imageURL ?: "" else pic.url ?: "",
                                 resources.getDrawable(R.drawable.plh),
                                 detailImageView,
                                 progressAnimationView

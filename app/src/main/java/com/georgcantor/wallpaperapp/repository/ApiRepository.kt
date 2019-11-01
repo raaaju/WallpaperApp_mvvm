@@ -130,18 +130,18 @@ class ApiRepository(private val apiService: ApiService) {
                     response.photos?.map {
                         pictures.add(
                             CommonPic(
-                                it.src.takeIf { it != null }?.medium,
+                                it.src?.medium,
                                 it.width,
                                 it.height,
                                 217,
                                 328,
                                 "",
                                 3846,
-                                it.src.takeIf { it != null }?.original,
-                                it.src.takeIf { it != null }?.large,
+                                it.src?.original,
+                                it.src?.large,
                                 it.photographer,
                                 it.id,
-                                it.src.takeIf { it != null }?.small
+                                it.src?.small
                             )
                         )
                     }
