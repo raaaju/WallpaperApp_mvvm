@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -50,16 +51,23 @@ class SearchActivity : AppCompatActivity() {
         createToolbar()
         initViews()
 
-        searchEditText.requestFocus()
-        searchEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
+        searchView.requestFocus()
+        searchView.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
                 adapter.clearPicList()
-                search(searchEditText.text.toString().trim { it <= ' ' }, index)
+                search(searchView.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
             false
         })
+        searchView.setAdapter(
+            ArrayAdapter(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                WordsProvider.words
+            )
+        )
     }
 
     private fun createToolbar() {
@@ -86,7 +94,7 @@ class SearchActivity : AppCompatActivity() {
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                search(searchEditText.text.toString().trim { it <= ' ' }, page)
+                search(searchView.text.toString().trim { it <= ' ' }, page)
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
@@ -136,7 +144,7 @@ class SearchActivity : AppCompatActivity() {
             R.id.action_cancel -> {
                 searchAnimationView?.hideAnimation()
                 viewModel.isSearchingActive.value = false
-                searchEditText.setText("")
+                searchView.setText("")
                 manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
             R.id.action_voice_search -> checkPermission()
@@ -196,7 +204,7 @@ class SearchActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             arrayList?.toString()?.let { search(it, index) }
-            searchEditText.setText(arrayList?.toString())
+            searchView.setText(arrayList?.toString())
         }
     }
 
