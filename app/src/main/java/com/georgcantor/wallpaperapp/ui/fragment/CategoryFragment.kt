@@ -41,7 +41,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!requireActivity().isNetworkAvailable()) {
-            noInternetImageView.visibility = View.VISIBLE
+            noInternetImageView.visible()
         }
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(activity, requireContext().getScreenSize())

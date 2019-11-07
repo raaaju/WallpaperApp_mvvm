@@ -55,6 +55,14 @@ fun Context.getScreenSize(): Int {
     }
 }
 
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
 fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
     this.playAnimation()

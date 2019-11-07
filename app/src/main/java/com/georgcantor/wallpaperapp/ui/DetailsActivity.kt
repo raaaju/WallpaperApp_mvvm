@@ -170,7 +170,9 @@ class DetailsActivity : AppCompatActivity() {
         }
         pic?.let {
             if (it.tags.isNullOrEmpty()) {
-                tagsCardView.visibility = View.GONE
+                tagsCardView.gone()
+                similarTextView.gone()
+                similarCardView.gone()
                 loadSimilarImages("")
             } else {
                 var title = it.tags

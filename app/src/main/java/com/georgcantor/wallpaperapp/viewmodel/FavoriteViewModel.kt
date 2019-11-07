@@ -8,6 +8,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
 import com.georgcantor.wallpaperapp.util.hideAnimation
+import com.georgcantor.wallpaperapp.util.visible
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -33,7 +34,7 @@ class FavoriteViewModel(
         if (db.historyCount > 0) {
             animationView.hideAnimation()
         } else {
-            animationView.visibility = View.VISIBLE
+            animationView.visible()
             animationView.playAnimation()
         }
     }

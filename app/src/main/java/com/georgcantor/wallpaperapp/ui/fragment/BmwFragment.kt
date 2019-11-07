@@ -51,7 +51,7 @@ class BmwFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!requireActivity().isNetworkAvailable()) {
-            noInternetImageView.visibility = View.VISIBLE
+            noInternetImageView.visible()
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(

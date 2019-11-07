@@ -135,6 +135,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
+                    android:id="@+id/similarTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -143,6 +144,7 @@
                     android:textSize="@dimen/text_size0" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/similarCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"

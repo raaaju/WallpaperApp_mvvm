@@ -12,4 +12,5 @@ open class HideNavScrollListener(private val view: View) : RecyclerView.OnScroll
             view.visibility = View.VISIBLE
         }
     }
+
 }

@@ -50,7 +50,7 @@ class MercedesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!requireActivity().isNetworkAvailable()) {
-            noInternetImageView.visibility = View.VISIBLE
+            noInternetImageView.visible()
         }
 
         refreshLayout.setOnRefreshListener {
