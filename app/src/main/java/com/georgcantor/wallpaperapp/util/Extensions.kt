@@ -32,12 +32,22 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String, mustRemove: 
     if (fragment == current && fragment !is CarBrandFragment) {
         return
     } else if (fragment.isAdded) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(R.anim.pull_in_right, R.anim.push_out_left, R.anim.pull_in_left, R.anim.push_out_right)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(
+            R.anim.pull_in_right,
+            R.anim.push_out_left,
+            R.anim.pull_in_left,
+            R.anim.push_out_right
+        )
         transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(tag)
         transaction.commit()
     } else {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(R.anim.pull_in_right, R.anim.push_out_left, R.anim.pull_in_left, R.anim.push_out_right)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(
+            R.anim.pull_in_right,
+            R.anim.push_out_left,
+            R.anim.pull_in_left,
+            R.anim.push_out_right
+        )
         transaction.add(R.id.frame_container, fragment)
         transaction.addToBackStack(tag)
         transaction.commit()
