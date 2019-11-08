@@ -138,9 +138,9 @@ fun Context.showDialog(
 ) {
     val builder = AlertDialog.Builder(this)
         .setMessage(message)
-        .setNegativeButton(this.resources.getString(R.string.no)) { _, _ ->
+        .setNegativeButton(R.string.no) { _, _ ->
         }
-        .setPositiveButton(this.resources.getString(R.string.yes)) { _, _ ->
+        .setPositiveButton(R.string.yes) { _, _ ->
             function()
         }
 
