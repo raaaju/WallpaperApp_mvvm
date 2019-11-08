@@ -24,11 +24,13 @@ import io.reactivex.subjects.PublishSubject
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class FavoriteAdapter(private val context: Context) : RecyclerView.Adapter<FavoriteViewHolder>() {
+class FavoriteAdapter(
+    private val context: Context,
+    private val db: DatabaseHelper
+) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
     private val favorites: MutableList<Favorite>?
     private val activity = context as Activity
-    private val db = DatabaseHelper(context)
 
     init {
         this.favorites = ArrayList()

@@ -39,7 +39,7 @@ class FavoriteActivity : AppCompatActivity() {
         favRecyclerView.setHasFixedSize(true)
         favRecyclerView.layoutManager = gridLayoutManager
 
-        adapter = FavoriteAdapter(this)
+        adapter = FavoriteAdapter(this, db)
         favRecyclerView.adapter = adapter
     }
 
