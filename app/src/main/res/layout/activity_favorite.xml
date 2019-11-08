@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.FavoriteActivity">
+    tools:context=".view.FavoriteActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/favAppBar"

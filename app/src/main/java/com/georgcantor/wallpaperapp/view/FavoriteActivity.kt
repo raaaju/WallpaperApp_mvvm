@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui
+package com.georgcantor.wallpaperapp.view
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.ui.adapter.FavoriteAdapter
+import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.getScreenSize
 import com.georgcantor.wallpaperapp.util.shortToast

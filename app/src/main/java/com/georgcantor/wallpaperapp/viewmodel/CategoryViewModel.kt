@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.ui.fragment.CategoryFragment.Companion.CATEGORIES
+import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

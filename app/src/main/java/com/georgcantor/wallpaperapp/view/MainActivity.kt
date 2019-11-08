@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui
+package com.georgcantor.wallpaperapp.view
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.fragment.*
+import com.georgcantor.wallpaperapp.view.fragment.*
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.openFragment

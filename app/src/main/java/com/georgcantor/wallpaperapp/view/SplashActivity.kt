@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui
+package com.georgcantor.wallpaperapp.view
 
 import android.content.Intent
 import android.os.Bundle

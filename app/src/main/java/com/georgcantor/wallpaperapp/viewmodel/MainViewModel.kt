@@ -9,8 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.MainActivity
-import com.georgcantor.wallpaperapp.ui.MainActivity.Companion.IS_RATING_EXIST
+import com.georgcantor.wallpaperapp.view.MainActivity
+import com.georgcantor.wallpaperapp.view.MainActivity.Companion.IS_RATING_EXIST
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.longToast
 import com.google.firebase.firestore.FirebaseFirestore

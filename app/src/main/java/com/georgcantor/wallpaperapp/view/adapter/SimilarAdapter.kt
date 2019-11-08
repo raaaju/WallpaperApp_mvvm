@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.adapter
+package com.georgcantor.wallpaperapp.view.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.ui.DetailsActivity
+import com.georgcantor.wallpaperapp.view.DetailsActivity
 import com.georgcantor.wallpaperapp.util.longToast
 import kotlinx.android.synthetic.main.similar_item.view.similarImageView
 

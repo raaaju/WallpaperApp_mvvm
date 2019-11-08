@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.adapter
+package com.georgcantor.wallpaperapp.view.adapter
 
 import android.content.Context
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
-import com.georgcantor.wallpaperapp.ui.adapter.holder.CategoryViewHolder
-import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
+import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
+import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.util.openFragment
 import kotlin.collections.ArrayList
 

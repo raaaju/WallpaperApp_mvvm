@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui
+package com.georgcantor.wallpaperapp.view
 
 import android.Manifest
 import android.app.DownloadManager
@@ -15,7 +15,6 @@ import android.provider.Settings
 import android.util.AndroidRuntimeException
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -26,12 +25,11 @@ import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.ui.adapter.SimilarAdapter
-import com.georgcantor.wallpaperapp.ui.adapter.TagAdapter
+import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
+import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.fragment_common.animationView
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File

@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.adapter
+package com.georgcantor.wallpaperapp.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -13,8 +13,8 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.db.Favorite
-import com.georgcantor.wallpaperapp.ui.DetailsActivity
-import com.georgcantor.wallpaperapp.ui.adapter.holder.FavoriteViewHolder
+import com.georgcantor.wallpaperapp.view.DetailsActivity
+import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.google.gson.Gson

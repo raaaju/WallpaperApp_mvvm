@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.fragment
+package com.georgcantor.wallpaperapp.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -16,14 +16,23 @@ import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
-class CarBrandFragment : Fragment() {
+class AudiFragment: Fragment() {
 
     companion object {
-        const val FETCH_TYPE = "fetch_type"
+        const val REQUEST = "request"
+
+        fun newInstance(arguments: String): AudiFragment {
+            val fragment = AudiFragment()
+            val args = Bundle()
+            args.putString(REQUEST, arguments)
+            fragment.arguments = args
+
+            return fragment
+        }
     }
 
     private lateinit var viewModel: SearchViewModel
-    lateinit var adapter: PicturesAdapter
+    private var adapter: PicturesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,36 +53,37 @@ class CarBrandFragment : Fragment() {
         if (!requireActivity().isNetworkAvailable()) {
             noInternetImageView.visible()
         }
-        recyclerView.setHasFixedSize(true)
-
-        val gridLayoutManager = StaggeredGridLayoutManager(
-                requireContext().getScreenSize(),
-                StaggeredGridLayoutManager.VERTICAL
-        )
-        recyclerView.layoutManager = gridLayoutManager
-        adapter = PicturesAdapter(requireContext())
-        recyclerView.adapter = adapter
-
-        val listener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                loadData(page)
-            }
-        }
 
         refreshLayout.setOnRefreshListener {
             loadData(1)
             refreshLayout.isRefreshing = false
         }
 
-        recyclerView.addOnScrollListener(listener)
-        loadData(1)
+        val gridLayoutManager = StaggeredGridLayoutManager(
+            requireContext().getScreenSize(),
+            StaggeredGridLayoutManager.VERTICAL
+        )
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = gridLayoutManager
+
+        val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                loadData(page)
+            }
+        }
+        scrollListener.resetState()
+        recyclerView.addOnScrollListener(scrollListener)
+        adapter = PicturesAdapter(requireContext())
+        recyclerView.adapter = adapter
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         recyclerView.addOnScrollListener(hideScrollListener)
+
+        loadData(1)
     }
 
     private fun loadData(index: Int) {
-        val disposable = viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
+        val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
             .retry(3)
             .doOnSubscribe {
                 animationView?.showAnimation()
@@ -81,9 +91,11 @@ class CarBrandFragment : Fragment() {
             .doFinally {
                 animationView?.hideAnimation()
             }
-            .subscribe(adapter::setPicList) {
+            .subscribe({
+                adapter?.setPicList(it)
+            }, {
                 requireActivity().shortToast(getString(R.string.something_went_wrong))
-            }
+            })
 
         DisposableManager.add(disposable)
     }

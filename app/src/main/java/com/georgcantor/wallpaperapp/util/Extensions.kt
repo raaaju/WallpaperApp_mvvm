@@ -20,7 +20,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.fragment.CarBrandFragment
+import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment
 
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String, mustRemove: Boolean) {
     val transaction = supportFragmentManager.beginTransaction()

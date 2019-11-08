@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.adapter
+package com.georgcantor.wallpaperapp.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.ui.DetailsActivity
-import com.georgcantor.wallpaperapp.ui.adapter.holder.PictureViewHolder
+import com.georgcantor.wallpaperapp.view.DetailsActivity
+import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

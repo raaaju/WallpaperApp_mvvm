@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.adapter
+package com.georgcantor.wallpaperapp.view.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.DetailsActivity
-import com.georgcantor.wallpaperapp.ui.MainActivity
-import com.georgcantor.wallpaperapp.ui.adapter.holder.TagViewHolder
+import com.georgcantor.wallpaperapp.view.DetailsActivity
+import com.georgcantor.wallpaperapp.view.MainActivity
+import com.georgcantor.wallpaperapp.view.adapter.holder.TagViewHolder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject

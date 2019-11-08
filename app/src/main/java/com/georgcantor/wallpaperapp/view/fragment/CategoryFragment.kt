@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.fragment
+package com.georgcantor.wallpaperapp.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.CategoryAdapter
+import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import io.reactivex.disposables.Disposable

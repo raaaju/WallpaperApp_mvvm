@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.adapter.holder
+package com.georgcantor.wallpaperapp.view.adapter.holder
 
 import android.view.View
 import android.widget.ImageView

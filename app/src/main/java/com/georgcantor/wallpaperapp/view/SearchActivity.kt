@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui
+package com.georgcantor.wallpaperapp.view
 
 import android.Manifest
 import android.app.Activity
@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*

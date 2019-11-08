@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.fragment
+package com.georgcantor.wallpaperapp.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.ui.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -16,13 +16,13 @@ import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
-class AudiFragment: Fragment() {
+class BmwFragment : Fragment() {
 
     companion object {
         const val REQUEST = "request"
 
-        fun newInstance(arguments: String): AudiFragment {
-            val fragment = AudiFragment()
+        fun newInstance(arguments: String): BmwFragment {
+            val fragment = BmwFragment()
             val args = Bundle()
             args.putString(REQUEST, arguments)
             fragment.arguments = args
@@ -54,17 +54,14 @@ class AudiFragment: Fragment() {
             noInternetImageView.visible()
         }
 
-        refreshLayout.setOnRefreshListener {
-            loadData(1)
-            refreshLayout.isRefreshing = false
-        }
-
         val gridLayoutManager = StaggeredGridLayoutManager(
-            requireContext().getScreenSize(),
-            StaggeredGridLayoutManager.VERTICAL
+                requireContext().getScreenSize(),
+                StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = gridLayoutManager
+        adapter = PicturesAdapter(requireContext())
+        recyclerView.adapter = adapter
 
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -73,8 +70,11 @@ class AudiFragment: Fragment() {
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
-        adapter = PicturesAdapter(requireContext())
-        recyclerView.adapter = adapter
+
+        refreshLayout.setOnRefreshListener {
+            loadData(1)
+            refreshLayout.isRefreshing = false
+        }
 
         val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
         recyclerView.addOnScrollListener(hideScrollListener)
