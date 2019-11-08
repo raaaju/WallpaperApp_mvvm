@@ -16,7 +16,7 @@ import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
 
-    private val categoryList: MutableList<Category>? = ArrayList()
+    private val categories: MutableList<Category>? = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
@@ -26,32 +26,32 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(CarBrandFragment.FETCH_TYPE, categoryList?.get(position)?.categoryName)
+            bundle.putString(CarBrandFragment.FETCH_TYPE, categories?.get(position)?.categoryName)
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
-            activity.openFragment(fragment, categoryList?.get(position)?.categoryName ?: "", false)
+            activity.openFragment(fragment, categories?.get(position)?.categoryName ?: "", false)
         }
 
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.categoryName.text = categoryList?.get(position)?.categoryName
+        holder.categoryName.text = categories?.get(position)?.categoryName
 
         Glide.with(context)
-            .load(categoryList?.get(position)?.categoryUrl)
+            .load(categories?.get(position)?.categoryUrl)
             .thumbnail(0.1F)
             .placeholder(R.drawable.plh)
             .into(holder.categoryImage)
     }
 
-    override fun getItemCount(): Int = categoryList?.size ?: 0
+    override fun getItemCount(): Int = categories?.size ?: 0
 
     fun setCategoryList(categories: List<Category>?) {
         if (categories != null) {
-            this.categoryList?.clear()
-            this.categoryList?.addAll(categories)
+            this.categories?.clear()
+            this.categories?.addAll(categories)
             notifyDataSetChanged()
         }
     }
