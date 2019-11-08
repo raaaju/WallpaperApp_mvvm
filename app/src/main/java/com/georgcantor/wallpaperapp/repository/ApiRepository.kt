@@ -1,14 +1,19 @@
 package com.georgcantor.wallpaperapp.repository
 
+import android.content.Context
 import android.os.Build
 import com.georgcantor.wallpaperapp.BuildConfig
+import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.remote.ApiService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ApiRepository(private val apiService: ApiService) {
+class ApiRepository(
+    private val context: Context,
+    private val apiService: ApiService
+) {
 
     fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         val pictures = ArrayList<CommonPic>()
@@ -70,7 +75,7 @@ class ApiRepository(private val apiService: ApiService) {
                                     5923,
                                     urls?.full,
                                     urls?.regular,
-                                    "George Smith",
+                                    context.getString(R.string.user_unsplash),
                                     it.hashCode(),
                                     urls?.thumb
                                 )
@@ -107,7 +112,7 @@ class ApiRepository(private val apiService: ApiService) {
                                 4245,
                                 it.urlImage,
                                 it.urlImage,
-                                "Mike Antony",
+                                context.getString(R.string.user_abyss),
                                 it.id?.toInt() ?: it.hashCode(),
                                 it.urlThumb
                             )

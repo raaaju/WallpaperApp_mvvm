@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single { ApiRepository(get()) }
+    single { ApiRepository(get(), get()) }
     single { DatabaseHelper(get()) }
 }
 

@@ -110,4 +110,7 @@
     <string name="cant_share">Unable to share</string>
     <string name="update_dialog_message">A new version of the app is available. Download?</string>
 
+    <string name="user_unsplash" translatable="false">George Smith</string>
+    <string name="user_abyss" translatable="false">Mike Antony</string>
+
 </resources>
