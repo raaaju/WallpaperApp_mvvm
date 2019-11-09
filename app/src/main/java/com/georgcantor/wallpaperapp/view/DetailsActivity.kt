@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.util.*

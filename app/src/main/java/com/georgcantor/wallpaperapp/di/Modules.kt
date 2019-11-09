@@ -1,6 +1,6 @@
 package com.georgcantor.wallpaperapp.di
 
-import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel

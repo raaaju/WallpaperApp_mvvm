@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
-import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.model.local.db.Favorite
+import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.util.hideAnimation
 import com.georgcantor.wallpaperapp.util.visible
 import io.reactivex.Observable

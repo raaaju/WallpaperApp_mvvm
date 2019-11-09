@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.local.db
+package com.georgcantor.wallpaperapp.model.local
 
 class Favorite {
 

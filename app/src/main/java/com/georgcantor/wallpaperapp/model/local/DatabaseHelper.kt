@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.local.db
+package com.georgcantor.wallpaperapp.model.local
 
 import android.content.ContentValues
 
@@ -9,10 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper
 import java.util.*
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(
-    context,
-    DATABASE_NAME,
-    null,
-    DATABASE_VERSION
+        context,
+        DATABASE_NAME,
+        null,
+        DATABASE_VERSION
 ) {
 
     companion object {
@@ -98,7 +98,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
 
             return true
         }
-
         return false
     }
 

@@ -17,7 +17,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.util.shortToast
@@ -36,9 +36,9 @@ import java.net.URL
 import java.util.*
 
 class DetailsViewModel(
-    private val context: Context,
-    private val db: DatabaseHelper,
-    private val apiRepository: ApiRepository
+        private val context: Context,
+        private val db: DatabaseHelper,
+        private val apiRepository: ApiRepository
 ) : ViewModel() {
 
     fun setFavoriteStatus(

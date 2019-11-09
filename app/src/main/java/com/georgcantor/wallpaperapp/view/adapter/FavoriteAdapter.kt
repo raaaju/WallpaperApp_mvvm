@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
-import com.georgcantor.wallpaperapp.model.local.db.Favorite
+import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.view.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
