@@ -14,11 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.view.fragment.*
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
+import com.georgcantor.wallpaperapp.view.fragment.*
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -40,10 +40,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
         const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
-        const val IS_RATING_EXIST = "isRatingExist"
+        const val IS_RATING_EXIST = "is_rating_exist"
         const val LAUNCHES = "launches"
         const val RATING = "rating"
-        const val TAG_EXTRA_OPEN = "openFromTag"
+        const val TAG_EXTRA_OPEN = "open_from_tag"
         const val TAG_EXTRA = "tag_extra"
     }
 

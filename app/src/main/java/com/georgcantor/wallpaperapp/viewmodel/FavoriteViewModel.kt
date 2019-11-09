@@ -2,7 +2,6 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import android.app.Activity
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.model.local.db.DatabaseHelper
