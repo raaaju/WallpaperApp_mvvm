@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -71,7 +71,7 @@ class CategoryFragment : Fragment() {
                     animationView?.hideAnimation()
                 }
                 .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().shortToast(getString(R.string.something_went_wrong))
+                    requireActivity().shortToast(it.message.toString())
                 }
         } else {
             disposable = viewModel.getSavedCategories(preferenceManager)
@@ -82,7 +82,7 @@ class CategoryFragment : Fragment() {
                     animationView?.hideAnimation()
                 }
                 .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().shortToast(getString(R.string.something_went_wrong))
+                    requireActivity().shortToast(it.message.toString())
                 }
         }
         DisposableManager.add(disposable)

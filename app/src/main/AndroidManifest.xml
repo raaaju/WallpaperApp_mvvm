@@ -52,6 +52,8 @@
             android:name=".view.FavoriteActivity"
             android:configChanges="orientation|screenSize" />
 
+        <activity android:name=".view.FullScreenActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

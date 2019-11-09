@@ -3,7 +3,10 @@ package com.georgcantor.wallpaperapp.view
 import android.Manifest
 import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -25,9 +28,10 @@ import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.view.FullScreenActivity.Companion.FULL_EXTRA
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
-import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -277,7 +281,12 @@ class DetailsActivity : AppCompatActivity() {
             R.id.action_add_to_fav -> {
                 pic?.let { viewModel.setFavoriteStatus(it, item, starAnimationView, unstarAnimationView) }
             }
-            R.id.action_share -> share()
+            R.id.action_share -> {
+                val intent = Intent(this, FullScreenActivity::class.java)
+                intent.putExtra(FULL_EXTRA, pic?.imageURL)
+                startActivity(intent)
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+            }
             R.id.action_download -> startDownloading()
         }
         return super.onOptionsItemSelected(item)

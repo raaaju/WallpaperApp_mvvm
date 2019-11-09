@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
-import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_common.*
@@ -93,7 +93,7 @@ class MercedesFragment : Fragment() {
             .subscribe({
                 adapter?.setPicList(it)
             }, {
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
+                requireActivity().shortToast(it.message.toString())
             })
 
         DisposableManager.add(disposable)
