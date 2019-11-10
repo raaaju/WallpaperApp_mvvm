@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.view
+package com.georgcantor.wallpaperapp.view.activity
 
 import android.app.Activity
 import android.os.Bundle

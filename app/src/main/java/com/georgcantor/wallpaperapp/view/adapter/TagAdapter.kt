@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.view.DetailsActivity
-import com.georgcantor.wallpaperapp.view.MainActivity
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
+import com.georgcantor.wallpaperapp.view.activity.MainActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.TagViewHolder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

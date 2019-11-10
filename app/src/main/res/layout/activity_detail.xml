@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".view.DetailsActivity">
+            tools:context=".view.activity.DetailsActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:overScrollMode="never"
-                        tools:context=".view.DetailsActivity" />
+                        tools:context=".view.activity.DetailsActivity" />
 
                 </androidx.cardview.widget.CardView>
 

@@ -9,12 +9,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.view.MainActivity
-import com.georgcantor.wallpaperapp.view.MainActivity.Companion.IS_RATING_EXIST
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.view.activity.MainActivity
+import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.IS_RATING_EXIST
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Calendar
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.set
 
 class MainViewModel(private val context: Context) : ViewModel() {
 

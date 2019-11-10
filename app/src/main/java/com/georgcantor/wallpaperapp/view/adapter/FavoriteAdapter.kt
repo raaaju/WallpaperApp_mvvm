@@ -13,7 +13,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.Favorite
-import com.georgcantor.wallpaperapp.view.DetailsActivity
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.util.showDialog

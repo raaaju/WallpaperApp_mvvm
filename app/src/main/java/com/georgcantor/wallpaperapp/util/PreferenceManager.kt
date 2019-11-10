@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import com.georgcantor.wallpaperapp.model.data.Category
-import com.georgcantor.wallpaperapp.view.DetailsActivity.Companion.MY_PREFS
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.MY_PREFS
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
