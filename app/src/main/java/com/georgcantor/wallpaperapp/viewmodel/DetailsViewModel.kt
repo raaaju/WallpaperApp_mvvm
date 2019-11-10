@@ -23,7 +23,6 @@ import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showAnimation
 import com.georgcantor.wallpaperapp.util.showSingleAnimation
-import com.google.android.gms.common.util.IOUtils
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -31,8 +30,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.InterruptedIOException
-import java.net.URL
 import java.util.*
 
 class DetailsViewModel(
@@ -66,20 +63,6 @@ class DetailsViewModel(
 
     fun getSimilarImages(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return apiRepository.getPixabayPictures(request, index)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun imageSize(pic: CommonPic): Observable<Int> {
-        return Observable.fromCallable {
-            val url = URL(pic.fullHDURL)
-            var size = 0
-            try {
-                size = IOUtils.toByteArray(url.openStream()).size
-            } catch (e: InterruptedIOException) {
-            }
-            size
-        }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

@@ -38,7 +38,6 @@
     <string name="choose_share">Выберите приложение</string>
     <string name="you_need_perm_toast">Чтобы сохранять изображения необходимо это разрешение</string>
     <string name="speak_something">Говорите…</string>
-    <string name="check_internet">Проверьте интернет соединение</string>
     <string name="favorites">Избранные</string>
     <string name="add_review">Оценить</string>
     <string name="thanks_for_feedback">Спасибо за оценку</string>

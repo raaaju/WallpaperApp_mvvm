@@ -88,6 +88,7 @@ class DetailsActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)))
+        if (!isNetworkAvailable()) longToast(getString(R.string.no_internet))
 
         initView()
 
@@ -243,30 +244,13 @@ class DetailsActivity : AppCompatActivity() {
         )
 
         pic?.let { pic ->
-            if (isNetworkAvailable()) {
-                val disposable = viewModel.imageSize(pic)
-                    .subscribe({ size ->
-                        loadImage(
-                                if (size < SIZE_IN_BYTES) pic.imageURL ?: "" else pic.url ?: "",
-                                resources.getDrawable(R.drawable.plh),
-                                detailImageView,
-                                progressAnimationView
-                        )
-                    }, {
-                        shortToast(getString(R.string.something_went_wrong))
-                    })
-
-                DisposableManager.add(disposable)
-            } else {
-                longToast(getString(R.string.no_internet))
-                pic.fullHDURL?.let {
-                    loadImage(
+            pic.imageURL?.let {
+                loadImage(
                         it,
                         resources.getDrawable(R.drawable.plh),
                         detailImageView,
                         progressAnimationView
-                    )
-                }
+                )
             }
 
             loadCircleImage(

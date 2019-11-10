@@ -28,7 +28,7 @@ class CarBrandFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!requireActivity().isNetworkAvailable()) {
-            requireActivity().longToast(getString(R.string.check_internet))
+            requireActivity().longToast(getString(R.string.no_internet))
         }
         viewModel = getViewModel { parametersOf() }
     }
