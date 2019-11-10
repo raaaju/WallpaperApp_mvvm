@@ -45,7 +45,6 @@ import java.util.*
 class DetailsActivity : AppCompatActivity() {
 
     companion object {
-        private const val SIZE_IN_BYTES = 9999999
         const val EXTRA_PIC = "picture"
         const val PREF_BOOLEAN = "is_set_wall"
         const val MY_PREFS = "my_prefs"
