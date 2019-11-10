@@ -31,6 +31,8 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.FULL_EXTRA
+import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.IS_PORTRAIT
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
@@ -135,7 +137,8 @@ class DetailsActivity : AppCompatActivity() {
 
         fabFull.setOnClickListener {
             val intent = Intent(this, FullScreenActivity::class.java)
-            intent.putExtra(FullScreenActivity.FULL_EXTRA, pic?.imageURL)
+            intent.putExtra(FULL_EXTRA, pic?.imageURL)
+            intent.putExtra(IS_PORTRAIT, pic?.heght ?: 0 > pic?.width ?: 0)
             startActivity(intent)
             overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }

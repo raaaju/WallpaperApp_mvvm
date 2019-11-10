@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.view.activity
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import com.ablanco.zoomy.Zoomy
@@ -12,12 +13,20 @@ class FullScreenActivity : Activity() {
 
     companion object {
         const val FULL_EXTRA = "full_extra"
+        const val IS_PORTRAIT = "is_portrait"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen)
+        requestedOrientation = if (intent.getBooleanExtra(IS_PORTRAIT, true)) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+
         setFullscreen()
+
         val zoomyBuilder = Zoomy.Builder(this)
                 .target(fullImageView)
         zoomyBuilder.register()
