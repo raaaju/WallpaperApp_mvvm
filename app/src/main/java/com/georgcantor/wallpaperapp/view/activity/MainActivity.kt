@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         const val IS_RATING_EXIST = "is_rating_exist"
         const val LAUNCHES = "launches"
-        const val RATING = "rating"
+        const val RATING = "rating1"
         const val TAG_EXTRA_OPEN = "open_from_tag"
         const val TAG_EXTRA = "tag_extra"
     }
