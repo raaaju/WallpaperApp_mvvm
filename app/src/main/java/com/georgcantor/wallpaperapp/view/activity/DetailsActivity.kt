@@ -105,15 +105,19 @@ class DetailsActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             isFabOpen = if (!isFabOpen) {
-                fabSetWall.visible()
                 fabFull.visible()
+                fabSetWall.visible()
+                fabFull.isClickable = true
+                fabSetWall.isClickable = true
                 fab.startAnimation(fabClock)
                 fabSetWall.startAnimation(fabOpen)
                 fabFull.startAnimation(fabOpen)
                 true
             } else {
-                fabSetWall.gone()
                 fabFull.gone()
+                fabSetWall.gone()
+                fabFull.isClickable = false
+                fabSetWall.isClickable = false
                 fab.startAnimation(fabAnticlock)
                 fabSetWall.startAnimation(fabClose)
                 fabFull.startAnimation(fabClose)

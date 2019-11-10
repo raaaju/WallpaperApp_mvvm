@@ -5,8 +5,11 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import com.ablanco.zoomy.Zoomy
-import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.isNetworkAvailable
+import com.georgcantor.wallpaperapp.util.loadImage
+import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.util.showAnimation
 import kotlinx.android.synthetic.main.activity_full_screen.*
 
 class FullScreenActivity : Activity() {
@@ -24,17 +27,22 @@ class FullScreenActivity : Activity() {
         } else {
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
-
         setFullscreen()
+
+        fullAnimationView.showAnimation()
 
         val zoomyBuilder = Zoomy.Builder(this)
                 .target(fullImageView)
         zoomyBuilder.register()
 
-        val url = intent.getStringExtra(FULL_EXTRA)
-        Glide.with(this)
-                .load(url)
-                .into(fullImageView)
+        loadImage(
+                intent.getStringExtra(FULL_EXTRA) ?: "",
+                resources.getDrawable(R.drawable.splash),
+                fullImageView,
+                fullAnimationView
+        )
+
+        if (!isNetworkAvailable()) longToast(getString(R.string.no_internet))
     }
 
     private fun setFullscreen() {
