@@ -18,6 +18,8 @@ import android.provider.Settings
 import android.util.AndroidRuntimeException
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -29,7 +31,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.view.FullScreenActivity.Companion.FULL_EXTRA
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
@@ -49,12 +50,13 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private var pic: CommonPic? = null
-    private val tags = ArrayList<String>()
     private var first = 0
     private var file: File? = null
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
+    private val tags = ArrayList<String>()
+    private var isFabOpen = false
 
     private lateinit var prefManager: PreferenceManager
     private lateinit var tagAdapter: TagAdapter
@@ -62,6 +64,11 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
+
+    private lateinit var fabOpen: Animation
+    private lateinit var fabClose: Animation
+    private lateinit var fabClock: Animation
+    private lateinit var fabAnticlock: Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +78,18 @@ class DetailsActivity : AppCompatActivity() {
         prefManager = PreferenceManager(this)
         db = DatabaseHelper(this)
 
+        fabOpen = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
+        fabClose = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
+        fabClock = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_rotate_clock)
+        fabAnticlock = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_rotate_anticlock)
+
         progressAnimationView?.showAnimation()
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)))
+
+        initView()
 
         zoomyBuilder = Zoomy.Builder(this)
                 .target(detailImageView)
@@ -86,7 +100,23 @@ class DetailsActivity : AppCompatActivity() {
                 }
         zoomyBuilder.register()
 
-        initView()
+        fab.setOnClickListener {
+            isFabOpen = if (!isFabOpen) {
+                fabSetWall.visible()
+                fabFull.visible()
+                fab.startAnimation(fabClock)
+                fabSetWall.startAnimation(fabOpen)
+                fabFull.startAnimation(fabOpen)
+                true
+            } else {
+                fabSetWall.gone()
+                fabFull.gone()
+                fab.startAnimation(fabAnticlock)
+                fabSetWall.startAnimation(fabClose)
+                fabFull.startAnimation(fabClose)
+                false
+            }
+        }
 
         fabSetWall.setOnClickListener {
             if (this.isNetworkAvailable()) {
@@ -100,6 +130,13 @@ class DetailsActivity : AppCompatActivity() {
             } else {
                 longToast(getString(R.string.no_internet))
             }
+        }
+
+        fabFull.setOnClickListener {
+            val intent = Intent(this, FullScreenActivity::class.java)
+            intent.putExtra(FullScreenActivity.FULL_EXTRA, pic?.imageURL)
+            startActivity(intent)
+            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }
     }
 
@@ -281,12 +318,7 @@ class DetailsActivity : AppCompatActivity() {
             R.id.action_add_to_fav -> {
                 pic?.let { viewModel.setFavoriteStatus(it, item, starAnimationView, unstarAnimationView) }
             }
-            R.id.action_share -> {
-                val intent = Intent(this, FullScreenActivity::class.java)
-                intent.putExtra(FULL_EXTRA, pic?.imageURL)
-                startActivity(intent)
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
-            }
+            R.id.action_share -> share()
             R.id.action_download -> startDownloading()
         }
         return super.onOptionsItemSelected(item)
