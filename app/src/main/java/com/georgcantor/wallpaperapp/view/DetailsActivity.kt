@@ -213,7 +213,6 @@ class DetailsActivity : AppCompatActivity() {
                 tagsCardView.gone()
                 similarTextView.gone()
                 similarCardView.gone()
-                loadSimilarImages("")
             } else {
                 var title = it.tags
                 while (title?.contains(",") == true) {
