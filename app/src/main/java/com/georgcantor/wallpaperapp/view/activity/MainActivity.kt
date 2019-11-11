@@ -19,6 +19,7 @@ import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.*
+import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -58,7 +59,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var categoryFragment: Fragment
     private lateinit var brandFragment: Fragment
 
-    private lateinit var viewModel:MainViewModel
+    private lateinit var viewModel: MainViewModel
+    private lateinit var catViewModel: CategoryViewModel
     private lateinit var bundle: Bundle
 
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
@@ -69,9 +71,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel = getViewModel { parametersOf() }
+        catViewModel = getViewModel { parametersOf() }
         prefManager = PreferenceManager(this)
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
+
+        if (prefManager.getCategories(CategoryFragment.CATEGORIES).isNullOrEmpty()) loadCategories()
 
         checkForUpdate()
 
@@ -163,6 +168,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 viewModel.showRatingDialog(this, prefManager)
             }
         }
+    }
+
+    private fun loadCategories() {
+        catViewModel.getCategories(prefManager).subscribe()
     }
 
     private fun goToGooglePlay() {
