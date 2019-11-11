@@ -62,7 +62,7 @@ class CategoryFragment : Fragment() {
 
     private fun loadData() {
         val disposable: Disposable
-        if (preferenceManager.getCategories(CATEGORIES).isNullOrEmpty() || categoryAdapter.itemCount < 16) {
+        if (preferenceManager.getCategories(CATEGORIES).isNullOrEmpty() || categoryAdapter.itemCount < 15) {
             disposable = viewModel.getCategories(preferenceManager)
                 .doOnSubscribe {
                     animationView?.showAnimation()

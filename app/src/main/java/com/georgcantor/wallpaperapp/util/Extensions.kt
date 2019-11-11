@@ -152,7 +152,7 @@ fun Context.loadImage(
     url: String,
     drawable: Drawable,
     view: ImageView,
-    animView: LottieAnimationView
+    animView: LottieAnimationView?
 ) {
 
     Glide.with(this)
@@ -166,7 +166,7 @@ fun Context.loadImage(
                 target: Target<Drawable>,
                 isFirstResource: Boolean
             ): Boolean {
-                animView.hideAnimation()
+                animView?.hideAnimation()
                 shortToast(getString(R.string.something_went_wrong))
                 return false
             }
@@ -178,7 +178,7 @@ fun Context.loadImage(
                 dataSource: DataSource,
                 isFirstResource: Boolean
             ): Boolean {
-                animView.hideAnimation()
+                animView?.hideAnimation()
                 return false
             }
         })

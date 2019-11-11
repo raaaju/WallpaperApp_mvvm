@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
+import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.util.openFragment
@@ -39,11 +40,12 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.categoryName.text = categories?.get(position)?.categoryName
 
-        Glide.with(context)
-            .load(categories?.get(position)?.categoryUrl)
-            .thumbnail(0.1F)
-            .placeholder(R.drawable.plh)
-            .into(holder.categoryImage)
+        context.loadImage(
+            categories?.get(position)?.categoryUrl ?: "",
+            context.resources.getDrawable(R.drawable.plh),
+            holder.categoryImage,
+            null
+        )
     }
 
     override fun getItemCount(): Int = categories?.size ?: 0

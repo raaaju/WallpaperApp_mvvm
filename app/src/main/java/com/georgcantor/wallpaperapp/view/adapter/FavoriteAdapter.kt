@@ -13,6 +13,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.Favorite
+import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
@@ -115,11 +116,12 @@ class FavoriteAdapter(
         holder.imageView.layoutParams = layoutParams
         holder.imageView.setRatio(ratio)
 
-        Glide.with(context)
-            .load(pic.url)
-            .placeholder(R.drawable.plh)
-            .thumbnail(0.1f)
-            .into(holder.imageView)
+        context.loadImage(
+            pic.url ?: "",
+            context.resources.getDrawable(R.drawable.plh),
+            holder.imageView,
+            null
+        )
     }
 
     override fun getItemCount(): Int = favorites?.size ?: 0

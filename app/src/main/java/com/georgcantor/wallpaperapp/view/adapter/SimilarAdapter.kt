@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
+import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.util.longToast
 import kotlinx.android.synthetic.main.similar_item.view.similarImageView
@@ -38,11 +39,13 @@ class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<Simila
     }
 
     override fun onBindViewHolder(holder: SimilarViewHolder, position: Int) {
-        Glide.with(context)
-            .load(similarList?.get(position)?.url)
-            .placeholder(R.drawable.plh)
-            .thumbnail(0.1f)
-            .into(holder.imageView)
+
+        context.loadImage(
+            similarList?.get(position)?.url ?: "",
+            context.resources.getDrawable(R.drawable.plh),
+            holder.imageView,
+            null
+        )
 
         holder.itemView.setOnClickListener {
             val activity = context as Activity

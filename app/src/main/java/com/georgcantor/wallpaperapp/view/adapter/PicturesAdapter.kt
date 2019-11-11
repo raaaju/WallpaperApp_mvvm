@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
+import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
@@ -93,11 +94,12 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             holder.imageView.layoutParams = layoutParams
             holder.imageView.setRatio(ratio)
 
-            Glide.with(context)
-                .load(it?.get(position)?.url)
-                .placeholder(R.drawable.plh)
-                .thumbnail(0.1f)
-                .into(holder.imageView)
+            context.loadImage(
+                it?.get(position)?.url ?: "",
+                context.resources.getDrawable(R.drawable.plh),
+                holder.imageView,
+                null
+            )
         }
     }
 
