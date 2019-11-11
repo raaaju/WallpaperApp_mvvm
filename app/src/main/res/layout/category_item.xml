@@ -2,14 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardElevation="@dimen/card_elevation"
     app:cardUseCompatPadding="true">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/categoryImageView"
@@ -28,7 +24,5 @@
             android:textSize="@dimen/text_size24"
             android:textStyle="bold"
             tools:text="Music"/>
-
-    </FrameLayout>
 
 </androidx.cardview.widget.CardView>
