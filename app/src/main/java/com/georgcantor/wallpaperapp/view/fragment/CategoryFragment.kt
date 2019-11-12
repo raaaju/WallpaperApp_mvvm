@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
@@ -40,9 +41,6 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!requireActivity().isNetworkAvailable()) {
-            noInternetImageView.visible()
-        }
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(activity, requireContext().getScreenSize())
 
@@ -61,15 +59,18 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        val disposable: Disposable = viewModel.getSavedCategories(preferenceManager)
+        val disposable: Disposable = viewModel.getSavedCategories(preferenceManager, requireActivity())
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
             .doFinally {
                 animationView?.hideAnimation()
+                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                    if (it) requireActivity().longToast(getString(R.string.no_internet))
+                })
             }
             .subscribe(categoryAdapter::setCategoryList) {
-                requireActivity().shortToast(getString(R.string.something_went_wrong))
+                requireActivity().shortToast(it.message.toString())
             }
         DisposableManager.add(disposable)
     }
