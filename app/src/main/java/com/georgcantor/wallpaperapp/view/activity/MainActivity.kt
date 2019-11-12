@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var brandFragment: Fragment
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var catViewModel: CategoryViewModel
     private lateinit var bundle: Bundle
 
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
@@ -71,7 +70,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         viewModel = getViewModel { parametersOf() }
-        catViewModel = getViewModel { parametersOf() }
         prefManager = PreferenceManager(this)
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
@@ -171,7 +169,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun loadCategories() {
-        catViewModel.getCategories(prefManager).subscribe()
+        viewModel.loadCategories(prefManager).subscribe()
     }
 
     private fun goToGooglePlay() {
@@ -181,6 +179,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        val menuItem = menu.findItem(R.id.action_gallery)
+        viewModel.isGalleryVisible.observe(this, Observer {
+            menuItem.isVisible = it
+        })
+
         return true
     }
 

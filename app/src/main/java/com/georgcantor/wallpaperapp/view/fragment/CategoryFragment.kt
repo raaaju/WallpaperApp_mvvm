@@ -61,30 +61,16 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        val disposable: Disposable
-        if (preferenceManager.getCategories(CATEGORIES).isNullOrEmpty() || categoryAdapter.itemCount < 15) {
-            disposable = viewModel.getCategories(preferenceManager)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                }
-                .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().shortToast(it.message.toString())
-                }
-        } else {
-            disposable = viewModel.getSavedCategories(preferenceManager)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                }
-                .subscribe(categoryAdapter::setCategoryList) {
-                    requireActivity().shortToast(it.message.toString())
-                }
-        }
+        val disposable: Disposable = viewModel.getSavedCategories(preferenceManager)
+            .doOnSubscribe {
+                animationView?.showAnimation()
+            }
+            .doFinally {
+                animationView?.hideAnimation()
+            }
+            .subscribe(categoryAdapter::setCategoryList) {
+                requireActivity().shortToast(getString(R.string.something_went_wrong))
+            }
         DisposableManager.add(disposable)
     }
 

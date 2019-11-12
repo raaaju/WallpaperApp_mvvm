@@ -18,7 +18,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel {
-        MainViewModel(get())
+        MainViewModel(get(), get())
     }
     viewModel {
         FavoriteViewModel(get(), get())
@@ -30,7 +30,7 @@ val viewModelModule = module {
         DetailsViewModel(get(), get(), get())
     }
     viewModel {
-        CategoryViewModel(get(), get())
+        CategoryViewModel()
     }
 }
 
