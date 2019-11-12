@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -36,9 +37,6 @@ class AudiFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!requireActivity().isNetworkAvailable()) {
-            requireActivity().longToast(getString(R.string.no_internet))
-        }
         viewModel = getViewModel { parametersOf() }
     }
 
@@ -83,13 +81,17 @@ class AudiFragment: Fragment() {
     }
 
     private fun loadData(index: Int) {
-        val disposable = viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
+        val disposable =
+            viewModel.getPics(arguments?.getString(REQUEST) ?: "", index, requireActivity())
             .retry(3)
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
             .doFinally {
                 animationView?.hideAnimation()
+                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                    if (it) requireActivity().longToast(getString(R.string.no_internet))
+                })
             }
             .subscribe({
                 adapter?.setPicList(it)
