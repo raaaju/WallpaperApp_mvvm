@@ -93,7 +93,6 @@ class MercedesFragment : Fragment() {
             .subscribe({
                 adapter?.setPicList(it)
             }, {
-                requireActivity().shortToast(it.message.toString())
             })
 
         DisposableManager.add(disposable)

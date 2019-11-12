@@ -82,7 +82,6 @@ class CarBrandFragment : Fragment() {
                 animationView?.hideAnimation()
             }
             .subscribe(adapter::setPicList) {
-                requireActivity().shortToast(it.message.toString())
             }
 
         DisposableManager.add(disposable)

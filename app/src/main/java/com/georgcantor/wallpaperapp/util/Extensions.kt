@@ -167,7 +167,6 @@ fun Context.loadImage(
                 isFirstResource: Boolean
             ): Boolean {
                 animView?.hideAnimation()
-                shortToast(getString(R.string.something_went_wrong))
                 return false
             }
 

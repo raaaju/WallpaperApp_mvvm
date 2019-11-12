@@ -70,7 +70,6 @@ class CategoryFragment : Fragment() {
                 })
             }
             .subscribe(categoryAdapter::setCategoryList) {
-                requireActivity().shortToast(it.message.toString())
             }
         DisposableManager.add(disposable)
     }
