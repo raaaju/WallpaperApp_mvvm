@@ -117,7 +117,7 @@ class DetailsViewModel(
         return Observable.fromCallable {
             var result: Bitmap? = null
             try {
-                result = Glide.with(context.applicationContext)
+                result = Glide.with(context)
                     .asBitmap()
                     .load(pic.imageURL)
                     .submit()
