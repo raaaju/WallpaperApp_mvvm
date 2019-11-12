@@ -17,6 +17,7 @@ import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.view.activity.MainActivity
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.IS_RATING_EXIST
+import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.LAUNCHES
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Observable
@@ -133,6 +134,17 @@ class MainViewModel(
 
         ratingDialog.create()
         ratingDialog.show()
+    }
+
+    fun checkNumberOfLaunches(activity: MainActivity, prefManager: PreferenceManager) {
+        var numberOfLaunches = prefManager.getInt(LAUNCHES)
+        if (numberOfLaunches < 4) {
+            numberOfLaunches++
+            prefManager.saveInt(LAUNCHES, numberOfLaunches)
+            if (numberOfLaunches > 3 && !prefManager.getBoolean(IS_RATING_EXIST)) {
+                showRatingDialog(activity, prefManager)
+            }
+        }
     }
 
 }

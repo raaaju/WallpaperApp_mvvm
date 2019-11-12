@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
         navView.itemIconTintList = null
 
-        checkNumberOfLaunches()
+        viewModel.checkNumberOfLaunches(this, prefManager)
 
         when (intent.getStringExtra(TAG_EXTRA_OPEN)) {
             TAG_EXTRA_OPEN -> {
@@ -152,17 +152,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 updateAvailable.value = true
             } else {
                 updateAvailable.value = false
-            }
-        }
-    }
-
-    private fun checkNumberOfLaunches() {
-        var numberOfLaunches = prefManager.getInt(LAUNCHES)
-        if (numberOfLaunches < 4) {
-            numberOfLaunches++
-            prefManager.saveInt(LAUNCHES, numberOfLaunches)
-            if (numberOfLaunches > 3 && !prefManager.getBoolean(IS_RATING_EXIST)) {
-                viewModel.showRatingDialog(this, prefManager)
             }
         }
     }
