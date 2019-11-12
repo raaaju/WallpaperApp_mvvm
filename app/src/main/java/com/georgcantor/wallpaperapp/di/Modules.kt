@@ -24,13 +24,13 @@ val viewModelModule = module {
         FavoriteViewModel(get(), get())
     }
     viewModel {
-        SearchViewModel(get())
+        SearchViewModel(get(), get())
     }
     viewModel {
         DetailsViewModel(get(), get(), get())
     }
     viewModel {
-        CategoryViewModel()
+        CategoryViewModel(get())
     }
 }
 

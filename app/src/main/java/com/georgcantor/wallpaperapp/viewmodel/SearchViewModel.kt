@@ -1,6 +1,6 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
-import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.georgcantor.wallpaperapp.model.data.CommonPic
@@ -10,16 +10,15 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
+class SearchViewModel(
+    private val apiRepository: ApiRepository,
+    private val context: Context
+) : ViewModel() {
 
     val isSearchingActive = MutableLiveData<Boolean>()
     val noInternetShow = MutableLiveData<Boolean>()
 
-    fun getPics(
-        request: String,
-        index: Int,
-        activity: Activity
-    ): Observable<ArrayList<CommonPic>> {
+    fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return Observable.merge(
             apiRepository.getPixabayPictures(request, index),
             apiRepository.getUnsplashPictures(request, index),
@@ -27,7 +26,7 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
             apiRepository.getPexelsPictures(request, index)
         )
             .doFinally {
-                if (!activity.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
+                if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

@@ -13,6 +13,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.PreferenceManager
+import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.view.activity.MainActivity
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.IS_RATING_EXIST
@@ -74,7 +75,7 @@ class MainViewModel(
                 urls.add(Category(it.categoryName, it.categoryUrl))
             }
             preferenceManager.saveCategories(CategoryFragment.CATEGORIES, urls)
-            isGalleryVisible.postValue(true)
+            if (context.isNetworkAvailable()) isGalleryVisible.postValue(true)
             list
         }
             .subscribeOn(Schedulers.io())
