@@ -163,39 +163,41 @@ class DetailsActivity : AppCompatActivity() {
         progressAnimationView?.showAnimation()
 
         val disposable = pic?.let { pic ->
-            viewModel.getBitmapAsync(pic)?.subscribe({
-                val wallpaperManager = WallpaperManager.getInstance(baseContext)
-                it?.let { bitmap ->
-                    viewModel.getImageUri(bitmap).subscribe({ uri ->
-                        try {
-                            startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
-                        } catch (e: IllegalArgumentException) {
-                            try {
-                                it.let { bitMap ->
-                                    viewModel.getImageUri(bitMap)
-                                        .subscribe({ uri ->
-                                            val bitmap2 = MediaStore.Images.Media.getBitmap(
-                                                contentResolver,
-                                                uri
-                                            )
-                                            viewModel.setBitmapAsync(bitmap2, this)
-                                        }, {
-                                            shortToast(getString(R.string.something_went_wrong))
-                                        })
+            viewModel.getBitmapAsync(pic)
+                ?.subscribe({
+                    val wallpaperManager = WallpaperManager.getInstance(baseContext)
+                    it?.let { bitmap ->
+                        viewModel.getImageUri(bitmap)
+                            .subscribe({ uri ->
+                                try {
+                                    startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
+                                } catch (e: IllegalArgumentException) {
+                                    try {
+                                        it.let { bitMap ->
+                                            viewModel.getImageUri(bitMap)
+                                                .subscribe({ uri ->
+                                                    val bitmap2 = MediaStore.Images.Media.getBitmap(
+                                                        contentResolver,
+                                                        uri
+                                                    )
+                                                    viewModel.setBitmapAsync(bitmap2, this)
+                                                }, {
+                                                    shortToast(getString(R.string.something_went_wrong))
+                                                })
+                                        }
+                                    } catch (e: OutOfMemoryError) {
+                                        shortToast(getString(R.string.something_went_wrong))
+                                    }
                                 }
-                            } catch (e: OutOfMemoryError) {
-                                shortToast(getString(R.string.something_went_wrong))
-                            }
-                        }
-                    }, { throwable ->
-                        longToast(throwable.message.toString())
-                    })
-                }
-                longToast(getString(R.string.wallpaper_is_install))
-                recreate()
-            }, {
-                shortToast(getString(R.string.something_went_wrong))
-            })
+                            }, { throwable ->
+                                longToast(throwable.message.toString())
+                            })
+                    }
+                    longToast(getString(R.string.wallpaper_is_install))
+                    recreate()
+                }, {
+                    shortToast(getString(R.string.something_went_wrong))
+                })
         }
         disposable?.let(DisposableManager::add)
     }
