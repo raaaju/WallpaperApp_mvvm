@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/card_elevation">
+    android:padding="@dimen/text_padding2">
 
-    <ImageView
-        android:id="@+id/categoryImageView"
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/explore_item"
-        android:scaleType="centerCrop" />
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/card_elevation">
 
-    <TextView
-        android:id="@+id/categoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="cursive"
-        android:textColor="@color/colorDetailPrimary"
-        android:textSize="@dimen/text_size24"
-        android:textStyle="bold"
-        tools:text="Music" />
+        <ImageView
+            android:id="@+id/categoryImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/explore_item"
+            android:scaleType="centerCrop" />
 
-</androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/categoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="cursive"
+            android:textColor="@color/colorDetailPrimary"
+            android:textSize="@dimen/text_size24"
+            android:textStyle="bold"
+            tools:text="Music" />
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
