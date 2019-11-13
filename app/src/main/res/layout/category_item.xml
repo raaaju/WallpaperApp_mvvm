@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardElevation="@dimen/card_elevation"
-    app:cardUseCompatPadding="true">
+    app:cardCornerRadius="0dp"
+    app:cardElevation="@dimen/card_elevation">
 
-        <ImageView
-            android:id="@+id/categoryImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/explore_item"
-            android:scaleType="centerCrop" />
+    <ImageView
+        android:id="@+id/categoryImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/explore_item"
+        android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/categoryTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="cursive"
-            android:textColor="@color/colorDetailPrimary"
-            android:textSize="@dimen/text_size24"
-            android:textStyle="bold"
-            tools:text="Music"/>
+    <TextView
+        android:id="@+id/categoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="cursive"
+        android:textColor="@color/colorDetailPrimary"
+        android:textSize="@dimen/text_size24"
+        android:textStyle="bold"
+        tools:text="Music" />
 
 </androidx.cardview.widget.CardView>
