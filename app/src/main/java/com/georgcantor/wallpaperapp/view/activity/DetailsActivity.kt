@@ -57,7 +57,6 @@ class DetailsActivity : AppCompatActivity() {
     private var permissionCheck: Int = 0
     private var db: DatabaseHelper? = null
     private val tags = ArrayList<String>()
-    private var isFabOpen = false
 
     private lateinit var prefManager: PreferenceManager
     private lateinit var tagAdapter: TagAdapter
@@ -102,27 +101,29 @@ class DetailsActivity : AppCompatActivity() {
                 }
         zoomyBuilder.register()
 
-        fab.setOnClickListener {
-            isFabOpen = if (!isFabOpen) {
-                fabFull.visible()
-                fabSetWall.visible()
-                fabFull.isClickable = true
-                fabSetWall.isClickable = true
-                fab.startAnimation(fabClock)
-                fabSetWall.startAnimation(fabOpen)
-                fabFull.startAnimation(fabOpen)
-                true
-            } else {
-                fabFull.gone()
-                fabSetWall.gone()
-                fabFull.isClickable = false
-                fabSetWall.isClickable = false
-                fab.startAnimation(fabAnticlock)
-                fabSetWall.startAnimation(fabClose)
-                fabFull.startAnimation(fabClose)
-                false
+        viewModel.isFabOpened.observe(this, androidx.lifecycle.Observer { open ->
+            fab.setOnClickListener {
+                if (!open) {
+                    fabFull.visible()
+                    fabSetWall.visible()
+                    fabFull.isClickable = true
+                    fabSetWall.isClickable = true
+                    fab.startAnimation(fabClock)
+                    fabSetWall.startAnimation(fabOpen)
+                    fabFull.startAnimation(fabOpen)
+                    viewModel.setFabSate(true)
+                } else {
+                    fabFull.gone()
+                    fabSetWall.gone()
+                    fabFull.isClickable = false
+                    fabSetWall.isClickable = false
+                    fab.startAnimation(fabAnticlock)
+                    fabSetWall.startAnimation(fabClose)
+                    fabFull.startAnimation(fabClose)
+                    viewModel.setFabSate(false)
+                }
             }
-        }
+        })
 
         fabSetWall.setOnClickListener {
             if (this.isNetworkAvailable()) {

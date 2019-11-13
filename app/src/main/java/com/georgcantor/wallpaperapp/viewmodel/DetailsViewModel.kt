@@ -12,6 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
@@ -37,6 +38,12 @@ class DetailsViewModel(
         private val db: DatabaseHelper,
         private val apiRepository: ApiRepository
 ) : ViewModel() {
+
+    val isFabOpened = MutableLiveData<Boolean>().apply { postValue(false) }
+
+    fun setFabSate(isOpened: Boolean) {
+        isFabOpened.value = isOpened
+    }
 
     fun setFavoriteStatus(
             pic: CommonPic,
