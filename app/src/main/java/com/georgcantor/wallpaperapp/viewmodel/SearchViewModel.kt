@@ -20,10 +20,10 @@ class SearchViewModel(
 
     fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return Observable.merge(
-            apiRepository.getPixabayPictures(request, index),
             apiRepository.getUnsplashPictures(request, index),
+            apiRepository.getPexelsPictures(request, index),
             apiRepository.getAbyssPictures(request, index),
-            apiRepository.getPexelsPictures(request, index)
+            apiRepository.getPixabayPictures(request, index)
         )
             .doFinally {
                 if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
