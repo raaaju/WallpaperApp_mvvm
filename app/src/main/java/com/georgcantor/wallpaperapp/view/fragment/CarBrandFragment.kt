@@ -73,18 +73,21 @@ class CarBrandFragment : Fragment() {
     private fun loadData(index: Int) {
         val disposable =
             viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
-            .retry(3)
-            .doOnSubscribe {
-                animationView?.showAnimation()
-            }
-            .doFinally {
-                animationView?.hideAnimation()
-                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                    if (it) requireActivity().longToast(getString(R.string.no_internet))
-                })
-            }
-            .subscribe(adapter::setPicList) {
-            }
+                .retry(3)
+                .doOnSubscribe {
+                    animationView?.showAnimation()
+                }
+                .doFinally {
+                    animationView?.hideAnimation()
+                    try {
+                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                            if (it) requireActivity().longToast(getString(R.string.no_internet))
+                        })
+                    } catch (e: IllegalStateException) {
+                    }
+                }
+                .subscribe(adapter::setPicList) {
+                }
 
         DisposableManager.add(disposable)
     }
