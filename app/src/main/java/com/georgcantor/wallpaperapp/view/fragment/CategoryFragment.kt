@@ -65,9 +65,12 @@ class CategoryFragment : Fragment() {
             }
             .doFinally {
                 animationView?.hideAnimation()
-                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                    if (it) requireActivity().longToast(getString(R.string.no_internet))
-                })
+                try {
+                    viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                        if (it) requireActivity().longToast(getString(R.string.no_internet))
+                    })
+                } catch (e: IllegalStateException) {
+                }
             }
             .subscribe(categoryAdapter::setCategoryList) {
             }

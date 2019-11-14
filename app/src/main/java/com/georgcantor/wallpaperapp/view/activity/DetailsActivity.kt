@@ -74,7 +74,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_detail)
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getViewModel { parametersOf(this) }
         prefManager = PreferenceManager(this)
         db = DatabaseHelper(this)
 
@@ -180,7 +180,7 @@ class DetailsActivity : AppCompatActivity() {
                                                         contentResolver,
                                                         uri
                                                     )
-                                                    viewModel.setBitmapAsync(bitmap2, this)
+                                                    viewModel.setBitmapAsync(bitmap2)
                                                 }, {
                                                     shortToast(getString(R.string.something_went_wrong))
                                                 })

@@ -35,6 +35,7 @@ import java.util.*
 
 class DetailsViewModel(
         private val context: Context,
+        private val activity: Activity,
         private val db: DatabaseHelper,
         private val apiRepository: ApiRepository
 ) : ViewModel() {
@@ -151,7 +152,7 @@ class DetailsViewModel(
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun setBitmapAsync(bitmap: Bitmap, activity: Activity) {
+    fun setBitmapAsync(bitmap: Bitmap) {
         Single.fromCallable {
             WallpaperManager.getInstance(context)
                 .setBitmap(bitmap)

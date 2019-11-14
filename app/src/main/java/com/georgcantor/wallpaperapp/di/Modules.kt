@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.di
 
+import android.app.Activity
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
@@ -27,8 +28,8 @@ val viewModelModule = module {
     viewModel {
         SearchViewModel(get(), get())
     }
-    viewModel {
-        DetailsViewModel(get(), get(), get())
+    viewModel { (activity: Activity) ->
+        DetailsViewModel(get(), activity, get(), get())
     }
     viewModel { (manager: PreferenceManager) ->
         CategoryViewModel(get(), manager)
