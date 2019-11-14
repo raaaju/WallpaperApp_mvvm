@@ -15,6 +15,7 @@ import java.util.*
 
 class FavoriteViewModel(
         private val context: Context,
+        private val activity: Activity,
         private val db: DatabaseHelper
 ) : ViewModel() {
 
@@ -38,7 +39,7 @@ class FavoriteViewModel(
         }
     }
 
-    fun deleteAll(activity: Activity) {
+    fun deleteAll() {
         if (db.historyCount > 0) {
             db.deleteAll()
             activity.recreate()

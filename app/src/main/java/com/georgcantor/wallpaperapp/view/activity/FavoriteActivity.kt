@@ -29,7 +29,7 @@ class FavoriteActivity : AppCompatActivity() {
         setSupportActionBar(favToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getViewModel { parametersOf(this) }
         db = DatabaseHelper(this)
 
         val gridLayoutManager = StaggeredGridLayoutManager(
@@ -84,7 +84,7 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun deleteAll() {
-        viewModel.deleteAll(this)
+        viewModel.deleteAll()
     }
 
     override fun onDestroy() {
