@@ -6,19 +6,16 @@
     <string name="something_went_wrong">Что-то пошло не так…</string>
     <string name="not_found">Ничего не найдено:(</string>
     <string name="wallpaper_is_install">Устанавливаем…</string>
-    <string name="explore_item">Category item</string>
     <string name="about_us">Разработчик</string>
     <string name="rate_us">Оцените приложение</string>
     <string name="info">Инфо</string>
     <string name="download">Загрузить</string>
     <string name="user_name">фото предоставлено</string>
-    <string name="jpg">.jpg</string>
     <string name="type_and_search">Введите слово или фразу</string>
 
     <string name="down_wallpapers">Загружается из Wallpapers</string>
     <string name="down_complete">.jpg Сохранено</string>
     <string name="set_wall_complete">Обои установлены</string>
-    <string name="down">.jpg Download</string>
     <string name="widget">widget</string>
     <string name="del_from_fav_dialog">Удалить из избранного?</string>
     <string name="delete_all">Удалить все</string>

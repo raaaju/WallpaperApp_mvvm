@@ -12,54 +12,54 @@
     <string name="wallpaper_is_install">Setting wallpaper in progress…</string>
     <string name="navigation" translatable="false">navigation drawer</string>
     <string name="detail_image" translatable="false">detail image</string>
-    <string name="explore_item">Category item</string>
+    <string name="category_item" translatable="false">Category item</string>
     <string name="about_us">About Us</string>
     <string name="rate_us">Rate Us</string>
     <string name="info">Info</string>
     <string name="download">Download</string>
     <string name="user_name">image provided by</string>
-    <string name="jpg">.jpg</string>
+    <string name="jpg" translatable="false">.jpg</string>
 
-    <string name="Animals">Animals</string>
+    <string name="Animals" translatable="false">Animals</string>
     <string name="animals" translatable="false">animals</string>
-    <string name="Textures">Textures</string>
+    <string name="Textures" translatable="false">Textures</string>
     <string name="textures" translatable="false">textures</string>
     <string name="buildings" translatable="false">buildings</string>
     <string name="Buildings" translatable="false">Buildings</string>
-    <string name="computer">computer</string>
-    <string name="Computer">Computer</string>
-    <string name="Education">Education</string>
+    <string name="computer" translatable="false">computer</string>
+    <string name="Computer" translatable="false">Computer</string>
+    <string name="Education" translatable="false">Education</string>
     <string name="education" translatable="false">education</string>
-    <string name="Fashion">Fashion</string>
+    <string name="Fashion" translatable="false">Fashion</string>
     <string name="fashion" translatable="false">fashion</string>
-    <string name="feelings">feelings</string>
-    <string name="Feelings">Feelings</string>
-    <string name="Food">Food</string>
-    <string name="food">food</string>
-    <string name="Health">Health</string>
-    <string name="health">health</string>
-    <string name="Music">Music</string>
+    <string name="feelings" translatable="false">feelings</string>
+    <string name="Feelings" translatable="false">Feelings</string>
+    <string name="Food" translatable="false">Food</string>
+    <string name="food" translatable="false">food</string>
+    <string name="Health" translatable="false">Health</string>
+    <string name="health" translatable="false">health</string>
+    <string name="Music" translatable="false">Music</string>
     <string name="music" translatable="false">music</string>
-    <string name="Nature">Nature</string>
+    <string name="Nature" translatable="false">Nature</string>
     <string name="nature" translatable="false">nature</string>
-    <string name="People">People</string>
-    <string name="people">people</string>
-    <string name="Places">Places</string>
-    <string name="places">places</string>
-    <string name="Religion">Religion</string>
-    <string name="religion">religion</string>
-    <string name="Technology">Technology</string>
-    <string name="science">science</string>
-    <string name="Science">Science</string>
-    <string name="Sports">Sports</string>
-    <string name="sports">sports</string>
-    <string name="Travel">Travel</string>
+    <string name="People" translatable="false">People</string>
+    <string name="people" translatable="false">people</string>
+    <string name="Places" translatable="false">Places</string>
+    <string name="places" translatable="false">places</string>
+    <string name="Religion" translatable="false">Religion</string>
+    <string name="religion" translatable="false">religion</string>
+    <string name="Technology" translatable="false">Technology</string>
+    <string name="science" translatable="false">science</string>
+    <string name="Science" translatable="false">Science</string>
+    <string name="Sports" translatable="false">Sports</string>
+    <string name="sports" translatable="false">sports</string>
+    <string name="Travel" translatable="false">Travel</string>
     <string name="travel" translatable="false">travel</string>
 
     <string name="down_wallpapers">Download from Wallpapers</string>
     <string name="down_complete">.jpg Download Complete</string>
     <string name="set_wall_complete">Wallpaper setup complete</string>
-    <string name="down">.jpg Download</string>
+    <string name="down" translatable="false">.jpg Download</string>
     <string name="widget">widget</string>
     <string name="URI">URI:</string>
     <string name="gallery">Gallery</string>

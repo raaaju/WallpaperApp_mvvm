@@ -7,15 +7,9 @@
     <string name="not_found">Nichts gefunden:(</string>
     <string name="about_us">"Über uns "</string>
     <string name="rate_us">Bewerten Sie die App</string>
-    <string name="update_dialog_title">Eine neue Version der Anwendung ist in Google Play verfügbar. Möchten Sie aktualisieren?</string>
-    <string name="update_dialog_yes">Ja</string>
-    <string name="update_dialog_no">Nein</string>
     <string name="info">Info</string>
-    <string name="set_as">"Festlegen als Festlegen "</string>
     <string name="download">Herunterladen</string>
     <string name="user_name">"Bild bereitgestellt von "</string>
-    <string name="choose_format">"Wählen Sie eine Bildauflösung "</string>
-    <string name="Animals">Tiere</string>
     <string name="wallpaper_is_install">Hintergrundbild wird eingestellt</string>
     <string name="down_complete">.jpg Download abgeschlossen</string>
     <string name="set_wall_complete">Hintergrundbild-Setup abgeschlossen</string>

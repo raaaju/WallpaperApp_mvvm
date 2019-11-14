@@ -16,7 +16,7 @@
             android:id="@+id/categoryImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/explore_item"
+            android:contentDescription="@string/category_item"
             android:scaleType="centerCrop" />
 
         <TextView
