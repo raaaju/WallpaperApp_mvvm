@@ -369,7 +369,7 @@ class DetailsActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
-    public override fun onDestroy() {
+    override fun onDestroy() {
         try {
             unregisterReceiver(downloadReceiver)
         } catch (e: Exception) {

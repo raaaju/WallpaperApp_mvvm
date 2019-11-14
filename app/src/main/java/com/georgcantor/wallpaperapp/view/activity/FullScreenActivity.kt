@@ -61,4 +61,9 @@ class FullScreenActivity : Activity() {
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
+    override fun onDestroy() {
+        Zoomy.unregister(fullImageView)
+        super.onDestroy()
+    }
+
 }
