@@ -41,7 +41,6 @@
         <activity
             android:name=".view.activity.DetailsActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_detail_name"
             android:theme="@style/AppThemeDetail" />
 
         <activity

@@ -1,18 +1,17 @@
 <resources>
 
     <string name="app_name">Wallpapers</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="app_detail_name"> </string>
-    <string name="by">By:</string>
-    <string name="downloads">Downloads:</string>
-    <string name="favourite">Favourites:</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="by" translatable="false">By:</string>
+    <string name="downloads" translatable="false">Downloads:</string>
+    <string name="favourite" translatable="false">Favourites:</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="something_went_wrong">Something went wrong…</string>
     <string name="not_found">Nothing found:(</string>
     <string name="wallpaper_is_install">Setting wallpaper in progress…</string>
-    <string name="navigation">navigation drawer</string>
-    <string name="detail_image">detail image</string>
+    <string name="navigation" translatable="false">navigation drawer</string>
+    <string name="detail_image" translatable="false">detail image</string>
     <string name="explore_item">Category item</string>
     <string name="about_us">About Us</string>
     <string name="rate_us">Rate Us</string>
