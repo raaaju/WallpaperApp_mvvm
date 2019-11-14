@@ -29,8 +29,8 @@ class CategoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel { parametersOf() }
         preferenceManager = PreferenceManager(requireActivity())
+        viewModel = getViewModel { parametersOf(preferenceManager) }
     }
 
     override fun onCreateView(
@@ -59,7 +59,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        val disposable: Disposable = viewModel.getSavedCategories(preferenceManager)
+        val disposable: Disposable = viewModel.getSavedCategories()
             .doOnSubscribe {
                 animationView?.showAnimation()
             }

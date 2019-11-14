@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.di
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
+import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
@@ -29,8 +30,8 @@ val viewModelModule = module {
     viewModel {
         DetailsViewModel(get(), get(), get())
     }
-    viewModel {
-        CategoryViewModel(get())
+    viewModel { (manager: PreferenceManager) ->
+        CategoryViewModel(get(), manager)
     }
 }
 

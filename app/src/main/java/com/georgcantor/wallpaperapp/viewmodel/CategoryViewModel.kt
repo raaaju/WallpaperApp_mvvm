@@ -9,13 +9,20 @@ import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import io.reactivex.Observable
 
-class CategoryViewModel(private val context: Context) : ViewModel() {
+class CategoryViewModel(
+    private val context: Context,
+    private val preferenceManager: PreferenceManager
+) : ViewModel() {
 
     val noInternetShow = MutableLiveData<Boolean>()
 
-    fun getSavedCategories(preferenceManager: PreferenceManager): Observable<ArrayList<Category>?> {
+    fun getSavedCategories(): Observable<ArrayList<Category>?> {
         return Observable.fromCallable {
-            if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
+            if (!context.isNetworkAvailable()) {
+                noInternetShow.postValue(true)
+            } else {
+                noInternetShow.postValue(false)
+            }
             preferenceManager.getCategories(CATEGORIES)
         }
     }
