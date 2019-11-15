@@ -13,6 +13,7 @@
     <string name="navigation" translatable="false">navigation drawer</string>
     <string name="detail_image" translatable="false">detail image</string>
     <string name="category_item" translatable="false">Category item</string>
+    <string name="image_item" translatable="false">Image item</string>
     <string name="about_us">About Us</string>
     <string name="rate_us">Rate Us</string>
     <string name="info">Info</string>

@@ -7,5 +7,5 @@ import kotlinx.android.synthetic.main.picture_item.view.*
 
 class PictureViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    var imageView: DynamicHeightImageView = itemView.wallpView
+    var imageView: DynamicHeightImageView = itemView.pictureImageView
 }

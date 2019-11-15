@@ -4,10 +4,11 @@
     android:layout_height="match_parent">
 
     <com.georgcantor.wallpaperapp.util.DynamicHeightImageView
-        android:id="@+id/wallpView"
+        android:id="@+id/pictureImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
+        android:contentDescription="@string/image_item"
         android:padding="@dimen/dynamic_image_pad"
         android:scaleType="fitXY" />
 
