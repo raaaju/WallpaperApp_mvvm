@@ -17,6 +17,7 @@ import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.view.activity.MainActivity
+import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.APP_URL
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.IS_RATING_EXIST
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.LAUNCHES
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
@@ -135,7 +136,7 @@ class MainViewModel(
                     prefManager.saveBoolean(IS_RATING_EXIST, true)
                 }
                 if (userMark > 3) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(MainActivity.APP_URL))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL))
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(context, intent, null)
                 } else {

@@ -143,28 +143,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun checkForUpdate() {
-        updateManager.appUpdateInfo.addOnSuccessListener {
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-            ) {
-                updateInfo = it
-                updateAvailable.value = true
-            } else {
-                updateAvailable.value = false
-            }
-        }
-    }
-
-    private fun loadCategories() {
-        viewModel.loadCategories(prefManager).subscribe()
-    }
-
-    private fun goToGooglePlay() {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
-        finish()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         val menuItem = menu.findItem(R.id.action_gallery)
@@ -184,11 +162,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun openSearchActivity() {
-        startActivity(Intent(this, SearchActivity::class.java))
-        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -278,6 +251,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         DisposableManager.dispose()
         super.onDestroy()
         updateManager.unregisterListener(this)
+    }
+
+    private fun checkForUpdate() {
+        updateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            ) {
+                updateInfo = it
+                updateAvailable.value = true
+            } else {
+                updateAvailable.value = false
+            }
+        }
+    }
+
+    private fun loadCategories() {
+        viewModel.loadCategories(prefManager).subscribe()
+    }
+
+    private fun goToGooglePlay() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
+        finish()
+    }
+
+    private fun openSearchActivity() {
+        startActivity(Intent(this, SearchActivity::class.java))
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
     }
 
 }
