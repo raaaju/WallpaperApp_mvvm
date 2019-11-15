@@ -158,7 +158,7 @@ fun Context.loadImage(
     Glide.with(this)
         .load(url)
         .placeholder(drawable)
-        .thumbnail(0.1f)
+        .thumbnail(0.1F)
         .listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
                 e: GlideException?,

@@ -20,6 +20,7 @@ import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.*
 import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment.Companion.FETCH_TYPE
+import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 
-        if (prefManager.getCategories(CategoryFragment.CATEGORIES).isNullOrEmpty()) loadCategories()
+        if (prefManager.getCategories(CATEGORIES).isNullOrEmpty()) loadCategories()
 
         checkForUpdate()
 

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.activity.MainActivity
+import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.TAG_EXTRA
+import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.TAG_EXTRA_OPEN
 import com.georgcantor.wallpaperapp.view.adapter.holder.TagViewHolder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -42,8 +44,8 @@ class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHol
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     val intent = Intent(activity, MainActivity::class.java)
-                    intent.putExtra(MainActivity.TAG_EXTRA_OPEN, MainActivity.TAG_EXTRA_OPEN)
-                    intent.putExtra(MainActivity.TAG_EXTRA, tag)
+                    intent.putExtra(TAG_EXTRA_OPEN, TAG_EXTRA_OPEN)
+                    intent.putExtra(TAG_EXTRA, tag)
                     startActivity(context, intent, null)
                 }
 
