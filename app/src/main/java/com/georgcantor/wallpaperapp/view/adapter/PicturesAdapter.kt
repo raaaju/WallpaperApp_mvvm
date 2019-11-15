@@ -55,21 +55,24 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                 val position = wallpViewHolder.adapterPosition
                 val intent = Intent(context, DetailsActivity::class.java)
                 try {
-                    intent.putExtra(EXTRA_PIC, commonPics?.get(position)?.url?.let { url ->
-                        CommonPic(
-                            url = url,
-                            width = commonPics[position].width,
-                            heght = commonPics[position].heght,
-                            likes = commonPics[position].likes,
-                            favorites = commonPics[position].favorites,
-                            tags = commonPics[position].tags,
-                            downloads = commonPics[position].downloads,
-                            imageURL = commonPics[position].imageURL,
-                            fullHDURL = commonPics[position].fullHDURL,
-                            user = commonPics[position].user,
-                            userImageURL = commonPics[position].userImageURL
-                        )
-                    })
+                    intent.putExtra(
+                        EXTRA_PIC,
+                        commonPics?.get(position)?.url?.let { url ->
+                            CommonPic(
+                                url = url,
+                                width = commonPics[position].width,
+                                heght = commonPics[position].heght,
+                                likes = commonPics[position].likes,
+                                favorites = commonPics[position].favorites,
+                                tags = commonPics[position].tags,
+                                downloads = commonPics[position].downloads,
+                                imageURL = commonPics[position].imageURL,
+                                fullHDURL = commonPics[position].fullHDURL,
+                                user = commonPics[position].user,
+                                userImageURL = commonPics[position].userImageURL
+                            )
+                        }
+                    )
                 } catch (e: ArrayIndexOutOfBoundsException) {
                     context.longToast(context.getString(R.string.something_went_wrong))
                 }
