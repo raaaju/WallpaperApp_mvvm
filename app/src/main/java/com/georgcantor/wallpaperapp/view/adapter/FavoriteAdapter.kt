@@ -18,6 +18,7 @@ import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.util.showDialog
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -72,20 +73,20 @@ class FavoriteAdapter(
                 val intent = Intent(context, DetailsActivity::class.java)
                 try {
                     intent.putExtra(
-                        DetailsActivity.EXTRA_PIC,
-                            CommonPic(
-                                    url = pic.url,
-                                    width = pic.width,
-                                    heght = pic.heght,
-                                    likes = pic.likes,
-                                    favorites = pic.favorites,
-                                    tags = pic.tags,
-                                    downloads = pic.downloads,
-                                    imageURL = pic.imageURL,
-                                    fullHDURL = pic.fullHDURL,
-                                    user = pic.user,
-                                    userImageURL = pic.userImageURL
-                            )
+                        EXTRA_PIC,
+                        CommonPic(
+                            url = pic.url,
+                            width = pic.width,
+                            heght = pic.heght,
+                            likes = pic.likes,
+                            favorites = pic.favorites,
+                            tags = pic.tags,
+                            downloads = pic.downloads,
+                            imageURL = pic.imageURL,
+                            fullHDURL = pic.fullHDURL,
+                            user = pic.user,
+                            userImageURL = pic.userImageURL
+                        )
                     )
                 } catch (e: ArrayIndexOutOfBoundsException) {
                     context.longToast(context.getString(R.string.something_went_wrong))

@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import kotlinx.android.synthetic.main.similar_item.view.similarImageView
 
 class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<SimilarAdapter.SimilarViewHolder>() {
@@ -39,7 +39,6 @@ class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<Simila
     }
 
     override fun onBindViewHolder(holder: SimilarViewHolder, position: Int) {
-
         context.loadImage(
             similarList?.get(position)?.url ?: "",
             context.resources.getDrawable(R.drawable.plh),
@@ -51,7 +50,7 @@ class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<Simila
             val activity = context as Activity
             val intent = Intent(context, DetailsActivity::class.java)
             try {
-                intent.putExtra(DetailsActivity.EXTRA_PIC, similarList?.get(position)?.heght?.let { height ->
+                intent.putExtra(EXTRA_PIC, similarList?.get(position)?.heght?.let { height ->
                     CommonPic(
                         url = similarList[position].url,
                         width = similarList[position].width,

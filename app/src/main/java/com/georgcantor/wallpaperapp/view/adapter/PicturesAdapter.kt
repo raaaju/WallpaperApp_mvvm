@@ -15,6 +15,7 @@ import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -55,7 +56,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                 val position = wallpViewHolder.adapterPosition
                 val intent = Intent(context, DetailsActivity::class.java)
                 try {
-                    intent.putExtra(DetailsActivity.EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
+                    intent.putExtra(EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
                         CommonPic(
                                 url = commonPics[position].url,
                                 width = commonPics[position].width,

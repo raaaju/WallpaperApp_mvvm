@@ -13,6 +13,7 @@ import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment
 import com.georgcantor.wallpaperapp.util.openFragment
+import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment.Companion.FETCH_TYPE
 import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
@@ -27,7 +28,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
         itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val bundle = Bundle()
-            bundle.putString(CarBrandFragment.FETCH_TYPE, categories?.get(position)?.categoryName)
+            bundle.putString(FETCH_TYPE, categories?.get(position)?.categoryName)
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 

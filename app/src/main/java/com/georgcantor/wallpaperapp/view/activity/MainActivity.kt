@@ -19,6 +19,7 @@ import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.*
+import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment.Companion.FETCH_TYPE
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (intent.getStringExtra(TAG_EXTRA_OPEN)) {
             TAG_EXTRA_OPEN -> {
                 val bundle = Bundle()
-                bundle.putString(CarBrandFragment.FETCH_TYPE, intent.getStringExtra(TAG_EXTRA))
+                bundle.putString(FETCH_TYPE, intent.getStringExtra(TAG_EXTRA))
                 brandFragment.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.frame_container, brandFragment).commit()
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
@@ -168,49 +169,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_aston -> {
                 toolbar.title = getString(R.string.aston)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.aston))
+                bundle.putString(FETCH_TYPE, getString(R.string.aston))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.aston), true)
             }
             R.id.nav_bentley -> {
                 toolbar.title = getString(R.string.bentley)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.bentley))
+                bundle.putString(FETCH_TYPE, getString(R.string.bentley))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.bentley), true)
             }
             R.id.nav_porsche -> {
                 toolbar.title = getString(R.string.porsche)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.porsche))
+                bundle.putString(FETCH_TYPE, getString(R.string.porsche))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.porsche), true)
             }
             R.id.nav_bugatti -> {
                 toolbar.title = getString(R.string.bugatti)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.bugatti))
+                bundle.putString(FETCH_TYPE, getString(R.string.bugatti))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.bugatti), true)
             }
             R.id.nav_mclaren -> {
                 toolbar.title = getString(R.string.mclaren)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.mclaren))
+                bundle.putString(FETCH_TYPE, getString(R.string.mclaren))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.mclaren), true)
             }
             R.id.nav_ferrari -> {
                 toolbar.title = getString(R.string.ferrari)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.ferrari))
+                bundle.putString(FETCH_TYPE, getString(R.string.ferrari))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.ferrari), true)
             }
             R.id.nav_lambo -> {
                 toolbar.title = getString(R.string.lamborghini)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.lamborghini))
+                bundle.putString(FETCH_TYPE, getString(R.string.lamborghini))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.lamborghini), true)
             }
             R.id.nav_rolls -> {
                 toolbar.title = getString(R.string.rolls)
-                bundle.putString(CarBrandFragment.FETCH_TYPE, getString(R.string.rolls))
+                bundle.putString(FETCH_TYPE, getString(R.string.rolls))
                 brandFragment.arguments = bundle
                 openFragment(brandFragment, getString(R.string.rolls), true)
             }
