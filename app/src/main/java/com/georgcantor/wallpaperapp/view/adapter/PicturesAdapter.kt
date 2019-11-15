@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
@@ -56,19 +55,19 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                 val position = wallpViewHolder.adapterPosition
                 val intent = Intent(context, DetailsActivity::class.java)
                 try {
-                    intent.putExtra(EXTRA_PIC, commonPics?.get(position)?.heght?.let { height ->
+                    intent.putExtra(EXTRA_PIC, commonPics?.get(position)?.url?.let { url ->
                         CommonPic(
-                                url = commonPics[position].url,
-                                width = commonPics[position].width,
-                                heght = height,
-                                likes = commonPics[position].likes,
-                                favorites = commonPics[position].favorites,
-                                tags = commonPics[position].tags,
-                                downloads = commonPics[position].downloads,
-                                imageURL = commonPics[position].imageURL,
-                                fullHDURL = commonPics[position].fullHDURL,
-                                user = commonPics[position].user,
-                                userImageURL = commonPics[position].userImageURL
+                            url = url,
+                            width = commonPics[position].width,
+                            heght = commonPics[position].heght,
+                            likes = commonPics[position].likes,
+                            favorites = commonPics[position].favorites,
+                            tags = commonPics[position].tags,
+                            downloads = commonPics[position].downloads,
+                            imageURL = commonPics[position].imageURL,
+                            fullHDURL = commonPics[position].fullHDURL,
+                            user = commonPics[position].user,
+                            userImageURL = commonPics[position].userImageURL
                         )
                     })
                 } catch (e: ArrayIndexOutOfBoundsException) {
