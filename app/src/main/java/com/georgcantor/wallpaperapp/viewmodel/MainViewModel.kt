@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
@@ -90,8 +91,18 @@ class MainViewModel(
         var userMark = 0
 
         val db = FirebaseFirestore.getInstance()
-        val mark: MutableMap<String, Pair<String, Int>>
+        val mark: MutableMap<String, Triple<String, Int, String>>
         mark = HashMap()
+
+        val phoneInfo = (
+                Build.MANUFACTURER
+                        + " "
+                        + Build.MODEL
+                        + " "
+                        + Build.VERSION.RELEASE
+                        + " "
+                        + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT].name
+                )
 
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -114,7 +125,10 @@ class MainViewModel(
 
         ratingDialog
             .setPositiveButton(context.getString(R.string.add_review)) { _, _ ->
-                mark[MainActivity.RATING] = Pair(Calendar.getInstance().time.toString(), userMark)
+                mark[MainActivity.RATING] = Triple(
+                    Calendar.getInstance().time.toString(), userMark, phoneInfo
+                )
+
                 if (userMark > 0) {
                     db.collection(MainActivity.RATING)
                         .add(mark)
