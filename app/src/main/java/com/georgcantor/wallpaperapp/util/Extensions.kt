@@ -2,10 +2,12 @@ package com.georgcantor.wallpaperapp.util
 
 import android.animation.Animator
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -52,6 +54,12 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String, mustRemove: 
         transaction.addToBackStack(tag)
         transaction.commit()
     }
+}
+
+fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
+    val intent = Intent(this, it)
+    intent.putExtras(Bundle().apply(extras))
+    startActivity(intent)
 }
 
 fun Context.getScreenSize(): Int {

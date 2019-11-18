@@ -55,6 +55,10 @@
             android:name=".view.activity.FullScreenActivity"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
 
+        <activity
+            android:name=".view.activity.CarBrandActivity"
+            android:configChanges="orientation|screenSize" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

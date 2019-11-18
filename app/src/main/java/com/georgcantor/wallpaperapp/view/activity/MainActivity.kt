@@ -16,9 +16,11 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.PreferenceManager
+import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.*
+import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment.Companion.FETCH_TYPE
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
@@ -169,52 +171,52 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_aston -> {
-                toolbar.title = getString(R.string.aston)
-                bundle.putString(FETCH_TYPE, getString(R.string.aston))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.aston), true)
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.aston))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_bentley -> {
-                toolbar.title = getString(R.string.bentley)
-                bundle.putString(FETCH_TYPE, getString(R.string.bentley))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.bentley), true)
-            }
-            R.id.nav_porsche -> {
-                toolbar.title = getString(R.string.porsche)
-                bundle.putString(FETCH_TYPE, getString(R.string.porsche))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.porsche), true)
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.bentley))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_bugatti -> {
-                toolbar.title = getString(R.string.bugatti)
-                bundle.putString(FETCH_TYPE, getString(R.string.bugatti))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.bugatti), true)
-            }
-            R.id.nav_mclaren -> {
-                toolbar.title = getString(R.string.mclaren)
-                bundle.putString(FETCH_TYPE, getString(R.string.mclaren))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.mclaren), true)
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.bugatti))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_ferrari -> {
-                toolbar.title = getString(R.string.ferrari)
-                bundle.putString(FETCH_TYPE, getString(R.string.ferrari))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.ferrari), true)
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.ferrari))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_lambo -> {
-                toolbar.title = getString(R.string.lamborghini)
-                bundle.putString(FETCH_TYPE, getString(R.string.lamborghini))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.lamborghini), true)
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.lamborghini))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+            }
+            R.id.nav_mclaren -> {
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.mclaren))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+            }
+            R.id.nav_porsche -> {
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.porsche))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rolls -> {
-                toolbar.title = getString(R.string.rolls)
-                bundle.putString(FETCH_TYPE, getString(R.string.rolls))
-                brandFragment.arguments = bundle
-                openFragment(brandFragment, getString(R.string.rolls), true)
+                openActivity(CarBrandActivity::class.java) {
+                    putString(REQUEST, getString(R.string.rolls))
+                }
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_favorites -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))
