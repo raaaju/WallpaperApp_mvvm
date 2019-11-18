@@ -40,45 +40,45 @@ class MainViewModel(
         return Observable.fromCallable {
             isGalleryVisible.postValue(false)
 
-            val list = ArrayList<Category>()
+            val categories = ArrayList<Category>()
             apiRepository.getCategories(context.getString(R.string.animals)).subscribe ({
-                list.add(Category(context.getString(R.string.Animals), it)) }, {})
+                categories.add(Category(context.getString(R.string.Animals), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.buildings)).subscribe ({
-                list.add(Category(context.getString(R.string.Buildings), it)) }, {})
+                categories.add(Category(context.getString(R.string.Buildings), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.computer)).subscribe ({
-                list.add(Category(context.getString(R.string.Computer), it)) }, {})
+                categories.add(Category(context.getString(R.string.Computer), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.education)).subscribe ({
-                list.add(Category(context.getString(R.string.Education), it)) }, {})
+                categories.add(Category(context.getString(R.string.Education), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.health)).subscribe ({
-                list.add(Category(context.getString(R.string.Health), it)) }, {})
+                categories.add(Category(context.getString(R.string.Health), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.fashion)).subscribe ({
-                list.add(Category(context.getString(R.string.Fashion), it)) }, {})
+                categories.add(Category(context.getString(R.string.Fashion), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.feelings)).subscribe ({
-                list.add(Category(context.getString(R.string.Feelings), it)) }, {})
+                categories.add(Category(context.getString(R.string.Feelings), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.food)).subscribe ({
-                list.add(Category(context.getString(R.string.Food), it)) }, {})
+                categories.add(Category(context.getString(R.string.Food), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.music)).subscribe ({
-                list.add(Category(context.getString(R.string.Music), it)) }, {})
+                categories.add(Category(context.getString(R.string.Music), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.nature)).subscribe ({
-                list.add(Category(context.getString(R.string.Nature), it)) }, {})
+                categories.add(Category(context.getString(R.string.Nature), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.people)).subscribe ({
-                list.add(Category(context.getString(R.string.People), it)) }, {})
+                categories.add(Category(context.getString(R.string.People), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.places)).subscribe ({
-                list.add(Category(context.getString(R.string.Places), it)) }, {})
+                categories.add(Category(context.getString(R.string.Places), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.science)).subscribe ({
-                list.add(Category(context.getString(R.string.Science), it)) }, {})
+                categories.add(Category(context.getString(R.string.Science), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.sports)).subscribe ({
-                list.add(Category(context.getString(R.string.Sports), it)) }, {})
+                categories.add(Category(context.getString(R.string.Sports), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.textures)).subscribe ({
-                list.add(Category(context.getString(R.string.Textures), it)) }, {})
+                categories.add(Category(context.getString(R.string.Textures), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.travel)).subscribe ({
-                list.add(Category(context.getString(R.string.Travel), it)) }, {})
+                categories.add(Category(context.getString(R.string.Travel), it)) }, {})
 
-            if (list.size % 2 != 0) list.removeAt(list.size - 1)
+            if (categories.size % 2 != 0) categories.removeAt(categories.size - 1)
 
-            preferenceManager.saveCategories(CategoryFragment.CATEGORIES, list)
+            preferenceManager.saveCategories(CategoryFragment.CATEGORIES, categories)
             if (context.isNetworkAvailable()) isGalleryVisible.postValue(true)
-            list
+            categories
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
