@@ -73,7 +73,6 @@ class CarBrandFragment : Fragment() {
     private fun loadData(index: Int) {
         val disposable =
             viewModel.getPics(arguments?.getString(FETCH_TYPE) ?: "", index)
-                .retry(3)
                 .doOnSubscribe {
                     animationView?.showAnimation()
                 }

@@ -82,7 +82,6 @@ class MercedesFragment : Fragment() {
     private fun loadData(index: Int) {
         val disposable =
             viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-            .retry(3)
             .doOnSubscribe {
                 animationView?.showAnimation()
             }
