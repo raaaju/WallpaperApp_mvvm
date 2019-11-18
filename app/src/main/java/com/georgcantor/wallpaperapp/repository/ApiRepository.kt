@@ -162,7 +162,7 @@ class ApiRepository(
         return apiService.getPixabayPictures(request, 1)
             .flatMap {
                 Observable.fromCallable {
-                    it.hits[0].webformatURL
+                    it.hits.first().webformatURL
                 }
             }
     }
