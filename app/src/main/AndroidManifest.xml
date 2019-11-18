@@ -51,7 +51,9 @@
             android:name=".view.activity.FavoriteActivity"
             android:configChanges="orientation|screenSize" />
 
-        <activity android:name=".view.activity.FullScreenActivity" />
+        <activity
+            android:name=".view.activity.FullScreenActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

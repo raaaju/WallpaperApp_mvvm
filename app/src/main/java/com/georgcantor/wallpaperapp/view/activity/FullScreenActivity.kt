@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.view.activity
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.View
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
@@ -27,7 +26,6 @@ class FullScreenActivity : Activity() {
         } else {
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
-        setFullscreen()
 
         fullAnimationView.showAnimation()
 
@@ -43,17 +41,6 @@ class FullScreenActivity : Activity() {
         )
 
         if (!isNetworkAvailable()) longToast(getString(R.string.no_internet))
-    }
-
-    private fun setFullscreen() {
-        var flags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_FULLSCREEN
-
-        flags = flags or (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-
-        window.decorView.systemUiVisibility = flags
     }
 
     override fun onBackPressed() {
