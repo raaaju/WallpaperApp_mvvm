@@ -73,11 +73,10 @@ class MainViewModel(
                 list.add(Category(context.getString(R.string.Textures), it)) }, {})
             apiRepository.getCategories(context.getString(R.string.travel)).subscribe ({
                 list.add(Category(context.getString(R.string.Travel), it)) }, {})
-            val urls = ArrayList<Category>()
-            list.map {
-                urls.add(Category(it.categoryName, it.categoryUrl))
-            }
-            preferenceManager.saveCategories(CategoryFragment.CATEGORIES, urls)
+
+            if (list.size % 2 != 0) list.removeAt(list.size - 1)
+
+            preferenceManager.saveCategories(CategoryFragment.CATEGORIES, list)
             if (context.isNetworkAvailable()) isGalleryVisible.postValue(true)
             list
         }

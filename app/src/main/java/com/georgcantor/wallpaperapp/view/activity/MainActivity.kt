@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 
-        if (prefManager.getCategories(CATEGORIES).isNullOrEmpty()) loadCategories()
+        if (prefManager.getCategories(CATEGORIES)?.size ?: 0 < 16) loadCategories()
 
         checkForUpdate()
 
