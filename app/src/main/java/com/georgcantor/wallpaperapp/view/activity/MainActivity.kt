@@ -192,8 +192,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
             R.id.nav_favorites -> {
-                startActivity(Intent(this, FavoriteActivity::class.java))
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+                openActivity(FavoriteActivity::class.java)
             }
             R.id.nav_about -> {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL)))
