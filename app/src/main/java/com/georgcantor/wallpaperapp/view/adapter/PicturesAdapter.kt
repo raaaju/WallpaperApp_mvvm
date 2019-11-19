@@ -92,7 +92,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
 
             context.loadImage(
                 it?.get(position)?.url ?: "",
-                context.resources.getDrawable(R.drawable.plh),
+                context.resources.getDrawable(R.drawable.placeholder),
                 holder.imageView,
                 null
             )

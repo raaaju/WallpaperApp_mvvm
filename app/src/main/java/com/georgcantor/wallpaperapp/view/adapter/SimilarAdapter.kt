@@ -40,7 +40,7 @@ class SimilarAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: SimilarViewHolder, position: Int) {
         context.loadImage(
             similarList?.get(position)?.url ?: "",
-            context.resources.getDrawable(R.drawable.plh),
+            context.resources.getDrawable(R.drawable.placeholder),
             holder.imageView,
             null
         )

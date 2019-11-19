@@ -35,7 +35,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
 
         context.loadImage(
             categories?.get(position)?.categoryUrl ?: "",
-            context.resources.getDrawable(R.drawable.plh),
+            context.resources.getDrawable(R.drawable.placeholder),
             holder.categoryImage,
             null
         )

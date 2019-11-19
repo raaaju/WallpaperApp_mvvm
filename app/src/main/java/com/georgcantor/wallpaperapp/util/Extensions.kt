@@ -25,7 +25,6 @@ import com.georgcantor.wallpaperapp.R
 
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     val transaction = supportFragmentManager.beginTransaction()
-
     val lastIndex = supportFragmentManager.fragments.lastIndex
     val current = supportFragmentManager.fragments[lastIndex]
 

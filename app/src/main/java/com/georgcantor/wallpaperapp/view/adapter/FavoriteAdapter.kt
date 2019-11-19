@@ -112,7 +112,7 @@ class FavoriteAdapter(
 
         context.loadImage(
             pic.url ?: "",
-            context.resources.getDrawable(R.drawable.plh),
+            context.resources.getDrawable(R.drawable.placeholder),
             holder.imageView,
             null
         )
