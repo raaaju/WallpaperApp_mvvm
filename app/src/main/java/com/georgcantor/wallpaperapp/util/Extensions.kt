@@ -57,9 +57,11 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
 }
 
 fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
+    val context = this as AppCompatActivity
     val intent = Intent(this, it)
     intent.putExtras(Bundle().apply(extras))
     startActivity(intent)
+    context.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
 }
 
 fun Context.getScreenSize(): Int {

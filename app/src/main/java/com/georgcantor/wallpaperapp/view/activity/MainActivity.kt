@@ -21,7 +21,6 @@ import com.georgcantor.wallpaperapp.util.openFragment
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.*
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
-import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment.Companion.FETCH_TYPE
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,8 +46,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val IS_RATING_EXIST = "is_rating_exist"
         const val LAUNCHES = "launches"
         const val RATING = "rating1"
-        const val TAG_EXTRA_OPEN = "open_from_tag"
-        const val TAG_EXTRA = "tag_extra"
     }
 
     override fun onStateUpdate(installState: InstallState) {
@@ -60,7 +57,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var bmwFragment: Fragment
     private lateinit var audiFragment: Fragment
     private lateinit var categoryFragment: Fragment
-    private lateinit var brandFragment: Fragment
 
     private lateinit var viewModel: MainViewModel
     private lateinit var bundle: Bundle
@@ -93,7 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bmwFragment = BmwFragment.newInstance(getString(R.string.bmw_request))
         audiFragment = AudiFragment.newInstance(getString(R.string.audi_request))
         categoryFragment = CategoryFragment()
-        brandFragment = CarBrandFragment()
 
         bundle = Bundle()
 
@@ -135,16 +130,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.itemIconTintList = null
 
         viewModel.checkNumberOfLaunches(this, prefManager)
-
-        when (intent.getStringExtra(TAG_EXTRA_OPEN)) {
-            TAG_EXTRA_OPEN -> {
-                val bundle = Bundle()
-                bundle.putString(FETCH_TYPE, intent.getStringExtra(TAG_EXTRA))
-                brandFragment.arguments = bundle
-                supportFragmentManager.beginTransaction().replace(R.id.frame_container, brandFragment).commit()
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -174,49 +159,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.aston))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_bentley -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.bentley))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_bugatti -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.bugatti))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_ferrari -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.ferrari))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_lambo -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.lamborghini))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_mclaren -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.mclaren))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_porsche -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.porsche))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rolls -> {
                 openActivity(CarBrandActivity::class.java) {
                     putString(REQUEST, getString(R.string.rolls))
                 }
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_favorites -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))

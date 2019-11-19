@@ -1,18 +1,16 @@
 package com.georgcantor.wallpaperapp.view.adapter
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.loadImage
+import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
-import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment
-import com.georgcantor.wallpaperapp.util.openFragment
-import com.georgcantor.wallpaperapp.view.fragment.CarBrandFragment.Companion.FETCH_TYPE
+import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
+import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
@@ -22,16 +20,11 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
         val viewHolder = CategoryViewHolder(itemView)
-        val activity = context as AppCompatActivity
 
         itemView.setOnClickListener {
-            val position = viewHolder.adapterPosition
-            val bundle = Bundle()
-            bundle.putString(FETCH_TYPE, categories?.get(position)?.categoryName)
-            val fragment = CarBrandFragment()
-            fragment.arguments = bundle
-
-            activity.openFragment(fragment, categories?.get(position)?.categoryName ?: "")
+            context.openActivity(CarBrandActivity::class.java) {
+                putString(REQUEST, categories?.get(viewHolder.adapterPosition)?.categoryName ?: "")
+            }
         }
 
         return viewHolder
