@@ -92,8 +92,6 @@ class SearchActivity : AppCompatActivity() {
                 manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
             R.id.action_voice_search -> checkPermission()
-            else -> {
-            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -146,13 +144,14 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        searchRecyclerView.setHasFixedSize(true)
-
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(
             getScreenSize(),
             StaggeredGridLayoutManager.VERTICAL
         )
         searchRecyclerView.layoutManager = staggeredGridLayoutManager
+        searchRecyclerView.setHasFixedSize(true)
+        adapter = PicturesAdapter(this)
+        searchRecyclerView.adapter = adapter
 
         val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -160,8 +159,6 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         searchRecyclerView.addOnScrollListener(listener)
-        adapter = PicturesAdapter(this)
-        searchRecyclerView.adapter = adapter
     }
 
     private fun checkPermission() {
