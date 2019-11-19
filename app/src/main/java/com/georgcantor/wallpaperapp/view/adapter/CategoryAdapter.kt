@@ -31,7 +31,7 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
             val fragment = CarBrandFragment()
             fragment.arguments = bundle
 
-            activity.openFragment(fragment, categories?.get(position)?.categoryName ?: "", false)
+            activity.openFragment(fragment, categories?.get(position)?.categoryName ?: "")
         }
 
         return viewHolder

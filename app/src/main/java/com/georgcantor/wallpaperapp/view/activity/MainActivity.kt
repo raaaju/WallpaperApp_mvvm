@@ -114,17 +114,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             when (item.itemId) {
                 R.id.nav_bmw -> {
                     toolbar.title = getString(R.string.bmw)
-                    openFragment(bmwFragment, getString(R.string.bmw), false)
+                    openFragment(bmwFragment, getString(R.string.bmw))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_audi -> {
                     toolbar.title = getString(R.string.audi)
-                    openFragment(audiFragment, getString(R.string.audi), false)
+                    openFragment(audiFragment, getString(R.string.audi))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_mercedes -> {
                     toolbar.title = getString(R.string.mercedes)
-                    openFragment(mercedesFragment, getString(R.string.mercedes), false)
+                    openFragment(mercedesFragment, getString(R.string.mercedes))
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_search -> openSearchActivity()
             R.id.action_gallery -> {
                 toolbar.title = getString(R.string.gallery_toolbar)
-                openFragment(categoryFragment, getString(R.string.gallery_toolbar), false)
+                openFragment(categoryFragment, getString(R.string.gallery_toolbar))
             }
         }
         return super.onOptionsItemSelected(item)
