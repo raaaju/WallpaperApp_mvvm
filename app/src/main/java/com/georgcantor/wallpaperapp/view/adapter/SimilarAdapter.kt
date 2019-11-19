@@ -1,8 +1,6 @@
 package com.georgcantor.wallpaperapp.view.adapter
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +10,12 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
-import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import kotlinx.android.synthetic.main.similar_item.view.similarImageView
 
-class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<SimilarAdapter.SimilarViewHolder>() {
+class SimilarAdapter(private val context: Context) :
+    RecyclerView.Adapter<SimilarAdapter.SimilarViewHolder>() {
 
     private val similarList: MutableList<CommonPic>?
     private lateinit var activity: DetailsActivity
@@ -47,10 +46,8 @@ class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<Simila
         )
 
         holder.itemView.setOnClickListener {
-            val activity = context as Activity
-            val intent = Intent(context, DetailsActivity::class.java)
-            try {
-                intent.putExtra(EXTRA_PIC, similarList?.get(position)?.heght?.let { height ->
+            context.openActivity(DetailsActivity::class.java) {
+                putParcelable(EXTRA_PIC, similarList?.get(position)?.heght?.let { height ->
                     CommonPic(
                         url = similarList[position].url,
                         width = similarList[position].width,
@@ -65,11 +62,7 @@ class SimilarAdapter(private val context: Context) : RecyclerView.Adapter<Simila
                         userImageURL = similarList[position].userImageURL
                     )
                 })
-            } catch (e: ArrayIndexOutOfBoundsException) {
-                context.longToast(context.getString(R.string.something_went_wrong))
             }
-            context.startActivity(intent)
-            activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
         }
     }
 

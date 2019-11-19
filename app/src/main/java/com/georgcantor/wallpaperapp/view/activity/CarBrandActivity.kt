@@ -94,4 +94,9 @@ class CarBrandActivity : AppCompatActivity() {
         DisposableManager.add(disposable)
     }
 
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
+
 }

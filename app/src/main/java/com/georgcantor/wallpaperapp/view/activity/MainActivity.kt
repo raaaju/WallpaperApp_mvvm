@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var categoryFragment: Fragment
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var bundle: Bundle
 
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
     private var updateInfo: AppUpdateInfo? = null
@@ -89,8 +88,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bmwFragment = BmwFragment.newInstance(getString(R.string.bmw_request))
         audiFragment = AudiFragment.newInstance(getString(R.string.audi_request))
         categoryFragment = CategoryFragment()
-
-        bundle = Bundle()
 
         val myTitle = toolbar.getChildAt(0) as TextView
         myTitle.typeface = Typeface.create("cursive", Typeface.NORMAL)
