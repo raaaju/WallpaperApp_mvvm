@@ -76,35 +76,38 @@ class DetailsViewModel(
     }
 
     fun downloadPicture(
-            pic: CommonPic,
-            tags: ArrayList<String>,
-            animationView: LottieAnimationView
-    ): Long {
+        pic: CommonPic,
+        tags: ArrayList<String>,
+        animationView: LottieAnimationView
+    ) {
         animationView.showAnimation()
-        val uri = pic.imageURL
-        val imageUri = Uri.parse(uri)
-        val downloadReference: Long
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        var name = Environment.getExternalStorageDirectory().absolutePath
-        name += "/YourDirectoryName/"
+        Observable.fromCallable {
+            val uri = pic.imageURL
+            val imageUri = Uri.parse(uri)
+            val downloadManager =
+                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            var name = Environment.getExternalStorageDirectory().absolutePath
+            name += "/YourDirectoryName/"
 
-        val request = DownloadManager.Request(imageUri)
-        try {
-            request.setTitle(tags[0] + context.getString(R.string.down))
-            request.setDescription(context.getString(R.string.down_wallpapers))
-            if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-                request.setDestinationInExternalPublicDir(
+            val request = DownloadManager.Request(imageUri)
+            try {
+                request.setTitle(tags[0] + context.getString(R.string.down))
+                request.setDescription(context.getString(R.string.down_wallpapers))
+                if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+                    request.setDestinationInExternalPublicDir(
                         "/" + context.resources
-                                .getString(R.string.app_name), pic.id.toString() + context.resources
-                        .getString(R.string.jpg)
-                )
+                            .getString(R.string.app_name), pic.id.toString() + context.resources
+                            .getString(R.string.jpg)
+                    )
+                }
+            } catch (e: IllegalStateException) {
+            } catch (e: IndexOutOfBoundsException) {
             }
-        } catch (e: IllegalStateException) {
-        } catch (e: IndexOutOfBoundsException) {
+            downloadManager.enqueue(request)
         }
-        downloadReference = downloadManager.enqueue(request)
-
-        return downloadReference
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
     }
 
     fun downloadPictureQ(url: String, animationView: LottieAnimationView) {
