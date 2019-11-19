@@ -54,6 +54,11 @@ class CarBrandActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
+
     private fun setupRecyclerView() {
         val gridLayoutManager = StaggeredGridLayoutManager(
             getScreenSize(),
@@ -92,11 +97,6 @@ class CarBrandActivity : AppCompatActivity() {
                 }
 
         DisposableManager.add(disposable)
-    }
-
-    override fun onDestroy() {
-        DisposableManager.dispose()
-        super.onDestroy()
     }
 
 }

@@ -83,13 +83,13 @@ class FavoriteActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun deleteAll() {
-        viewModel.deleteAll()
-    }
-
     override fun onDestroy() {
         DisposableManager.dispose()
         super.onDestroy()
+    }
+
+    private fun deleteAll() {
+        viewModel.deleteAll()
     }
 
 }
