@@ -47,21 +47,24 @@ class SimilarAdapter(private val context: Context) :
 
         holder.itemView.setOnClickListener {
             context.openActivity(DetailsActivity::class.java) {
-                putParcelable(EXTRA_PIC, similarList?.get(position)?.heght?.let { height ->
-                    CommonPic(
-                        url = similarList[position].url,
-                        width = similarList[position].width,
-                        heght = height,
-                        likes = similarList[position].likes,
-                        favorites = similarList[position].favorites,
-                        tags = similarList[position].tags,
-                        downloads = similarList[position].downloads,
-                        imageURL = similarList[position].imageURL,
-                        fullHDURL = similarList[position].fullHDURL,
-                        user = similarList[position].user,
-                        userImageURL = similarList[position].userImageURL
-                    )
-                })
+                putParcelable(
+                    EXTRA_PIC,
+                    similarList?.get(position)?.heght?.let { height ->
+                        CommonPic(
+                            url = similarList[position].url,
+                            width = similarList[position].width,
+                            heght = height,
+                            likes = similarList[position].likes,
+                            favorites = similarList[position].favorites,
+                            tags = similarList[position].tags,
+                            downloads = similarList[position].downloads,
+                            imageURL = similarList[position].imageURL,
+                            fullHDURL = similarList[position].fullHDURL,
+                            user = similarList[position].user,
+                            userImageURL = similarList[position].userImageURL
+                        )
+                    }
+                )
             }
         }
     }

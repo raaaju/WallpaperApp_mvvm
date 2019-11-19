@@ -1,9 +1,7 @@
 package com.georgcantor.wallpaperapp.view.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -13,7 +11,7 @@ import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
-import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,11 +49,10 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                val activity = context as Activity
                 val position = wallpViewHolder.adapterPosition
-                val intent = Intent(context, DetailsActivity::class.java)
-                try {
-                    intent.putExtra(
+
+                context.openActivity(DetailsActivity::class.java) {
+                    putParcelable(
                         EXTRA_PIC,
                         commonPics?.get(position)?.url?.let { url ->
                             CommonPic(
@@ -73,11 +70,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                             )
                         }
                     )
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    context.longToast(context.getString(R.string.something_went_wrong))
                 }
-                context.startActivity(intent)
-                activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
 
         itemView.setOnClickListener {
