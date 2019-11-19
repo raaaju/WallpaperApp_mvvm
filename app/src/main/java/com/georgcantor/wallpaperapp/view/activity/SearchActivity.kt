@@ -188,15 +188,21 @@ class SearchActivity : AppCompatActivity() {
     private fun requestAudioPermission() {
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.RECORD_AUDIO), PERMISSION_REQUEST_CODE
+            arrayOf(Manifest.permission.RECORD_AUDIO),
+            PERMISSION_REQUEST_CODE
         )
     }
 
     private fun search(search: String, index: Int) {
-        swipeRefreshLayoutSearch.isEnabled = true
-        swipeRefreshLayoutSearch.isRefreshing = true
-
         val disposable = viewModel.searchPics(search, index)
+            .doOnSubscribe {
+                swipeRefreshLayoutSearch.isEnabled = true
+                swipeRefreshLayoutSearch.isRefreshing = true
+            }
+            .doFinally {
+                swipeRefreshLayoutSearch.isRefreshing = false
+                swipeRefreshLayoutSearch.isEnabled = false
+            }
             .subscribe({
                 adapter.setPicList(it)
                 searchAnimationView?.hideAnimation()
@@ -205,12 +211,8 @@ class SearchActivity : AppCompatActivity() {
                     searchAnimationView?.showAnimation()
                     shortToast(getString(R.string.not_found))
                 }
-                swipeRefreshLayoutSearch.isRefreshing = false
-                swipeRefreshLayoutSearch.isEnabled = false
             }, {
                 searchAnimationView?.showAnimation()
-                swipeRefreshLayoutSearch.isRefreshing = false
-                swipeRefreshLayoutSearch.isEnabled = false
                 shortToast(getString(R.string.something_went_wrong))
             })
         DisposableManager.add(disposable)
