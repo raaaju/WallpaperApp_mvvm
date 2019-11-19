@@ -14,7 +14,7 @@
     <string name="type_and_search">Введите слово или фразу</string>
 
     <string name="down_wallpapers">Загружается из Wallpapers</string>
-    <string name="down_complete">.jpg Сохранено</string>
+    <string name="down_complete">Изображение сохранено</string>
     <string name="set_wall_complete">Обои установлены</string>
     <string name="widget">widget</string>
     <string name="del_from_fav_dialog">Удалить из избранного?</string>

@@ -150,8 +150,8 @@ class DetailsActivity : AppCompatActivity() {
 
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            shortToast(getString(R.string.down_complete))
             try {
-                shortToast(tags[0] + getString(R.string.down_complete))
                 downloadAnimationView?.hideAnimation()
             } catch (e: IndexOutOfBoundsException) {
                 downloadAnimationView?.hideAnimation()
@@ -335,7 +335,7 @@ class DetailsActivity : AppCompatActivity() {
         }
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                pic?.url?.let { viewModel.downloadPictureQ(it, downloadAnimationView) }
+                pic?.imageURL?.let { viewModel.downloadPictureQ(it, downloadAnimationView) }
             } else {
                 pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
             }
@@ -373,7 +373,6 @@ class DetailsActivity : AppCompatActivity() {
         try {
             unregisterReceiver(downloadReceiver)
         } catch (e: Exception) {
-            shortToast(getString(R.string.something_went_wrong))
         }
         Zoomy.unregister(detailImageView)
         super.onDestroy()

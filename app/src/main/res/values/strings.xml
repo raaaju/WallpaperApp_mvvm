@@ -58,7 +58,7 @@
     <string name="travel" translatable="false">travel</string>
 
     <string name="down_wallpapers">Download from Wallpapers</string>
-    <string name="down_complete">.jpg Download Complete</string>
+    <string name="down_complete">Download Complete</string>
     <string name="set_wall_complete">Wallpaper setup complete</string>
     <string name="down" translatable="false">.jpg Download</string>
     <string name="widget">widget</string>
