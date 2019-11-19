@@ -148,6 +148,64 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_fav, menu)
+        this.menu = menu
+        val starItem = menu.findItem(R.id.action_add_to_fav)
+        db?.let {
+            if (it.containFav(pic?.url.toString())) {
+                starItem.setIcon(R.drawable.ic_star_red_24dp)
+            }
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            R.id.action_add_to_fav -> {
+                pic?.let { viewModel.setFavoriteStatus(it, item, starAnimationView, unstarAnimationView) }
+            }
+            R.id.action_share -> share()
+            R.id.action_download -> startDownloading()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            val isSetWall = prefManager.getBoolean(PREF_BOOLEAN)
+            if (isSetWall) setWallAsync() else pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
+        } else {
+            val intent = Intent()
+            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            val uri = Uri.fromParts("package", packageName, null)
+            intent.data = uri
+            startActivity(intent)
+            finish()
+            longToast(getString(R.string.you_need_perm_toast))
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+    }
+
+    override fun onDestroy() {
+        try {
+            unregisterReceiver(downloadReceiver)
+        } catch (e: Exception) {
+        }
+        Zoomy.unregister(detailImageView)
+        super.onDestroy()
+    }
+
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             shortToast(getString(R.string.down_complete))
@@ -157,49 +215,6 @@ class DetailsActivity : AppCompatActivity() {
                 downloadAnimationView?.hideAnimation()
             }
         }
-    }
-
-    private fun setWallAsync() {
-        progressAnimationView?.showAnimation()
-
-        val disposable = pic?.let { pic ->
-            viewModel.getBitmapAsync(pic)
-                ?.subscribe({
-                    val wallpaperManager = WallpaperManager.getInstance(baseContext)
-                    it?.let { bitmap ->
-                        viewModel.getImageUri(bitmap)
-                            .subscribe({ uri ->
-                                try {
-                                    startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
-                                } catch (e: IllegalArgumentException) {
-                                    try {
-                                        it.let { bitMap ->
-                                            viewModel.getImageUri(bitMap)
-                                                .subscribe({ uri ->
-                                                    val bitmap2 = MediaStore.Images.Media.getBitmap(
-                                                        contentResolver,
-                                                        uri
-                                                    )
-                                                    viewModel.setBitmapAsync(bitmap2)
-                                                }, {
-                                                    shortToast(getString(R.string.something_went_wrong))
-                                                })
-                                        }
-                                    } catch (e: OutOfMemoryError) {
-                                        shortToast(getString(R.string.something_went_wrong))
-                                    }
-                                }
-                            }, { throwable ->
-                                longToast(throwable.message.toString())
-                            })
-                    }
-                    longToast(getString(R.string.wallpaper_is_install))
-                    recreate()
-                }, {
-                    shortToast(getString(R.string.something_went_wrong))
-                })
-        }
-        disposable?.let(DisposableManager::add)
     }
 
     private fun initView() {
@@ -274,6 +289,49 @@ class DetailsActivity : AppCompatActivity() {
         registerReceiver(downloadReceiver, filter)
     }
 
+    private fun setWallAsync() {
+        progressAnimationView?.showAnimation()
+
+        val disposable = pic?.let { pic ->
+            viewModel.getBitmapAsync(pic)
+                ?.subscribe({
+                    val wallpaperManager = WallpaperManager.getInstance(baseContext)
+                    it?.let { bitmap ->
+                        viewModel.getImageUri(bitmap)
+                            .subscribe({ uri ->
+                                try {
+                                    startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
+                                } catch (e: IllegalArgumentException) {
+                                    try {
+                                        it.let { bitMap ->
+                                            viewModel.getImageUri(bitMap)
+                                                .subscribe({ uri ->
+                                                    val bitmap2 = MediaStore.Images.Media.getBitmap(
+                                                        contentResolver,
+                                                        uri
+                                                    )
+                                                    viewModel.setBitmapAsync(bitmap2)
+                                                }, {
+                                                    shortToast(getString(R.string.something_went_wrong))
+                                                })
+                                        }
+                                    } catch (e: OutOfMemoryError) {
+                                        shortToast(getString(R.string.something_went_wrong))
+                                    }
+                                }
+                            }, { throwable ->
+                                longToast(throwable.message.toString())
+                            })
+                    }
+                    longToast(getString(R.string.wallpaper_is_install))
+                    recreate()
+                }, {
+                    shortToast(getString(R.string.something_went_wrong))
+                })
+        }
+        disposable?.let(DisposableManager::add)
+    }
+
     private fun loadSimilarImages(request: String) {
         val disposable = viewModel.getSimilarImages(request, 1)
             .retry(3)
@@ -290,30 +348,6 @@ class DetailsActivity : AppCompatActivity() {
             })
 
         DisposableManager.add(disposable)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_fav, menu)
-        this.menu = menu
-        val starItem = menu.findItem(R.id.action_add_to_fav)
-        db?.let {
-            if (it.containFav(pic?.url.toString())) {
-                starItem.setIcon(R.drawable.ic_star_red_24dp)
-            }
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-            R.id.action_add_to_fav -> {
-                pic?.let { viewModel.setFavoriteStatus(it, item, starAnimationView, unstarAnimationView) }
-            }
-            R.id.action_share -> share()
-            R.id.action_download -> startDownloading()
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun share() {
@@ -342,40 +376,6 @@ class DetailsActivity : AppCompatActivity() {
         } else {
             viewModel.checkSavingPermission(permissionCheck, this)
         }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            val isSetWall = prefManager.getBoolean(PREF_BOOLEAN)
-            if (isSetWall) setWallAsync() else pic?.let { viewModel.downloadPicture(it, tags, downloadAnimationView) }
-        } else {
-            val intent = Intent()
-            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            val uri = Uri.fromParts("package", packageName, null)
-            intent.data = uri
-            startActivity(intent)
-            finish()
-            longToast(getString(R.string.you_need_perm_toast))
-        }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-    }
-
-    override fun onDestroy() {
-        try {
-            unregisterReceiver(downloadReceiver)
-        } catch (e: Exception) {
-        }
-        Zoomy.unregister(detailImageView)
-        super.onDestroy()
     }
 
 }
