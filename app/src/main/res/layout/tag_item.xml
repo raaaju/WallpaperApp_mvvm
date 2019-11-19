@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/text_padding2">
+    android:padding="@dimen/text_padding_4">
 
     <TextView
         android:id="@+id/tag_item"
@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:textColor="@color/colorPrimary"
         android:foreground="?android:attr/selectableItemBackground"
-        android:padding="@dimen/text_padding"
-        android:textSize="@dimen/text_size0" />
+        android:padding="@dimen/text_padding_8"
+        android:textSize="@dimen/text_size_16" />
 
 </FrameLayout>

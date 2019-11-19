@@ -58,13 +58,13 @@
                     android:layout_gravity="center"
                     android:visibility="gone"
                     app:lottie_fileName="download.json"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/detailImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginTop="@dimen/margin_6"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/detail_image" />
 
@@ -80,7 +80,7 @@
                         android:id="@+id/tagsRecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin1"
+                        android:layout_margin="@dimen/margin_8"
                         android:scrollbars="horizontal" />
 
                 </androidx.cardview.widget.CardView>
@@ -101,10 +101,10 @@
                             android:id="@+id/userImageView"
                             android:layout_width="@dimen/user_size"
                             android:layout_height="@dimen/user_size"
-                            android:layout_marginLeft="@dimen/margin3"
-                            android:layout_marginTop="@dimen/margin3"
-                            android:layout_marginRight="@dimen/margin3"
-                            android:layout_marginBottom="@dimen/margin2"
+                            android:layout_marginLeft="@dimen/margin_16"
+                            android:layout_marginTop="@dimen/margin_16"
+                            android:layout_marginRight="@dimen/margin_16"
+                            android:layout_marginBottom="@dimen/margin_12"
                             android:adjustViewBounds="true"
                             android:contentDescription="@string/user_name" />
 
@@ -112,23 +112,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin4"
-                            android:layout_marginTop="@dimen/margin"
-                            android:layout_marginRight="@dimen/margin4"
+                            android:layout_marginLeft="@dimen/margin_20"
+                            android:layout_marginTop="@dimen/margin_6"
+                            android:layout_marginRight="@dimen/margin_20"
                             android:fontFamily="cursive"
-                            android:padding="@dimen/text_padding2"
+                            android:padding="@dimen/text_padding_4"
+
                             android:text="@string/by"
-                            android:textSize="@dimen/text_size2" />
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/text_size_20" />
 
                         <TextView
                             android:id="@+id/nameTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/margin"
+                            android:layout_marginTop="@dimen/margin_6"
                             android:fontFamily="cursive"
-                            android:padding="@dimen/text_padding2"
-                            android:textSize="@dimen/text_size2" />
+                            android:padding="@dimen/text_padding_4"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/text_size_20"
+                            tools:text="Alex" />
 
                     </LinearLayout>
 
@@ -140,8 +144,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="cursive"
-                    android:text="Similar images:"
-                    android:textSize="@dimen/text_size0" />
+                    android:text="@string/similar_images"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_16" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/similarCardView"
@@ -188,26 +193,29 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin2"
-                                android:layout_marginTop="@dimen/margin"
-                                android:layout_marginRight="@dimen/margin2"
-                                android:layout_marginBottom="@dimen/margin"
+                                android:layout_marginLeft="@dimen/margin_12"
+                                android:layout_marginTop="@dimen/margin_6"
+                                android:layout_marginRight="@dimen/margin_12"
+                                android:layout_marginBottom="@dimen/margin_6"
                                 android:fontFamily="cursive"
-                                android:padding="@dimen/text_padding2"
+                                android:padding="@dimen/text_padding_4"
                                 android:text="@string/downloads"
-                                android:textSize="@dimen/text_size0" />
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_size_16" />
 
                             <TextView
                                 android:id="@+id/downloadsTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin0"
-                                android:layout_marginTop="@dimen/margin"
-                                android:layout_marginRight="@dimen/margin0"
-                                android:layout_marginBottom="@dimen/margin"
+                                android:layout_marginLeft="@dimen/margin_4"
+                                android:layout_marginTop="@dimen/margin_6"
+                                android:layout_marginRight="@dimen/margin_4"
+                                android:layout_marginBottom="@dimen/margin_6"
                                 android:fontFamily="cursive"
-                                android:padding="@dimen/text_padding2"
-                                android:textSize="@dimen/text_size0" />
+                                android:padding="@dimen/text_padding_4"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_size_16"
+                                tools:text="3456" />
 
                         </LinearLayout>
 
@@ -219,26 +227,29 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin2"
-                                android:layout_marginTop="@dimen/margin"
-                                android:layout_marginRight="@dimen/margin2"
-                                android:layout_marginBottom="@dimen/margin"
+                                android:layout_marginLeft="@dimen/margin_12"
+                                android:layout_marginTop="@dimen/margin_6"
+                                android:layout_marginRight="@dimen/margin_12"
+                                android:layout_marginBottom="@dimen/margin_6"
                                 android:fontFamily="cursive"
-                                android:padding="@dimen/text_padding2"
+                                android:padding="@dimen/text_padding_4"
                                 android:text="@string/favourite"
-                                android:textSize="@dimen/text_size0" />
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_size_16" />
 
                             <TextView
                                 android:id="@+id/favoritesTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin0"
-                                android:layout_marginTop="@dimen/margin"
-                                android:layout_marginRight="@dimen/margin0"
-                                android:layout_marginBottom="@dimen/margin"
+                                android:layout_marginLeft="@dimen/margin_4"
+                                android:layout_marginTop="@dimen/margin_6"
+                                android:layout_marginRight="@dimen/margin_4"
+                                android:layout_marginBottom="@dimen/margin_6"
                                 android:fontFamily="cursive"
-                                android:padding="@dimen/text_padding2"
-                                android:textSize="@dimen/text_size0" />
+                                android:padding="@dimen/text_padding_4"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_size_16"
+                                tools:text="5459" />
 
                         </LinearLayout>
 

@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/text_padding2">
+    android:padding="@dimen/text_padding_4">
 
     <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:fontFamily="cursive"
             android:textColor="@color/colorDetailPrimary"
-            android:textSize="@dimen/text_size24"
+            android:textSize="@dimen/text_size_24"
             android:textStyle="bold"
             tools:text="Music" />
 

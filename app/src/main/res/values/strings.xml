@@ -112,4 +112,6 @@
     <string name="user_unsplash" translatable="false">George Smith</string>
     <string name="user_abyss" translatable="false">Mike Antony</string>
 
+    <string name="similar_images" translatable="false">Similar images:</string>
+
 </resources>
