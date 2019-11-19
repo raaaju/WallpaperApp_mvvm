@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
+import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_common.*
@@ -20,8 +21,6 @@ import org.koin.core.parameter.parametersOf
 class AudiFragment: Fragment() {
 
     companion object {
-        const val REQUEST = "request"
-
         fun newInstance(arguments: String): AudiFragment {
             val fragment = AudiFragment()
             val args = Bundle()
