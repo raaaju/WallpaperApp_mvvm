@@ -51,17 +51,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onStateUpdate(installState: InstallState) {
     }
 
+    private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
+    private var updateInfo: AppUpdateInfo? = null
+
     private lateinit var prefManager: PreferenceManager
     private lateinit var updateManager: AppUpdateManager
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
     private lateinit var audiFragment: Fragment
     private lateinit var categoryFragment: Fragment
-
     private lateinit var viewModel: MainViewModel
-
-    private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
-    private var updateInfo: AppUpdateInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

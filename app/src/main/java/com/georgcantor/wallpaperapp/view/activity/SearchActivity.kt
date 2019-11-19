@@ -36,10 +36,10 @@ class SearchActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_CODE = 222
     }
 
+    private var index = 1
     private lateinit var viewModel: SearchViewModel
     private lateinit var manager: InputMethodManager
-    lateinit var adapter: PicturesAdapter
-    private var index = 1
+    private lateinit var adapter: PicturesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,62 +70,6 @@ class SearchActivity : AppCompatActivity() {
         )
     }
 
-    private fun createToolbar() {
-        setSupportActionBar(toolbarSearch)
-        if (supportActionBar != null) {
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-        }
-        toolbarSearch.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
-        toolbarSearch.setNavigationOnClickListener {
-            super.onBackPressed()
-            manager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-        }
-    }
-
-    private fun initViews() {
-        searchRecyclerView.setHasFixedSize(true)
-
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(
-                getScreenSize(),
-                StaggeredGridLayoutManager.VERTICAL
-        )
-        searchRecyclerView.layoutManager = staggeredGridLayoutManager
-
-        val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                search(searchView.text.toString().trim { it <= ' ' }, page)
-            }
-        }
-        searchRecyclerView.addOnScrollListener(listener)
-        adapter = PicturesAdapter(this)
-        searchRecyclerView.adapter = adapter
-    }
-
-    fun search(search: String, index: Int) {
-        swipeRefreshLayoutSearch.isEnabled = true
-        swipeRefreshLayoutSearch.isRefreshing = true
-
-        val disposable = viewModel.searchPics(search, index)
-            .subscribe({
-                adapter.setPicList(it)
-                searchAnimationView?.hideAnimation()
-                invalidateOptionsMenu()
-                if (adapter.itemCount == 0) {
-                    searchAnimationView?.showAnimation()
-                    shortToast(getString(R.string.not_found))
-                }
-                swipeRefreshLayoutSearch.isRefreshing = false
-                swipeRefreshLayoutSearch.isEnabled = false
-            }, {
-                searchAnimationView?.showAnimation()
-                swipeRefreshLayoutSearch.isRefreshing = false
-                swipeRefreshLayoutSearch.isEnabled = false
-                shortToast(getString(R.string.something_went_wrong))
-            })
-        DisposableManager.add(disposable)
-    }
-
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val cancel = menu?.findItem(R.id.action_cancel)
         cancel?.isVisible = viewModel.isSearchingActive.value == true
@@ -153,37 +97,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestAudioPermission()
-            } else {
-                speak()
-            }
-        } else {
-            speak()
-        }
-    }
-
-    private fun speak() {
-        try {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speak_something))
-            startActivityForResult(intent, REQUEST_CODE)
-        } catch (e: Exception) {
-            shortToast(getString(R.string.something_went_wrong))
-        }
-    }
-
-    private fun requestAudioPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.RECORD_AUDIO), PERMISSION_REQUEST_CODE
-        )
     }
 
     override fun onRequestPermissionsResult(
@@ -217,6 +130,93 @@ class SearchActivity : AppCompatActivity() {
     override fun onDestroy() {
         DisposableManager.dispose()
         super.onDestroy()
+    }
+
+    private fun createToolbar() {
+        setSupportActionBar(toolbarSearch)
+        if (supportActionBar != null) {
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+        }
+        toolbarSearch.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
+        toolbarSearch.setNavigationOnClickListener {
+            super.onBackPressed()
+            manager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+        }
+    }
+
+    private fun initViews() {
+        searchRecyclerView.setHasFixedSize(true)
+
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(
+            getScreenSize(),
+            StaggeredGridLayoutManager.VERTICAL
+        )
+        searchRecyclerView.layoutManager = staggeredGridLayoutManager
+
+        val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                search(searchView.text.toString().trim { it <= ' ' }, page)
+            }
+        }
+        searchRecyclerView.addOnScrollListener(listener)
+        adapter = PicturesAdapter(this)
+        searchRecyclerView.adapter = adapter
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestAudioPermission()
+            } else {
+                speak()
+            }
+        } else {
+            speak()
+        }
+    }
+
+    private fun speak() {
+        try {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speak_something))
+            startActivityForResult(intent, REQUEST_CODE)
+        } catch (e: Exception) {
+            shortToast(getString(R.string.something_went_wrong))
+        }
+    }
+
+    private fun requestAudioPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.RECORD_AUDIO), PERMISSION_REQUEST_CODE
+        )
+    }
+
+    private fun search(search: String, index: Int) {
+        swipeRefreshLayoutSearch.isEnabled = true
+        swipeRefreshLayoutSearch.isRefreshing = true
+
+        val disposable = viewModel.searchPics(search, index)
+            .subscribe({
+                adapter.setPicList(it)
+                searchAnimationView?.hideAnimation()
+                invalidateOptionsMenu()
+                if (adapter.itemCount == 0) {
+                    searchAnimationView?.showAnimation()
+                    shortToast(getString(R.string.not_found))
+                }
+                swipeRefreshLayoutSearch.isRefreshing = false
+                swipeRefreshLayoutSearch.isEnabled = false
+            }, {
+                searchAnimationView?.showAnimation()
+                swipeRefreshLayoutSearch.isRefreshing = false
+                swipeRefreshLayoutSearch.isEnabled = false
+                shortToast(getString(R.string.something_went_wrong))
+            })
+        DisposableManager.add(disposable)
     }
 
 }
