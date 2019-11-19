@@ -30,4 +30,6 @@
     <string name="favorites">Favoriten</string>
     <string name="update_dialog_message">Eine neue Version der App ist verfügbar. Herunterladen?</string>
 
+    <string name="press_back">Klicken Sie erneut, um den Vorgang zu beenden</string>
+
 </resources>

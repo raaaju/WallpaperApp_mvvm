@@ -90,7 +90,6 @@
     <string name="search">Search</string>
     <string name="type_and_search">Type and Search</string>
     <string name="cancel">Cancel</string>
-    <string name="press_back">Press BACK again to exit</string>
     <string name="favorites">Favorites</string>
     <string name="favorites_toolbar" translatable="false">Favorites</string>
     <string name="del_from_fav_dialog">Remove from favorites?</string>
@@ -111,7 +110,8 @@
 
     <string name="user_unsplash" translatable="false">George Smith</string>
     <string name="user_abyss" translatable="false">Mike Antony</string>
-
     <string name="similar_images" translatable="false">Similar images:</string>
+
+    <string name="press_back">Press BACK again to exit</string>
 
 </resources>

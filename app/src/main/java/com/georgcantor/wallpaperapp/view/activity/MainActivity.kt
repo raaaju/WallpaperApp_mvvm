@@ -18,6 +18,7 @@ import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.util.openFragment
+import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.*
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
@@ -32,10 +33,13 @@ import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     InstallStateUpdatedListener {
@@ -52,6 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
+    private val backPressedSubject = BehaviorSubject.createDefault(0L)
     private var updateInfo: AppUpdateInfo? = null
 
     private lateinit var prefManager: PreferenceManager
@@ -208,16 +213,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        toolbar.title = getString(R.string.app_name)
-        when {
-            drawerLayout.isDrawerOpen(GravityCompat.START) -> {
+        val stackEntryCount = supportFragmentManager.backStackEntryCount
+        if (stackEntryCount == 0) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                val disposable = backPressedSubject
+                    .buffer(2, 1)
+                    .map { Pair(it[0], it[1]) }
+                    .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { willFinish ->
+                        if (willFinish) {
+                            super.onBackPressed()
+                        } else {
+                            shortToast(getString(R.string.press_back))
+                        }
+                    }
+                DisposableManager.add(disposable)
+
+                backPressedSubject.onNext(System.currentTimeMillis())
             }
-            else -> {
-                try {
-                    super.onBackPressed()
-                    overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-                } catch (e: IllegalStateException) {
+        } else {
+            when {
+                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(
+                    GravityCompat.START
+                )
+                else -> {
+                    try {
+                        super.onBackPressed()
+                    } catch (e: IllegalStateException) {
+                    }
                 }
             }
         }

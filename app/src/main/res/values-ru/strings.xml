@@ -34,4 +34,6 @@
     <string name="cant_share">Невозможно поделиться изображением</string>
     <string name="update_dialog_message">Доступна новая версия приложения. Обновить?</string>
 
+    <string name="press_back">Нажмите еще раз, чтобы выйти</string>
+
 </resources>
