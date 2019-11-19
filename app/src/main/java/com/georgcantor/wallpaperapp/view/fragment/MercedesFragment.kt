@@ -79,6 +79,11 @@ class MercedesFragment : Fragment() {
         loadData(1)
     }
 
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
+
     private fun loadData(index: Int) {
         val disposable =
             viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
@@ -100,11 +105,6 @@ class MercedesFragment : Fragment() {
             })
 
         DisposableManager.add(disposable)
-    }
-
-    override fun onDestroy() {
-        DisposableManager.dispose()
-        super.onDestroy()
     }
 
 }

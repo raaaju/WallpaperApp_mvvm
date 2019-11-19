@@ -58,6 +58,11 @@ class CategoryFragment : Fragment() {
         recyclerView.addOnScrollListener(hideScrollListener)
     }
 
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
+
     private fun loadData() {
         val disposable: Disposable = viewModel.getSavedCategories()
             .doOnSubscribe {
@@ -75,11 +80,6 @@ class CategoryFragment : Fragment() {
             .subscribe(categoryAdapter::setCategoryList) {
             }
         DisposableManager.add(disposable)
-    }
-
-    override fun onDestroy() {
-        DisposableManager.dispose()
-        super.onDestroy()
     }
 
 }

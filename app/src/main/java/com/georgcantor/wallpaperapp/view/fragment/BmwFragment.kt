@@ -80,32 +80,32 @@ class BmwFragment : Fragment() {
         loadData(1)
     }
 
-    private fun loadData(index: Int) {
-        val disposable =
-            viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-            .doOnSubscribe {
-                animationView?.showAnimation()
-            }
-            .doFinally {
-                animationView?.hideAnimation()
-                try {
-                    viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                        if (it) requireActivity().longToast(getString(R.string.no_internet))
-                    })
-                } catch (e: IllegalStateException) {
-                }
-            }
-            .subscribe({
-                adapter?.setPicList(it)
-            }, {
-            })
-
-        DisposableManager.add(disposable)
-    }
-
     override fun onDestroy() {
         DisposableManager.dispose()
         super.onDestroy()
+    }
+
+    private fun loadData(index: Int) {
+        val disposable =
+            viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
+                .doOnSubscribe {
+                    animationView?.showAnimation()
+                }
+                .doFinally {
+                    animationView?.hideAnimation()
+                    try {
+                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                            if (it) requireActivity().longToast(getString(R.string.no_internet))
+                        })
+                    } catch (e: IllegalStateException) {
+                    }
+                }
+                .subscribe({
+                    adapter?.setPicList(it)
+                }, {
+                })
+
+        DisposableManager.add(disposable)
     }
 
 }

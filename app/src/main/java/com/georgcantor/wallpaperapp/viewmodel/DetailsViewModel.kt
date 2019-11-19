@@ -63,12 +63,6 @@ class DetailsViewModel(
         }
     }
 
-    private fun addToFavorites(imageUrl: String, hdUrl: String, commonPic: CommonPic) {
-        val gson = Gson()
-        val toStoreObject = gson.toJson(commonPic)
-        db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
-    }
-
     fun getSimilarImages(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return apiRepository.getPixabayPictures(request, index)
             .subscribeOn(Schedulers.io())
@@ -183,6 +177,12 @@ class DetailsViewModel(
                     requestCode
             )
         }
+    }
+
+    private fun addToFavorites(imageUrl: String, hdUrl: String, commonPic: CommonPic) {
+        val gson = Gson()
+        val toStoreObject = gson.toJson(commonPic)
+        db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
     }
 
 }
