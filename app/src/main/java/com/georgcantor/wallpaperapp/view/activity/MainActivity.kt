@@ -223,8 +223,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .map { Pair(it[0], it[1]) }
                     .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { willFinish ->
-                        if (willFinish) {
+                    .subscribe { canExit ->
+                        if (canExit) {
                             super.onBackPressed()
                         } else {
                             shortToast(getString(R.string.press_back))
