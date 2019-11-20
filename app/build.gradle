@@ -9,7 +9,7 @@ android {
         Wallpapers {
             keyAlias 'key0'
             keyPassword 'cupsmana16'
-//            storeFile file('D:/Alex/wallpapers.jks')
+            storeFile file('D:/Alex/wallpapers.jks')
             storePassword 'cupsmana16'
         }
     }
@@ -18,8 +18,8 @@ android {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 59
-        versionName '1.3.19'
+        versionCode 60
+        versionName '1.3.20'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -36,6 +36,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    //test
     buildTypes.each {
         it.buildConfigField "String", "BASE_URL", "\"http://pixabay.com/api/\""
         it.buildConfigField "String", "PEXELS_API_TOKEN", "\"563492ad6f91700001000001a4c9cecdc8db494a8b56b9900ea04841\""
@@ -44,15 +45,15 @@ android {
         it.buildConfigField 'String', 'ABYSS_URL', "\"https://wall.alphacoders.com/api2.0/get.php?auth=617610ed4793805dd12413685d49e083&method=search\""
         it.buildConfigField 'String', 'PEXELS_URL', "\"https://api.pexels.com/v1/search\""
     }
-    //pixabay 9179624-180dd31b7b27ed73810aeeb72
-    //unsplash 814e0183c60488e937f966c79d38a31401fcceb515aeee2448292a301665761e
-    //pexels 563492ad6f917000010000012802dcdebfc2451ab06a0cdf7c62fe16
-    //abyss a2a6654af08aefbb169b39b361461cf0
-
-    //pixabay2 14347085-06a37fa1a913f7b5a168d09f2
-    //unsplash2 a3b02c4762cbd3e405b66067181a72aa2300e2f21b034c1bce94e225af27558c
-    //pexels2 563492ad6f91700001000001a4c9cecdc8db494a8b56b9900ea04841
-    //abyss2 617610ed4793805dd12413685d49e083
+    //release
+//    buildTypes.each {
+//        it.buildConfigField "String", "BASE_URL", "\"http://pixabay.com/api/\""
+//        it.buildConfigField "String", "PEXELS_API_TOKEN", "\"563492ad6f917000010000012802dcdebfc2451ab06a0cdf7c62fe16\""
+//        it.buildConfigField 'String', 'API_KEY', "\"9179624-180dd31b7b27ed73810aeeb72\""
+//        it.buildConfigField 'String', 'UNSPLASH_URL', "\"https://api.unsplash.com/search/photos/?client_id=814e0183c60488e937f966c79d38a31401fcceb515aeee2448292a301665761e\""
+//        it.buildConfigField 'String', 'ABYSS_URL', "\"https://wall.alphacoders.com/api2.0/get.php?auth=a2a6654af08aefbb169b39b361461cf0&method=search\""
+//        it.buildConfigField 'String', 'PEXELS_URL', "\"https://api.pexels.com/v1/search\""
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
