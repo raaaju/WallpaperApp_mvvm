@@ -94,6 +94,14 @@ class CarBrandActivity : AppCompatActivity() {
                     }
                 }
                 .subscribe(adapter::setPicList) {
+                    // repeat the request if Unsplash or Pexels returned an error because they block other responses
+                    viewModel.getPicsExceptPexelsUnsplash(intent.getStringExtra(REQUEST) ?: "", index)
+                        .subscribe(adapter::setPicList) {
+                            // repeat again if the cause of the error was non-blocking Pixabay or Abyss
+                            viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
+                                .subscribe(adapter::setPicList) {
+                                }
+                        }
                 }
 
         DisposableManager.add(disposable)

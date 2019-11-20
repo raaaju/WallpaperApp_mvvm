@@ -32,26 +32,14 @@ class SearchViewModel(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getUnsplashPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getUnsplashPictures(request, index)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getPixabayPictures(request, index)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun getAbyssPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getAbyssPictures(request, index)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun getPexelsPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getPexelsPictures(request, index)
+    fun getPicsExceptPexelsUnsplash(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return Observable.merge(
+            apiRepository.getAbyssPictures(request, index),
+            apiRepository.getPixabayPictures(request, index)
+        )
+            .doFinally {
+                if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

@@ -102,6 +102,18 @@ class MercedesFragment : Fragment() {
             .subscribe({
                 adapter?.setPicList(it)
             }, {
+                // repeat the request if Unsplash or Pexels returned an error because they block other responses
+                viewModel.getPicsExceptPexelsUnsplash(arguments?.getString(REQUEST) ?: "", index)
+                    .subscribe({
+                        adapter?.setPicList(it)
+                    }, {
+                        // repeat again if the cause of the error was non-blocking Pixabay or Abyss
+                        viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
+                            .subscribe({
+                                adapter?.setPicList(it)
+                            }, {
+                            })
+                    })
             })
 
         DisposableManager.add(disposable)
