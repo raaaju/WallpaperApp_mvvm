@@ -32,6 +32,30 @@ class SearchViewModel(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getUnsplashPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return apiRepository.getUnsplashPictures(request, index)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return apiRepository.getPixabayPictures(request, index)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getAbyssPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return apiRepository.getAbyssPictures(request, index)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getPexelsPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return apiRepository.getPexelsPictures(request, index)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         isSearchingActive.value = true
         return apiRepository.getPixabayPictures(request, index)
