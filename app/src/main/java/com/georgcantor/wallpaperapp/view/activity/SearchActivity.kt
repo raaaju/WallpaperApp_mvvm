@@ -59,6 +59,7 @@ class SearchActivity : AppCompatActivity() {
         searchView.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyboard()
+                adapter.clearPicList()
                 search(searchView.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
@@ -74,9 +75,11 @@ class SearchActivity : AppCompatActivity() {
         historyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_history, 0, 0, 0)
 
         prefManager.getString(HISTORY)?.let { request ->
+            historyTextView.visibility = if (request == "") View.GONE else View.VISIBLE
             historyTextView.text = request
 
             historyTextView.setOnClickListener {
+                adapter.clearPicList()
                 search(request, 1)
                 hideKeyboard()
                 historyTextView.visibility = View.GONE

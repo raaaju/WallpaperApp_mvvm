@@ -49,7 +49,9 @@
             android:padding="@dimen/text_padding_4"
             android:textColor="@color/colorDetailPrimary"
             android:textSize="18sp"
-            tools:text="animals" />
+            android:visibility="gone"
+            tools:text="animals"
+            tools:visibility="visible" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

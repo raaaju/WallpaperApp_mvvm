@@ -28,7 +28,6 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
     }
 
     fun setPicList(strings: MutableList<CommonPic>) {
-        clearPicList()
         this.commonPics?.addAll(strings)
         notifyDataSetChanged()
     }
