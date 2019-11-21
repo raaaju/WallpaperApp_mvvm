@@ -17,6 +17,8 @@ class PreferenceManager(activity: Activity) {
 
     fun saveBoolean(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
 
+    fun saveString(key: String, value: String) = prefs.edit().putString(key, value).apply()
+
     fun saveInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
 
     fun saveCategories(key: String, categories: ArrayList<Category>) {
@@ -25,6 +27,8 @@ class PreferenceManager(activity: Activity) {
     }
 
     fun getBoolean(key: String): Boolean = prefs.getBoolean(key, false)
+
+    fun getString(key: String): String? = prefs.getString(key, "")
 
     fun getInt(key: String): Int = prefs.getInt(key, 0)
 

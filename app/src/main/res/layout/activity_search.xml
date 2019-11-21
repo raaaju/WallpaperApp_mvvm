@@ -40,6 +40,17 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <TextView
+            android:id="@+id/historyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/text_padding_8"
+            android:padding="@dimen/text_padding_4"
+            android:textColor="@color/colorDetailPrimary"
+            android:textSize="18sp"
+            tools:text="animals" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/search_results" />

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -34,18 +35,21 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE = 111
         private const val PERMISSION_REQUEST_CODE = 222
+        private const val HISTORY = "history"
     }
 
     private var index = 1
     private lateinit var viewModel: SearchViewModel
     private lateinit var manager: InputMethodManager
     private lateinit var adapter: PicturesAdapter
+    private lateinit var prefManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_search)
         manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        prefManager = PreferenceManager(this)
 
         viewModel = getViewModel { parametersOf() }
         createToolbar()
@@ -54,8 +58,7 @@ class SearchActivity : AppCompatActivity() {
         searchView.requestFocus()
         searchView.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                manager.hideSoftInputFromWindow(v.windowToken, 0)
-                adapter.clearPicList()
+                hideKeyboard()
                 search(searchView.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
@@ -68,6 +71,20 @@ class SearchActivity : AppCompatActivity() {
                 WordsProvider.words
             )
         )
+        historyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_history, 0, 0, 0)
+
+        prefManager.getString(HISTORY)?.let { request ->
+            historyTextView.text = request
+
+            historyTextView.setOnClickListener {
+                search(request, 1)
+                hideKeyboard()
+                historyTextView.visibility = View.GONE
+                searchView.setText(request)
+                searchView.setSelection(searchView.text.length)
+                searchView.setAdapter(null)
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -121,11 +138,12 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        manager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+        hideKeyboard()
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
     override fun onDestroy() {
+        prefManager.saveString(HISTORY, searchView.text.toString().trim { it <= ' ' })
         DisposableManager.dispose()
         super.onDestroy()
     }
@@ -138,7 +156,7 @@ class SearchActivity : AppCompatActivity() {
         toolbarSearch.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
         toolbarSearch.setNavigationOnClickListener {
             super.onBackPressed()
-            manager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+            hideKeyboard()
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
         }
     }
@@ -216,6 +234,10 @@ class SearchActivity : AppCompatActivity() {
                 shortToast(getString(R.string.something_went_wrong))
             })
         DisposableManager.add(disposable)
+    }
+
+    private fun hideKeyboard() {
+        manager.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
     }
 
 }
