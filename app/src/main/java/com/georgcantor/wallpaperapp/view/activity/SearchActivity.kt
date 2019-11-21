@@ -109,7 +109,7 @@ class SearchActivity : AppCompatActivity() {
                 searchAnimationView?.hideAnimation()
                 viewModel.isSearchingActive.value = false
                 searchView.setText("")
-                manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+                manager.showSoftInput(searchView, 0)
             }
             R.id.action_voice_search -> checkPermission()
         }
