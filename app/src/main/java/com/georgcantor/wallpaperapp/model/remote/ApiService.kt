@@ -12,7 +12,7 @@ import retrofit2.http.Url
 
 interface ApiService {
 
-    @GET("?key=" + BuildConfig.API_KEY)
+    @GET("?key=" + BuildConfig.PIXABAY_KEY)
     fun getPixabayPictures(
         @Query("q") query: String,
         @Query("page") index: Int
