@@ -77,7 +77,7 @@ class CategoryFragment : Fragment() {
                 } catch (e: IllegalStateException) {
                 }
             }
-            .subscribe(categoryAdapter::setCategoryList) {
+            .subscribe(categoryAdapter::setCategories) {
             }
         DisposableManager.add(disposable)
     }

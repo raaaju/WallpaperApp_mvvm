@@ -116,9 +116,7 @@ class FavoriteAdapter(
     override fun getItemCount(): Int = favorites?.size ?: 0
 
     private fun deleteFromFavorites(url: String?) {
-        if (url != null) {
-            db.deleteFromFavorites(url)
-        }
+        url?.let(db::deleteFromFavorites)
         activity.recreate()
     }
 

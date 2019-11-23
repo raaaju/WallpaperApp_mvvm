@@ -8,10 +8,9 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
+import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
-import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
 
@@ -43,10 +42,10 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
 
     override fun getItemCount(): Int = categories?.size ?: 0
 
-    fun setCategoryList(categories: List<Category>?) {
-        if (categories != null) {
+    fun setCategories(categories: List<Category>?) {
+        categories?.let {
             this.categories?.clear()
-            this.categories?.addAll(categories)
+            this.categories?.addAll(it)
             notifyDataSetChanged()
         }
     }
