@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.util.openActivity
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
-import kotlinx.android.synthetic.main.similar_item.view.similarImageView
+import kotlinx.android.synthetic.main.similar_item.view.*
 
 class SimilarAdapter(private val context: Context) :
     RecyclerView.Adapter<SimilarAdapter.SimilarViewHolder>() {
@@ -30,12 +30,8 @@ class SimilarAdapter(private val context: Context) :
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimilarViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.similar_item, parent, false)
-
-        return SimilarViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimilarViewHolder =
+            SimilarViewHolder(LayoutInflater.from(context).inflate(R.layout.similar_item, null))
 
     override fun onBindViewHolder(holder: SimilarViewHolder, position: Int) {
         context.loadImage(

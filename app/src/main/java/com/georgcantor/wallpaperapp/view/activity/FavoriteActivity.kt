@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
-import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.getScreenSize
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
+import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -46,7 +46,7 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val disposable = viewModel.getFavorites()
-                .subscribe(adapter::setFavList) {
+                .subscribe(adapter::setFavorites) {
                     shortToast(getString(R.string.something_went_wrong))
                 }
         DisposableManager.add(disposable)

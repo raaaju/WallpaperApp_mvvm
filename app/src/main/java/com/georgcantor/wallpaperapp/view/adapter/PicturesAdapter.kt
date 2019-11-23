@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
-import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import com.georgcantor.wallpaperapp.util.openActivity
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -27,12 +27,12 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
         this.commonPics = ArrayList()
     }
 
-    fun setPicList(strings: MutableList<CommonPic>) {
+    fun setPictures(strings: MutableList<CommonPic>) {
         this.commonPics?.addAll(strings)
         notifyDataSetChanged()
     }
 
-    fun clearPicList() {
+    fun clearPictures() {
         val size = commonPics?.size
         commonPics?.clear()
         size?.let { notifyItemRangeRemoved(0, it) }
@@ -41,7 +41,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
     @SuppressLint("CheckResult")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.picture_item, null)
-        val wallpViewHolder = PictureViewHolder(itemView)
+        val viewHolder = PictureViewHolder(itemView)
 
         val publishSubject = PublishSubject.create<Int>()
         publishSubject
@@ -49,7 +49,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                val position = wallpViewHolder.adapterPosition
+                val position = viewHolder.adapterPosition
 
                 context.openActivity(DetailsActivity::class.java) {
                     putParcelable(
@@ -77,7 +77,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             publishSubject.onNext(0)
         }
 
-        return wallpViewHolder
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {

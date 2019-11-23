@@ -12,11 +12,11 @@ import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.util.loadImage
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
-import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.util.showDialog
+import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,31 +36,26 @@ class FavoriteAdapter(
         this.favorites = ArrayList()
     }
 
-    fun setFavList(strings: MutableList<Favorite>) {
-        clearPicList()
+    fun setFavorites(strings: MutableList<Favorite>) {
+        clearPictures()
         this.favorites?.addAll(strings)
         notifyDataSetChanged()
     }
 
-    private fun clearPicList() {
+    private fun clearPictures() {
         val size = favorites?.size
         favorites?.clear()
         size?.let { notifyItemRangeRemoved(0, it) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.favorite_item, null)
-
-        return FavoriteViewHolder(itemView)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
+            FavoriteViewHolder(LayoutInflater.from(context).inflate(R.layout.favorite_item, null))
 
     @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val favorite = favorites?.get(position)
         val hitJson = favorite?.hit
-
-        val gson = Gson()
-        val pic = gson.fromJson(hitJson, CommonPic::class.java)
+        val pic = Gson().fromJson(hitJson, CommonPic::class.java)
 
         val publishSubject = PublishSubject.create<Int>()
         publishSubject

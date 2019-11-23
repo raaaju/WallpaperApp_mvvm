@@ -22,8 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
@@ -59,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
         searchView.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyboard()
-                adapter.clearPicList()
+                adapter.clearPictures()
                 search(searchView.text.toString().trim { it <= ' ' }, index)
                 return@OnEditorActionListener true
             }
@@ -79,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
             historyTextView.text = request
 
             historyTextView.setOnClickListener {
-                adapter.clearPicList()
+                adapter.clearPictures()
                 search(request, 1)
                 hideKeyboard()
                 historyTextView.visibility = View.GONE
@@ -225,7 +225,7 @@ class SearchActivity : AppCompatActivity() {
                 swipeRefreshLayoutSearch.isEnabled = false
             }
             .subscribe({
-                adapter.setPicList(it)
+                adapter.setPictures(it)
                 searchAnimationView?.hideAnimation()
                 invalidateOptionsMenu()
                 if (adapter.itemCount == 0) {

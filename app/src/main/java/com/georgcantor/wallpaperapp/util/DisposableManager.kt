@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.util
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-
 object DisposableManager {
 
     private var compositeDisposable: CompositeDisposable? = null
