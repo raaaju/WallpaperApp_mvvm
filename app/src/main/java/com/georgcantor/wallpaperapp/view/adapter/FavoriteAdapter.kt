@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 
 class FavoriteAdapter(
         private val context: Context,
-        strings: MutableList<Favorite>,
+        favorites: MutableList<Favorite>,
         private val clickListener: (Favorite) -> Unit,
         private val longClickListener: (Favorite) -> Unit
 ) : RecyclerView.Adapter<FavoriteViewHolder>() {
@@ -28,7 +28,7 @@ class FavoriteAdapter(
 
     init {
         clearPictures()
-        this.favorites?.addAll(strings)
+        this.favorites?.addAll(favorites)
         notifyDataSetChanged()
     }
 

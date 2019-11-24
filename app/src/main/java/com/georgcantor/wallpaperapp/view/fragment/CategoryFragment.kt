@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
 import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
+import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -24,7 +27,6 @@ class CategoryFragment : Fragment() {
     }
 
     private lateinit var viewModel: CategoryViewModel
-    private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var preferenceManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,18 +36,15 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(activity, requireContext().getScreenSize())
-
-        categoryAdapter = CategoryAdapter(requireContext())
-        recyclerView.adapter = categoryAdapter
 
         refreshLayout.setOnRefreshListener {
             loadData()
@@ -65,20 +64,26 @@ class CategoryFragment : Fragment() {
 
     private fun loadData() {
         val disposable: Disposable = viewModel.getSavedCategories()
-            .doOnSubscribe {
-                animationView?.showAnimation()
-            }
-            .doFinally {
-                animationView?.hideAnimation()
-                try {
-                    viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                        if (it) requireActivity().longToast(getString(R.string.no_internet))
-                    })
-                } catch (e: IllegalStateException) {
+                .doOnSubscribe {
+                    animationView?.showAnimation()
                 }
-            }
-            .subscribe(categoryAdapter::setCategories) {
-            }
+                .doFinally {
+                    animationView?.hideAnimation()
+                    try {
+                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                            if (it) requireActivity().longToast(getString(R.string.no_internet))
+                        })
+                    } catch (e: IllegalStateException) {
+                    }
+                }
+                .subscribe({
+                    recyclerView.adapter = CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->
+                        requireActivity().openActivity(CarBrandActivity::class.java) {
+                            putString(REQUEST, category.categoryName)
+                        }
+                    }
+                }, {
+                })
         DisposableManager.add(disposable)
     }
 

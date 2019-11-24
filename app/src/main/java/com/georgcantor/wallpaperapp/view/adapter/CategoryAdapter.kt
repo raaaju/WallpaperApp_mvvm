@@ -7,23 +7,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.loadImage
-import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
-import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 
-class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(
+        private val context: Context,
+        categories: MutableList<Category>,
+        private val clickListener: (Category) -> Unit
+) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     private val categories: MutableList<Category>? = ArrayList()
+
+    init {
+        this.categories?.clear()
+        this.categories?.addAll(categories)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
         val viewHolder = CategoryViewHolder(itemView)
 
         itemView.setOnClickListener {
-            context.openActivity(CarBrandActivity::class.java) {
-                putString(REQUEST, categories?.get(viewHolder.adapterPosition)?.categoryName ?: "")
-            }
+            categories?.get(viewHolder.adapterPosition)?.let(clickListener)
         }
 
         return viewHolder
@@ -33,21 +38,13 @@ class CategoryAdapter(private val context: Context) : RecyclerView.Adapter<Categ
         holder.categoryName.text = categories?.get(position)?.categoryName
 
         context.loadImage(
-            categories?.get(position)?.categoryUrl ?: "",
-            context.resources.getDrawable(R.drawable.placeholder),
-            holder.categoryImage,
-            null
+                categories?.get(position)?.categoryUrl ?: "",
+                context.resources.getDrawable(R.drawable.placeholder),
+                holder.categoryImage,
+                null
         )
     }
 
     override fun getItemCount(): Int = categories?.size ?: 0
-
-    fun setCategories(categories: List<Category>?) {
-        categories?.let {
-            this.categories?.clear()
-            this.categories?.addAll(it)
-            notifyDataSetChanged()
-        }
-    }
 
 }
