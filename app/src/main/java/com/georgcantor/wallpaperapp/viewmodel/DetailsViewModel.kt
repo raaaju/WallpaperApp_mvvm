@@ -201,4 +201,12 @@ class DetailsViewModel(
                 .subscribe()
     }
 
+    fun picInFavorites(url: String): Observable<Boolean> {
+        return Observable.fromCallable {
+            dao.getByUrl(url).isNotEmpty()
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }
