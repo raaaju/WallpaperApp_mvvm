@@ -7,13 +7,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.Favorite
-import com.georgcantor.wallpaperapp.util.DisposableManager
-import com.georgcantor.wallpaperapp.util.getScreenSize
-import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.showDialog
+import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -42,7 +41,28 @@ class FavoriteActivity : AppCompatActivity() {
         super.onResume()
         val disposable = viewModel.getFavorites()
                 .subscribe({
-                    favRecyclerView.adapter = FavoriteAdapter(this, it) { fav: Favorite ->
+                    favRecyclerView.adapter = FavoriteAdapter(this, it, { fav: Favorite ->
+                        val hitJson = fav.hit
+                        val pic = Gson().fromJson(hitJson, CommonPic::class.java)
+                        openActivity(DetailsActivity::class.java) {
+                            putParcelable(
+                                    DetailsActivity.EXTRA_PIC,
+                                    CommonPic(
+                                            url = pic.url,
+                                            width = pic.width,
+                                            heght = pic.heght,
+                                            likes = pic.likes,
+                                            favorites = pic.favorites,
+                                            tags = pic.tags,
+                                            downloads = pic.downloads,
+                                            imageURL = pic.imageURL,
+                                            fullHDURL = pic.fullHDURL,
+                                            user = pic.user,
+                                            userImageURL = pic.userImageURL
+                                    )
+                            )
+                        }
+                    }) { fav: Favorite ->
                         showDialog(getString(R.string.del_from_fav_dialog)) {
                             viewModel.deleteByUrl(fav.url)
                             recreate()

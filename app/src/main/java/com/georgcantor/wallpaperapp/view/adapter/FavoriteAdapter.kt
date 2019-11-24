@@ -10,9 +10,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.util.loadImage
-import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +20,8 @@ import java.util.concurrent.TimeUnit
 class FavoriteAdapter(
         private val context: Context,
         strings: MutableList<Favorite>,
-        val clickListener: (Favorite) -> Unit
+        private val clickListener: (Favorite) -> Unit,
+        private val longClickListener: (Favorite) -> Unit
 ) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
     private val favorites: MutableList<Favorite>? = ArrayList()
@@ -55,24 +53,7 @@ class FavoriteAdapter(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                context.openActivity(DetailsActivity::class.java) {
-                    putParcelable(
-                        EXTRA_PIC,
-                        CommonPic(
-                            url = pic.url,
-                            width = pic.width,
-                            heght = pic.heght,
-                            likes = pic.likes,
-                            favorites = pic.favorites,
-                            tags = pic.tags,
-                            downloads = pic.downloads,
-                            imageURL = pic.imageURL,
-                            fullHDURL = pic.fullHDURL,
-                            user = pic.user,
-                            userImageURL = pic.userImageURL
-                        )
-                    )
-                }
+                favorite?.let(clickListener)
             }
 
         holder.imageView.setOnClickListener {
@@ -80,7 +61,7 @@ class FavoriteAdapter(
         }
 
         holder.imageView.setOnLongClickListener {
-            favorites?.get(position)?.let { favorite -> clickListener(favorite) }
+            favorites?.get(position)?.let { favorite -> longClickListener(favorite) }
             false
         }
 
