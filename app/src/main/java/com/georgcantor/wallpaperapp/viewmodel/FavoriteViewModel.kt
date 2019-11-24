@@ -50,4 +50,12 @@ class FavoriteViewModel(
                 .subscribe()
     }
 
+    fun dbIsNotEmpty(): Observable<Boolean> {
+        return Observable.fromCallable {
+            dao.getAll().isNotEmpty()
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }

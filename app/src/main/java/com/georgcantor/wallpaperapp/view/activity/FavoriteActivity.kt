@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.view.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,8 +15,6 @@ import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -62,22 +61,16 @@ class FavoriteActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_favorite, menu)
         val menuItem = menu.findItem(R.id.action_remove_all)
-        Observable.fromCallable {
-            if (dao.getAll().isNotEmpty()) {
-                runOnUiThread {
-                    menuItem.isVisible = true
-                }
-            } else {
-                runOnUiThread {
-                    menuItem.isVisible = false
-                }
-            }
-        }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+
+        viewModel.dbIsNotEmpty()
+                .subscribe({
+                    menuItem.isVisible = it
+                }, {
+                })
 
         return true
     }
