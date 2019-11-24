@@ -58,7 +58,6 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var prefManager: PreferenceManager
     private lateinit var tagAdapter: TagAdapter
-    private lateinit var similarAdapter: SimilarAdapter
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
@@ -225,8 +224,6 @@ class DetailsActivity : AppCompatActivity() {
         )
 
         similarRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        similarAdapter = SimilarAdapter(this)
-        similarRecyclerView.adapter = similarAdapter
 
         if (intent.hasExtra(EXTRA_PIC)) {
             pic = intent.getParcelableExtra(EXTRA_PIC)
@@ -335,18 +332,36 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun loadSimilarImages(request: String) {
         val disposable = viewModel.getSimilarImages(request, 1)
-            .retry(3)
-            .doOnSubscribe {
-                similarProgressAnimView?.showAnimation()
-            }
-            .doFinally {
-                similarProgressAnimView?.hideAnimation()
-            }
-            .subscribe({
-                similarAdapter.setList(it, this)
-            }, {
-                shortToast(getString(R.string.something_went_wrong))
-            })
+                .retry(3)
+                .doOnSubscribe {
+                    similarProgressAnimView?.showAnimation()
+                }
+                .doFinally {
+                    similarProgressAnimView?.hideAnimation()
+                }
+                .subscribe({
+                    similarRecyclerView.adapter = SimilarAdapter(this, it) { picture ->
+                        openActivity(DetailsActivity::class.java) {
+                            putParcelable(
+                                    EXTRA_PIC,
+                                    CommonPic(
+                                            url = picture.url,
+                                            width = picture.width,
+                                            heght = picture.heght,
+                                            likes = picture.likes,
+                                            favorites = picture.favorites,
+                                            tags = picture.tags,
+                                            downloads = picture.downloads,
+                                            imageURL = picture.imageURL,
+                                            fullHDURL = picture.fullHDURL,
+                                            user = picture.user,
+                                            userImageURL = picture.userImageURL
+                                    )
+                            )
+                        }
+                    }
+                }, {
+                })
 
         DisposableManager.add(disposable)
     }
