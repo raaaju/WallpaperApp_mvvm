@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.view.activity
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -34,9 +35,16 @@ class CarBrandActivity : AppCompatActivity() {
         loadData(1)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_gallery).isVisible = false
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
+            R.id.action_search -> openActivity(SearchActivity::class.java)
         }
         return super.onOptionsItemSelected(item)
     }

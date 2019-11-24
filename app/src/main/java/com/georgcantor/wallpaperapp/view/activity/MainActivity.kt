@@ -14,15 +14,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.util.DisposableManager
-import com.georgcantor.wallpaperapp.util.PreferenceManager
-import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.util.openFragment
-import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.showDialog
-import com.georgcantor.wallpaperapp.view.fragment.*
+import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
+import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
+import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
+import com.georgcantor.wallpaperapp.view.fragment.MercedesFragment
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -139,13 +137,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.isGalleryVisible.observe(this, Observer {
             menuItem.isVisible = it
         })
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_search -> openSearchActivity()
+            R.id.action_search -> openActivity(SearchActivity::class.java)
             R.id.action_gallery -> {
                 toolbar.title = getString(R.string.gallery_toolbar)
                 openFragment(categoryFragment, getString(R.string.gallery_toolbar))
@@ -226,6 +223,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .subscribe { canExit ->
                         if (canExit) {
                             super.onBackPressed()
+                            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
                         } else {
                             shortToast(getString(R.string.press_back))
                         }
@@ -275,11 +273,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun goToGooglePlay() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
         finish()
-    }
-
-    private fun openSearchActivity() {
-        startActivity(Intent(this, SearchActivity::class.java))
-        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
     }
 
 }
