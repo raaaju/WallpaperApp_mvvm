@@ -50,6 +50,14 @@ class FavoriteViewModel(
                 .subscribe()
     }
 
+    fun deleteByUrl(url: String) {
+        Observable.fromCallable {
+            dao.deleteByUrl(url)
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+    }
+
     fun dbIsNotEmpty(): Observable<Boolean> {
         return Observable.fromCallable {
             dao.getAll().isNotEmpty()

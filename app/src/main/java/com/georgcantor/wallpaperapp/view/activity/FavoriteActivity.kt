@@ -7,8 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.local.FavDao
-import com.georgcantor.wallpaperapp.model.local.FavDatabase
+import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.getScreenSize
 import com.georgcantor.wallpaperapp.util.shortToast
@@ -21,8 +20,6 @@ import org.koin.core.parameter.parametersOf
 
 class FavoriteActivity : AppCompatActivity() {
 
-    private lateinit var dao: FavDao
-    private lateinit var adapter: FavoriteAdapter
     private lateinit var viewModel: FavoriteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +29,6 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = getViewModel { parametersOf(this) }
-        dao = FavDatabase.buildDefault(this).dao()
 
         val gridLayoutManager = StaggeredGridLayoutManager(
                 getScreenSize(),
@@ -40,17 +36,21 @@ class FavoriteActivity : AppCompatActivity() {
         )
         favRecyclerView.setHasFixedSize(true)
         favRecyclerView.layoutManager = gridLayoutManager
-
-        adapter = FavoriteAdapter(this, dao)
-        favRecyclerView.adapter = adapter
     }
 
     override fun onResume() {
         super.onResume()
         val disposable = viewModel.getFavorites()
-                .subscribe(adapter::setFavorites) {
+                .subscribe({
+                    favRecyclerView.adapter = FavoriteAdapter(this, it) { fav: Favorite ->
+                        showDialog(getString(R.string.del_from_fav_dialog)) {
+                            viewModel.deleteByUrl(fav.url)
+                            recreate()
+                        }
+                    }
+                }, {
                     shortToast(getString(R.string.something_went_wrong))
-                }
+                })
         DisposableManager.add(disposable)
         viewModel.isEmptyAnimVisible(emptyAnimationView)
         invalidateOptionsMenu()
