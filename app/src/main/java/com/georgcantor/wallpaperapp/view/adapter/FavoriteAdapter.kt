@@ -9,7 +9,7 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.FavDao
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.openActivity
@@ -18,6 +18,7 @@ import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity.Companion.EXTRA_PIC
 import com.georgcantor.wallpaperapp.view.adapter.holder.FavoriteViewHolder
 import com.google.gson.Gson
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit
 
 class FavoriteAdapter(
     private val context: Context,
-    private val db: DatabaseHelper
+    private val dao: FavDao
 ) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
     private val favorites: MutableList<Favorite>?
@@ -88,11 +89,15 @@ class FavoriteAdapter(
         }
 
         holder.imageView.setOnLongClickListener {
-            val photo = favorites?.get(position)
-            val url = photo?.imageUrl
+            val fav = favorites?.get(position)
 
             context.showDialog(context.getString(R.string.del_from_fav_dialog)) {
-                deleteFromFavorites(url)
+                Observable.fromCallable {
+                    fav?.url?.let(dao::deleteByUrl)
+                    activity.runOnUiThread(activity::recreate)
+                }
+                        .subscribeOn(Schedulers.io())
+                        .subscribe()
             }
             false
         }
@@ -114,10 +119,5 @@ class FavoriteAdapter(
     }
 
     override fun getItemCount(): Int = favorites?.size ?: 0
-
-    private fun deleteFromFavorites(url: String?) {
-        url?.let(db::deleteFromFavorites)
-        activity.recreate()
-    }
 
 }

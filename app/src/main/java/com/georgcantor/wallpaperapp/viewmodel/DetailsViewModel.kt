@@ -18,7 +18,8 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.FavDao
+import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
 import com.georgcantor.wallpaperapp.util.shortToast
@@ -36,7 +37,7 @@ import java.util.*
 class DetailsViewModel(
         private val context: Context,
         private val activity: Activity,
-        private val db: DatabaseHelper,
+        private val dao: FavDao,
         private val apiRepository: ApiRepository
 ) : ViewModel() {
 
@@ -52,14 +53,24 @@ class DetailsViewModel(
             starAnimation: LottieAnimationView,
             unStarAnimation: LottieAnimationView
     ) {
-        if (db.containFav(pic.url.toString())) {
-            db.deleteFromFavorites(pic.url.toString())
-            menuItem.setIcon(R.drawable.ic_star_border)
-            unStarAnimation.showSingleAnimation(1.5F)
-        } else {
-            addToFavorites(pic.url.toString(), pic.imageURL.toString(), pic)
-            menuItem.setIcon(R.drawable.ic_star_red_24dp)
-            starAnimation.showSingleAnimation(1F)
+        pic.url?.let {
+            Observable.fromCallable {
+                if (dao.getByUrl(it).isNotEmpty()) {
+                    dao.deleteByUrl(it)
+                    activity.runOnUiThread {
+                        menuItem.setIcon(R.drawable.ic_star_border)
+                        unStarAnimation.showSingleAnimation(1.5F)
+                    }
+                } else {
+                    addToFavorites(pic)
+                    activity.runOnUiThread {
+                        menuItem.setIcon(R.drawable.ic_star_red_24dp)
+                        starAnimation.showSingleAnimation(1F)
+                    }
+                }
+            }
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
         }
     }
 
@@ -179,10 +190,15 @@ class DetailsViewModel(
         }
     }
 
-    private fun addToFavorites(imageUrl: String, hdUrl: String, commonPic: CommonPic) {
-        val gson = Gson()
-        val toStoreObject = gson.toJson(commonPic)
-        db.insertToFavorites(imageUrl, hdUrl, toStoreObject)
+    private fun addToFavorites(pic: CommonPic) {
+        Observable.fromCallable {
+            val json = Gson().toJson(pic)
+            pic.url?.let {
+                dao.insert(Favorite(it, json))
+            }
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
     }
 
 }

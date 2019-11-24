@@ -1,25 +1,28 @@
 package com.georgcantor.wallpaperapp.model.local
 
-class Favorite {
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.georgcantor.wallpaperapp.model.local.Favorite.Favorite.tableName
 
-    var id: Int = 0
-    var imageUrl: String? = null
-    var hdUrl: String? = null
-    var hit: String? = null
+@Entity(tableName = tableName)
+data class Favorite(
 
-    companion object {
-        const val TABLE_NAME = "favorite"
-        const val COLUMN_ID = "id"
-        const val COLUMN_URL = "imageUrl"
-        const val COLUMN_HD_URL = "hdUrl"
-        const val COLUMN_HIT = "hit"
+        @PrimaryKey
+        var url: String,
 
-        const val CREATE_TABLE = ("CREATE TABLE "
-                + TABLE_NAME + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_URL + " TEXT,"
-                + COLUMN_HD_URL + " TEXT,"
-                + COLUMN_HIT + " TEXT"
-                + ")")
+        @ColumnInfo(name = Favorite.Column.hit)
+        var hit: String?
+
+) {
+
+    object Favorite {
+        const val tableName = "favorites"
+
+        object Column {
+            const val url = "url"
+            const val hit = "hit"
+        }
     }
+
 }

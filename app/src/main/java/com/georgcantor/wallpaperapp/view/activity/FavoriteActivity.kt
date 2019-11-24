@@ -6,20 +6,23 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.FavDao
+import com.georgcantor.wallpaperapp.model.local.FavDatabase
 import com.georgcantor.wallpaperapp.util.DisposableManager
 import com.georgcantor.wallpaperapp.util.getScreenSize
 import com.georgcantor.wallpaperapp.util.shortToast
 import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_favorite.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class FavoriteActivity : AppCompatActivity() {
 
-    private lateinit var db: DatabaseHelper
+    private lateinit var dao: FavDao
     private lateinit var adapter: FavoriteAdapter
     private lateinit var viewModel: FavoriteViewModel
 
@@ -30,7 +33,7 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = getViewModel { parametersOf(this) }
-        db = DatabaseHelper(this)
+        dao = FavDatabase.buildDefault(this).dao()
 
         val gridLayoutManager = StaggeredGridLayoutManager(
                 getScreenSize(),
@@ -39,7 +42,7 @@ class FavoriteActivity : AppCompatActivity() {
         favRecyclerView.setHasFixedSize(true)
         favRecyclerView.layoutManager = gridLayoutManager
 
-        adapter = FavoriteAdapter(this, db)
+        adapter = FavoriteAdapter(this, dao)
         favRecyclerView.adapter = adapter
     }
 
@@ -62,7 +65,19 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_favorite, menu)
         val menuItem = menu.findItem(R.id.action_remove_all)
-        (db.historyCount > 0).let(menuItem::setVisible)
+        Observable.fromCallable {
+            if (dao.getAll().isNotEmpty()) {
+                runOnUiThread {
+                    menuItem.isVisible = true
+                }
+            } else {
+                runOnUiThread {
+                    menuItem.isVisible = false
+                }
+            }
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
 
         return true
     }

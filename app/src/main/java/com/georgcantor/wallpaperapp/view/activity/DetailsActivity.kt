@@ -29,13 +29,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.local.DatabaseHelper
+import com.georgcantor.wallpaperapp.model.local.FavDao
+import com.georgcantor.wallpaperapp.model.local.FavDatabase
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.FULL_EXTRA
 import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.IS_PORTRAIT
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -55,9 +58,9 @@ class DetailsActivity : AppCompatActivity() {
     private var file: File? = null
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
-    private var db: DatabaseHelper? = null
     private val tags = ArrayList<String>()
 
+    private lateinit var dao: FavDao
     private lateinit var prefManager: PreferenceManager
     private lateinit var tagAdapter: TagAdapter
     private lateinit var similarAdapter: SimilarAdapter
@@ -76,7 +79,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         viewModel = getViewModel { parametersOf(this) }
         prefManager = PreferenceManager(this)
-        db = DatabaseHelper(this)
+        dao = FavDatabase.buildDefault(this).dao()
 
         fabOpen = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
         fabClose = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
@@ -152,10 +155,17 @@ class DetailsActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_fav, menu)
         this.menu = menu
         val starItem = menu.findItem(R.id.action_add_to_fav)
-        db?.let {
-            if (it.containFav(pic?.url.toString())) {
-                starItem.setIcon(R.drawable.ic_star_red_24dp)
+
+        pic?.url?.let {
+            Observable.fromCallable {
+                if (dao.getByUrl(it).isNotEmpty()) {
+                    runOnUiThread {
+                        starItem.setIcon(R.drawable.ic_star_red_24dp)
+                    }
+                }
             }
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
         }
         return true
     }
