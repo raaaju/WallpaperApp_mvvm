@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
@@ -20,6 +22,8 @@ import org.koin.core.parameter.parametersOf
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FavoriteViewModel
+    private lateinit var linearLayoutManager: RecyclerView.LayoutManager
+    private lateinit var gridLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,47 +31,48 @@ class FavoriteActivity : AppCompatActivity() {
         setSupportActionBar(favToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewModel = getViewModel { parametersOf(this) }
+        linearLayoutManager = LinearLayoutManager(this)
 
-        val gridLayoutManager = StaggeredGridLayoutManager(
+        gridLayoutManager = StaggeredGridLayoutManager(
                 getScreenSize(),
                 StaggeredGridLayoutManager.VERTICAL
         )
-        favRecyclerView.setHasFixedSize(true)
-        favRecyclerView.layoutManager = gridLayoutManager
+
+        viewModel = getViewModel { parametersOf(this) }
     }
 
     override fun onResume() {
         super.onResume()
         val disposable = viewModel.getFavorites()
                 .subscribe({
-                    favRecyclerView.adapter = FavoriteAdapter(this, it, { fav: Favorite ->
-                        val hitJson = fav.hit
-                        val pic = Gson().fromJson(hitJson, CommonPic::class.java)
-                        openActivity(DetailsActivity::class.java) {
-                            putParcelable(
-                                    DetailsActivity.EXTRA_PIC,
-                                    CommonPic(
-                                            url = pic.url,
-                                            width = pic.width,
-                                            heght = pic.heght,
-                                            likes = pic.likes,
-                                            favorites = pic.favorites,
-                                            tags = pic.tags,
-                                            downloads = pic.downloads,
-                                            imageURL = pic.imageURL,
-                                            fullHDURL = pic.fullHDURL,
-                                            user = pic.user,
-                                            userImageURL = pic.userImageURL
-                                    )
-                            )
+                    if (it.size in 1..4) setupRecyclerView(linearLayoutManager) else setupRecyclerView(gridLayoutManager)
+                        favRecyclerView.adapter = FavoriteAdapter(this, it, { fav: Favorite ->
+                            val hitJson = fav.hit
+                            val pic = Gson().fromJson(hitJson, CommonPic::class.java)
+                            openActivity(DetailsActivity::class.java) {
+                                putParcelable(
+                                        DetailsActivity.EXTRA_PIC,
+                                        CommonPic(
+                                                url = pic.url,
+                                                width = pic.width,
+                                                heght = pic.heght,
+                                                likes = pic.likes,
+                                                favorites = pic.favorites,
+                                                tags = pic.tags,
+                                                downloads = pic.downloads,
+                                                imageURL = pic.imageURL,
+                                                fullHDURL = pic.fullHDURL,
+                                                user = pic.user,
+                                                userImageURL = pic.userImageURL
+                                        )
+                                )
+                            }
+                        }) { fav: Favorite ->
+                            showDialog(getString(R.string.del_from_fav_dialog)) {
+                                viewModel.deleteByUrl(fav.url)
+                                recreate()
+                            }
                         }
-                    }) { fav: Favorite ->
-                        showDialog(getString(R.string.del_from_fav_dialog)) {
-                            viewModel.deleteByUrl(fav.url)
-                            recreate()
-                        }
-                    }
                 }, {
                     shortToast(getString(R.string.something_went_wrong))
                 })
@@ -103,8 +108,8 @@ class FavoriteActivity : AppCompatActivity() {
             }
             R.id.action_remove_all -> {
                 showDialog(
-                    getString(R.string.remove_fav_dialog_message),
-                    ::deleteAll
+                        getString(R.string.remove_fav_dialog_message),
+                        ::deleteAll
                 )
             }
         }
@@ -114,6 +119,11 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onDestroy() {
         DisposableManager.dispose()
         super.onDestroy()
+    }
+
+    private fun setupRecyclerView(manager: RecyclerView.LayoutManager) {
+        favRecyclerView.setHasFixedSize(true)
+        favRecyclerView.layoutManager = manager
     }
 
     private fun deleteAll() {
