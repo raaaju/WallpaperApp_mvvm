@@ -12,7 +12,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -73,9 +72,6 @@ class BmwFragment : Fragment() {
             loadData(1)
             refreshLayout.isRefreshing = false
         }
-
-        val hideScrollListener = object : HideNavScrollListener(requireActivity().navigation) {}
-        recyclerView.addOnScrollListener(hideScrollListener)
 
         loadData(1)
     }

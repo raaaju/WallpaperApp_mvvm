@@ -56,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
         initViews()
 
         searchView.requestFocus()
-        searchView.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
+        searchView.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyboard()
                 adapter.clearPictures()
