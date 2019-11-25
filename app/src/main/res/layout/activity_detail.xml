@@ -146,7 +146,7 @@
                     android:fontFamily="cursive"
                     android:text="@string/similar_images"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_16" />
+                    android:textSize="18sp" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/similarCardView"
@@ -201,7 +201,7 @@
                                 android:padding="@dimen/text_padding_4"
                                 android:text="@string/downloads"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_size_16" />
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/downloadsTextView"
@@ -235,7 +235,7 @@
                                 android:padding="@dimen/text_padding_4"
                                 android:text="@string/favourite"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_size_16" />
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/favoritesTextView"
