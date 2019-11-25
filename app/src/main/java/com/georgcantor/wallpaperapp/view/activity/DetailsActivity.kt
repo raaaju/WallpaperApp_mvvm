@@ -34,6 +34,7 @@ import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.F
 import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.IS_PORTRAIT
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
+import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -254,9 +255,11 @@ class DetailsActivity : AppCompatActivity() {
             this,
             LinearLayoutManager.HORIZONTAL, false
         )
-        tagAdapter = TagAdapter(this)
-        tagAdapter.setTagList(tags, this)
-        tagsRecyclerView.adapter = tagAdapter
+        tagsRecyclerView.adapter = TagAdapter(this, tags) {
+            openActivity(CarBrandActivity::class.java) {
+                putString(REQUEST, it)
+            }
+        }
         file = File(
             Environment.getExternalStoragePublicDirectory(
                 "/" + resources

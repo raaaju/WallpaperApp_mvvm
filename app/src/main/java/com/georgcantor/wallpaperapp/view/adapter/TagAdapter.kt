@@ -5,24 +5,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.TagViewHolder
-import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHolder>() {
+class TagAdapter(
+        private val context: Context,
+        tags: MutableList<String>,
+        private val clickListener: (String) -> Unit
+) : RecyclerView.Adapter<TagViewHolder>() {
 
-    private val tags: MutableList<String>?
-    private lateinit var activity: DetailsActivity
+    private val tags: MutableList<String>? = ArrayList()
 
     init {
-        this.tags = ArrayList()
+        this.tags?.clear()
+        this.tags?.addAll(tags)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
@@ -37,14 +38,12 @@ class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHol
 
             val publishSubject = PublishSubject.create<Int>()
             publishSubject
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    context.openActivity(CarBrandActivity::class.java) {
-                        putString(REQUEST, tag)
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        clickListener(tag)
                     }
-                }
 
             holder.tag.setOnClickListener {
                 publishSubject.onNext(0)
@@ -53,12 +52,5 @@ class TagAdapter(private val context: Context) : RecyclerView.Adapter<TagViewHol
     }
 
     override fun getItemCount(): Int = tags?.size ?: 0
-
-    fun setTagList(tags: List<String>, activity: DetailsActivity) {
-        this.activity = activity
-        this.tags?.clear()
-        this.tags?.addAll(tags)
-        notifyDataSetChanged()
-    }
 
 }
