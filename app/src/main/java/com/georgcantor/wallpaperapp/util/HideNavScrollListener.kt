@@ -7,9 +7,9 @@ open class HideNavScrollListener(private val view: View) : RecyclerView.OnScroll
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (dy > 0 && view.isShown) {
-            view.visibility = View.GONE
+            view.gone()
         } else if (dy < 0) {
-            view.visibility = View.VISIBLE
+            view.visible()
         }
     }
 

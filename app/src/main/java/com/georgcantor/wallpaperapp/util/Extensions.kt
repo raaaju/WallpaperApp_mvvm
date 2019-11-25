@@ -94,7 +94,7 @@ fun LottieAnimationView.showSingleAnimation(speed: Float) {
         }
 
         override fun onAnimationEnd(p0: Animator?) {
-            animation.visibility = View.GONE
+            animation.gone()
         }
 
         override fun onAnimationCancel(p0: Animator?) {
@@ -107,7 +107,7 @@ fun LottieAnimationView.showSingleAnimation(speed: Float) {
 
 fun LottieAnimationView.hideAnimation() {
     this.loop(false)
-    this.visibility = View.GONE
+    this.gone()
 }
 
 fun String.getImageNameFromUrl(): String {

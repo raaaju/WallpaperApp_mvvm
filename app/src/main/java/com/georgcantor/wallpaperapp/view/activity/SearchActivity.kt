@@ -82,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
                 adapter.clearPictures()
                 search(request, 1)
                 hideKeyboard()
-                historyTextView.visibility = View.GONE
+                historyTextView.gone()
                 searchView.setText(request)
                 searchView.setSelection(searchView.text.length)
                 searchView.setAdapter(null)
