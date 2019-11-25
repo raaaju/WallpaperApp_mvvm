@@ -45,34 +45,34 @@ class FavoriteActivity : AppCompatActivity() {
         super.onResume()
         val disposable = viewModel.getFavorites()
                 .subscribe({
-                    if (it.size in 1..4) setupRecyclerView(linearLayoutManager) else setupRecyclerView(gridLayoutManager)
-                        favRecyclerView.adapter = FavoriteAdapter(this, it, { fav: Favorite ->
-                            val hitJson = fav.hit
-                            val pic = Gson().fromJson(hitJson, CommonPic::class.java)
-                            openActivity(DetailsActivity::class.java) {
-                                putParcelable(
-                                        DetailsActivity.EXTRA_PIC,
-                                        CommonPic(
-                                                url = pic.url,
-                                                width = pic.width,
-                                                heght = pic.heght,
-                                                likes = pic.likes,
-                                                favorites = pic.favorites,
-                                                tags = pic.tags,
-                                                downloads = pic.downloads,
-                                                imageURL = pic.imageURL,
-                                                fullHDURL = pic.fullHDURL,
-                                                user = pic.user,
-                                                userImageURL = pic.userImageURL
-                                        )
-                                )
-                            }
-                        }) { fav: Favorite ->
-                            showDialog(getString(R.string.del_from_fav_dialog)) {
-                                viewModel.deleteByUrl(fav.url)
-                                recreate()
-                            }
+                    setupRecyclerView(if (it.size in 1..4) linearLayoutManager else gridLayoutManager)
+                    favRecyclerView.adapter = FavoriteAdapter(this, it, { fav: Favorite ->
+                        val hitJson = fav.hit
+                        val pic = Gson().fromJson(hitJson, CommonPic::class.java)
+                        openActivity(DetailsActivity::class.java) {
+                            putParcelable(
+                                    DetailsActivity.EXTRA_PIC,
+                                    CommonPic(
+                                            url = pic.url,
+                                            width = pic.width,
+                                            heght = pic.heght,
+                                            likes = pic.likes,
+                                            favorites = pic.favorites,
+                                            tags = pic.tags,
+                                            downloads = pic.downloads,
+                                            imageURL = pic.imageURL,
+                                            fullHDURL = pic.fullHDURL,
+                                            user = pic.user,
+                                            userImageURL = pic.userImageURL
+                                    )
+                            )
                         }
+                    }) { fav: Favorite ->
+                        showDialog(getString(R.string.del_from_fav_dialog)) {
+                            viewModel.deleteByUrl(fav.url)
+                            recreate()
+                        }
+                    }
                 }, {
                     shortToast(getString(R.string.something_went_wrong))
                 })
