@@ -58,7 +58,6 @@ class DetailsActivity : AppCompatActivity() {
     private val tags = ArrayList<String>()
 
     private lateinit var prefManager: PreferenceManager
-    private lateinit var tagAdapter: TagAdapter
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
     private lateinit var menu: Menu
