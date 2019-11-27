@@ -62,12 +62,7 @@ class SearchViewModel(
 
     fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         isSearchingActive.value = true
-        return Observable.merge(
-                apiRepository.getAbyssPictures(request, index),
-                apiRepository.getUnsplashPictures(request, index),
-                apiRepository.getPexelsPictures(request, index),
-                apiRepository.getPixabayPictures(request, index)
-        )
+        return apiRepository.getPixabayPictures(request, index)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }

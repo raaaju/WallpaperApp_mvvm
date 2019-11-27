@@ -230,6 +230,7 @@ class SearchActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
                 if (adapter.itemCount == 0) {
                     searchAnimationView?.showAnimation()
+                    shortToast(getString(R.string.not_found))
                 }
             }, {
                 searchAnimationView?.showAnimation()
