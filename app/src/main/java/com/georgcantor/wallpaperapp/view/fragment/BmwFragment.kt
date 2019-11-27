@@ -20,15 +20,6 @@ class BmwFragment : Fragment() {
 
     companion object {
         const val REQUEST = "request"
-
-        fun newInstance(arguments: String): BmwFragment {
-            val fragment = BmwFragment()
-            val args = Bundle()
-            args.putString(REQUEST, arguments)
-            fragment.arguments = args
-
-            return fragment
-        }
     }
 
     private lateinit var viewModel: SearchViewModel
@@ -40,9 +31,9 @@ class BmwFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,35 +74,33 @@ class BmwFragment : Fragment() {
 
     private fun loadData(index: Int) {
         val disposable =
-            viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                            if (it) requireActivity().longToast(getString(R.string.no_internet))
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
-                }
-                .subscribe({
-                    adapter?.setPictures(it)
-                }, {
-                    // repeat the request if Unsplash or Pexels returned an error because they block other responses
-                    viewModel.getPicsExceptPexelsUnsplash(arguments?.getString(REQUEST) ?: "", index)
+                viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.BMW), index)
+                        .doOnSubscribe {
+                            animationView?.showAnimation()
+                        }
+                        .doFinally {
+                            animationView?.hideAnimation()
+                            try {
+                                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                                    if (it) requireActivity().longToast(getString(R.string.no_internet))
+                                })
+                            } catch (e: IllegalStateException) {
+                            }
+                        }
                         .subscribe({
                             adapter?.setPictures(it)
                         }, {
-                            // repeat again if the cause of the error was non-blocking Pixabay or Abyss
-                            viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-                                .subscribe({
-                                    adapter?.setPictures(it)
-                                }, {
-                                })
+                            viewModel.getPicsExceptPexelsUnsplash(getString(R.string.bmw_request), index)
+                                    .subscribe({
+                                        adapter?.setPictures(it)
+                                    }, {
+                                        viewModel.getPics(getString(R.string.bmw_request), index)
+                                                .subscribe({
+                                                    adapter?.setPictures(it)
+                                                }, {
+                                                })
+                                    })
                         })
-                })
 
         DisposableManager.add(disposable)
     }

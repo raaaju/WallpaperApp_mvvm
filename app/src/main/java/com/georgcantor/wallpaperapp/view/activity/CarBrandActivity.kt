@@ -61,8 +61,8 @@ class CarBrandActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val gridLayoutManager = StaggeredGridLayoutManager(
-            getScreenSize(),
-            StaggeredGridLayoutManager.VERTICAL
+                getScreenSize(),
+                StaggeredGridLayoutManager.VERTICAL
         )
         brandRecyclerView.layoutManager = gridLayoutManager
 
@@ -80,29 +80,29 @@ class CarBrandActivity : AppCompatActivity() {
 
     private fun loadData(index: Int) {
         val disposable =
-            viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(this, Observer {
-                            if (it) longToast(getString(R.string.no_internet))
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
-                }
-                .subscribe(adapter::setPictures) {
-                    // repeat the request if Unsplash or Pexels returned an error because they block other responses
-                    viewModel.getPicsExceptPexelsUnsplash(intent.getStringExtra(REQUEST) ?: "", index)
-                        .subscribe(adapter::setPictures) {
-                            // repeat again if the cause of the error was non-blocking Pixabay or Abyss
-                            viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
-                                .subscribe(adapter::setPictures) {
-                                }
+                viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
+                        .doOnSubscribe {
+                            animationView?.showAnimation()
                         }
-                }
+                        .doFinally {
+                            animationView?.hideAnimation()
+                            try {
+                                viewModel.noInternetShow.observe(this, Observer {
+                                    if (it) longToast(getString(R.string.no_internet))
+                                })
+                            } catch (e: IllegalStateException) {
+                            }
+                        }
+                        .subscribe(adapter::setPictures) {
+                            viewModel.getPicsExceptPexelsUnsplash(intent.getStringExtra(REQUEST)
+                                    ?: "", index)
+                                    .subscribe(adapter::setPictures) {
+                                        viewModel.getPics(intent.getStringExtra(REQUEST)
+                                                ?: "", index)
+                                                .subscribe(adapter::setPictures) {
+                                                }
+                                    }
+                        }
 
         DisposableManager.add(disposable)
     }

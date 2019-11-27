@@ -11,24 +11,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
-import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class MercedesFragment : Fragment() {
-
-    companion object {
-        fun newInstance(arguments: String): MercedesFragment {
-            val fragment = MercedesFragment()
-            val args = Bundle()
-            args.putString(REQUEST, arguments)
-            fragment.arguments = args
-
-            return fragment
-        }
-    }
 
     private lateinit var viewModel: SearchViewModel
     private var adapter: PicturesAdapter? = null
@@ -82,35 +70,33 @@ class MercedesFragment : Fragment() {
 
     private fun loadData(index: Int) {
         val disposable =
-            viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-            .doOnSubscribe {
-                animationView?.showAnimation()
-            }
-            .doFinally {
-                animationView?.hideAnimation()
-                try {
-                    viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                        if (it) requireActivity().longToast(getString(R.string.no_internet))
-                    })
-                } catch (e: IllegalStateException) {
-                }
-            }
-            .subscribe({
-                adapter?.setPictures(it)
-            }, {
-                // repeat the request if Unsplash or Pexels returned an error because they block other responses
-                viewModel.getPicsExceptPexelsUnsplash(arguments?.getString(REQUEST) ?: "", index)
-                    .subscribe({
-                        adapter?.setPictures(it)
-                    }, {
-                        // repeat again if the cause of the error was non-blocking Pixabay or Abyss
-                        viewModel.getPics(arguments?.getString(REQUEST) ?: "", index)
-                            .subscribe({
-                                adapter?.setPictures(it)
-                            }, {
-                            })
-                    })
-            })
+                viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.MERCEDES), index)
+                        .doOnSubscribe {
+                            animationView?.showAnimation()
+                        }
+                        .doFinally {
+                            animationView?.hideAnimation()
+                            try {
+                                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                                    if (it) requireActivity().longToast(getString(R.string.no_internet))
+                                })
+                            } catch (e: IllegalStateException) {
+                            }
+                        }
+                        .subscribe({
+                            adapter?.setPictures(it)
+                        }, {
+                            viewModel.getPicsExceptPexelsUnsplash(getString(R.string.mercedes_request), index)
+                                    .subscribe({
+                                        adapter?.setPictures(it)
+                                    }, {
+                                        viewModel.getPics(getString(R.string.mercedes_request), index)
+                                                .subscribe({
+                                                    adapter?.setPictures(it)
+                                                }, {
+                                                })
+                                    })
+                        })
 
         DisposableManager.add(disposable)
     }

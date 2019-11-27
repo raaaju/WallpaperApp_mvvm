@@ -40,7 +40,7 @@ import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    InstallStateUpdatedListener {
+        InstallStateUpdatedListener {
 
     companion object {
         private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_container, BmwFragment.newInstance(getString(R.string.bmw)))
+                .replace(R.id.frame_container, BmwFragment())
                 .commit()
 
-        mercedesFragment = MercedesFragment.newInstance(getString(R.string.mercedes_request))
-        bmwFragment = BmwFragment.newInstance(getString(R.string.bmw_request))
-        audiFragment = AudiFragment.newInstance(getString(R.string.audi_request))
+        mercedesFragment = MercedesFragment()
+        bmwFragment = BmwFragment()
+        audiFragment = AudiFragment()
         categoryFragment = CategoryFragment()
 
         val myTitle = toolbar.getChildAt(0) as TextView
@@ -216,18 +216,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
                 val disposable = backPressedSubject
-                    .buffer(2, 1)
-                    .map { Pair(it[0], it[1]) }
-                    .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { canExit ->
-                        if (canExit) {
-                            super.onBackPressed()
-                            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-                        } else {
-                            shortToast(getString(R.string.press_back))
+                        .buffer(2, 1)
+                        .map { Pair(it[0], it[1]) }
+                        .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { canExit ->
+                            if (canExit) {
+                                super.onBackPressed()
+                                overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+                            } else {
+                                shortToast(getString(R.string.press_back))
+                            }
                         }
-                    }
                 DisposableManager.add(disposable)
 
                 backPressedSubject.onNext(System.currentTimeMillis())
@@ -235,7 +235,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             when {
                 drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(
-                    GravityCompat.START
+                        GravityCompat.START
                 )
                 else -> {
                     try {
@@ -256,7 +256,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun checkForUpdate() {
         updateManager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+                    it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
                 updateInfo = it
                 updateAvailable.value = true
