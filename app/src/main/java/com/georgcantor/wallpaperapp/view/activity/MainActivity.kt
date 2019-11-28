@@ -19,7 +19,6 @@ import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
-import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
 import com.georgcantor.wallpaperapp.view.fragment.MercedesFragment
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 
-        if (prefManager.getCategories(CATEGORIES)?.size ?: 0 < 16) loadCategories()
+        viewModel.loadCategories(prefManager)
 
         checkForUpdate()
 
@@ -264,10 +263,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 updateAvailable.value = false
             }
         }
-    }
-
-    private fun loadCategories() {
-        viewModel.loadCategories(prefManager).subscribe()
     }
 
     private fun goToGooglePlay() {

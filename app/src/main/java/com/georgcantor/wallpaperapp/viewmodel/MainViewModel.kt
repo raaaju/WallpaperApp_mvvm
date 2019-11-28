@@ -21,10 +21,9 @@ import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.APP_URL
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.IS_RATING_EXIST
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.LAUNCHES
 import com.georgcantor.wallpaperapp.view.activity.MainActivity.Companion.RATING
-import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
+import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment.Companion.CATEGORIES
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import kotlin.collections.HashMap
@@ -37,8 +36,10 @@ class MainViewModel(
 
     val isGalleryVisible = MutableLiveData<Boolean>()
 
-    fun loadCategories(preferenceManager: PreferenceManager): Observable<ArrayList<Category>?> {
-        return Observable.fromCallable {
+    fun loadCategories(prefManager: PreferenceManager) {
+        if (prefManager.getCategories(CATEGORIES)?.size ?: 0 > 15) return
+
+        Observable.fromCallable {
             isGalleryVisible.postValue(false)
 
             val categories = ArrayList<Category>()
@@ -77,12 +78,11 @@ class MainViewModel(
 
             if (categories.size % 2 != 0) categories.removeAt(categories.size - 1)
 
-            preferenceManager.saveCategories(CategoryFragment.CATEGORIES, categories)
+            prefManager.saveCategories(CATEGORIES, categories)
             if (context.isNetworkAvailable()) isGalleryVisible.postValue(true)
-            categories
         }
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
     }
 
     fun showRatingDialog(activity: MainActivity, prefManager: PreferenceManager) {
