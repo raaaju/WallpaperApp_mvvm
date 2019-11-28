@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit
 
 class FavoriteAdapter(
         private val context: Context,
+        private val isNotGrid: Boolean,
         favorites: MutableList<Favorite>,
         private val clickListener: (Favorite) -> Unit,
         private val longClickListener: (Favorite) -> Unit
@@ -49,12 +50,12 @@ class FavoriteAdapter(
 
         val publishSubject = PublishSubject.create<Int>()
         publishSubject
-            .throttleFirst(1, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                favorite?.let(clickListener)
-            }
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    favorite?.let(clickListener)
+                }
 
         holder.imageView.setOnClickListener {
             publishSubject.onNext(0)
@@ -74,7 +75,7 @@ class FavoriteAdapter(
         holder.imageView.setRatio(ratio)
 
         context.loadImage(
-                pic.url ?: "",
+                if (isNotGrid) pic.fullHDURL ?: "" else pic.url ?: "",
                 context.resources.getDrawable(R.drawable.placeholder),
                 holder.imageView,
                 null

@@ -45,8 +45,9 @@ class FavoriteActivity : AppCompatActivity() {
         super.onResume()
         val disposable = viewModel.getFavorites()
                 .subscribe({
-                    setupRecyclerView(if (it.size in 1..4) linearLayoutManager else gridLayoutManager)
-                    favRecyclerView.adapter = FavoriteAdapter(this, it, { fav: Favorite ->
+                    val isNotGrid = it.size in 1..4
+                    setupRecyclerView(if (isNotGrid) linearLayoutManager else gridLayoutManager)
+                    favRecyclerView.adapter = FavoriteAdapter(this, isNotGrid, it, { fav: Favorite ->
                         val hitJson = fav.hit
                         val pic = Gson().fromJson(hitJson, CommonPic::class.java)
                         openActivity(DetailsActivity::class.java) {
