@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
@@ -39,7 +38,6 @@ import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
@@ -52,7 +50,6 @@ class DetailsActivity : AppCompatActivity() {
 
     private var pic: CommonPic? = null
     private var first = 0
-    private var file: File? = null
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private val tags = ArrayList<String>()
@@ -203,6 +200,7 @@ class DetailsActivity : AppCompatActivity() {
         } catch (e: Exception) {
         }
         Zoomy.unregister(detailImageView)
+        DisposableManager.dispose()
         super.onDestroy()
     }
 
@@ -259,12 +257,6 @@ class DetailsActivity : AppCompatActivity() {
                 putString(REQUEST, it)
             }
         }
-        file = File(
-            Environment.getExternalStoragePublicDirectory(
-                "/" + resources
-                    .getString(R.string.app_name)
-            ), pic?.id.toString() + resources.getString(R.string.jpg)
-        )
 
         pic?.let { pic ->
             pic.imageURL?.let {
