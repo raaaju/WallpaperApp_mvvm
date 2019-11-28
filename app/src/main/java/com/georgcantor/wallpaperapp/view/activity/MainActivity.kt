@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val backPressedSubject = BehaviorSubject.createDefault(0L)
     private var updateInfo: AppUpdateInfo? = null
 
-    private lateinit var prefManager: PreferenceManager
     private lateinit var updateManager: AppUpdateManager
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
@@ -68,12 +67,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        viewModel = getViewModel { parametersOf() }
-        prefManager = PreferenceManager(this)
+
+        val prefManager = PreferenceManager(this)
+        viewModel = getViewModel { parametersOf(prefManager) }
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 
-        viewModel.loadCategories(prefManager)
+        viewModel.loadCategories()
 
         checkForUpdate()
 
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
         navView.itemIconTintList = null
 
-        viewModel.checkNumberOfLaunches(this, prefManager)
+        viewModel.checkNumberOfLaunches(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-                viewModel.showRatingDialog(this, prefManager)
+                viewModel.showRatingDialog(this)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

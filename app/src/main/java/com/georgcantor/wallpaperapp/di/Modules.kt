@@ -14,8 +14,8 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel {
-        MainViewModel(get(), get())
+    viewModel { (manager: PreferenceManager) ->
+        MainViewModel(get(), get(), manager)
     }
     viewModel { (activity: Activity) ->
         FavoriteViewModel(activity, get())

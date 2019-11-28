@@ -31,12 +31,13 @@ import kotlin.collections.set
 
 class MainViewModel(
     private val context: Context,
-    private val apiRepository: ApiRepository
+    private val apiRepository: ApiRepository,
+    private val prefManager: PreferenceManager
 ) : ViewModel() {
 
     val isGalleryVisible = MutableLiveData<Boolean>()
 
-    fun loadCategories(prefManager: PreferenceManager) {
+    fun loadCategories() {
         if (prefManager.getCategories(CATEGORIES)?.size ?: 0 > 15) return
 
         Observable.fromCallable {
@@ -85,7 +86,7 @@ class MainViewModel(
             .subscribe()
     }
 
-    fun showRatingDialog(activity: MainActivity, prefManager: PreferenceManager) {
+    fun showRatingDialog(activity: MainActivity) {
         val ratingDialog = AlertDialog.Builder(activity)
         val linearLayout = LinearLayout(context)
         val ratingBar = RatingBar(context)
@@ -151,13 +152,13 @@ class MainViewModel(
         ratingDialog.show()
     }
 
-    fun checkNumberOfLaunches(activity: MainActivity, prefManager: PreferenceManager) {
+    fun checkNumberOfLaunches(activity: MainActivity) {
         var numberOfLaunches = prefManager.getInt(LAUNCHES)
         if (numberOfLaunches < 4) {
             numberOfLaunches++
             prefManager.saveInt(LAUNCHES, numberOfLaunches)
             if (numberOfLaunches > 3 && !prefManager.getBoolean(IS_RATING_EXIST)) {
-                showRatingDialog(activity, prefManager)
+                showRatingDialog(activity)
             }
         }
     }
