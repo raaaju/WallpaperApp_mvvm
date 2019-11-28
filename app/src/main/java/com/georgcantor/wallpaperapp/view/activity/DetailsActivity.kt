@@ -104,7 +104,7 @@ class DetailsActivity : AppCompatActivity() {
                     fab.startAnimation(fabClock)
                     fabSetWall.startAnimation(fabOpen)
                     fabFull.startAnimation(fabOpen)
-                    viewModel.setFabSate(true)
+                    viewModel.setFabState(true)
                 } else {
                     fabFull.gone()
                     fabSetWall.gone()
@@ -113,7 +113,7 @@ class DetailsActivity : AppCompatActivity() {
                     fab.startAnimation(fabAnticlock)
                     fabSetWall.startAnimation(fabClose)
                     fabFull.startAnimation(fabClose)
-                    viewModel.setFabSate(false)
+                    viewModel.setFabState(false)
                 }
             }
         })

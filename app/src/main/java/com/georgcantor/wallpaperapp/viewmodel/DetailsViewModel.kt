@@ -43,7 +43,7 @@ class DetailsViewModel(
 
     val isFabOpened = MutableLiveData<Boolean>().apply { postValue(false) }
 
-    fun setFabSate(isOpened: Boolean) {
+    fun setFabState(isOpened: Boolean) {
         isFabOpened.value = isOpened
     }
 
