@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         val prefManager = PreferenceManager(this)
-        viewModel = getViewModel { parametersOf(prefManager) }
+        viewModel = getViewModel { parametersOf(prefManager, this) }
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
         navView.itemIconTintList = null
 
-        viewModel.checkNumberOfLaunches(this)
+        viewModel.checkNumberOfLaunches()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
             }
             R.id.nav_rate_us -> {
-                viewModel.showRatingDialog(this)
+                viewModel.showRatingDialog()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

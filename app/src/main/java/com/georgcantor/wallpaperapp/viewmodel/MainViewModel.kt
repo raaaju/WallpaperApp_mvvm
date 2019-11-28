@@ -32,7 +32,8 @@ import kotlin.collections.set
 class MainViewModel(
     private val context: Context,
     private val apiRepository: ApiRepository,
-    private val prefManager: PreferenceManager
+    private val prefManager: PreferenceManager,
+    private val activity: MainActivity
 ) : ViewModel() {
 
     val isGalleryVisible = MutableLiveData<Boolean>()
@@ -86,7 +87,7 @@ class MainViewModel(
             .subscribe()
     }
 
-    fun showRatingDialog(activity: MainActivity) {
+    fun showRatingDialog() {
         val ratingDialog = AlertDialog.Builder(activity)
         val linearLayout = LinearLayout(context)
         val ratingBar = RatingBar(context)
@@ -152,13 +153,13 @@ class MainViewModel(
         ratingDialog.show()
     }
 
-    fun checkNumberOfLaunches(activity: MainActivity) {
+    fun checkNumberOfLaunches() {
         var numberOfLaunches = prefManager.getInt(LAUNCHES)
         if (numberOfLaunches < 4) {
             numberOfLaunches++
             prefManager.saveInt(LAUNCHES, numberOfLaunches)
             if (numberOfLaunches > 3 && !prefManager.getBoolean(IS_RATING_EXIST)) {
-                showRatingDialog(activity)
+                showRatingDialog()
             }
         }
     }
