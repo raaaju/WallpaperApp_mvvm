@@ -57,7 +57,6 @@ class FavoriteActivity : AppCompatActivity() {
                                             url = pic.url,
                                             width = pic.width,
                                             heght = pic.heght,
-                                            likes = pic.likes,
                                             favorites = pic.favorites,
                                             tags = pic.tags,
                                             downloads = pic.downloads,

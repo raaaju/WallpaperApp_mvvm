@@ -8,7 +8,7 @@ data class CommonPic(
     val width: Int,
     val heght: Int,
 //    var previewHeight: Int = 0,
-    var likes: Int = 0,
+//    var likes: Int = 0,
     var favorites: Int = 0,
     var tags: String? = null,
 //    var webformatHeight: Int = 0,
@@ -35,7 +35,7 @@ data class CommonPic(
         parcel.readInt(),
         parcel.readInt(),
 //        parcel.readInt(),
-        parcel.readInt(),
+//        parcel.readInt(),
         parcel.readInt(),
         parcel.readString(),
 //        parcel.readInt(),
@@ -63,7 +63,7 @@ data class CommonPic(
         parcel.writeInt(width)
         parcel.writeInt(heght)
 //        parcel.writeInt(previewHeight)
-        parcel.writeInt(likes)
+//        parcel.writeInt(likes)
         parcel.writeInt(favorites)
         parcel.writeString(tags)
 //        parcel.writeInt(webformatHeight)

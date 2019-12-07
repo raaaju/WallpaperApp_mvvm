@@ -342,7 +342,6 @@ class DetailsActivity : AppCompatActivity() {
                                             url = picture.url,
                                             width = picture.width,
                                             heght = picture.heght,
-                                            likes = picture.likes,
                                             favorites = picture.favorites,
                                             tags = picture.tags,
                                             downloads = picture.downloads,

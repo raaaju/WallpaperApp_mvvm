@@ -59,7 +59,6 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
                                 url = url,
                                 width = commonPics[position].width,
                                 heght = commonPics[position].heght,
-                                likes = commonPics[position].likes,
                                 favorites = commonPics[position].favorites,
                                 tags = commonPics[position].tags,
                                 downloads = commonPics[position].downloads,
