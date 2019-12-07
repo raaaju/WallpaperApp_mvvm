@@ -1,6 +1,6 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
-import android.content.Context
+import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -8,8 +8,9 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.repository.ApiRepository
@@ -30,11 +31,13 @@ import kotlin.collections.HashMap
 import kotlin.collections.set
 
 class MainViewModel(
-    private val context: Context,
-    private val apiRepository: ApiRepository,
-    private val prefManager: PreferenceManager,
-    private val activity: MainActivity
-) : ViewModel() {
+        app: Application,
+        private val apiRepository: ApiRepository,
+        private val prefManager: PreferenceManager,
+        private val activity: MainActivity
+) : AndroidViewModel(app) {
+
+    private val context = getApplication<MyApplication>()
 
     val isGalleryVisible = MutableLiveData<Boolean>()
 

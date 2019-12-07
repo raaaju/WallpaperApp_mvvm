@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
@@ -12,10 +13,11 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.FavDao
@@ -35,11 +37,13 @@ import java.io.IOException
 import java.util.*
 
 class DetailsViewModel(
-        private val context: Context,
+        app: Application,
         private val activity: Activity,
         private val dao: FavDao,
         private val apiRepository: ApiRepository
-) : ViewModel() {
+) : AndroidViewModel(app) {
+
+    private val context = getApplication<MyApplication>()
 
     val isFabOpened = MutableLiveData<Boolean>().apply { postValue(false) }
 

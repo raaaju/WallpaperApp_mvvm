@@ -19,7 +19,7 @@ object ApiClient {
     fun create(context: Context): ApiService {
 
         if (BuildConfig.DEBUG) {
-            val interceptor = HttpLoggingInterceptor()
+            interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
         }
 
