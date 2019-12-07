@@ -14,18 +14,20 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
 
     private lateinit var retrofit: Retrofit
+    private lateinit var interceptor: HttpLoggingInterceptor
 
     fun create(context: Context): ApiService {
 
         if (BuildConfig.DEBUG) {
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
         }
 
         val okHttpClient = OkHttpClient().newBuilder()
                 .addNetworkInterceptor(ResponseCacheInterceptor())
                 .addInterceptor(OfflineResponseCacheInterceptor(context))
                 .addInterceptor(AuthInterceptor())
+                .addInterceptor(interceptor)
                 .cache(Cache(File(context.cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
