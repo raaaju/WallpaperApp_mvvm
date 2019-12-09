@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         const val IS_RATING_EXIST = "is_rating_exist"
         const val LAUNCHES = "launches"
-        const val RATING = "1.3.25"
+        const val RATING = "1.3.26"
     }
 
     override fun onStateUpdate(installState: InstallState) {
