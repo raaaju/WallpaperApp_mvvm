@@ -1,19 +1,16 @@
 package com.georgcantor.wallpaperapp.util
 
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
-abstract class EndlessRecyclerViewScrollListener(layoutManager: StaggeredGridLayoutManager) :
-    RecyclerView.OnScrollListener() {
+abstract class EndlessScrollListener(layoutManager: StaggeredGridLayoutManager)
+    : RecyclerView.OnScrollListener() {
 
     private var visibleThreshold = 10
     private var currentPage = 1
     private var previousTotalItemCount = 0
     private var loading = true
     private val startingPageIndex = 1
-
     private var manager: RecyclerView.LayoutManager = layoutManager
 
     init {
@@ -21,20 +18,10 @@ abstract class EndlessRecyclerViewScrollListener(layoutManager: StaggeredGridLay
     }
 
     override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-        var lastVisibleItemPosition = 0
         val totalItemCount = manager.itemCount
-
-        when (manager) {
-            is StaggeredGridLayoutManager -> {
-                val lastVisibleItemPositions = (manager as StaggeredGridLayoutManager)
-                    .findLastVisibleItemPositions(null)
-                lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-            }
-            is GridLayoutManager -> lastVisibleItemPosition = (manager as GridLayoutManager)
-                .findLastVisibleItemPosition()
-            is LinearLayoutManager -> lastVisibleItemPosition = (manager as LinearLayoutManager)
-                .findLastVisibleItemPosition()
-        }
+        val lastVisibleItemPositions = (manager as StaggeredGridLayoutManager)
+                .findLastVisibleItemPositions(null)
+        val lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
 
         if (totalItemCount < previousTotalItemCount) {
             this.currentPage = this.startingPageIndex

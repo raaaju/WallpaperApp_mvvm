@@ -50,7 +50,7 @@ class MercedesFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = gridLayoutManager
 
-        val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+        val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 loadData(page)
             }

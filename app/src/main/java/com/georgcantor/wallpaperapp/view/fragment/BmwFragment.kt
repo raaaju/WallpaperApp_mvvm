@@ -51,7 +51,7 @@ class BmwFragment : Fragment() {
         adapter = PicturesAdapter(requireContext())
         recyclerView.adapter = adapter
 
-        val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+        val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 loadData(page)
             }

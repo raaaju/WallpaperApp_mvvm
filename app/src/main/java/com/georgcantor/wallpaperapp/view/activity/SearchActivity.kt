@@ -174,7 +174,7 @@ class SearchActivity : AppCompatActivity() {
         adapter = PicturesAdapter(this)
         searchRecyclerView.adapter = adapter
 
-        val listener = object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+        val listener = object : EndlessScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 search(searchView.text.toString().trim { it <= ' ' }, page)
             }
