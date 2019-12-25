@@ -12,6 +12,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.util.Constants.Companion.EXTRA_PIC
 import com.georgcantor.wallpaperapp.view.adapter.FavoriteAdapter
 import com.georgcantor.wallpaperapp.viewmodel.FavoriteViewModel
 import com.google.gson.Gson
@@ -52,7 +53,7 @@ class FavoriteActivity : AppCompatActivity() {
                         val pic = Gson().fromJson(hitJson, CommonPic::class.java)
                         openActivity(DetailsActivity::class.java) {
                             putParcelable(
-                                    DetailsActivity.EXTRA_PIC,
+                                    EXTRA_PIC,
                                     CommonPic(
                                             url = pic.url,
                                             width = pic.width,

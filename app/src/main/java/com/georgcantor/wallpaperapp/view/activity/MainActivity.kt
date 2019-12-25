@@ -15,9 +15,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.util.Constants.Companion.APP_URL
+import com.georgcantor.wallpaperapp.util.Constants.Companion.DEV_URL
+import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
-import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
 import com.georgcantor.wallpaperapp.view.fragment.MercedesFragment
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
@@ -40,14 +42,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         InstallStateUpdatedListener {
-
-    companion object {
-        private const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
-        const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
-        const val IS_RATING_EXIST = "is_rating_exist"
-        const val LAUNCHES = "launches"
-        const val RATING = "1.3.26"
-    }
 
     override fun onStateUpdate(installState: InstallState) {
     }

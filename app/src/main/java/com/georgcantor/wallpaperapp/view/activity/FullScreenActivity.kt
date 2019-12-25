@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.Constants.Companion.FULL_EXTRA
+import com.georgcantor.wallpaperapp.util.Constants.Companion.IS_PORTRAIT
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.longToast
@@ -12,11 +14,6 @@ import com.georgcantor.wallpaperapp.util.showAnimation
 import kotlinx.android.synthetic.main.activity_full_screen.*
 
 class FullScreenActivity : Activity() {
-
-    companion object {
-        const val FULL_EXTRA = "full_extra"
-        const val IS_PORTRAIT = "is_portrait"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

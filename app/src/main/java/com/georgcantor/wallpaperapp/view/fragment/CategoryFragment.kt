@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
 import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
-import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_common.*
@@ -20,10 +20,6 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class CategoryFragment : Fragment() {
-
-    companion object {
-        const val CATEGORIES = "categories"
-    }
 
     private lateinit var viewModel: CategoryViewModel
     private lateinit var preferenceManager: PreferenceManager

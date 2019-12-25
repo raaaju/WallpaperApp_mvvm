@@ -29,11 +29,13 @@ import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.FULL_EXTRA
-import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity.Companion.IS_PORTRAIT
+import com.georgcantor.wallpaperapp.util.Constants.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.Constants.Companion.FULL_EXTRA
+import com.georgcantor.wallpaperapp.util.Constants.Companion.IS_PORTRAIT
+import com.georgcantor.wallpaperapp.util.Constants.Companion.PREF_BOOLEAN
+import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
-import com.georgcantor.wallpaperapp.view.fragment.BmwFragment.Companion.REQUEST
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -41,12 +43,6 @@ import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
-
-    companion object {
-        const val EXTRA_PIC = "picture"
-        const val PREF_BOOLEAN = "is_set_wall"
-        const val MY_PREFS = "my_prefs"
-    }
 
     private var pic: CommonPic? = null
     private var first = 0

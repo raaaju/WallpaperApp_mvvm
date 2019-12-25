@@ -18,10 +18,6 @@ import org.koin.core.parameter.parametersOf
 
 class BmwFragment : Fragment() {
 
-    companion object {
-        const val REQUEST = "request"
-    }
-
     private lateinit var viewModel: SearchViewModel
     private var adapter: PicturesAdapter? = null
 
