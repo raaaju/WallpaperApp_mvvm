@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.view.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -88,7 +89,7 @@ class CarBrandActivity : AppCompatActivity() {
                             animationView?.hideAnimation()
                             try {
                                 viewModel.noInternetShow.observe(this, Observer {
-                                    if (it) longToast(getString(R.string.no_internet))
+                                    noInternetImageView.visibility = if (it) View.VISIBLE else View.GONE
                                 })
                             } catch (e: IllegalStateException) {
                             }

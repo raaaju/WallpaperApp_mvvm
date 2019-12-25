@@ -9,6 +9,17 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.activity.FavoriteActivity">
 
+    <ImageView
+        android:id="@+id/noInternetImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/no_internet"
+        android:padding="60dp"
+        android:src="@drawable/nointernet"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/brandAppBar"
         android:layout_width="match_parent"

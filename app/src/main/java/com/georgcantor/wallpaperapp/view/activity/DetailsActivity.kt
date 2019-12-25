@@ -149,7 +149,6 @@ class DetailsActivity : AppCompatActivity() {
                     }, {
                     })
         }
-
         return true
     }
 
