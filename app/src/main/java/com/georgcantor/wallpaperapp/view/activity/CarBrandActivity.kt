@@ -33,6 +33,11 @@ class CarBrandActivity : AppCompatActivity() {
         viewModel = getViewModel { parametersOf() }
         setupRecyclerView()
 
+        refreshLayout.setOnRefreshListener {
+            loadData(1)
+            refreshLayout.isRefreshing = false
+        }
+
         loadData(1)
     }
 
