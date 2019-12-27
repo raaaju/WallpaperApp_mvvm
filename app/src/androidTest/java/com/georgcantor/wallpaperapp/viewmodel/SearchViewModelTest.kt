@@ -5,7 +5,9 @@ import com.georgcantor.wallpaperapp.BaseAndroidTest
 import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import org.junit.Assert
+import com.georgcantor.wallpaperapp.util.Mark
+import junit.framework.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,9 +31,33 @@ class SearchViewModelTest : BaseAndroidTest() {
     @Test
     fun getPictures() {
         viewModel.getPics("test", 1).subscribe({
-            Assert.assertNotNull(it)
+            assertNotNull(it)
+            assertTrue(it.size > 5)
         }, {
         })
+    }
+
+    @Test
+    fun getPicsExceptPexelsUnsplash() {
+        viewModel.getPicsExceptPexelsUnsplash("test", 1).subscribe({
+            assertNotNull(it)
+            assertTrue(it.size > 5)
+        }, {
+        })
+    }
+
+    @Test
+    fun searchPics() {
+        viewModel.searchPics("test", 1).subscribe({
+            assertNotNull(it)
+            assertTrue(it.size > 5)
+        }, {
+        })
+    }
+
+    @Test
+    fun getAbyssRequest() {
+        assertNotNull(viewModel.getAbyssRequest(1, Mark.BMW))
     }
 
 }
