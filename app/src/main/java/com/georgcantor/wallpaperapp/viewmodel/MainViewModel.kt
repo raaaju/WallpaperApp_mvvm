@@ -30,6 +30,7 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.set
 
+
 class MainViewModel(
         app: Application,
         private val apiRepository: ApiRepository,
@@ -111,8 +112,8 @@ class MainViewModel(
                 )
 
         val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         )
         params.setMargins(50, 20, 0, 0)
         ratingBar.layoutParams = params
@@ -125,32 +126,32 @@ class MainViewModel(
         ratingDialog.setView(linearLayout)
 
         ratingBar.onRatingBarChangeListener =
-            RatingBar.OnRatingBarChangeListener { _, ratingNumber, _ ->
-                userMark = ratingNumber.toInt()
-            }
+                RatingBar.OnRatingBarChangeListener { _, ratingNumber, _ ->
+                    userMark = ratingNumber.toInt()
+                }
 
         ratingDialog
-            .setPositiveButton(context.getString(R.string.add_review)) { _, _ ->
-                mark[RATING] = Triple(
-                    Calendar.getInstance().time.toString(), userMark, phoneInfo
-                )
+                .setPositiveButton(context.getString(R.string.add_review)) { _, _ ->
+                    mark[RATING] = Triple(
+                            Calendar.getInstance().time.toString(), userMark, phoneInfo
+                    )
 
-                if (userMark > 0) {
-                    db.collection(RATING)
-                        .add(mark)
-                    prefManager.saveBoolean(IS_RATING_EXIST, true)
+                    if (userMark > 0) {
+                        db.collection(RATING)
+                                .add(mark)
+                        prefManager.saveBoolean(IS_RATING_EXIST, true)
+                    }
+                    if (userMark > 3) {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(context, intent, null)
+                    } else {
+                        if (userMark > 0) context.longToast(context.getString(R.string.thanks_for_feedback))
+                    }
                 }
-                if (userMark > 3) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL))
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(context, intent, null)
-                } else {
-                    if (userMark > 0) context.longToast(context.getString(R.string.thanks_for_feedback))
+                .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
+                    dialog.cancel()
                 }
-            }
-            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                dialog.cancel()
-            }
 
         ratingDialog.create()
         ratingDialog.show()
@@ -166,5 +167,7 @@ class MainViewModel(
             }
         }
     }
+
+    fun isSixDayOfMonth(calendar: Calendar): Boolean = calendar[Calendar.DAY_OF_MONTH] == 6
 
 }
