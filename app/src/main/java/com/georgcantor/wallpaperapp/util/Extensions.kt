@@ -29,10 +29,10 @@ fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     val current = supportFragmentManager.fragments[lastIndex]
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(
-        R.anim.pull_in_right,
-        R.anim.push_out_left,
-        R.anim.pull_in_left,
-        R.anim.push_out_right
+            R.anim.pull_in_right,
+            R.anim.push_out_left,
+            R.anim.pull_in_left,
+            R.anim.push_out_right
     )
 
     when {
@@ -117,16 +117,15 @@ fun String.getImageNameFromUrl(): String {
 }
 
 fun Context.shortToast(message: CharSequence) =
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 fun Context.longToast(message: CharSequence) =
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 fun Context.isNetworkAvailable(): Boolean {
-    val connectivityManager =
-        this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+    val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
 
-    connectivityManager?.let {
+    manager?.let {
         val networkInfo = it.activeNetworkInfo
         networkInfo?.let { info ->
             if (info.isConnected) return true
@@ -136,62 +135,58 @@ fun Context.isNetworkAvailable(): Boolean {
     return false
 }
 
-fun Context.showDialog(
-    message: CharSequence,
-    function: () -> (Unit)
-) {
-    val builder = AlertDialog.Builder(this)
-        .setMessage(message)
-        .setNegativeButton(R.string.no) { _, _ ->
-        }
-        .setPositiveButton(R.string.yes) { _, _ ->
-            function()
-        }
 
-    val dialog: AlertDialog = builder.create()
-    dialog.show()
+fun Context.showDialog(
+        message: CharSequence,
+        function: () -> (Unit)
+) {
+    AlertDialog.Builder(this)
+            .setMessage(message)
+            .setNegativeButton(R.string.no) { _, _ -> }
+            .setPositiveButton(R.string.yes) { _, _ -> function() }
+            .create()
+            .show()
 }
 
 fun Context.loadImage(
-    url: String,
-    drawable: Drawable,
-    view: ImageView,
-    animView: LottieAnimationView?
+        url: String,
+        drawable: Drawable,
+        view: ImageView,
+        animView: LottieAnimationView?
 ) {
-
     Glide.with(this)
-        .load(url)
-        .placeholder(drawable)
-        .thumbnail(0.1F)
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any,
-                target: Target<Drawable>,
-                isFirstResource: Boolean
-            ): Boolean {
-                animView?.hideAnimation()
-                return false
-            }
+            .load(url)
+            .placeholder(drawable)
+            .thumbnail(0.1F)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                ): Boolean {
+                    animView?.hideAnimation()
+                    return false
+                }
 
-            override fun onResourceReady(
-                resource: Drawable,
-                model: Any,
-                target: Target<Drawable>,
-                dataSource: DataSource,
-                isFirstResource: Boolean
-            ): Boolean {
-                animView?.hideAnimation()
-                return false
-            }
-        })
-        .into(view)
+                override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                ): Boolean {
+                    animView?.hideAnimation()
+                    return false
+                }
+            })
+            .into(view)
 }
 
 fun Context.loadCircleImage(url: String, view: ImageView) {
     Glide.with(this)
-        .load(url)
-        .placeholder(R.drawable.memb)
-        .apply(RequestOptions.circleCropTransform())
-        .into(view)
+            .load(url)
+            .placeholder(R.drawable.memb)
+            .apply(RequestOptions.circleCropTransform())
+            .into(view)
 }
