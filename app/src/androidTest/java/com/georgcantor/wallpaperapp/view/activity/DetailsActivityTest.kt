@@ -19,7 +19,8 @@ class DetailsActivityTest {
 
     @Test
     fun isActivityInView() {
-        onView(withId(R.id.detailsLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.detailsLayout))
+                .check(matches(isDisplayed()))
     }
 
 }

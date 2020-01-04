@@ -17,20 +17,24 @@ class MainActivityTest {
     @Test
     fun isActivityInView() {
         ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.drawerLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.drawerLayout))
+                .check(matches(isDisplayed()))
     }
 
     @Test
     fun isNavigationDisplayed() {
         ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.navigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.navigation))
+                .check(matches(isDisplayed()))
     }
 
     @Test
     fun navigateSearchActivity() {
         ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.action_search)).perform(click())
-        onView(withId(R.id.searchLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.action_search))
+                .perform(click())
+        onView(withId(R.id.searchLayout))
+                .check(matches(isDisplayed()))
     }
 
 }
