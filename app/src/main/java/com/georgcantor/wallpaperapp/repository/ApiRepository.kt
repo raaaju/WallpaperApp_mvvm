@@ -152,9 +152,7 @@ class ApiRepository(
     fun getCategories(request: String): Observable<String> {
         return apiService.getPixabayPictures(request, 1)
                 .flatMap {
-                    Observable.fromCallable {
-                        it.hits.first().webformatURL
-                    }
+                    Observable.fromCallable(it.hits.first()::webformatURL)
                             .applySchedulers()
                 }
     }

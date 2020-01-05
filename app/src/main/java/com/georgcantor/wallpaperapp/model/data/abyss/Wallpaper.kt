@@ -5,13 +5,10 @@ import com.google.gson.annotations.SerializedName
 
 class Wallpaper {
 
-    @SerializedName("id")
     @Expose
     var id: String? = null
-    @SerializedName("width")
     @Expose
     var width: String? = null
-    @SerializedName("height")
     @Expose
     var height: String? = null
     @SerializedName("file_type")
