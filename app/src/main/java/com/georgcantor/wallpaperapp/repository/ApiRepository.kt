@@ -6,9 +6,8 @@ import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.remote.ApiService
+import com.georgcantor.wallpaperapp.util.applySchedulers
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class ApiRepository(
         private val context: Context,
@@ -47,8 +46,7 @@ class ApiRepository(
                         pictures
                     }
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getUnsplashPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
@@ -84,8 +82,7 @@ class ApiRepository(
                         pictures
                     }
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getAbyssPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
@@ -119,8 +116,7 @@ class ApiRepository(
                         pictures
                     }
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getPexelsPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
@@ -150,8 +146,7 @@ class ApiRepository(
                         pictures
                     }
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getCategories(request: String): Observable<String> {
@@ -160,8 +155,7 @@ class ApiRepository(
                     Observable.fromCallable {
                         it.hits.first().webformatURL
                     }
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .applySchedulers()
                 }
     }
 

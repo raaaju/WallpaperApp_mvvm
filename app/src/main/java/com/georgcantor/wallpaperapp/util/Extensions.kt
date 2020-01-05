@@ -22,6 +22,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     val transaction = supportFragmentManager.beginTransaction()
@@ -189,4 +192,10 @@ fun Context.loadCircleImage(url: String, view: ImageView) {
             .placeholder(R.drawable.memb)
             .apply(RequestOptions.circleCropTransform())
             .into(view)
+}
+
+fun <T> Observable<T>.applySchedulers(): Observable<T> {
+    return this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 }

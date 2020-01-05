@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.view.adapter.holder.TagViewHolder
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -39,8 +38,7 @@ class TagAdapter(
             val publishSubject = PublishSubject.create<Int>()
             publishSubject
                     .throttleFirst(1, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .applySchedulers()
                     .subscribe {
                         clickListener(tag)
                     }

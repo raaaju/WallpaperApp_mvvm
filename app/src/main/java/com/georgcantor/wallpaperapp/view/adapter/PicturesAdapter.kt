@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.Constants.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -45,32 +44,31 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
 
         val publishSubject = PublishSubject.create<Int>()
         publishSubject
-            .throttleFirst(1, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val position = viewHolder.adapterPosition
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .applySchedulers()
+                .subscribe {
+                    val position = viewHolder.adapterPosition
 
-                context.openActivity(DetailsActivity::class.java) {
-                    putParcelable(
-                        EXTRA_PIC,
-                        commonPics?.get(position)?.url?.let { url ->
-                            CommonPic(
-                                url = url,
-                                width = commonPics[position].width,
-                                heght = commonPics[position].heght,
-                                favorites = commonPics[position].favorites,
-                                tags = commonPics[position].tags,
-                                downloads = commonPics[position].downloads,
-                                imageURL = commonPics[position].imageURL,
-                                fullHDURL = commonPics[position].fullHDURL,
-                                user = commonPics[position].user,
-                                userImageURL = commonPics[position].userImageURL
-                            )
-                        }
-                    )
+                    context.openActivity(DetailsActivity::class.java) {
+                        putParcelable(
+                                EXTRA_PIC,
+                                commonPics?.get(position)?.url?.let { url ->
+                                    CommonPic(
+                                            url = url,
+                                            width = commonPics[position].width,
+                                            heght = commonPics[position].heght,
+                                            favorites = commonPics[position].favorites,
+                                            tags = commonPics[position].tags,
+                                            downloads = commonPics[position].downloads,
+                                            imageURL = commonPics[position].imageURL,
+                                            fullHDURL = commonPics[position].fullHDURL,
+                                            user = commonPics[position].user,
+                                            userImageURL = commonPics[position].userImageURL
+                                    )
+                                }
+                        )
+                    }
                 }
-            }
 
         itemView.setOnClickListener {
             publishSubject.onNext(0)
@@ -90,10 +88,10 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             holder.imageView.setRatio(ratio)
 
             context.loadImage(
-                it?.get(position)?.url ?: "",
-                context.resources.getDrawable(R.drawable.placeholder),
-                holder.imageView,
-                null
+                    it?.get(position)?.url ?: "",
+                    context.resources.getDrawable(R.drawable.placeholder),
+                    holder.imageView,
+                    null
             )
         }
     }

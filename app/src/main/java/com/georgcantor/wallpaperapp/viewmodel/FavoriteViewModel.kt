@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.airbnb.lottie.LottieAnimationView
 import com.georgcantor.wallpaperapp.model.local.FavDao
 import com.georgcantor.wallpaperapp.model.local.Favorite
+import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.util.hideAnimation
 import com.georgcantor.wallpaperapp.util.visible
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class FavoriteViewModel(
@@ -20,8 +20,7 @@ class FavoriteViewModel(
         return Observable.fromCallable {
             dao.getAll() as ArrayList
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun isEmptyAnimVisible(animationView: LottieAnimationView) {
@@ -62,8 +61,7 @@ class FavoriteViewModel(
         return Observable.fromCallable {
             dao.getAll().isNotEmpty()
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
 }

@@ -23,14 +23,10 @@ import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.FavDao
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.util.getImageNameFromUrl
-import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.showAnimation
-import com.georgcantor.wallpaperapp.util.showSingleAnimation
+import com.georgcantor.wallpaperapp.util.*
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -80,21 +76,20 @@ class DetailsViewModel(
 
     fun getSimilarImages(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return apiRepository.getPixabayPictures(request, index)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun downloadPicture(
-        pic: CommonPic,
-        tags: ArrayList<String>,
-        animationView: LottieAnimationView
+            pic: CommonPic,
+            tags: ArrayList<String>,
+            animationView: LottieAnimationView
     ) {
         animationView.showAnimation()
         Observable.fromCallable {
             val uri = pic.imageURL
             val imageUri = Uri.parse(uri)
             val downloadManager =
-                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                    context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             var name = Environment.getExternalStorageDirectory().absolutePath
             name += "/YourDirectoryName/"
 
@@ -114,9 +109,8 @@ class DetailsViewModel(
             }
             downloadManager.enqueue(request)
         }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+                .applySchedulers()
+                .subscribe()
     }
 
     fun downloadPictureQ(url: String, animationView: LottieAnimationView) {
@@ -138,16 +132,15 @@ class DetailsViewModel(
             var result: Bitmap? = null
             try {
                 result = Glide.with(context)
-                    .asBitmap()
-                    .load(pic.imageURL)
-                    .submit()
-                    .get()
+                        .asBitmap()
+                        .load(pic.imageURL)
+                        .submit()
+                        .get()
             } catch (e: IOException) {
             }
             result
         }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getImageUri(bitmap: Bitmap): Observable<Uri> {
@@ -155,32 +148,30 @@ class DetailsViewModel(
             val bytes = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
             val path = MediaStore.Images.Media.insertImage(
-                context.contentResolver, bitmap, "Title", null
+                    context.contentResolver, bitmap, "Title", null
             )
             Uri.parse(path)
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun setBitmapAsync(bitmap: Bitmap) {
         Single.fromCallable {
             WallpaperManager.getInstance(context)
-                .setBitmap(bitmap)
+                    .setBitmap(bitmap)
         }
-            .doOnSuccess {
-                activity.runOnUiThread {
-                    context.shortToast(context.getString(R.string.set_wall_complete))
+                .doOnSuccess {
+                    activity.runOnUiThread {
+                        context.shortToast(context.getString(R.string.set_wall_complete))
+                    }
                 }
-            }
-            .onErrorReturn {
-                activity.runOnUiThread {
-                    context.shortToast(context.getString(R.string.something_went_wrong))
+                .onErrorReturn {
+                    activity.runOnUiThread {
+                        context.shortToast(context.getString(R.string.something_went_wrong))
+                    }
                 }
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+                .subscribeOn(Schedulers.io())
+                .subscribe()
     }
 
     fun checkSavingPermission(permissionCheck: Int, activity: Activity) {
@@ -209,8 +200,7 @@ class DetailsViewModel(
         return Observable.fromCallable {
             dao.getByUrl(url).isNotEmpty()
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
 }

@@ -8,10 +8,9 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.Mark
+import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class SearchViewModel(
         app: Application,
@@ -33,8 +32,7 @@ class SearchViewModel(
                 .doFinally {
                     if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getAbyssPictures(abyssRequest: String, index: Int): Observable<ArrayList<CommonPic>> {
@@ -47,8 +45,7 @@ class SearchViewModel(
                 .doFinally {
                     if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getPicsExceptPexelsUnsplash(request: String, index: Int): Observable<ArrayList<CommonPic>> {
@@ -59,15 +56,13 @@ class SearchViewModel(
                 .doFinally {
                     if (!context.isNetworkAvailable()) noInternetShow.postValue(true) else noInternetShow.postValue(false)
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         isSearchingActive.value = true
         return apiRepository.getPixabayPictures(request, index)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .applySchedulers()
     }
 
     fun getAbyssRequest(index: Int, mark: Mark): String {
