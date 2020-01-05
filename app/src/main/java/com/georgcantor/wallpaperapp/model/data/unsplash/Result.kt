@@ -32,9 +32,6 @@ class Result {
     @SerializedName("urls")
     @Expose
     var urls: Urls? = null
-//    @SerializedName("links")
-//    @Expose
-//    var links: Links? = null
     @SerializedName("categories")
     @Expose
     var categories: List<Any>? = null
@@ -47,11 +44,5 @@ class Result {
     @SerializedName("current_user_collections")
     @Expose
     var currentUserCollections: List<Any>? = null
-//    @SerializedName("user")
-//    @Expose
-//    var user: User? = null
-//    @SerializedName("tags")
-//    @Expose
-//    var tags: List<Tag>? = null
 
 }
