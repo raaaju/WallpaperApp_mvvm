@@ -185,6 +185,13 @@ class DetailsViewModel(
         }
     }
 
+    fun picInFavorites(url: String): Observable<Boolean> {
+        return Observable.fromCallable {
+            dao.getByUrl(url).isNotEmpty()
+        }
+                .applySchedulers()
+    }
+
     private fun addToFavorites(pic: CommonPic) {
         Observable.fromCallable {
             val json = Gson().toJson(pic)
@@ -194,13 +201,6 @@ class DetailsViewModel(
         }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
-    }
-
-    fun picInFavorites(url: String): Observable<Boolean> {
-        return Observable.fromCallable {
-            dao.getByUrl(url).isNotEmpty()
-        }
-                .applySchedulers()
     }
 
 }

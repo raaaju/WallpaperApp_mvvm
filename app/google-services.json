@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "979572522966-8u9n8d3aal0ndgsb07j5tivg999g2uhp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.georgcantor.wallpaperapp",
+            "certificate_hash": "c877dd51cd8d77d47a03d3ae1249eff3f3ea6440"
+          }
+        },
+        {
           "client_id": "979572522966-eot9a3vqom4mqdaoc6ih6ignr3l0227a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

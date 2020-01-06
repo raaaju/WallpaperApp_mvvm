@@ -30,7 +30,6 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.set
 
-
 class MainViewModel(
         app: Application,
         private val apiRepository: ApiRepository,
