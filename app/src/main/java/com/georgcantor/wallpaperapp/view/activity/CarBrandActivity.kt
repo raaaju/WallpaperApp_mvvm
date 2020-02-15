@@ -112,5 +112,4 @@ class CarBrandActivity : AppCompatActivity() {
 
         DisposableManager.add(disposable)
     }
-
 }

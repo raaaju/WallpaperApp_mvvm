@@ -78,5 +78,4 @@ class CategoryFragment : Fragment() {
                 })
         DisposableManager.add(disposable)
     }
-
 }

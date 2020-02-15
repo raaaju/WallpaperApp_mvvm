@@ -15,14 +15,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -31,9 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.model.data.firebase.Comment
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.util.Constants.Companion.COMMENTS
 import com.georgcantor.wallpaperapp.util.Constants.Companion.EXTRA_PIC
 import com.georgcantor.wallpaperapp.util.Constants.Companion.FULL_EXTRA
 import com.georgcantor.wallpaperapp.util.Constants.Companion.IS_PORTRAIT
@@ -42,10 +37,7 @@ import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.comment_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.util.*
@@ -58,7 +50,6 @@ class DetailsActivity : AppCompatActivity() {
     private var permissionCheck: Int = 0
     private val tags = ArrayList<String>()
 
-    private lateinit var dbReference: DatabaseReference
     private lateinit var prefManager: PreferenceManager
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
@@ -74,7 +65,6 @@ class DetailsActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_detail)
         viewModel = getViewModel { parametersOf(this) }
-        dbReference = FirebaseDatabase.getInstance().reference
         prefManager = PreferenceManager(this)
 
         fabOpen = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
@@ -105,26 +95,20 @@ class DetailsActivity : AppCompatActivity() {
                 if (!open) {
                     fabFull.visible()
                     fabSetWall.visible()
-                    fabComment.visible()
                     fabFull.isClickable = true
                     fabSetWall.isClickable = true
-                    fabComment.isClickable = true
                     fab.startAnimation(fabClock)
                     fabSetWall.startAnimation(fabOpen)
                     fabFull.startAnimation(fabOpen)
-                    fabComment.startAnimation(fabOpen)
                     viewModel.setFabState(true)
                 } else {
                     fabFull.gone()
                     fabSetWall.gone()
-                    fabComment.gone()
                     fabFull.isClickable = false
                     fabSetWall.isClickable = false
-                    fabComment.isClickable = false
                     fab.startAnimation(fabAnticlock)
                     fabSetWall.startAnimation(fabClose)
                     fabFull.startAnimation(fabClose)
-                    fabComment.startAnimation(fabClose)
                     viewModel.setFabState(false)
                 }
             }
@@ -150,10 +134,6 @@ class DetailsActivity : AppCompatActivity() {
             intent.putExtra(IS_PORTRAIT, pic?.heght ?: 0 > pic?.width ?: 0)
             startActivity(intent)
             overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
-        }
-
-        fabComment.setOnClickListener {
-           showCommentDialog(dbReference, pic)
         }
     }
 
@@ -297,37 +277,6 @@ class DetailsActivity : AppCompatActivity() {
         registerReceiver(downloadReceiver, filter)
     }
 
-    private fun showCommentDialog(
-            dbReference: DatabaseReference,
-            pic: CommonPic?
-    ) {
-        val dialog = AlertDialog.Builder(this).create()
-        val inflater: LayoutInflater = this.layoutInflater
-        val dialogView: View = inflater.inflate(R.layout.comment_dialog, null)
-
-        val key = dbReference.child(COMMENTS).push().key
-
-        dialogView.buttonSend.setOnClickListener {
-            val comment = Comment(
-                    id = pic?.id,
-                    url = pic?.url,
-                    commentator = dialogView.nameEditText.text.toString(),
-                    comment = dialogView.commentEditText.text.toString()
-            )
-            key?.let {
-                dbReference.child(COMMENTS).child(key).setValue(comment)
-            }
-            dialog.dismiss()
-        }
-
-        dialogView.buttonCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.setView(dialogView)
-        dialog.show()
-    }
-
     private fun setWallAsync() {
         progressAnimationView?.showAnimation()
 
@@ -433,5 +382,4 @@ class DetailsActivity : AppCompatActivity() {
             viewModel.checkSavingPermission(permissionCheck, this)
         }
     }
-
 }

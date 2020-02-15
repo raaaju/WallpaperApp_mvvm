@@ -37,5 +37,4 @@ class MyApplication : Application() {
         } catch (e: GooglePlayServicesNotAvailableException) {
         }
     }
-
 }

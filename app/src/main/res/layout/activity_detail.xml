@@ -269,20 +269,6 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="16dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:elevation="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/fabFull"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_comment"
-            tools:visibility="visible"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabFull"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

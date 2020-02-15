@@ -14,7 +14,6 @@ class Constants {
         const val IS_PORTRAIT = "is_portrait"
         const val REQUEST = "request"
         const val CATEGORIES = "categories"
-        const val COMMENTS = "comments"
 
         var RATING = "default"
     }

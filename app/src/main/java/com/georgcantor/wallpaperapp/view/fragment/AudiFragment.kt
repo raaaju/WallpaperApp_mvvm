@@ -100,5 +100,4 @@ class AudiFragment : Fragment() {
 
         DisposableManager.add(disposable)
     }
-
 }

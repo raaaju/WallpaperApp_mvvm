@@ -130,5 +130,4 @@ class FavoriteActivity : AppCompatActivity() {
     private fun deleteAll() {
         viewModel.deleteAll()
     }
-
 }
