@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.Companion.APP_URL
-import com.georgcantor.wallpaperapp.util.Constants.Companion.DEV_URL
 import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
@@ -195,10 +194,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_favorites -> {
                 openActivity(FavoriteActivity::class.java)
             }
-            R.id.nav_about -> {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DEV_URL)))
-                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
-            }
             R.id.nav_rate_us -> {
                 viewModel.showRatingDialog()
             }
@@ -269,5 +264,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL)))
         finish()
     }
-
 }

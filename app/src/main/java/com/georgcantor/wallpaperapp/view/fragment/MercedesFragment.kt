@@ -78,7 +78,7 @@ class MercedesFragment : Fragment() {
                             animationView?.hideAnimation()
                             try {
                                 viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                                    if (it) requireActivity().longToast(getString(R.string.no_internet))
+                                    if (it) requireActivity().shortToast(getString(R.string.no_internet))
                                 })
                             } catch (e: IllegalStateException) {
                             }
