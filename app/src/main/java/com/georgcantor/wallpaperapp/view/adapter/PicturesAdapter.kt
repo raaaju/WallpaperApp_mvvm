@@ -15,26 +15,21 @@ import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import io.reactivex.subjects.PublishSubject
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<PictureViewHolder>() {
 
-    private val commonPics: MutableList<CommonPic>?
-
-    init {
-        this.commonPics = ArrayList()
-    }
+    private val commonPics = mutableListOf<CommonPic>()
 
     fun setPictures(pictures: MutableList<CommonPic>) {
-        this.commonPics?.addAll(pictures)
+        this.commonPics.addAll(pictures)
         notifyDataSetChanged()
     }
 
     fun clearPictures() {
-        val size = commonPics?.size
-        commonPics?.clear()
-        size?.let { notifyItemRangeRemoved(0, it) }
+        val size = commonPics.size
+        commonPics.clear()
+        notifyItemRangeRemoved(0, size)
     }
 
     @SuppressLint("CheckResult")
@@ -47,26 +42,24 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             .throttleFirst(1, TimeUnit.SECONDS)
             .applySchedulers()
             .subscribe {
-                val position = viewHolder.adapterPosition
-
-                context.openActivity(DetailsActivity::class.java) {
-                    putParcelable(
-                        EXTRA_PIC,
-                        commonPics?.get(position)?.url?.let { url ->
+                with(commonPics[viewHolder.adapterPosition]) {
+                    context.openActivity(DetailsActivity::class.java) {
+                        putParcelable(
+                            EXTRA_PIC,
                             CommonPic(
                                 url = url,
-                                width = commonPics[position].width,
-                                heght = commonPics[position].heght,
-                                favorites = commonPics[position].favorites,
-                                tags = commonPics[position].tags,
-                                downloads = commonPics[position].downloads,
-                                imageURL = commonPics[position].imageURL,
-                                fullHDURL = commonPics[position].fullHDURL,
-                                user = commonPics[position].user,
-                                userImageURL = commonPics[position].userImageURL
+                                width = width,
+                                heght = heght,
+                                favorites = favorites,
+                                tags = tags,
+                                downloads = downloads,
+                                imageURL = imageURL,
+                                fullHDURL = fullHDURL,
+                                user = user,
+                                userImageURL = userImageURL
                             )
-                        }
-                    )
+                        )
+                    }
                 }
             }
 
@@ -78,23 +71,22 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
     }
 
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
-        this.commonPics.let {
-            val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
-            val height = it?.get(position)?.heght?.toFloat()
-            val width = it?.get(position)?.width?.toFloat()
-            val ratio = width?.let { widthFloat -> height?.div(widthFloat) } ?: 0F
-            layoutParams.height = (layoutParams.width * ratio).toInt()
-            holder.imageView.layoutParams = layoutParams
-            holder.imageView.setRatio(ratio)
+        val pic = commonPics[position]
+        val layoutParams = holder.imageView.layoutParams as RelativeLayout.LayoutParams
+        val height = pic.heght.toFloat()
+        val width = pic.width.toFloat()
+        val ratio = width.let(height::div)
+        layoutParams.height = (layoutParams.width * ratio).toInt()
+        holder.imageView.layoutParams = layoutParams
+        holder.imageView.setRatio(ratio)
 
-            context.loadImage(
-                it?.get(position)?.url ?: "",
-                context.resources.getDrawable(R.drawable.placeholder),
-                holder.imageView,
-                null
-            )
-        }
+        context.loadImage(
+            pic.url ?: "",
+            context.resources.getDrawable(R.drawable.placeholder),
+            holder.imageView,
+            null
+        )
     }
 
-    override fun getItemCount(): Int = commonPics?.size ?: 0
+    override fun getItemCount(): Int = commonPics.size
 }

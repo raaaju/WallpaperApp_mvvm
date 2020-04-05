@@ -14,7 +14,7 @@ import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
 import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -23,6 +23,7 @@ class CategoryFragment : Fragment() {
 
     private lateinit var viewModel: CategoryViewModel
     private lateinit var preferenceManager: PreferenceManager
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,28 +56,29 @@ class CategoryFragment : Fragment() {
     }
 
     private fun loadData() {
-        val disposable: Disposable = viewModel.getSavedCategories()
-            .doOnSubscribe {
-                animationView?.showAnimation()
-            }
-            .doFinally {
-                animationView?.hideAnimation()
-                try {
-                    viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                        if (it) requireActivity().shortToast(getString(R.string.no_internet))
-                    })
-                } catch (e: IllegalStateException) {
+        disposable.add(
+            viewModel.getSavedCategories()
+                .doOnSubscribe {
+                    animationView?.showAnimation()
                 }
-            }
-            .subscribe({
-                recyclerView.adapter =
-                    CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->
-                        requireActivity().openActivity(CarBrandActivity::class.java) {
-                            putString(REQUEST, category.categoryName)
-                        }
+                .doFinally {
+                    animationView?.hideAnimation()
+                    try {
+                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                            if (it) requireActivity().shortToast(getString(R.string.no_internet))
+                        })
+                    } catch (e: IllegalStateException) {
                     }
-            }, {
-            })
-        DisposableManager.add(disposable)
+                }
+                .subscribe({
+                    recyclerView.adapter =
+                        CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->
+                            requireActivity().openActivity(CarBrandActivity::class.java) {
+                                putString(REQUEST, category.categoryName)
+                            }
+                        }
+                }, {
+                })
+        )
     }
 }

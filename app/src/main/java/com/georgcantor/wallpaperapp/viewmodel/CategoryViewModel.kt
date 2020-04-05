@@ -19,11 +19,7 @@ class CategoryViewModel(
 
     fun getSavedCategories(): Observable<ArrayList<Category>?> {
         return Observable.fromCallable {
-            if (!getApplication<MyApplication>().isNetworkAvailable()) {
-                noInternetShow.postValue(true)
-            } else {
-                noInternetShow.postValue(false)
-            }
+            noInternetShow.postValue(!getApplication<MyApplication>().isNetworkAvailable())
             preferenceManager.getCategories(CATEGORIES)
         }
     }

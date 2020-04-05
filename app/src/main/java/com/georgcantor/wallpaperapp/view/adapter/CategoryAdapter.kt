@@ -15,11 +15,11 @@ class CategoryAdapter(
     private val clickListener: (Category) -> Unit
 ) : RecyclerView.Adapter<CategoryViewHolder>() {
 
-    private val categories: MutableList<Category>? = ArrayList()
+    private val categories = mutableListOf<Category>()
 
     init {
-        this.categories?.clear()
-        this.categories?.addAll(categories)
+        this.categories.clear()
+        this.categories.addAll(categories)
         notifyDataSetChanged()
     }
 
@@ -28,22 +28,22 @@ class CategoryAdapter(
         val viewHolder = CategoryViewHolder(itemView)
 
         itemView.setOnClickListener {
-            categories?.get(viewHolder.adapterPosition)?.let(clickListener)
+            clickListener(categories[viewHolder.adapterPosition])
         }
 
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.categoryName.text = categories?.get(position)?.categoryName
+        holder.categoryName.text = categories.get(position).categoryName
 
         context.loadImage(
-            categories?.get(position)?.categoryUrl ?: "",
+            categories[position].categoryUrl,
             context.resources.getDrawable(R.drawable.placeholder),
             holder.categoryImage,
             null
         )
     }
 
-    override fun getItemCount(): Int = categories?.size ?: 0
+    override fun getItemCount(): Int = categories.size
 }
