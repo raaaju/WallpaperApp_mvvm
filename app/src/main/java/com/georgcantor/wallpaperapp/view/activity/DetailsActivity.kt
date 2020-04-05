@@ -37,6 +37,7 @@ import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.view.adapter.TagAdapter
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -49,6 +50,7 @@ class DetailsActivity : AppCompatActivity() {
     private var tagTitle: TextView? = null
     private var permissionCheck: Int = 0
     private val tags = ArrayList<String>()
+    private val disposable = CompositeDisposable()
 
     private lateinit var prefManager: PreferenceManager
     private lateinit var viewModel: DetailsViewModel
@@ -77,12 +79,7 @@ class DetailsActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setBackgroundDrawable(
-            ColorDrawable(
-                ContextCompat.getColor(
-                    this,
-                    R.color.colorPrimary
-                )
-            )
+            ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary))
         )
         if (!isNetworkAvailable()) longToast(getString(R.string.no_internet))
 
@@ -220,7 +217,7 @@ class DetailsActivity : AppCompatActivity() {
         } catch (e: Exception) {
         }
         Zoomy.unregister(detailImageView)
-        DisposableManager.dispose()
+        disposable.dispose()
         super.onDestroy()
     }
 
@@ -306,85 +303,81 @@ class DetailsActivity : AppCompatActivity() {
     private fun setWallAsync() {
         progressAnimationView?.showAnimation()
 
-        val disposable = pic?.let { pic ->
-            viewModel.getBitmapAsync(pic)
-                ?.subscribe({
-                    val wallpaperManager = WallpaperManager.getInstance(baseContext)
-                    it?.let { bitmap ->
-                        viewModel.getImageUri(bitmap)
-                            .subscribe({ uri ->
-                                try {
-                                    startActivity(
-                                        Intent(
-                                            wallpaperManager.getCropAndSetWallpaperIntent(
-                                                uri
-                                            )
-                                        )
-                                    )
-                                } catch (e: IllegalArgumentException) {
+        pic?.let { pic ->
+            disposable.add(
+                viewModel.getBitmapAsync(pic)
+                    .subscribe({
+                        val wallpaperManager = WallpaperManager.getInstance(baseContext)
+                        it?.let { bitmap ->
+                            viewModel.getImageUri(bitmap)
+                                .subscribe({ uri ->
                                     try {
-                                        it.let { bitMap ->
-                                            viewModel.getImageUri(bitMap)
-                                                .subscribe({ uri ->
-                                                    val bitmap2 = MediaStore.Images.Media.getBitmap(
-                                                        contentResolver,
-                                                        uri
-                                                    )
-                                                    viewModel.setBitmapAsync(bitmap2)
-                                                }, {
-                                                    shortToast(getString(R.string.something_went_wrong))
-                                                })
+                                        startActivity(Intent(wallpaperManager.getCropAndSetWallpaperIntent(uri)))
+                                    } catch (e: IllegalArgumentException) {
+                                        try {
+                                            it.let { bitMap ->
+                                                viewModel.getImageUri(bitMap)
+                                                    .subscribe({ uri ->
+                                                        val bitmap2 =
+                                                            MediaStore.Images.Media.getBitmap(
+                                                                contentResolver,
+                                                                uri
+                                                            )
+                                                        viewModel.setBitmapAsync(bitmap2)
+                                                    }, {
+                                                        shortToast(getString(R.string.something_went_wrong))
+                                                    })
+                                            }
+                                        } catch (e: OutOfMemoryError) {
+                                            shortToast(getString(R.string.something_went_wrong))
                                         }
-                                    } catch (e: OutOfMemoryError) {
-                                        shortToast(getString(R.string.something_went_wrong))
                                     }
-                                }
-                            }, { throwable ->
-                                longToast(throwable.message.toString())
-                            })
-                    }
-                    longToast(getString(R.string.wallpaper_is_install))
-                    recreate()
-                }, {
-                    shortToast(getString(R.string.something_went_wrong))
-                })
+                                }, { throwable ->
+                                    longToast(throwable.message.toString())
+                                })
+                        }
+                        longToast(getString(R.string.wallpaper_is_install))
+                        recreate()
+                    }, {
+                        shortToast(getString(R.string.something_went_wrong))
+                    })
+            )
         }
-        disposable?.let(DisposableManager::add)
     }
 
     private fun loadSimilarImages(request: String) {
-        val disposable = viewModel.getSimilarImages(request, 1)
-            .retry(3)
-            .doOnSubscribe {
-                similarProgressAnimView?.showAnimation()
-            }
-            .doFinally {
-                similarProgressAnimView?.hideAnimation()
-            }
-            .subscribe({
-                similarRecyclerView.adapter = SimilarAdapter(this, it) { picture ->
-                    openActivity(DetailsActivity::class.java) {
-                        putParcelable(
-                            EXTRA_PIC,
-                            CommonPic(
-                                url = picture.url,
-                                width = picture.width,
-                                heght = picture.heght,
-                                favorites = picture.favorites,
-                                tags = picture.tags,
-                                downloads = picture.downloads,
-                                imageURL = picture.imageURL,
-                                fullHDURL = picture.fullHDURL,
-                                user = picture.user,
-                                userImageURL = picture.userImageURL
-                            )
-                        )
-                    }
+        disposable.add(
+            viewModel.getSimilarImages(request, 1)
+                .retry(3)
+                .doOnSubscribe {
+                    similarProgressAnimView?.showAnimation()
                 }
-            }, {
-            })
-
-        DisposableManager.add(disposable)
+                .doFinally {
+                    similarProgressAnimView?.hideAnimation()
+                }
+                .subscribe({
+                    similarRecyclerView.adapter = SimilarAdapter(this, it) { picture ->
+                        openActivity(DetailsActivity::class.java) {
+                            putParcelable(
+                                EXTRA_PIC,
+                                CommonPic(
+                                    url = picture.url,
+                                    width = picture.width,
+                                    heght = picture.heght,
+                                    favorites = picture.favorites,
+                                    tags = picture.tags,
+                                    downloads = picture.downloads,
+                                    imageURL = picture.imageURL,
+                                    fullHDURL = picture.fullHDURL,
+                                    user = picture.user,
+                                    userImageURL = picture.userImageURL
+                                )
+                            )
+                        }
+                    }
+                }, {
+                })
+        )
     }
 
     private fun share() {

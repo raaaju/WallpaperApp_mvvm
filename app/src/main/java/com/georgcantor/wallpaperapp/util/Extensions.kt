@@ -72,13 +72,9 @@ fun Context.getScreenSize(): Int {
     }
 }
 
-fun View.visible() {
-    visibility = View.VISIBLE
-}
+fun View.visible() { visibility = View.VISIBLE }
 
-fun View.gone() {
-    visibility = View.GONE
-}
+fun View.gone() { visibility = View.GONE }
 
 fun LottieAnimationView.showAnimation() {
     this.visibility = View.VISIBLE
@@ -153,7 +149,7 @@ fun Context.showDialog(
 
 fun Context.loadImage(
         url: String,
-        drawable: Drawable,
+        drawable: Drawable?,
         view: ImageView,
         animView: LottieAnimationView?
 ) {

@@ -38,5 +38,4 @@ class PreferenceManager(activity: Activity) {
 
         return gson.fromJson(json, type)
     }
-
 }

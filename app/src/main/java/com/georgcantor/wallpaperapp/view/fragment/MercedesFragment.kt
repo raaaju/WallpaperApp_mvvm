@@ -12,6 +12,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -20,6 +21,7 @@ class MercedesFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private var adapter: PicturesAdapter? = null
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +66,12 @@ class MercedesFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        DisposableManager.dispose()
+        disposable.dispose()
         super.onDestroy()
     }
 
     private fun loadData(index: Int) {
-        val disposable =
+        disposable.add(
             viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.MERCEDES), index)
                 .doOnSubscribe {
                     animationView?.showAnimation()
@@ -100,8 +102,6 @@ class MercedesFragment : Fragment() {
                                 })
                         })
                 })
-
-        DisposableManager.add(disposable)
+        )
     }
-
 }

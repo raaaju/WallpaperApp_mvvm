@@ -127,7 +127,7 @@ class DetailsViewModel(
         downloadManager?.enqueue(request)
     }
 
-    fun getBitmapAsync(pic: CommonPic): Observable<Bitmap?>? {
+    fun getBitmapAsync(pic: CommonPic): Observable<Bitmap?> {
         return Observable.fromCallable {
             var result: Bitmap? = null
             try {

@@ -13,6 +13,7 @@ import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_car_brand.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -21,6 +22,7 @@ class CarBrandActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var adapter: PicturesAdapter
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,7 @@ class CarBrandActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        DisposableManager.dispose()
+        disposable.dispose()
         super.onDestroy()
     }
 
@@ -85,7 +87,7 @@ class CarBrandActivity : AppCompatActivity() {
     }
 
     private fun loadData(index: Int) {
-        val disposable =
+        disposable.add(
             viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
                 .doOnSubscribe {
                     animationView?.showAnimation()
@@ -113,7 +115,6 @@ class CarBrandActivity : AppCompatActivity() {
                                 }
                         }
                 }
-
-        DisposableManager.add(disposable)
+        )
     }
 }

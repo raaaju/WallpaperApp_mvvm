@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.view.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
@@ -35,11 +36,12 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.categoryName.text = categories.get(position).categoryName
+        val category = categories[position]
+        holder.categoryName.text = category.categoryName
 
         context.loadImage(
-            categories[position].categoryUrl,
-            context.resources.getDrawable(R.drawable.placeholder),
+            category.categoryUrl,
+            getDrawable(context, R.drawable.placeholder),
             holder.categoryImage,
             null
         )
