@@ -31,9 +31,9 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,26 +56,27 @@ class CategoryFragment : Fragment() {
 
     private fun loadData() {
         val disposable: Disposable = viewModel.getSavedCategories()
-                .doOnSubscribe {
-                    animationView?.showAnimation()
+            .doOnSubscribe {
+                animationView?.showAnimation()
+            }
+            .doFinally {
+                animationView?.hideAnimation()
+                try {
+                    viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                        if (it) requireActivity().shortToast(getString(R.string.no_internet))
+                    })
+                } catch (e: IllegalStateException) {
                 }
-                .doFinally {
-                    animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                            if (it) requireActivity().shortToast(getString(R.string.no_internet))
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
-                }
-                .subscribe({
-                    recyclerView.adapter = CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->
+            }
+            .subscribe({
+                recyclerView.adapter =
+                    CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->
                         requireActivity().openActivity(CarBrandActivity::class.java) {
                             putString(REQUEST, category.categoryName)
                         }
                     }
-                }, {
-                })
+            }, {
+            })
         DisposableManager.add(disposable)
     }
 }

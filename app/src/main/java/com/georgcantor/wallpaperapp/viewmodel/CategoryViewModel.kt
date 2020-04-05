@@ -11,8 +11,8 @@ import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import io.reactivex.Observable
 
 class CategoryViewModel(
-        app: Application,
-        private val preferenceManager: PreferenceManager
+    app: Application,
+    private val preferenceManager: PreferenceManager
 ) : AndroidViewModel(app) {
 
     val noInternetShow = MutableLiveData<Boolean>()
@@ -27,5 +27,4 @@ class CategoryViewModel(
             preferenceManager.getCategories(CATEGORIES)
         }
     }
-
 }

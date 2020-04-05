@@ -12,15 +12,15 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
 class FavoriteViewModel(
-        private val activity: Activity,
-        private val dao: FavDao
+    private val activity: Activity,
+    private val dao: FavDao
 ) : ViewModel() {
 
     fun getFavorites(): Observable<ArrayList<Favorite>> {
         return Observable.fromCallable {
             dao.getAll() as ArrayList
         }
-                .applySchedulers()
+            .applySchedulers()
     }
 
     fun isEmptyAnimVisible(animationView: LottieAnimationView) {
@@ -34,8 +34,8 @@ class FavoriteViewModel(
                 }
             }
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun deleteAll() {
@@ -45,23 +45,22 @@ class FavoriteViewModel(
                 activity.runOnUiThread(activity::recreate)
             }
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun deleteByUrl(url: String) {
         Observable.fromCallable {
             dao.deleteByUrl(url)
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun dbIsNotEmpty(): Observable<Boolean> {
         return Observable.fromCallable {
             dao.getAll().isNotEmpty()
         }
-                .applySchedulers()
+            .applySchedulers()
     }
-
 }

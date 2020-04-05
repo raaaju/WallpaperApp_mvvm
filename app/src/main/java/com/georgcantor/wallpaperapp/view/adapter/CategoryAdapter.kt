@@ -10,9 +10,9 @@ import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.view.adapter.holder.CategoryViewHolder
 
 class CategoryAdapter(
-        private val context: Context,
-        categories: MutableList<Category>,
-        private val clickListener: (Category) -> Unit
+    private val context: Context,
+    categories: MutableList<Category>,
+    private val clickListener: (Category) -> Unit
 ) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     private val categories: MutableList<Category>? = ArrayList()
@@ -38,13 +38,12 @@ class CategoryAdapter(
         holder.categoryName.text = categories?.get(position)?.categoryName
 
         context.loadImage(
-                categories?.get(position)?.categoryUrl ?: "",
-                context.resources.getDrawable(R.drawable.placeholder),
-                holder.categoryImage,
-                null
+            categories?.get(position)?.categoryUrl ?: "",
+            context.resources.getDrawable(R.drawable.placeholder),
+            holder.categoryImage,
+            null
         )
     }
 
     override fun getItemCount(): Int = categories?.size ?: 0
-
 }

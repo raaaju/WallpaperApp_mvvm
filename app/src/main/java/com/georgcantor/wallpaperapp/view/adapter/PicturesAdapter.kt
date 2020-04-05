@@ -44,31 +44,31 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
 
         val publishSubject = PublishSubject.create<Int>()
         publishSubject
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .applySchedulers()
-                .subscribe {
-                    val position = viewHolder.adapterPosition
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .applySchedulers()
+            .subscribe {
+                val position = viewHolder.adapterPosition
 
-                    context.openActivity(DetailsActivity::class.java) {
-                        putParcelable(
-                                EXTRA_PIC,
-                                commonPics?.get(position)?.url?.let { url ->
-                                    CommonPic(
-                                            url = url,
-                                            width = commonPics[position].width,
-                                            heght = commonPics[position].heght,
-                                            favorites = commonPics[position].favorites,
-                                            tags = commonPics[position].tags,
-                                            downloads = commonPics[position].downloads,
-                                            imageURL = commonPics[position].imageURL,
-                                            fullHDURL = commonPics[position].fullHDURL,
-                                            user = commonPics[position].user,
-                                            userImageURL = commonPics[position].userImageURL
-                                    )
-                                }
-                        )
-                    }
+                context.openActivity(DetailsActivity::class.java) {
+                    putParcelable(
+                        EXTRA_PIC,
+                        commonPics?.get(position)?.url?.let { url ->
+                            CommonPic(
+                                url = url,
+                                width = commonPics[position].width,
+                                heght = commonPics[position].heght,
+                                favorites = commonPics[position].favorites,
+                                tags = commonPics[position].tags,
+                                downloads = commonPics[position].downloads,
+                                imageURL = commonPics[position].imageURL,
+                                fullHDURL = commonPics[position].fullHDURL,
+                                user = commonPics[position].user,
+                                userImageURL = commonPics[position].userImageURL
+                            )
+                        }
+                    )
                 }
+            }
 
         itemView.setOnClickListener {
             publishSubject.onNext(0)
@@ -88,14 +88,13 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             holder.imageView.setRatio(ratio)
 
             context.loadImage(
-                    it?.get(position)?.url ?: "",
-                    context.resources.getDrawable(R.drawable.placeholder),
-                    holder.imageView,
-                    null
+                it?.get(position)?.url ?: "",
+                context.resources.getDrawable(R.drawable.placeholder),
+                holder.imageView,
+                null
             )
         }
     }
 
     override fun getItemCount(): Int = commonPics?.size ?: 0
-
 }

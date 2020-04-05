@@ -12,9 +12,9 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class TagAdapter(
-        private val context: Context,
-        tags: MutableList<String>,
-        private val clickListener: (String) -> Unit
+    private val context: Context,
+    tags: MutableList<String>,
+    private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<TagViewHolder>() {
 
     private val tags: MutableList<String>? = ArrayList()
@@ -37,11 +37,11 @@ class TagAdapter(
 
             val publishSubject = PublishSubject.create<Int>()
             publishSubject
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .applySchedulers()
-                    .subscribe {
-                        clickListener(tag)
-                    }
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .applySchedulers()
+                .subscribe {
+                    clickListener(tag)
+                }
 
             holder.tag.setOnClickListener {
                 publishSubject.onNext(0)
@@ -50,5 +50,4 @@ class TagAdapter(
     }
 
     override fun getItemCount(): Int = tags?.size ?: 0
-
 }

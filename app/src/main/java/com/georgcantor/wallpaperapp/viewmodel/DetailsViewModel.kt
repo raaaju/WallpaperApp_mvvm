@@ -33,10 +33,10 @@ import java.io.IOException
 import java.util.*
 
 class DetailsViewModel(
-        app: Application,
-        private val activity: Activity,
-        private val dao: FavDao,
-        private val apiRepository: ApiRepository
+    app: Application,
+    private val activity: Activity,
+    private val dao: FavDao,
+    private val apiRepository: ApiRepository
 ) : AndroidViewModel(app) {
 
     private val context = getApplication<MyApplication>()
@@ -48,10 +48,10 @@ class DetailsViewModel(
     }
 
     fun setFavoriteStatus(
-            pic: CommonPic,
-            menuItem: MenuItem,
-            starAnimation: LottieAnimationView,
-            unStarAnimation: LottieAnimationView
+        pic: CommonPic,
+        menuItem: MenuItem,
+        starAnimation: LottieAnimationView,
+        unStarAnimation: LottieAnimationView
     ) {
         pic.url?.let {
             Observable.fromCallable {
@@ -69,27 +69,27 @@ class DetailsViewModel(
                     }
                 }
             }
-                    .subscribeOn(Schedulers.io())
-                    .subscribe()
+                .subscribeOn(Schedulers.io())
+                .subscribe()
         }
     }
 
     fun getSimilarImages(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return apiRepository.getPixabayPictures(request, index)
-                .applySchedulers()
+            .applySchedulers()
     }
 
     fun downloadPicture(
-            pic: CommonPic,
-            tags: ArrayList<String>,
-            animationView: LottieAnimationView
+        pic: CommonPic,
+        tags: ArrayList<String>,
+        animationView: LottieAnimationView
     ) {
         animationView.showAnimation()
         Observable.fromCallable {
             val uri = pic.imageURL
             val imageUri = Uri.parse(uri)
             val downloadManager =
-                    context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             var name = Environment.getExternalStorageDirectory().absolutePath
             name += "/YourDirectoryName/"
 
@@ -109,8 +109,8 @@ class DetailsViewModel(
             }
             downloadManager.enqueue(request)
         }
-                .applySchedulers()
-                .subscribe()
+            .applySchedulers()
+            .subscribe()
     }
 
     fun downloadPictureQ(url: String, animationView: LottieAnimationView) {
@@ -120,9 +120,9 @@ class DetailsViewModel(
 
         val request = DownloadManager.Request(Uri.parse(url))
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false)
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
+            .setAllowedOverRoaming(false)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
 
         downloadManager?.enqueue(request)
     }
@@ -132,15 +132,15 @@ class DetailsViewModel(
             var result: Bitmap? = null
             try {
                 result = Glide.with(context)
-                        .asBitmap()
-                        .load(pic.imageURL)
-                        .submit()
-                        .get()
+                    .asBitmap()
+                    .load(pic.imageURL)
+                    .submit()
+                    .get()
             } catch (e: IOException) {
             }
             result
         }
-                .applySchedulers()
+            .applySchedulers()
     }
 
     fun getImageUri(bitmap: Bitmap): Observable<Uri> {
@@ -148,39 +148,39 @@ class DetailsViewModel(
             val bytes = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
             val path = MediaStore.Images.Media.insertImage(
-                    context.contentResolver, bitmap, "Title", null
+                context.contentResolver, bitmap, "Title", null
             )
             Uri.parse(path)
         }
-                .applySchedulers()
+            .applySchedulers()
     }
 
     fun setBitmapAsync(bitmap: Bitmap) {
         Single.fromCallable {
             WallpaperManager.getInstance(context)
-                    .setBitmap(bitmap)
+                .setBitmap(bitmap)
         }
-                .doOnSuccess {
-                    activity.runOnUiThread {
-                        context.shortToast(context.getString(R.string.set_wall_complete))
-                    }
+            .doOnSuccess {
+                activity.runOnUiThread {
+                    context.shortToast(context.getString(R.string.set_wall_complete))
                 }
-                .onErrorReturn {
-                    activity.runOnUiThread {
-                        context.shortToast(context.getString(R.string.something_went_wrong))
-                    }
+            }
+            .onErrorReturn {
+                activity.runOnUiThread {
+                    context.shortToast(context.getString(R.string.something_went_wrong))
                 }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            }
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun checkSavingPermission(permissionCheck: Int, activity: Activity) {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             val requestCode = 102
             ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    requestCode
+                activity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                requestCode
             )
         }
     }
@@ -189,7 +189,7 @@ class DetailsViewModel(
         return Observable.fromCallable {
             dao.getByUrl(url).isNotEmpty()
         }
-                .applySchedulers()
+            .applySchedulers()
     }
 
     private fun addToFavorites(pic: CommonPic) {
@@ -199,8 +199,7 @@ class DetailsViewModel(
                 dao.insert(Favorite(it, json))
             }
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
-
 }

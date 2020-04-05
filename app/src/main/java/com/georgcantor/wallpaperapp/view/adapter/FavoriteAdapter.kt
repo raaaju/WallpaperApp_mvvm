@@ -17,11 +17,11 @@ import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 class FavoriteAdapter(
-        private val context: Context,
-        private val isNotGrid: Boolean,
-        favorites: MutableList<Favorite>,
-        private val clickListener: (Favorite) -> Unit,
-        private val longClickListener: (Favorite) -> Unit
+    private val context: Context,
+    private val isNotGrid: Boolean,
+    favorites: MutableList<Favorite>,
+    private val clickListener: (Favorite) -> Unit,
+    private val longClickListener: (Favorite) -> Unit
 ) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
     private val favorites: MutableList<Favorite>? = ArrayList()
@@ -39,7 +39,7 @@ class FavoriteAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
-            FavoriteViewHolder(LayoutInflater.from(context).inflate(R.layout.favorite_item, null))
+        FavoriteViewHolder(LayoutInflater.from(context).inflate(R.layout.favorite_item, null))
 
     @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
@@ -49,11 +49,11 @@ class FavoriteAdapter(
 
         val publishSubject = PublishSubject.create<Int>()
         publishSubject
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .applySchedulers()
-                .subscribe {
-                    favorite?.let(clickListener)
-                }
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .applySchedulers()
+            .subscribe {
+                favorite?.let(clickListener)
+            }
 
         holder.imageView.setOnClickListener {
             publishSubject.onNext(0)
@@ -73,10 +73,10 @@ class FavoriteAdapter(
         holder.imageView.setRatio(ratio)
 
         context.loadImage(
-                if (isNotGrid) pic.fullHDURL ?: "" else pic.url ?: "",
-                context.resources.getDrawable(R.drawable.placeholder),
-                holder.imageView,
-                null
+            if (isNotGrid) pic.fullHDURL ?: "" else pic.url ?: "",
+            context.resources.getDrawable(R.drawable.placeholder),
+            holder.imageView,
+            null
         )
     }
 

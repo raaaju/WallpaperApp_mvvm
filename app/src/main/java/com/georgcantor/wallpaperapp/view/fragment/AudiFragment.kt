@@ -27,9 +27,9 @@ class AudiFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,8 +44,8 @@ class AudiFragment : Fragment() {
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
-                requireContext().getScreenSize(),
-                StaggeredGridLayoutManager.VERTICAL
+            requireContext().getScreenSize(),
+            StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = gridLayoutManager
@@ -70,33 +70,33 @@ class AudiFragment : Fragment() {
 
     private fun loadData(index: Int) {
         val disposable =
-                viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.AUDI), index)
-                        .doOnSubscribe {
-                            animationView?.showAnimation()
-                        }
-                        .doFinally {
-                            animationView?.hideAnimation()
-                            try {
-                                viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                                    if (it) requireActivity().shortToast(getString(R.string.no_internet))
-                                })
-                            } catch (e: IllegalStateException) {
-                            }
-                        }
+            viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.AUDI), index)
+                .doOnSubscribe {
+                    animationView?.showAnimation()
+                }
+                .doFinally {
+                    animationView?.hideAnimation()
+                    try {
+                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
+                            if (it) requireActivity().shortToast(getString(R.string.no_internet))
+                        })
+                    } catch (e: IllegalStateException) {
+                    }
+                }
+                .subscribe({
+                    adapter?.setPictures(it)
+                }, {
+                    viewModel.getPicsExceptPexelsUnsplash(getString(R.string.audi_request), index)
                         .subscribe({
                             adapter?.setPictures(it)
                         }, {
-                            viewModel.getPicsExceptPexelsUnsplash(getString(R.string.audi_request), index)
-                                    .subscribe({
-                                        adapter?.setPictures(it)
-                                    }, {
-                                        viewModel.getPics(getString(R.string.audi_request), index)
-                                                .subscribe({
-                                                    adapter?.setPictures(it)
-                                                }, {
-                                                })
-                                    })
+                            viewModel.getPics(getString(R.string.audi_request), index)
+                                .subscribe({
+                                    adapter?.setPictures(it)
+                                }, {
+                                })
                         })
+                })
 
         DisposableManager.add(disposable)
     }
