@@ -14,12 +14,11 @@ class OfflineResponseCacheInterceptor(private val context: Context) : Intercepto
 
         if (!context.isNetworkAvailable()) {
             request = request.newBuilder()
-                    .removeHeader("Pragma")
-                    .header("Cache-Control", "public, only-if-cached, max-stale=" + 2419200)
-                    .build()
+                .removeHeader("Pragma")
+                .header("Cache-Control", "public, only-if-cached, max-stale=" + 2419200)
+                .build()
         }
 
         return chain.proceed(request)
     }
-
 }

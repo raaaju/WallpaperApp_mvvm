@@ -19,18 +19,24 @@ interface ApiService {
     ): Observable<Pic>
 
     @GET
-    fun getUnsplashPictures(@Url url: String,
-                            @Query("query") query: String,
-                            @Query("page") page: Int): Observable<UnsplashResponse>
+    fun getUnsplashPictures(
+        @Url url: String,
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Observable<UnsplashResponse>
 
     @GET
-    fun getAbyssPictures(@Url url: String,
-                         @Query("term") term: String,
-                         @Query("page") page: Int): Observable<AbyssResponse>
+    fun getAbyssPictures(
+        @Url url: String,
+        @Query("term") term: String,
+        @Query("page") page: Int
+    ): Observable<AbyssResponse>
 
     @GET
-    fun getPexelsPictures(@Url url: String,
-                          @Query("query") query: String,
-                          @Query("per_page") count: Int,
-                          @Query("page") page: Int): Observable<PhotoResponse>
+    fun getPexelsPictures(
+        @Url url: String,
+        @Query("query") query: String,
+        @Query("per_page") count: Int,
+        @Query("page") page: Int
+    ): Observable<PhotoResponse>
 }

@@ -26,15 +26,14 @@ class FullScreenActivity : Activity() {
 
         fullAnimationView.showAnimation()
 
-        val zoomyBuilder = Zoomy.Builder(this)
-                .target(fullImageView)
+        val zoomyBuilder = Zoomy.Builder(this).target(fullImageView)
         zoomyBuilder.register()
 
         loadImage(
-                intent.getStringExtra(FULL_EXTRA) ?: "",
-                resources.getDrawable(R.drawable.splash),
-                fullImageView,
-                fullAnimationView
+            intent.getStringExtra(FULL_EXTRA) ?: "",
+            resources.getDrawable(R.drawable.splash),
+            fullImageView,
+            fullAnimationView
         )
 
         if (!isNetworkAvailable()) longToast(getString(R.string.no_internet))
@@ -49,5 +48,4 @@ class FullScreenActivity : Activity() {
         Zoomy.unregister(fullImageView)
         super.onDestroy()
     }
-
 }

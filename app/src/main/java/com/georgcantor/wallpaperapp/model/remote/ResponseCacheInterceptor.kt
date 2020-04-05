@@ -11,8 +11,8 @@ class ResponseCacheInterceptor : Interceptor {
         val originalResponse = chain.proceed(chain.request())
 
         return originalResponse.newBuilder()
-                .removeHeader("Pragma")
-                .header("Cache-Control", "public, max-age=" + 60)
-                .build()
+            .removeHeader("Pragma")
+            .header("Cache-Control", "public, max-age=" + 60)
+            .build()
     }
 }

@@ -67,8 +67,8 @@ class CarBrandActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val gridLayoutManager = StaggeredGridLayoutManager(
-                getScreenSize(),
-                StaggeredGridLayoutManager.VERTICAL
+            getScreenSize(),
+            StaggeredGridLayoutManager.VERTICAL
         )
         brandRecyclerView.layoutManager = gridLayoutManager
 
@@ -86,29 +86,33 @@ class CarBrandActivity : AppCompatActivity() {
 
     private fun loadData(index: Int) {
         val disposable =
-                viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
-                        .doOnSubscribe {
-                            animationView?.showAnimation()
-                        }
-                        .doFinally {
-                            animationView?.hideAnimation()
-                            try {
-                                viewModel.noInternetShow.observe(this, Observer {
-                                    noInternetImageView.visibility = if (it) View.VISIBLE else View.GONE
-                                })
-                            } catch (e: IllegalStateException) {
-                            }
-                        }
+            viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
+                .doOnSubscribe {
+                    animationView?.showAnimation()
+                }
+                .doFinally {
+                    animationView?.hideAnimation()
+                    try {
+                        viewModel.noInternetShow.observe(this, Observer {
+                            noInternetImageView.visibility = if (it) View.VISIBLE else View.GONE
+                        })
+                    } catch (e: IllegalStateException) {
+                    }
+                }
+                .subscribe(adapter::setPictures) {
+                    viewModel.getPicsExceptPexelsUnsplash(
+                        intent.getStringExtra(REQUEST)
+                            ?: "", index
+                    )
                         .subscribe(adapter::setPictures) {
-                            viewModel.getPicsExceptPexelsUnsplash(intent.getStringExtra(REQUEST)
-                                    ?: "", index)
-                                    .subscribe(adapter::setPictures) {
-                                        viewModel.getPics(intent.getStringExtra(REQUEST)
-                                                ?: "", index)
-                                                .subscribe(adapter::setPictures) {
-                                                }
-                                    }
+                            viewModel.getPics(
+                                intent.getStringExtra(REQUEST)
+                                    ?: "", index
+                            )
+                                .subscribe(adapter::setPictures) {
+                                }
                         }
+                }
 
         DisposableManager.add(disposable)
     }

@@ -34,10 +34,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this)
 
-        gridLayoutManager = StaggeredGridLayoutManager(
-                getScreenSize(),
-                StaggeredGridLayoutManager.VERTICAL
-        )
+        gridLayoutManager = StaggeredGridLayoutManager(getScreenSize(), StaggeredGridLayoutManager.VERTICAL)
 
         viewModel = getViewModel { parametersOf(this) }
     }
@@ -45,38 +42,38 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val disposable = viewModel.getFavorites()
-                .subscribe({
-                    val isNotGrid = it.size in 1..4
-                    setupRecyclerView(if (isNotGrid) linearLayoutManager else gridLayoutManager)
-                    favRecyclerView.adapter = FavoriteAdapter(this, isNotGrid, it, { fav: Favorite ->
-                        val hitJson = fav.hit
-                        val pic = Gson().fromJson(hitJson, CommonPic::class.java)
-                        openActivity(DetailsActivity::class.java) {
-                            putParcelable(
-                                    EXTRA_PIC,
-                                    CommonPic(
-                                            url = pic.url,
-                                            width = pic.width,
-                                            heght = pic.heght,
-                                            favorites = pic.favorites,
-                                            tags = pic.tags,
-                                            downloads = pic.downloads,
-                                            imageURL = pic.imageURL,
-                                            fullHDURL = pic.fullHDURL,
-                                            user = pic.user,
-                                            userImageURL = pic.userImageURL
-                                    )
+            .subscribe({
+                val isNotGrid = it.size in 1..4
+                setupRecyclerView(if (isNotGrid) linearLayoutManager else gridLayoutManager)
+                favRecyclerView.adapter = FavoriteAdapter(this, isNotGrid, it, { fav: Favorite ->
+                    val hitJson = fav.hit
+                    val pic = Gson().fromJson(hitJson, CommonPic::class.java)
+                    openActivity(DetailsActivity::class.java) {
+                        putParcelable(
+                            EXTRA_PIC,
+                            CommonPic(
+                                url = pic.url,
+                                width = pic.width,
+                                heght = pic.heght,
+                                favorites = pic.favorites,
+                                tags = pic.tags,
+                                downloads = pic.downloads,
+                                imageURL = pic.imageURL,
+                                fullHDURL = pic.fullHDURL,
+                                user = pic.user,
+                                userImageURL = pic.userImageURL
                             )
-                        }
-                    }) { fav: Favorite ->
-                        showDialog(getString(R.string.del_from_fav_dialog)) {
-                            viewModel.deleteByUrl(fav.url)
-                            recreate()
-                        }
+                        )
                     }
-                }, {
-                    shortToast(getString(R.string.something_went_wrong))
-                })
+                }) { fav: Favorite ->
+                    showDialog(getString(R.string.del_from_fav_dialog)) {
+                        viewModel.deleteByUrl(fav.url)
+                        recreate()
+                    }
+                }
+            }, {
+                shortToast(getString(R.string.something_went_wrong))
+            })
         DisposableManager.add(disposable)
         viewModel.isEmptyAnimVisible(emptyAnimationView)
         invalidateOptionsMenu()
@@ -93,10 +90,10 @@ class FavoriteActivity : AppCompatActivity() {
         val menuItem = menu.findItem(R.id.action_remove_all)
 
         viewModel.dbIsNotEmpty()
-                .subscribe({
-                    menuItem.isVisible = it
-                }, {
-                })
+            .subscribe({
+                menuItem.isVisible = it
+            }, {
+            })
 
         return true
     }
@@ -108,10 +105,7 @@ class FavoriteActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
             }
             R.id.action_remove_all -> {
-                showDialog(
-                        getString(R.string.remove_fav_dialog_message),
-                        ::deleteAll
-                )
+                showDialog(getString(R.string.remove_fav_dialog_message), ::deleteAll)
             }
         }
         return super.onOptionsItemSelected(item)

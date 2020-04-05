@@ -11,11 +11,10 @@ class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val requestWithUserAgent = originalRequest.newBuilder()
-                .header("Authorization", BuildConfig.PEXELS_API_TOKEN)
-                .header("Accept", "application/json")
-                .build()
+            .header("Authorization", BuildConfig.PEXELS_API_TOKEN)
+            .header("Accept", "application/json")
+            .build()
 
         return chain.proceed(requestWithUserAgent)
     }
-
 }

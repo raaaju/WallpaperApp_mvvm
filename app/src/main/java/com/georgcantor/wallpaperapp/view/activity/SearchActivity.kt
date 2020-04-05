@@ -235,5 +235,4 @@ class SearchActivity : AppCompatActivity() {
     private fun hideKeyboard() {
         manager.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
     }
-
 }

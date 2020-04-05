@@ -11,6 +11,11 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+val appModule = module {
+    single { ApiClient.create(get()) }
+    single { FavDatabase.buildDefault(get()).dao() }
+}
+
 val repositoryModule = module {
     single { ApiRepository(get(), get()) }
 }
@@ -31,9 +36,4 @@ val viewModelModule = module {
     viewModel { (manager: PreferenceManager) ->
         CategoryViewModel(androidApplication(), manager)
     }
-}
-
-val appModule = module {
-    single { ApiClient.create(get()) }
-    single { FavDatabase.buildDefault(get()).dao() }
 }

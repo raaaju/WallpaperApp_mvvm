@@ -1,9 +1,7 @@
 package com.georgcantor.wallpaperapp.util
 
 class Constants {
-
     companion object {
-        const val DEV_URL = "https://play.google.com/store/apps/dev?id=5242637664196553916"
         const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
         const val IS_RATING_EXIST = "is_rating_exist"
         const val LAUNCHES = "launches"
@@ -17,5 +15,4 @@ class Constants {
 
         var RATING = "default"
     }
-
 }
