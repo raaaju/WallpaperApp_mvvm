@@ -63,5 +63,4 @@ abstract class EndlessScrollListener(layoutManager: StaggeredGridLayoutManager)
 
         return maxSize
     }
-
 }

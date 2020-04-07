@@ -32,6 +32,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
     private val backPressedSubject = BehaviorSubject.createDefault(0L)
+    private val disposable = CompositeDisposable()
     private var updateInfo: AppUpdateInfo? = null
 
     private lateinit var updateManager: AppUpdateManager
@@ -209,28 +211,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
-                val disposable = backPressedSubject
-                    .buffer(2, 1)
-                    .map { Pair(it[0], it[1]) }
-                    .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { canExit ->
-                        if (canExit) {
-                            super.onBackPressed()
-                            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
-                        } else {
-                            shortToast(getString(R.string.press_back))
+                disposable.add(
+                    backPressedSubject
+                        .buffer(2, 1)
+                        .map { Pair(it[0], it[1]) }
+                        .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { canExit ->
+                            when (canExit) {
+                                true -> {
+                                    super.onBackPressed()
+                                    overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+                                }
+                                false -> shortToast(getString(R.string.press_back))
+                            }
                         }
-                    }
-                DisposableManager.add(disposable)
+                )
 
                 backPressedSubject.onNext(System.currentTimeMillis())
             }
         } else {
             when {
-                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(
-                    GravityCompat.START
-                )
+                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
                 else -> {
                     try {
                         super.onBackPressed()
@@ -242,7 +244,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDestroy() {
-        DisposableManager.dispose()
+        disposable.dispose()
         super.onDestroy()
         updateManager.unregisterListener(this)
     }

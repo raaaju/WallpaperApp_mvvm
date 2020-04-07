@@ -24,6 +24,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -37,7 +38,9 @@ class SearchActivity : AppCompatActivity() {
         private const val HISTORY = "history"
     }
 
+    private val disposable = CompositeDisposable()
     private var index = 1
+
     private lateinit var viewModel: SearchViewModel
     private lateinit var manager: InputMethodManager
     private lateinit var adapter: PicturesAdapter
@@ -86,13 +89,11 @@ class SearchActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val cancel = menu?.findItem(R.id.action_cancel)
         cancel?.isVisible = viewModel.isSearchingActive.value == true
-
         return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
-
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -106,7 +107,6 @@ class SearchActivity : AppCompatActivity() {
             }
             R.id.action_voice_search -> checkPermission()
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -140,7 +140,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         prefManager.saveString(HISTORY, searchView.text.toString().trim { it <= ' ' })
-        DisposableManager.dispose()
+        disposable.dispose()
         super.onDestroy()
     }
 
@@ -208,28 +208,29 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun search(search: String, index: Int) {
-        val disposable = viewModel.searchPics(search, index)
-            .doOnSubscribe {
-                swipeRefreshLayoutSearch.isEnabled = true
-                swipeRefreshLayoutSearch.isRefreshing = true
-            }
-            .doFinally {
-                swipeRefreshLayoutSearch.isRefreshing = false
-                swipeRefreshLayoutSearch.isEnabled = false
-            }
-            .subscribe({
-                adapter.setPictures(it)
-                searchAnimationView?.hideAnimation()
-                invalidateOptionsMenu()
-                if (adapter.itemCount == 0) {
-                    searchAnimationView?.showAnimation()
-                    shortToast(getString(R.string.not_found))
+        disposable.add(
+            viewModel.searchPics(search, index)
+                .doOnSubscribe {
+                    swipeRefreshLayoutSearch.isEnabled = true
+                    swipeRefreshLayoutSearch.isRefreshing = true
                 }
-            }, {
-                searchAnimationView?.showAnimation()
-                shortToast(getString(R.string.something_went_wrong))
-            })
-        DisposableManager.add(disposable)
+                .doFinally {
+                    swipeRefreshLayoutSearch.isRefreshing = false
+                    swipeRefreshLayoutSearch.isEnabled = false
+                }
+                .subscribe({
+                    adapter.setPictures(it)
+                    searchAnimationView?.hideAnimation()
+                    invalidateOptionsMenu()
+                    if (adapter.itemCount == 0) {
+                        searchAnimationView?.showAnimation()
+                        shortToast(getString(R.string.not_found))
+                    }
+                }, {
+                    searchAnimationView?.showAnimation()
+                    shortToast(getString(R.string.something_went_wrong))
+                })
+        )
     }
 
     private fun hideKeyboard() {
