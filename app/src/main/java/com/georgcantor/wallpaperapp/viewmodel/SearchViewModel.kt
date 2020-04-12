@@ -71,21 +71,23 @@ class SearchViewModel(
             Mark.BMW -> {
                 return try {
                     val requests = arrayListOf(
+                        "BMW x6",
+                        "BMW x6m",
+                        "BMW x7",
+                        "BMW x5",
+                        "BMW x5m",
+                        "BMW x4",
                         "BMW m8",
                         "BMW m5",
-                        "BMW x6",
-                        "BMW x5",
-                        "BMW x7",
                         "BMW 7",
-                        "BMW concept",
                         "BMW 5",
                         "BMW m4",
                         "BMW m3",
                         "BMW m2",
                         "BMW 3",
-                        "BMW x4",
                         "BMW 6",
                         "BMW M",
+                        "BMW concept",
                         "BMW x3"
                     )
                     requests[index - 1]
@@ -96,13 +98,15 @@ class SearchViewModel(
             Mark.AUDI -> {
                 return try {
                     val requests = arrayListOf(
+                        "Audi s5",
+                        "Audi q7",
+                        "Audi r8",
                         "Audi q8",
                         "Audi s8",
-                        "Audi r8",
-                        "Audi s5",
-                        "Audi concept",
-                        "Audi 7",
+                        "Audi a5",
+                        "Audi a6",
                         "Audi tt",
+                        "Audi concept",
                         "Audi a4"
                     )
                     requests[index - 1]
@@ -113,14 +117,20 @@ class SearchViewModel(
             Mark.MERCEDES -> {
                 return try {
                     val requests = arrayListOf(
-                        "mercedes-benz amg",
                         "mercedes-benz s",
+                        "mercedes-benz s65",
                         "mercedes-benz g",
+                        "mercedes-benz brabus",
+                        "mercedes-benz gle",
+                        "mercedes-benz cls",
+                        "mercedes-benz slr",
                         "mercedes-benz e",
                         "mercedes-benz c",
+                        "mercedes-benz amg",
                         "mercedes-benz concept",
                         "mercedes-benz ml",
                         "mercedes-benz gl",
+                        "mercedes-benz glc",
                         "mercedes-benz gt"
                     )
                     requests[index - 1]
