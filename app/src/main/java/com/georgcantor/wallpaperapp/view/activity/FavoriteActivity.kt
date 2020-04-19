@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.Favorite
-import com.georgcantor.wallpaperapp.util.Constants.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
 import com.georgcantor.wallpaperapp.util.getScreenSize
 import com.georgcantor.wallpaperapp.util.openActivity
 import com.georgcantor.wallpaperapp.util.shortToast
@@ -55,7 +55,7 @@ class FavoriteActivity : AppCompatActivity() {
                         FavoriteAdapter(this, isNotGrid, it, { fav: Favorite ->
                             val hitJson = fav.hit
                             val pic = Gson().fromJson(hitJson, CommonPic::class.java)
-                            openActivity(DetailsActivity::class.java) {
+                            openActivity(DetailActivity::class.java) {
                                 putParcelable(
                                     EXTRA_PIC,
                                     CommonPic(

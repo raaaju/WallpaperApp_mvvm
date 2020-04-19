@@ -87,6 +87,18 @@ class MercedesFragment : Fragment() {
                 }
                 .subscribe({
                     adapter?.setPictures(it)
+                    if (it.isNullOrEmpty()) {
+                        viewModel.getPicsExceptPexelsUnsplash(getString(R.string.mercedes_request), index)
+                            .subscribe({
+                                adapter?.setPictures(it)
+                            }, {
+                                viewModel.getPics(getString(R.string.mercedes_request), index)
+                                    .subscribe({
+                                        adapter?.setPictures(it)
+                                    }, {
+                                    })
+                            })
+                    }
                 }, {
                     viewModel.getPicsExceptPexelsUnsplash(
                         getString(R.string.mercedes_request),

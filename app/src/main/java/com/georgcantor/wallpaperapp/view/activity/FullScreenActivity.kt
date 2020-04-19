@@ -5,8 +5,8 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.util.Constants.Companion.FULL_EXTRA
-import com.georgcantor.wallpaperapp.util.Constants.Companion.IS_PORTRAIT
+import com.georgcantor.wallpaperapp.util.Constants.FULL_EXTRA
+import com.georgcantor.wallpaperapp.util.Constants.IS_PORTRAIT
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.longToast

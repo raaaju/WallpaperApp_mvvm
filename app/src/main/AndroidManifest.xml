@@ -35,9 +35,8 @@
         </activity>
 
         <activity
-            android:name=".view.activity.DetailsActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppThemeDetail" />
+            android:name=".view.activity.DetailActivity"
+            android:configChanges="orientation|screenSize" />
 
         <activity
             android:name=".view.activity.SearchActivity"

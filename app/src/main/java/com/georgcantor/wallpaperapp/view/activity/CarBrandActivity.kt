@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
+import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import io.reactivex.disposables.CompositeDisposable

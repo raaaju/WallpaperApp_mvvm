@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.activity.DetailsActivity">
+    tools:context=".view.activity.DetailActivity">
 
     <item
         android:id="@+id/action_share"
@@ -10,11 +10,11 @@
         android:title="@string/share"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_download"
-        android:icon="@drawable/ic_download"
-        android:title="@string/download"
-        app:showAsAction="ifRoom" />
+<!--    <item-->
+<!--        android:id="@+id/action_download"-->
+<!--        android:icon="@drawable/ic_download"-->
+<!--        android:title="@string/download"-->
+<!--        app:showAsAction="ifRoom" />-->
 
     <item
         android:id="@+id/action_add_to_fav"

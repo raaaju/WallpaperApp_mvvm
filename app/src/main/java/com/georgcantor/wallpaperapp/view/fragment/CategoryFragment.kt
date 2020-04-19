@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
+import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.view.activity.CarBrandActivity
 import com.georgcantor.wallpaperapp.view.adapter.CategoryAdapter
 import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel

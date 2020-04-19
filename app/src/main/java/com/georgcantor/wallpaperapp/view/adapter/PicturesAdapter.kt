@@ -8,11 +8,11 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
-import com.georgcantor.wallpaperapp.util.Constants.Companion.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
 import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.view.activity.DetailsActivity
+import com.georgcantor.wallpaperapp.view.activity.DetailActivity
 import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
@@ -43,7 +43,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             .applySchedulers()
             .subscribe {
                 with(commonPics[viewHolder.adapterPosition]) {
-                    context.openActivity(DetailsActivity::class.java) {
+                    context.openActivity(DetailActivity::class.java) {
                         putParcelable(
                             EXTRA_PIC,
                             CommonPic(

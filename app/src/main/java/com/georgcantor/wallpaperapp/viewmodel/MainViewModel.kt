@@ -14,11 +14,11 @@ import com.georgcantor.wallpaperapp.MyApplication
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.util.Constants.Companion.APP_URL
-import com.georgcantor.wallpaperapp.util.Constants.Companion.CATEGORIES
-import com.georgcantor.wallpaperapp.util.Constants.Companion.IS_RATING_EXIST
-import com.georgcantor.wallpaperapp.util.Constants.Companion.LAUNCHES
-import com.georgcantor.wallpaperapp.util.Constants.Companion.RATING
+import com.georgcantor.wallpaperapp.util.Constants.APP_URL
+import com.georgcantor.wallpaperapp.util.Constants.CATEGORIES
+import com.georgcantor.wallpaperapp.util.Constants.IS_RATING_EXIST
+import com.georgcantor.wallpaperapp.util.Constants.LAUNCHES
+import com.georgcantor.wallpaperapp.util.Constants.RATING
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.longToast

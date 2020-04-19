@@ -13,4 +13,5 @@
     <color name="link">#363eab</color>
     <color name="colorSearchHint">#FFFF</color>
     <color name="drawer_text">#FFFF</color>
+    <color name="detail_background">#151515</color>
 </resources>

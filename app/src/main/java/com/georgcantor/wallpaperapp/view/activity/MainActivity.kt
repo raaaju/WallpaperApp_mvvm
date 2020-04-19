@@ -15,8 +15,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.util.Constants.Companion.APP_URL
-import com.georgcantor.wallpaperapp.util.Constants.Companion.REQUEST
+import com.georgcantor.wallpaperapp.util.Constants.APP_URL
+import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
