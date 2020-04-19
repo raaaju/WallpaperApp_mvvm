@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -48,6 +49,7 @@ class DetailsViewModel(
 
     fun setFavoriteStatus(
         pic: CommonPic,
+        menuItem: MenuItem,
         starAnimation: LottieAnimationView,
         unStarAnimation: LottieAnimationView
     ) {
@@ -56,11 +58,13 @@ class DetailsViewModel(
                 if (dao.getByUrl(it).isNotEmpty()) {
                     dao.deleteByUrl(it)
                     activity.runOnUiThread {
+                        menuItem.setIcon(R.drawable.ic_star_border)
                         unStarAnimation.showSingleAnimation(1.5F)
                     }
                 } else {
                     addToFavorites(pic)
                     activity.runOnUiThread {
+                        menuItem.setIcon(R.drawable.ic_star_red_24dp)
                         starAnimation.showSingleAnimation(1F)
                     }
                 }

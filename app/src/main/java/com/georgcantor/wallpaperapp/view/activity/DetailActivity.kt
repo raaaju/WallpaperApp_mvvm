@@ -70,12 +70,21 @@ class DetailActivity : AppCompatActivity() {
 
         initView()
 
+        pic?.url?.let {
+            viewModel.picInFavorites(it)
+                .subscribe({ isFav ->
+                    if (isFav) bottom_app_bar.menu.findItem(R.id.action_add_to_fav).setIcon(R.drawable.ic_star_red_24dp)
+                }, {
+                })
+        }
+
         zoomyBuilder = Zoomy.Builder(this)
             .target(image)
             .doubleTapListener {
                 pic?.let {
                     viewModel.setFavoriteStatus(
                         it,
+                        bottom_app_bar.menu.findItem(R.id.action_add_to_fav),
                         star_anim,
                         unstar_anim
                     )
@@ -137,6 +146,7 @@ class DetailActivity : AppCompatActivity() {
                 R.id.action_add_to_fav -> {
                     viewModel.setFavoriteStatus(
                         pic!!,
+                        it,
                         star_anim,
                         unstar_anim
                     )
@@ -146,20 +156,20 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_fav, menu)
-        this.menu = menu
-        val starItem = menu.findItem(R.id.action_add_to_fav)
-
-        pic?.url?.let {
-            viewModel.picInFavorites(it)
-                .subscribe({ isFav ->
-                    if (isFav) starItem.setIcon(R.drawable.ic_star_red_24dp)
-                }, {
-                })
-        }
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_fav, menu)
+//        this.menu = menu
+//        val starItem = menu.findItem(R.id.action_add_to_fav)
+//
+//        pic?.url?.let {
+//            viewModel.picInFavorites(it)
+//                .subscribe({ isFav ->
+//                    if (isFav) starItem.setIcon(R.drawable.ic_star_red_24dp)
+//                }, {
+//                })
+//        }
+//        return true
+//    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
