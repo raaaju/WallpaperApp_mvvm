@@ -4,10 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.georgcantor.wallpaperapp.MyApplication
-import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.util.Mark
 import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import io.reactivex.Observable
@@ -24,7 +22,6 @@ class SearchViewModel(
 
     fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return Observable.merge(
-            apiRepository.getAbyssPictures(request, index),
             apiRepository.getUnsplashPictures(request, index),
             apiRepository.getPexelsPictures(request, index),
             apiRepository.getPixabayPictures(request, index)
@@ -35,25 +32,8 @@ class SearchViewModel(
             .applySchedulers()
     }
 
-    fun getAbyssPictures(abyssRequest: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getAbyssPictures(
-            abyssRequest,
-            if (abyssRequest == context.getString(R.string.bmw_request)
-                || abyssRequest == context.getString(R.string.audi_request)
-                || abyssRequest == context.getString(R.string.mercedes_request)
-            ) index else 1
-        )
-            .doFinally {
-                noInternetShow.postValue(!context.isNetworkAvailable())
-            }
-            .applySchedulers()
-    }
-
-    fun getPicsExceptPexelsUnsplash(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return Observable.merge(
-            apiRepository.getAbyssPictures(request, index),
-            apiRepository.getPixabayPictures(request, index)
-        )
+    fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
+        return apiRepository.getPixabayPictures(request, index)
             .doFinally {
                 noInternetShow.postValue(!context.isNetworkAvailable())
             }
@@ -64,80 +44,5 @@ class SearchViewModel(
         isSearchingActive.value = true
         return apiRepository.getPixabayPictures(request, index)
             .applySchedulers()
-    }
-
-    fun getAbyssRequest(index: Int, mark: Mark): String {
-        when (mark) {
-            Mark.BMW -> {
-                return try {
-                    val requests = arrayListOf(
-                        "BMW x6",
-                        "BMW x6m",
-                        "BMW x7",
-                        "BMW x5",
-                        "BMW x5m",
-                        "BMW x4",
-                        "BMW m8",
-                        "BMW m5",
-                        "BMW 7",
-                        "BMW 5",
-                        "BMW m4",
-                        "BMW m3",
-                        "BMW m2",
-                        "BMW 3",
-                        "BMW 6",
-                        "BMW M",
-                        "BMW concept",
-                        "BMW x3"
-                    )
-                    requests[index - 1]
-                } catch (e: IndexOutOfBoundsException) {
-                    context.getString(R.string.bmw_request)
-                }
-            }
-            Mark.AUDI -> {
-                return try {
-                    val requests = arrayListOf(
-                        "Audi s5",
-                        "Audi q7",
-                        "Audi r8",
-                        "Audi q8",
-                        "Audi s8",
-                        "Audi a5",
-                        "Audi a6",
-                        "Audi tt",
-                        "Audi concept",
-                        "Audi a4"
-                    )
-                    requests[index - 1]
-                } catch (e: IndexOutOfBoundsException) {
-                    context.getString(R.string.audi_request)
-                }
-            }
-            Mark.MERCEDES -> {
-                return try {
-                    val requests = arrayListOf(
-                        "mercedes-benz s",
-                        "mercedes-benz s65",
-                        "mercedes-benz g",
-                        "mercedes-benz brabus",
-                        "mercedes-benz gle",
-                        "mercedes-benz cls",
-                        "mercedes-benz slr",
-                        "mercedes-benz e",
-                        "mercedes-benz c",
-                        "mercedes-benz amg",
-                        "mercedes-benz concept",
-                        "mercedes-benz ml",
-                        "mercedes-benz gl",
-                        "mercedes-benz glc",
-                        "mercedes-benz gt"
-                    )
-                    requests[index - 1]
-                } catch (e: IndexOutOfBoundsException) {
-                    context.getString(R.string.mercedes_request)
-                }
-            }
-        }
     }
 }

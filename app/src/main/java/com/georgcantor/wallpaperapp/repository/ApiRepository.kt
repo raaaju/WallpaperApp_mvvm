@@ -85,40 +85,6 @@ class ApiRepository(
             .applySchedulers()
     }
 
-    fun getAbyssPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
-        val pictures = ArrayList<CommonPic>()
-
-        return apiService.getAbyssPictures(
-            BuildConfig.ABYSS_URL,
-            query,
-            page
-        )
-            .flatMap { response ->
-                Observable.fromCallable {
-                    response.wallpapers?.map {
-                        pictures.add(
-                            CommonPic(
-                                it.urlThumb,
-                                it.width?.toInt() ?: 0,
-                                it.height?.toInt() ?: 0,
-                                (10..1000).random(),
-                                "",
-                                (100..10000).random(),
-                                it.urlImage,
-                                it.urlImage,
-                                context.getString(R.string.user_abyss),
-                                it.id?.toInt() ?: it.hashCode(),
-                                it.urlThumb
-                            )
-                        )
-                    }
-                    pictures.shuffle()
-                    pictures
-                }
-            }
-            .applySchedulers()
-    }
-
     fun getPexelsPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
         val pictures = ArrayList<CommonPic>()
 
@@ -156,5 +122,4 @@ class ApiRepository(
                     .applySchedulers()
             }
     }
-
 }

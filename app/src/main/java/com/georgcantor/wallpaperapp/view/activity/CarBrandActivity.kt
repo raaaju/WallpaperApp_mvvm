@@ -102,17 +102,10 @@ class CarBrandActivity : AppCompatActivity() {
                     }
                 }
                 .subscribe(adapter::setPictures) {
-                    viewModel.getPicsExceptPexelsUnsplash(
-                        intent.getStringExtra(REQUEST)
-                            ?: "", index
-                    )
+                    viewModel.getPixabayPictures(intent.getStringExtra(REQUEST) ?: "", index)
                         .subscribe(adapter::setPictures) {
-                            viewModel.getPics(
-                                intent.getStringExtra(REQUEST)
-                                    ?: "", index
-                            )
-                                .subscribe(adapter::setPictures) {
-                                }
+                            viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
+                                .subscribe(adapter::setPictures) {}
                         }
                 }
         )

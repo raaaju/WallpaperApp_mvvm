@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.model.remote
 
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.model.data.abyss.AbyssResponse
 import com.georgcantor.wallpaperapp.model.data.pexels.PhotoResponse
 import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
 import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
@@ -24,13 +23,6 @@ interface ApiService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Observable<UnsplashResponse>
-
-    @GET
-    fun getAbyssPictures(
-        @Url url: String,
-        @Query("term") term: String,
-        @Query("page") page: Int
-    ): Observable<AbyssResponse>
 
     @GET
     fun getPexelsPictures(

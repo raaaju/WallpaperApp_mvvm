@@ -244,8 +244,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDestroy() {
-        disposable.dispose()
         super.onDestroy()
+        disposable.dispose()
         updateManager.unregisterListener(this)
     }
 

@@ -72,10 +72,8 @@ class BmwFragment : Fragment() {
 
     private fun loadData(index: Int) {
         disposable.add(
-            viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.BMW), index)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
+            viewModel.getPics(getString(R.string.bmw_request), index)
+                .doOnSubscribe { animationView?.showAnimation() }
                 .doFinally {
                     animationView?.hideAnimation()
                     try {
@@ -88,7 +86,7 @@ class BmwFragment : Fragment() {
                 .subscribe({
                     adapter?.setPictures(it)
                     if (it.isNullOrEmpty()) {
-                        viewModel.getPicsExceptPexelsUnsplash(getString(R.string.bmw_request), index)
+                        viewModel.getPixabayPictures(getString(R.string.bmw_request), index)
                             .subscribe({
                                 adapter?.setPictures(it)
                             }, {
@@ -100,7 +98,7 @@ class BmwFragment : Fragment() {
                             })
                     }
                 }, {
-                    viewModel.getPicsExceptPexelsUnsplash(getString(R.string.bmw_request), index)
+                    viewModel.getPixabayPictures(getString(R.string.bmw_request), index)
                         .subscribe({
                             adapter?.setPictures(it)
                         }, {

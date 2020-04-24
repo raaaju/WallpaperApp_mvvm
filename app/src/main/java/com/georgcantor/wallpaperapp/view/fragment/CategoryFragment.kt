@@ -51,8 +51,8 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        disposable.dispose()
         super.onDestroy()
+        disposable.dispose()
     }
 
     private fun loadData() {

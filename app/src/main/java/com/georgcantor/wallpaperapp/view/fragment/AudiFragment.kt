@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -72,23 +71,13 @@ class AudiFragment : Fragment() {
 
     private fun loadData(index: Int) {
         disposable.add(
-            viewModel.getAbyssPictures(viewModel.getAbyssRequest(index, Mark.AUDI), index)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                            if (it) requireActivity().shortToast(getString(R.string.no_internet))
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
-                }
+            viewModel.getPics(getString(R.string.audi_request), index)
+                .doOnSubscribe { animationView?.showAnimation() }
+                .doFinally { animationView?.hideAnimation() }
                 .subscribe({
                     adapter?.setPictures(it)
                     if (it.isNullOrEmpty()) {
-                        viewModel.getPicsExceptPexelsUnsplash(getString(R.string.audi_request), index)
+                        viewModel.getPixabayPictures(getString(R.string.audi_request), index)
                             .subscribe({
                                 adapter?.setPictures(it)
                             }, {
@@ -100,7 +89,7 @@ class AudiFragment : Fragment() {
                             })
                     }
                 }, {
-                    viewModel.getPicsExceptPexelsUnsplash(getString(R.string.audi_request), index)
+                    viewModel.getPixabayPictures(getString(R.string.audi_request), index)
                         .subscribe({
                             adapter?.setPictures(it)
                         }, {
