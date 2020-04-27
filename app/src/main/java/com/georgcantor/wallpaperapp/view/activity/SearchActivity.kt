@@ -50,6 +50,9 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_search)
+
+        if (!this.isNetworkAvailable()) this.longToast(getString(R.string.no_internet))
+
         manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         prefManager = PreferenceManager(this)
 

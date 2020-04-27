@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -36,8 +35,9 @@ class BmwFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!requireActivity().isNetworkAvailable()) {
+        if (!requireContext().isNetworkAvailable()) {
             noInternetImageView.visible()
+            context?.longToast(getString(R.string.no_internet))
         }
 
         val gridLayoutManager = StaggeredGridLayoutManager(
@@ -74,15 +74,7 @@ class BmwFragment : Fragment() {
         disposable.add(
             viewModel.getPics(getString(R.string.bmw_request), index)
                 .doOnSubscribe { animationView?.showAnimation() }
-                .doFinally {
-                    animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                            if (it) requireActivity().shortToast(getString(R.string.no_internet))
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
-                }
+                .doFinally { animationView?.hideAnimation() }
                 .subscribe({
                     adapter?.setPictures(it)
                     if (it.isNullOrEmpty()) {

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
@@ -39,8 +38,10 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!requireContext().isNetworkAvailable()) context?.longToast(getString(R.string.no_internet))
+
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(activity, requireContext().getScreenSize())
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), requireContext().getScreenSize())
 
         refreshLayout.setOnRefreshListener {
             loadData()
@@ -58,18 +59,8 @@ class CategoryFragment : Fragment() {
     private fun loadData() {
         disposable.add(
             viewModel.getSavedCategories()
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(viewLifecycleOwner, Observer {
-                            if (it) requireActivity().shortToast(getString(R.string.no_internet))
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
-                }
+                .doOnSubscribe { animationView?.showAnimation() }
+                .doFinally { animationView?.hideAnimation() }
                 .subscribe({
                     recyclerView.adapter =
                         CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->

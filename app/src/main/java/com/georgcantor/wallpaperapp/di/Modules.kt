@@ -28,7 +28,7 @@ val viewModelModule = module {
         FavoriteViewModel(activity, get())
     }
     viewModel {
-        SearchViewModel(androidApplication(), get())
+        SearchViewModel(get())
     }
     viewModel { (activity: Activity) ->
         DetailsViewModel(androidApplication(), activity, get(), get())

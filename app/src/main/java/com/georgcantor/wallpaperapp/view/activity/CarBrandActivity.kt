@@ -3,9 +3,7 @@ package com.georgcantor.wallpaperapp.view.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -29,6 +27,11 @@ class CarBrandActivity : AppCompatActivity() {
         setContentView(R.layout.activity_car_brand)
         setSupportActionBar(brandToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        if (!this.isNetworkAvailable()) {
+            noInternetImageView.visible()
+            this.longToast(getString(R.string.no_internet))
+        }
 
         brandTitle.text = intent.getStringExtra(REQUEST)
 
@@ -94,12 +97,6 @@ class CarBrandActivity : AppCompatActivity() {
                 }
                 .doFinally {
                     animationView?.hideAnimation()
-                    try {
-                        viewModel.noInternetShow.observe(this, Observer {
-                            noInternetImageView.visibility = if (it) View.VISIBLE else View.GONE
-                        })
-                    } catch (e: IllegalStateException) {
-                    }
                 }
                 .subscribe(adapter::setPictures) {
                     viewModel.getPixabayPictures(intent.getStringExtra(REQUEST) ?: "", index)

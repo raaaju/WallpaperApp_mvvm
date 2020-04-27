@@ -35,8 +35,9 @@ class AudiFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!requireActivity().isNetworkAvailable()) {
+        if (!requireContext().isNetworkAvailable()) {
             noInternetImageView.visible()
+            context?.longToast(getString(R.string.no_internet))
         }
 
         refreshLayout.setOnRefreshListener {
