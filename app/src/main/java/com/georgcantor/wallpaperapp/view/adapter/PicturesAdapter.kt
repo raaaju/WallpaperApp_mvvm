@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.view.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -17,7 +16,7 @@ import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<PictureViewHolder>() {
+class PicturesAdapter : RecyclerView.Adapter<PictureViewHolder>() {
 
     private val commonPics = mutableListOf<CommonPic>()
 
@@ -34,7 +33,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
 
     @SuppressLint("CheckResult")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.picture_item, null)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.picture_item, null)
         val viewHolder = PictureViewHolder(itemView)
 
         val publishSubject = PublishSubject.create<Int>()
@@ -43,7 +42,7 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
             .applySchedulers()
             .subscribe {
                 with(commonPics[viewHolder.adapterPosition]) {
-                    context.openActivity(DetailActivity::class.java) {
+                    parent.context.openActivity(DetailActivity::class.java) {
                         putParcelable(
                             EXTRA_PIC,
                             CommonPic(
@@ -80,9 +79,9 @@ class PicturesAdapter(private val context: Context) : RecyclerView.Adapter<Pictu
         holder.imageView.layoutParams = layoutParams
         holder.imageView.setRatio(ratio)
 
-        context.loadImage(
+        holder.itemView.context.loadImage(
             pic.url ?: "",
-            context.resources.getDrawable(R.drawable.placeholder),
+            holder.itemView.context.resources.getDrawable(R.drawable.placeholder),
             holder.imageView,
             null
         )

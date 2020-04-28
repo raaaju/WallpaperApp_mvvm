@@ -1,7 +1,6 @@
 package com.georgcantor.wallpaperapp.model.remote
 
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.model.data.pexels.PhotoResponse
 import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
 import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import io.reactivex.Observable
@@ -23,12 +22,4 @@ interface ApiService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Observable<UnsplashResponse>
-
-    @GET
-    fun getPexelsPictures(
-        @Url url: String,
-        @Query("query") query: String,
-        @Query("per_page") count: Int,
-        @Query("page") page: Int
-    ): Observable<PhotoResponse>
 }

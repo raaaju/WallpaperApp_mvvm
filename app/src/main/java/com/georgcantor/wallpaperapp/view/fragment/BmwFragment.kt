@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -20,7 +20,6 @@ class BmwFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private var adapter: PicturesAdapter? = null
-    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,63 +43,27 @@ class BmwFragment : Fragment() {
             requireContext().getScreenSize(),
             StaggeredGridLayoutManager.VERTICAL
         )
-        recyclerView.setHasFixedSize(true)
+        adapter = PicturesAdapter()
         recyclerView.layoutManager = gridLayoutManager
-        adapter = PicturesAdapter(requireContext())
         recyclerView.adapter = adapter
 
         val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                loadData(page)
+                viewModel.getPictures(getString(R.string.bmw_request), page)
             }
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
 
         refreshLayout.setOnRefreshListener {
-            loadData(1)
+            viewModel.getPictures(getString(R.string.bmw_request), 1)
             refreshLayout.isRefreshing = false
         }
 
-        loadData(1)
-    }
+        viewModel.pictures.observe(viewLifecycleOwner, Observer { adapter?.setPictures(it) })
 
-    override fun onDestroy() {
-        disposable.dispose()
-        super.onDestroy()
-    }
+        viewModel.error.observe(viewLifecycleOwner, Observer { context?.shortToast(it) })
 
-    private fun loadData(index: Int) {
-        disposable.add(
-            viewModel.getPics(getString(R.string.bmw_request), index)
-                .doOnSubscribe { animationView?.showAnimation() }
-                .doFinally { animationView?.hideAnimation() }
-                .subscribe({
-                    adapter?.setPictures(it)
-                    if (it.isNullOrEmpty()) {
-                        viewModel.getPixabayPictures(getString(R.string.bmw_request), index)
-                            .subscribe({
-                                adapter?.setPictures(it)
-                            }, {
-                                viewModel.getPics(getString(R.string.bmw_request), index)
-                                    .subscribe({
-                                        adapter?.setPictures(it)
-                                    }, {
-                                    })
-                            })
-                    }
-                }, {
-                    viewModel.getPixabayPictures(getString(R.string.bmw_request), index)
-                        .subscribe({
-                            adapter?.setPictures(it)
-                        }, {
-                            viewModel.getPics(getString(R.string.bmw_request), index)
-                                .subscribe({
-                                    adapter?.setPictures(it)
-                                }, {
-                                })
-                        })
-                })
-        )
+        viewModel.getPictures(getString(R.string.bmw_request), 1)
     }
 }

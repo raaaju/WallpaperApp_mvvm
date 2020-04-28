@@ -85,36 +85,6 @@ class ApiRepository(
             .applySchedulers()
     }
 
-    fun getPexelsPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
-        val pictures = ArrayList<CommonPic>()
-
-        return apiService.getPexelsPictures(BuildConfig.PEXELS_URL, query, 15, page)
-            .flatMap { response ->
-                Observable.fromCallable {
-                    response.photos?.map {
-                        pictures.add(
-                            CommonPic(
-                                it.src?.medium,
-                                it.width,
-                                it.height,
-                                (10..1000).random(),
-                                "",
-                                (100..10000).random(),
-                                it.src?.original,
-                                it.src?.large,
-                                it.photographer,
-                                it.id,
-                                it.src?.small
-                            )
-                        )
-                    }
-                    pictures.shuffle()
-                    pictures
-                }
-            }
-            .applySchedulers()
-    }
-
     fun getCategories(request: String): Observable<String> {
         return apiService.getPixabayPictures(request, 1)
             .flatMap {

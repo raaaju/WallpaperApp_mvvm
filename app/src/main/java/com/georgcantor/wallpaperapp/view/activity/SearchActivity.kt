@@ -167,7 +167,7 @@ class SearchActivity : AppCompatActivity() {
         )
         searchRecyclerView.layoutManager = staggeredGridLayoutManager
         searchRecyclerView.setHasFixedSize(true)
-        adapter = PicturesAdapter(this)
+        adapter = PicturesAdapter()
         searchRecyclerView.adapter = adapter
 
         val listener = object : EndlessScrollListener(staggeredGridLayoutManager) {

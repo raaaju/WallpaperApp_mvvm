@@ -20,7 +20,6 @@ object ApiClient {
         val okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(ResponseCacheInterceptor())
             .addInterceptor(OfflineResponseCacheInterceptor(context))
-            .addInterceptor(AuthInterceptor())
             .addInterceptor(interceptor)
             .cache(Cache(File(context.cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
             .connectTimeout(20, TimeUnit.SECONDS)
