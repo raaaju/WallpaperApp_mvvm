@@ -14,19 +14,18 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
     private val disposable = CompositeDisposable()
 
     val isSearchingActive = MutableLiveData<Boolean>()
+    val isProgressVisible = MutableLiveData<Boolean>().apply { this.value = true }
     val pictures = MutableLiveData<MutableList<CommonPic>>()
-    val error = MutableLiveData<String>()
 
     fun getPictures(request: String, index: Int) {
         disposable.add(
-            Observable.merge(
-                apiRepository.getUnsplashPictures(request, index),
+            Observable.fromCallable {
                 apiRepository.getPixabayPictures(request, index)
-            )
+                    .doFinally { isProgressVisible.postValue(false) }
+                    .subscribe(pictures::postValue) {}
+            }
                 .subscribeOn(Schedulers.io())
-                .subscribe(pictures::postValue) {
-                    error.postValue(it.message)
-                }
+                .subscribe()
         )
     }
 

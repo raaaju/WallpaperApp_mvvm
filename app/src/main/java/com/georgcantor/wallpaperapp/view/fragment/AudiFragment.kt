@@ -19,7 +19,6 @@ import org.koin.core.parameter.parametersOf
 class AudiFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
-    private var adapter: PicturesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +42,7 @@ class AudiFragment : Fragment() {
             requireContext().getScreenSize(),
             StaggeredGridLayoutManager.VERTICAL
         )
-        adapter = PicturesAdapter()
+        val adapter = PicturesAdapter()
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = adapter
 
@@ -60,10 +59,14 @@ class AudiFragment : Fragment() {
             refreshLayout.isRefreshing = false
         }
 
-        viewModel.pictures.observe(viewLifecycleOwner, Observer { adapter?.setPictures(it) })
+        with(viewModel) {
+            pictures.observe(viewLifecycleOwner, Observer(adapter::setPictures))
 
-        viewModel.error.observe(viewLifecycleOwner, Observer { context?.shortToast(it) })
+            isProgressVisible.observe(viewLifecycleOwner, Observer { visible ->
+                if (visible) animationView.showAnimation() else animationView.hideAnimation()
+            })
 
-        viewModel.getPictures(getString(R.string.audi_request), 1)
+            getPictures(getString(R.string.audi_request), 1)
+        }
     }
 }
