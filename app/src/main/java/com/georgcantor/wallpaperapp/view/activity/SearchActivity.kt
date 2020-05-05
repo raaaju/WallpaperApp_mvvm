@@ -131,7 +131,11 @@ class SearchActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             arrayList?.toString()?.let { search(it, index) }
-            searchView.setText(arrayList?.toString())
+
+            val word = arrayList?.get(0)
+            searchView.setText(word)
+            adapter.clearPictures()
+            search(word ?: "", 1)
         }
     }
 
