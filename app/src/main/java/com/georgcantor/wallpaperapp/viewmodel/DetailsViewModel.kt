@@ -27,6 +27,7 @@ import com.georgcantor.wallpaperapp.util.*
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -40,8 +41,11 @@ class DetailsViewModel(
 ) : AndroidViewModel(app) {
 
     private val context = getApplication<MyApplication>()
+    private val disposable = CompositeDisposable()
 
     val isFabOpened = MutableLiveData<Boolean>().apply { postValue(false) }
+    val pictures = MutableLiveData<MutableList<CommonPic>>()
+    val isProgressVisible = MutableLiveData<Boolean>().apply { this.value = true }
 
     fun setFabState(isOpened: Boolean) {
         isFabOpened.value = isOpened
@@ -74,9 +78,16 @@ class DetailsViewModel(
         }
     }
 
-    fun getSimilarImages(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getPixabayPictures(request, index)
-            .applySchedulers()
+    fun getSimilarImages(request: String) {
+        disposable.add(
+            Observable.fromCallable {
+                apiRepository.getPixabayPictures(request, 1)
+                    .doFinally { isProgressVisible.postValue(false) }
+                    .subscribe(pictures::postValue) {}
+            }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        )
     }
 
     fun downloadPicture(

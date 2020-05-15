@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
-import android.view.Menu
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +27,7 @@ import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
 import com.georgcantor.wallpaperapp.util.Constants.FULL_EXTRA
 import com.georgcantor.wallpaperapp.util.Constants.IS_PORTRAIT
 import com.georgcantor.wallpaperapp.util.Constants.PREF_BOOLEAN
+import com.georgcantor.wallpaperapp.view.adapter.SimilarAdapter
 import com.georgcantor.wallpaperapp.viewmodel.DetailsViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -45,7 +45,6 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var prefManager: PreferenceManager
     private lateinit var viewModel: DetailsViewModel
     private lateinit var zoomyBuilder: Zoomy.Builder
-    private lateinit var menu: Menu
 
     private lateinit var fabOpen: Animation
     private lateinit var fabClose: Animation
@@ -77,6 +76,14 @@ class DetailActivity : AppCompatActivity() {
                 }, {
                 })
         }
+
+        pic?.tags.let {
+            viewModel.getSimilarImages(it ?: "")
+        }
+
+        viewModel.pictures.observe(this, androidx.lifecycle.Observer {
+            similar_recycler.adapter = SimilarAdapter(it) {}
+        })
 
         zoomyBuilder = Zoomy.Builder(this)
             .target(image)

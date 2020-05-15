@@ -42,7 +42,7 @@ class MainViewModel(
     val isGalleryVisible = MutableLiveData<Boolean>()
 
     fun loadCategories() {
-        if (prefManager.getCategories(CATEGORIES)?.size ?: 0 > 15) return
+        if (prefManager.getCategories(CATEGORIES)?.size ?: 0 > 13) return
 
         Observable.fromCallable {
             isGalleryVisible.postValue(false)

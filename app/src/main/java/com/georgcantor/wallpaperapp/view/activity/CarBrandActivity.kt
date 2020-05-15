@@ -77,7 +77,7 @@ class CarBrandActivity : AppCompatActivity() {
         )
         brandRecyclerView.layoutManager = gridLayoutManager
 
-        adapter = PicturesAdapter()
+        adapter = PicturesAdapter(intent.getStringExtra(REQUEST) ?: "")
         brandRecyclerView.adapter = adapter
 
         val scrollListener = object : EndlessScrollListener(gridLayoutManager) {

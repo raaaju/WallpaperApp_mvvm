@@ -54,6 +54,45 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/mclaren" />
 
+    <TextView
+        android:id="@+id/similar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="cursive"
+        android:text="@string/similar_images"
+        android:textColor="@color/colorDetailPrimary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/similar_progress"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/similar_progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/similar_recycler"
+        app:layout_constraintEnd_toEndOf="@id/similar_recycler"
+        app:layout_constraintStart_toStartOf="@id/similar_recycler"
+        app:layout_constraintTop_toTopOf="@+id/similar_recycler"
+        app:lottie_fileName="loading.json" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/similar_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="80dp"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="6"
+        tools:listitem="@layout/similar_item" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_full"
         android:layout_width="wrap_content"

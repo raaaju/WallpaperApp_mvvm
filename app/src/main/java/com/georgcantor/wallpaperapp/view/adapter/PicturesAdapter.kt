@@ -16,7 +16,7 @@ import com.georgcantor.wallpaperapp.view.adapter.holder.PictureViewHolder
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class PicturesAdapter : RecyclerView.Adapter<PictureViewHolder>() {
+class PicturesAdapter(private val tag: String) : RecyclerView.Adapter<PictureViewHolder>() {
 
     private val commonPics = mutableListOf<CommonPic>()
 
@@ -50,7 +50,7 @@ class PicturesAdapter : RecyclerView.Adapter<PictureViewHolder>() {
                                 width = width,
                                 heght = heght,
                                 favorites = favorites,
-                                tags = tags,
+                                tags = tag,
                                 downloads = downloads,
                                 imageURL = imageURL,
                                 fullHDURL = fullHDURL,

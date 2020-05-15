@@ -42,7 +42,7 @@ class BmwFragment : Fragment() {
             requireContext().getScreenSize(),
             StaggeredGridLayoutManager.VERTICAL
         )
-        val adapter = PicturesAdapter()
+        val adapter = PicturesAdapter(getString(R.string.bmw_request))
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = adapter
 
