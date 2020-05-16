@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
+import com.georgcantor.wallpaperapp.util.Constants.RATING
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
@@ -126,9 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         viewModel.checkNumberOfLaunches()
 
-        if (viewModel.isSixDayOfMonth(Calendar.getInstance())) {
-            Constants.RATING = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
-        }
+        RATING = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

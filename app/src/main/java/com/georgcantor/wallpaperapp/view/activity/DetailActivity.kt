@@ -8,12 +8,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +60,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_detail)
+
         viewModel = getViewModel { parametersOf(this) }
         prefManager = PreferenceManager(this)
 
@@ -81,8 +87,17 @@ class DetailActivity : AppCompatActivity() {
             viewModel.getSimilarImages(it ?: "")
         }
 
+        viewModel.isProgressVisible.observe(this, androidx.lifecycle.Observer {
+            when (it) {
+                true -> similar_progress.showAnimation()
+                false -> similar_progress.hideAnimation()
+            }
+        })
+
         viewModel.pictures.observe(this, androidx.lifecycle.Observer {
-            similar_recycler.adapter = SimilarAdapter(it) {}
+            similar_recycler.adapter = SimilarAdapter(it) {
+                this.openActivity(DetailActivity::class.java) { putParcelable(EXTRA_PIC, it) }
+            }
         })
 
         zoomyBuilder = Zoomy.Builder(this)
@@ -160,6 +175,20 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             true
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (newConfig.orientation) {
+            ORIENTATION_LANDSCAPE -> {
+                similar_text.visibility = GONE
+                similar_recycler.visibility = GONE
+            }
+            ORIENTATION_PORTRAIT -> {
+                similar_text.visibility = VISIBLE
+                similar_recycler.visibility = VISIBLE
+            }
         }
     }
 

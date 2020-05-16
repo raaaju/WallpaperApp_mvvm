@@ -167,6 +167,4 @@ class MainViewModel(
             }
         }
     }
-
-    fun isSixDayOfMonth(calendar: Calendar): Boolean = calendar[Calendar.DAY_OF_MONTH] == 6
 }

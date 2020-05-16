@@ -92,12 +92,8 @@ class CarBrandActivity : AppCompatActivity() {
     private fun loadData(index: Int) {
         disposable.add(
             viewModel.getPics(intent.getStringExtra(REQUEST) ?: "", index)
-                .doOnSubscribe {
-                    animationView?.showAnimation()
-                }
-                .doFinally {
-                    animationView?.hideAnimation()
-                }
+                .doOnSubscribe { animationView?.showAnimation() }
+                .doFinally { animationView?.hideAnimation() }
                 .subscribe(adapter::setPictures) {
                     viewModel.getPixabayPictures(intent.getStringExtra(REQUEST) ?: "", index)
                         .subscribe(adapter::setPictures) {
