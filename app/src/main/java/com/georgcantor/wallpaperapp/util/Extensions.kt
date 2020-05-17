@@ -1,16 +1,24 @@
 package com.georgcantor.wallpaperapp.util
 
 import android.animation.Animator
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,11 +28,20 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.georgcantor.wallpaperapp.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     val transaction = supportFragmentManager.beginTransaction()
@@ -115,11 +132,9 @@ fun String.getImageNameFromUrl(): String {
     return this.substring(index)
 }
 
-fun Context.shortToast(message: CharSequence) =
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+fun Context.shortToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-fun Context.longToast(message: CharSequence) =
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun Context.longToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 fun Context.isNetworkAvailable(): Boolean {
     val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
@@ -194,4 +209,82 @@ fun <T> Observable<T>.applySchedulers(): Observable<T> {
     return this
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+}
+
+private fun Bitmap.saveImage(context: Context) {
+    val root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+    val myDir = File("$root/Wallpapers")
+    myDir.mkdirs()
+    val randomInt = (0..10000).random()
+    val fileName = "Image-$randomInt.jpg"
+    val file = File(myDir, fileName)
+    if (file.exists()) file.delete()
+    try {
+        val outputStream = FileOutputStream(file)
+        compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+        outputStream.flush()
+        outputStream.close()
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+    }
+    MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null) { path, uri ->
+        Log.i("ExternalStorage", "Scanned $path:")
+        Log.i("ExternalStorage", "-> uri=$uri")
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+fun Bitmap.saveImageQ(context: Context) {
+    val values = contentValues()
+    values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + "Wallpapers")
+    values.put(MediaStore.Images.Media.IS_PENDING, true)
+
+    val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+    if (uri != null) {
+        saveImageToStream(this, context.contentResolver.openOutputStream(uri))
+        values.put(MediaStore.Images.Media.IS_PENDING, false)
+        context.contentResolver.update(uri, values, null, null)
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+private fun contentValues(): ContentValues {
+    val values = ContentValues()
+    values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+    values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
+
+    return values
+}
+
+private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
+    if (outputStream != null) {
+        try {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+}
+
+fun Context.saveImage(url: String) {
+    Glide.with(this)
+        .asBitmap()
+        .load(url)
+        .into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            bitmap.saveImageQ(this@saveImage)
+                        } else {
+                            bitmap.saveImage(this@saveImage)
+                        }
+                    }
+                }
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
 }

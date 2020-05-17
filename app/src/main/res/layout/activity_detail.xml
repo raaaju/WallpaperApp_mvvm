@@ -141,7 +141,7 @@
             android:layout_gravity="bottom"
             app:backgroundTint="@color/colorPrimaryDark"
             app:fabAlignmentMode="center"
-            app:menu="@menu/menu_fav"
+            app:menu="@menu/menu_detail"
             app:navigationIcon="@drawable/ic_arrow_back" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

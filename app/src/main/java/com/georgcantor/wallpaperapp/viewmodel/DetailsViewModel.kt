@@ -3,13 +3,10 @@ package com.georgcantor.wallpaperapp.viewmodel
 import android.Manifest
 import android.app.Activity
 import android.app.Application
-import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
@@ -23,7 +20,9 @@ import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.FavDao
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.repository.ApiRepository
-import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.util.applySchedulers
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.showSingleAnimation
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -31,7 +30,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.util.*
 
 class DetailsViewModel(
     app: Application,
@@ -88,54 +86,6 @@ class DetailsViewModel(
                 .subscribeOn(Schedulers.io())
                 .subscribe()
         )
-    }
-
-    fun downloadPicture(
-        pic: CommonPic,
-        tags: ArrayList<String>,
-        animationView: LottieAnimationView
-    ) {
-        animationView.showAnimation()
-        Observable.fromCallable {
-            val uri = pic.imageURL
-            val imageUri = Uri.parse(uri)
-            val downloadManager =
-                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            var name = Environment.getExternalStorageDirectory().absolutePath
-            name += "/YourDirectoryName/"
-
-            val request = DownloadManager.Request(imageUri)
-            try {
-                request.setTitle(tags[0] + context.getString(R.string.down))
-                request.setDescription(context.getString(R.string.down_wallpapers))
-                if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-                    request.setDestinationInExternalPublicDir(
-                        "/" + context.resources
-                            .getString(R.string.app_name), pic.id.toString() + context.resources
-                            .getString(R.string.jpg)
-                    )
-                }
-            } catch (e: IllegalStateException) {
-            } catch (e: IndexOutOfBoundsException) {
-            }
-            downloadManager.enqueue(request)
-        }
-            .applySchedulers()
-            .subscribe()
-    }
-
-    fun downloadPictureQ(url: String, animationView: LottieAnimationView) {
-        animationView.showAnimation()
-        val name = url.getImageNameFromUrl()
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
-
-        val request = DownloadManager.Request(Uri.parse(url))
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setAllowedOverRoaming(false)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
-
-        downloadManager?.enqueue(request)
     }
 
     fun getBitmapAsync(pic: CommonPic): Observable<Bitmap?> {

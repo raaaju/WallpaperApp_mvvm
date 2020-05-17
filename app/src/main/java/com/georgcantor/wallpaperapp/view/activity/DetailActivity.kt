@@ -12,7 +12,6 @@ import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
@@ -64,10 +63,10 @@ class DetailActivity : AppCompatActivity() {
         viewModel = getViewModel { parametersOf(this) }
         prefManager = PreferenceManager(this)
 
-        fabOpen = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
-        fabClose = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
-        fabClock = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_rotate_clock)
-        fabAnticlock = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_rotate_anticlock)
+        fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
+        fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close)
+        fabClock = AnimationUtils.loadAnimation(this, R.anim.fab_rotate_clock)
+        fabAnticlock = AnimationUtils.loadAnimation(this, R.anim.fab_rotate_anticlock)
 
         progress_anim?.showAnimation()
 
@@ -165,6 +164,7 @@ class DetailActivity : AppCompatActivity() {
         bottom_app_bar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_share -> share()
+                R.id.action_download -> startDownloading()
                 R.id.action_add_to_fav -> {
                     viewModel.setFavoriteStatus(
                         pic!!,
@@ -199,13 +199,12 @@ class DetailActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            val isSetWall = prefManager.getBoolean(PREF_BOOLEAN)
-            if (isSetWall) setWallAsync() else pic?.let {
-                viewModel.downloadPicture(
-                    it,
-                    tags,
-                    progress_anim
-                )
+            when (prefManager.getBoolean(PREF_BOOLEAN)) {
+                true -> {
+                    prefManager.saveBoolean(PREF_BOOLEAN, false)
+                    setWallAsync()
+                }
+                false -> pic?.let { pic?.let { saveImage(it.imageURL ?: "") } }
             }
         } else {
             val intent = Intent()
@@ -331,11 +330,7 @@ class DetailActivity : AppCompatActivity() {
             return
         }
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                pic?.imageURL?.let { viewModel.downloadPictureQ(it, progress_anim) }
-            } else {
-                pic?.let { viewModel.downloadPicture(it, tags, progress_anim) }
-            }
+            pic?.let { saveImage(it.imageURL ?: "") }
         } else {
             viewModel.checkSavingPermission(permissionCheck, this)
         }
