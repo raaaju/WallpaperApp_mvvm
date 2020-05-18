@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">Wallpapers</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -17,6 +16,7 @@
     <string name="about_us">About Us</string>
     <string name="rate_us">Rate Us</string>
     <string name="info">Info</string>
+    <string name="download_start">Saving image started…</string>
     <string name="download">Download</string>
     <string name="user_name">image provided by</string>
     <string name="jpg" translatable="false">.jpg</string>
@@ -113,5 +113,4 @@
     <string name="similar_images" translatable="false">Similar images:</string>
 
     <string name="press_back">Press BACK again to exit</string>
-
 </resources>

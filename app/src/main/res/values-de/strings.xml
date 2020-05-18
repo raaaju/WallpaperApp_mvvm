@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Wallpapers</string>
     <string name="no_internet">"Keine Internetverbindung "</string>
     <string name="something_went_wrong">Etwas ist schief gelaufen</string>
@@ -11,6 +10,7 @@
     <string name="download">Herunterladen</string>
     <string name="user_name">"Bild bereitgestellt von "</string>
     <string name="wallpaper_is_install">Hintergrundbild wird eingestellt</string>
+    <string name="download_start">Das Speichern des Bildes hat begonnen…</string>
     <string name="down_complete">Download abgeschlossen</string>
     <string name="set_wall_complete">Hintergrundbild-Setup abgeschlossen</string>
     <string name="down_wallpapers">Herunterladen von Wallpapers</string>
@@ -31,5 +31,4 @@
     <string name="update_dialog_message">Eine neue Version der App ist verfügbar. Herunterladen?</string>
 
     <string name="press_back">Klicken Sie erneut, um den Vorgang zu beenden</string>
-
 </resources>

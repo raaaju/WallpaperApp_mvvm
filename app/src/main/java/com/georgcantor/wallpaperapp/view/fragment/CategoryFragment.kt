@@ -26,7 +26,7 @@ class CategoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceManager = PreferenceManager(requireActivity())
+        preferenceManager = PreferenceManager(requireContext())
         viewModel = getViewModel { parametersOf(preferenceManager) }
     }
 

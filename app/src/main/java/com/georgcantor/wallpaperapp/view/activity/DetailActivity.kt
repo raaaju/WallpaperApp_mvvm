@@ -13,6 +13,7 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.AndroidRuntimeException
@@ -166,12 +167,9 @@ class DetailActivity : AppCompatActivity() {
                 R.id.action_share -> share()
                 R.id.action_download -> startDownloading()
                 R.id.action_add_to_fav -> {
-                    viewModel.setFavoriteStatus(
-                        pic!!,
-                        it,
-                        star_anim,
-                        unstar_anim
-                    )
+                    pic?.let { pic ->
+                        viewModel.setFavoriteStatus(pic, it, star_anim, unstar_anim)
+                    }
                 }
             }
             true
@@ -329,10 +327,18 @@ class DetailActivity : AppCompatActivity() {
             shortToast(getString(R.string.no_internet))
             return
         }
+        progress_anim.showAnimation()
+
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             pic?.let { saveImage(it.imageURL ?: "") }
         } else {
             viewModel.checkSavingPermission(permissionCheck, this)
         }
+
+        shortToast(getString(R.string.download_start))
+        Handler().postDelayed({
+            shortToast(getString(R.string.down_complete))
+            progress_anim.hideAnimation()
+        }, 5000)
     }
 }
