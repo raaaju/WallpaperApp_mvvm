@@ -132,9 +132,9 @@ fun String.getImageNameFromUrl(): String {
     return this.substring(index)
 }
 
-fun Context.shortToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+fun Context.shortToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-fun Context.longToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun Context.longToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 fun Context.isNetworkAvailable(): Boolean {
     val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager

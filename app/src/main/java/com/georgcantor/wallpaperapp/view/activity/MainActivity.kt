@@ -14,10 +14,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
 import com.georgcantor.wallpaperapp.util.Constants.RATING
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
+import com.georgcantor.wallpaperapp.util.openActivity
+import com.georgcantor.wallpaperapp.util.openFragment
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
@@ -66,8 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val prefManager = PreferenceManager(this)
-        viewModel = getViewModel { parametersOf(prefManager, this) }
+        viewModel = getViewModel { parametersOf(this) }
         updateManager = AppUpdateManagerFactory.create(this)
         updateManager.registerListener(this)
 

@@ -21,13 +21,11 @@ import org.koin.core.parameter.parametersOf
 class CategoryFragment : Fragment() {
 
     private lateinit var viewModel: CategoryViewModel
-    private lateinit var preferenceManager: PreferenceManager
     private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceManager = PreferenceManager(requireContext())
-        viewModel = getViewModel { parametersOf(preferenceManager) }
+        viewModel = getViewModel { parametersOf() }
     }
 
     override fun onCreateView(

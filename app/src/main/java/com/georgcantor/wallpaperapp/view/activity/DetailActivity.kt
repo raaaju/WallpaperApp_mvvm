@@ -38,13 +38,11 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
     private var pic: CommonPic? = null
     private var permissionCheck: Int = 0
-    private val tags = ArrayList<String>()
     private val disposable = CompositeDisposable()
 
     private lateinit var prefManager: PreferenceManager

@@ -18,7 +18,6 @@ object ApiClient {
         interceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
         val okHttpClient = OkHttpClient().newBuilder()
-            .addNetworkInterceptor(ResponseCacheInterceptor())
             .addInterceptor(OfflineResponseCacheInterceptor(context))
             .addInterceptor(interceptor)
             .cache(Cache(File(context.cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))

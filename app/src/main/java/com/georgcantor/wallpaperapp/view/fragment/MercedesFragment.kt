@@ -48,14 +48,14 @@ class MercedesFragment : Fragment() {
 
         val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                viewModel.getPictures(getString(R.string.mercedes_request), page)
+                viewModel.getWallhavenPictures(getString(R.string.mercedes_request), page)
             }
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
 
         refreshLayout.setOnRefreshListener {
-            viewModel.getPictures(getString(R.string.mercedes_request), 1)
+            viewModel.getWallhavenPictures(getString(R.string.mercedes_request), 1)
             refreshLayout.isRefreshing = false
         }
 
@@ -66,7 +66,7 @@ class MercedesFragment : Fragment() {
                 if (visible) animationView.showAnimation() else animationView.hideAnimation()
             })
 
-            getPictures(getString(R.string.mercedes_request), 1)
+            getWallhavenPictures(getString(R.string.mercedes_request), 1)
         }
     }
 }

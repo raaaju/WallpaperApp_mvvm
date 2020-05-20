@@ -85,6 +85,36 @@ class ApiRepository(
             .applySchedulers()
     }
 
+    fun getWallhavenPictures(query: String, page: Int): Observable<ArrayList<CommonPic>> {
+        val pictures = ArrayList<CommonPic>()
+
+        return apiService.getWallhavenPictures(BuildConfig.WALLHAVEN_URL, query, page)
+            .flatMap { response ->
+                Observable.fromCallable {
+                    response.data?.map {
+                        pictures.add(
+                            CommonPic(
+                                it.thumbs?.original,
+                                it.dimensionX ?: 0,
+                                it.dimensionY ?: 0,
+                                it.favorites ?: 0,
+                                it.category,
+                                it.views ?: 0,
+                                it.path,
+                                it.path,
+                                it.source,
+                                it.hashCode(),
+                                it.thumbs?.small
+                            )
+                        )
+                    }
+                    pictures.shuffle()
+                    pictures
+                }
+            }
+            .applySchedulers()
+    }
+
     fun getCategories(request: String): Observable<String> {
         return apiService.getPixabayPictures(request, 1)
             .flatMap {

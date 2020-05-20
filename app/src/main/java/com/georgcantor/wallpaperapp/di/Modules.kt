@@ -14,6 +14,7 @@ import org.koin.dsl.module
 val appModule = module {
     single { ApiClient.create(get()) }
     single { FavDatabase.buildDefault(get()).dao() }
+    single { PreferenceManager(androidApplication().applicationContext) }
 }
 
 val repositoryModule = module {
@@ -21,8 +22,8 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { (manager: PreferenceManager, activity: MainActivity) ->
-        MainViewModel(androidApplication(), get(), manager, activity)
+    viewModel { (activity: MainActivity) ->
+        MainViewModel(androidApplication(), get(), get(), activity)
     }
     viewModel { (activity: Activity) ->
         FavoriteViewModel(activity, get())
@@ -33,7 +34,7 @@ val viewModelModule = module {
     viewModel { (activity: Activity) ->
         DetailsViewModel(androidApplication(), activity, get(), get())
     }
-    viewModel { (manager: PreferenceManager) ->
-        CategoryViewModel(androidApplication(), manager)
+    viewModel {
+        CategoryViewModel(androidApplication(), get())
     }
 }
