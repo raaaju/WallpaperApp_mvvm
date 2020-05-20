@@ -1,9 +1,11 @@
 package com.georgcantor.wallpaperapp.util
 
 import android.animation.Animator
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.*
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -287,4 +289,17 @@ fun Context.saveImage(url: String) {
 
             override fun onLoadCleared(placeholder: Drawable?) {}
         })
+}
+
+fun Context.share(text: String?) {
+    val intent = Intent().apply {
+        type = "text/plain"
+        putExtra(EXTRA_TEXT, text)
+        putExtra(EXTRA_SUBJECT, getString(R.string.app_name))
+    }
+    try {
+        startActivity(createChooser(intent, getString(R.string.choose_share)))
+    } catch (e: ActivityNotFoundException) {
+        shortToast(getString(R.string.cant_share))
+    }
 }
