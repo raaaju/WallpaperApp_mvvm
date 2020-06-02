@@ -48,14 +48,14 @@ class AudiFragment : Fragment() {
 
         val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                viewModel.getWallhavenPictures(getString(R.string.audi_request), page)
+                viewModel.getPixabayPictures(getString(R.string.audi_request), page)
             }
         }
         scrollListener.resetState()
         recyclerView.addOnScrollListener(scrollListener)
 
         refreshLayout.setOnRefreshListener {
-            viewModel.getWallhavenPictures(getString(R.string.audi_request), 1)
+            viewModel.getPictures(getString(R.string.audi_request), 1)
             refreshLayout.isRefreshing = false
         }
 
@@ -66,7 +66,7 @@ class AudiFragment : Fragment() {
                 if (visible) animationView.showAnimation() else animationView.hideAnimation()
             })
 
-            getWallhavenPictures(getString(R.string.audi_request), 1)
+            getPictures(getString(R.string.audi_request), 1)
         }
     }
 }

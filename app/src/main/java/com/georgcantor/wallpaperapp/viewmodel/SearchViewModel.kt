@@ -29,20 +29,6 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
         )
     }
 
-    fun getWallhavenPictures(request: String, index: Int) {
-        disposable.add(
-            Observable.fromCallable {
-                apiRepository.getWallhavenPictures(request, index)
-                    .doFinally { isProgressVisible.postValue(false) }
-                    .subscribe(pictures::postValue) {
-                        getPictures(request, index)
-                    }
-            }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-        )
-    }
-
     fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         return Observable.merge(
             apiRepository.getUnsplashPictures(request, index),

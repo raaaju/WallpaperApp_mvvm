@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.model.remote
 import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
 import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
-import com.georgcantor.wallpaperapp.model.data.wallhaven.WallhavenResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -23,11 +22,4 @@ interface ApiService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Observable<UnsplashResponse>
-
-    @GET
-    fun getWallhavenPictures(
-        @Url url: String,
-        @Query("q") query: String,
-        @Query("page") page: Int
-    ): Observable<WallhavenResponse>
 }
