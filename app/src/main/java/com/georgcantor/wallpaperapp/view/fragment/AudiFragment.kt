@@ -48,7 +48,7 @@ class AudiFragment : Fragment() {
 
         val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                viewModel.getPixabayPictures(getString(R.string.audi_request), page)
+                viewModel.getPictures(getString(R.string.audi_request), page)
             }
         }
         scrollListener.resetState()
