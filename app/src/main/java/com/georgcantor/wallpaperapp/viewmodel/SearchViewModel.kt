@@ -20,8 +20,15 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
     fun getPictures(request: String, index: Int) {
         disposable.add(
             Observable.fromCallable {
-                apiRepository.getPixabayPictures(request, index)
+                Observable.merge(
+                    apiRepository.getUnsplashPictures(request, index),
+                    apiRepository.getPixabayPictures(request, index)
+                )
                     .doFinally { isProgressVisible.postValue(false) }
+                    .doOnError {
+                        apiRepository.getPixabayPictures(request, index)
+                            .subscribe(pictures::postValue) {}
+                    }
                     .subscribe(pictures::postValue) {}
             }
                 .subscribeOn(Schedulers.io())
