@@ -23,7 +23,6 @@ import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
 import com.georgcantor.wallpaperapp.util.longToast
 import com.georgcantor.wallpaperapp.view.activity.MainActivity
-import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -97,7 +96,6 @@ class MainViewModel(
         val ratingBar = RatingBar(context)
         var userMark = 0
 
-        val db = FirebaseFirestore.getInstance()
         val mark: MutableMap<String, Triple<String, Int, String>>
         mark = HashMap()
 
@@ -136,11 +134,7 @@ class MainViewModel(
                     Calendar.getInstance().time.toString(), userMark, phoneInfo
                 )
 
-                if (userMark > 0) {
-                    db.collection(RATING)
-                        .add(mark)
-                    prefManager.saveBoolean(IS_RATING_EXIST, true)
-                }
+                if (userMark > 0) prefManager.saveBoolean(IS_RATING_EXIST, true)
                 if (userMark > 3) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(APP_URL))
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

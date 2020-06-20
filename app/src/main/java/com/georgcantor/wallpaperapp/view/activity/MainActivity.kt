@@ -28,13 +28,6 @@ import com.georgcantor.wallpaperapp.view.fragment.MercedesFragment
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallState
-import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.UpdateAvailability
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -46,18 +39,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    InstallStateUpdatedListener {
-
-    override fun onStateUpdate(installState: InstallState) {
-    }
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
     private val backPressedSubject = BehaviorSubject.createDefault(0L)
     private val disposable = CompositeDisposable()
-    private var updateInfo: AppUpdateInfo? = null
 
-    private lateinit var updateManager: AppUpdateManager
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
     private lateinit var audiFragment: Fragment
@@ -70,12 +57,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         viewModel = getViewModel { parametersOf(this) }
-        updateManager = AppUpdateManagerFactory.create(this)
-        updateManager.registerListener(this)
-
         viewModel.loadCategories()
-
-        checkForUpdate()
 
         updateAvailable.observe(this, Observer {
             if (it) showDialog(getString(R.string.update_dialog_message), ::goToGooglePlay)
@@ -247,20 +229,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onDestroy() {
         super.onDestroy()
         disposable.dispose()
-        updateManager.unregisterListener(this)
-    }
-
-    private fun checkForUpdate() {
-        updateManager.appUpdateInfo.addOnSuccessListener {
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-            ) {
-                updateInfo = it
-                updateAvailable.value = true
-            } else {
-                updateAvailable.value = false
-            }
-        }
     }
 
     private fun goToGooglePlay() {

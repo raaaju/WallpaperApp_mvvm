@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
@@ -15,8 +14,8 @@ android {
         applicationId "com.georgcantor.wallpaperapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 83
-        versionName '1.3.43'
+        versionCode 85
+        versionName '1.3.45'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -50,9 +49,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.play:core:1.7.3'
-
-    implementation 'com.google.firebase:firebase-firestore:21.4.3'
 
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
