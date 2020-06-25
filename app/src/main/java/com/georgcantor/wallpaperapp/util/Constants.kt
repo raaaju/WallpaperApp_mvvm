@@ -1,6 +1,8 @@
 package com.georgcantor.wallpaperapp.util
 
 object Constants {
+    var RATING = "default"
+
     const val APP_URL = "https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp"
     const val IS_RATING_EXIST = "is_rating_exist"
     const val LAUNCHES = "launches"
@@ -11,6 +13,9 @@ object Constants {
     const val IS_PORTRAIT = "is_portrait"
     const val REQUEST = "request"
     const val CATEGORIES = "categories"
+    const val ARG_PLAYLIST_ID = "playlist_id"
 
-    var RATING = "default"
+    const val BMW_VIDEOS = "PL49XWbU5C8KiFE_8NHAvExqfC-kNciIMu"
+    const val AUDI_VIDEOS = "PL49XWbU5C8KgFcLlhQp8D7RCLW7WqaCHW"
+    const val MERCEDES_VIDEOS = "PL49XWbU5C8KgHwRkXwqfjm0cjz-p7F3uP"
 }

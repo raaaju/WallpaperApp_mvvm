@@ -11,15 +11,27 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_videos"
-        android:icon="@drawable/ic_videos"
-        android:title="@string/videos"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_gallery"
         android:icon="@drawable/ic_image"
         android:title="@string/gallery"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_bmw_videos"
+        android:icon="@drawable/ic_videos"
+        android:title="@string/bmw_videos"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_audi_videos"
+        android:icon="@drawable/ic_videos"
+        android:title="@string/audi_videos"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_mercedes_videos"
+        android:icon="@drawable/ic_videos"
+        android:title="@string/mercedes_benz_videos"
+        app:showAsAction="never" />
 
 </menu>

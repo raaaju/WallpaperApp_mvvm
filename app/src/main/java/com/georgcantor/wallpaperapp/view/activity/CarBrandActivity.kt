@@ -10,7 +10,6 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
-import com.georgcantor.wallpaperapp.view.fragment.videos.VideosFragment
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_car_brand.*
@@ -57,7 +56,6 @@ class CarBrandActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_search -> openActivity(SearchActivity::class.java)
-            R.id.action_videos -> openFragment(VideosFragment(), getString(R.string.videos))
         }
         return super.onOptionsItemSelected(item)
     }

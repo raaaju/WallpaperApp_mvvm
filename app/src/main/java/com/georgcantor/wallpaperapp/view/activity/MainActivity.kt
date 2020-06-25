@@ -15,6 +15,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
+import com.georgcantor.wallpaperapp.util.Constants.AUDI_VIDEOS
+import com.georgcantor.wallpaperapp.util.Constants.BMW_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.RATING
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.util.openActivity
@@ -127,10 +129,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> openActivity(SearchActivity::class.java)
-            R.id.action_videos -> openFragment(VideosFragment(), getString(R.string.videos))
             R.id.action_gallery -> {
                 toolbar.title = getString(R.string.gallery_toolbar)
                 openFragment(categoryFragment, getString(R.string.gallery_toolbar))
+            }
+            R.id.action_bmw_videos -> {
+                toolbar.title = getString(R.string.videos)
+                openFragment(VideosFragment.create(BMW_VIDEOS), getString(R.string.bmw_videos))
+            }
+            R.id.action_audi_videos -> {
+                toolbar.title = getString(R.string.videos)
+                openFragment(VideosFragment.create(AUDI_VIDEOS), getString(R.string.audi_videos))
+            }
+            R.id.action_mercedes_videos -> {
+                toolbar.title = getString(R.string.videos)
+                openFragment(VideosFragment.create(AUDI_VIDEOS), getString(R.string.mercedes_benz_videos))
             }
         }
         return super.onOptionsItemSelected(item)
