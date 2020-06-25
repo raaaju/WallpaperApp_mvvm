@@ -39,7 +39,7 @@ class FavoriteAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
-        FavoriteViewHolder(LayoutInflater.from(context).inflate(R.layout.favorite_item, null))
+        FavoriteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_favorite, null))
 
     @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
@@ -74,7 +74,6 @@ class FavoriteAdapter(
 
         context.loadImage(
             if (isNotGrid) pic.fullHDURL ?: "" else pic.url ?: "",
-            context.resources.getDrawable(R.drawable.placeholder),
             holder.imageView,
             null
         )

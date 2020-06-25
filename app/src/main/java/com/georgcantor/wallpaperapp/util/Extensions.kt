@@ -166,13 +166,12 @@ fun Context.showDialog(
 
 fun Context.loadImage(
         url: String,
-        drawable: Drawable?,
         view: ImageView,
         animView: LottieAnimationView?
 ) {
     Glide.with(this)
             .load(url)
-            .placeholder(drawable)
+            .placeholder(R.drawable.placeholder)
             .thumbnail(0.1F)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(

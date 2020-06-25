@@ -31,7 +31,6 @@ class FullScreenActivity : Activity() {
 
         loadImage(
             intent.getStringExtra(FULL_EXTRA) ?: "",
-            resources.getDrawable(R.drawable.splash),
             fullImageView,
             fullAnimationView
         )

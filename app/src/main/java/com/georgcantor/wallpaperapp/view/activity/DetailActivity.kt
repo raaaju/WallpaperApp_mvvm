@@ -251,7 +251,6 @@ class DetailActivity : AppCompatActivity() {
             pic.imageURL?.let {
                 loadImage(
                     it,
-                    resources.getDrawable(R.drawable.placeholder),
                     image,
                     progress_anim
                 )

@@ -62,13 +62,11 @@ class FavoriteActivity : AppCompatActivity() {
                                         url = pic.url,
                                         width = pic.width,
                                         heght = pic.heght,
-                                        favorites = pic.favorites,
                                         tags = pic.tags,
-                                        downloads = pic.downloads,
                                         imageURL = pic.imageURL,
                                         fullHDURL = pic.fullHDURL,
-                                        user = pic.user,
-                                        userImageURL = pic.userImageURL
+                                        id = pic.id,
+                                        videoId = pic.videoId
                                     )
                                 )
                             }

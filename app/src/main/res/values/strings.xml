@@ -56,6 +56,7 @@
     <string name="sports" translatable="false">sports</string>
     <string name="Travel" translatable="false">Travel</string>
     <string name="travel" translatable="false">travel</string>
+    <string name="videos" translatable="false">Videos</string>
 
     <string name="down_wallpapers">Download from Wallpapers</string>
     <string name="down_complete">Download Complete</string>

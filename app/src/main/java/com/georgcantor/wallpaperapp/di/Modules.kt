@@ -6,6 +6,7 @@ import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.view.activity.MainActivity
+import com.georgcantor.wallpaperapp.view.fragment.videos.VideosViewModel
 import com.georgcantor.wallpaperapp.viewmodel.*
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,5 +37,8 @@ val viewModelModule = module {
     }
     viewModel {
         CategoryViewModel(androidApplication(), get())
+    }
+    viewModel {
+        VideosViewModel(get())
     }
 }

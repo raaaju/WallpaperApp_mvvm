@@ -25,6 +25,7 @@ import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
 import com.georgcantor.wallpaperapp.view.fragment.MercedesFragment
+import com.georgcantor.wallpaperapp.view.fragment.videos.VideosFragment
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -126,6 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> openActivity(SearchActivity::class.java)
+            R.id.action_videos -> openFragment(VideosFragment(), getString(R.string.videos))
             R.id.action_gallery -> {
                 toolbar.title = getString(R.string.gallery_toolbar)
                 openFragment(categoryFragment, getString(R.string.gallery_toolbar))

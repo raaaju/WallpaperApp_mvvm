@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
-import kotlinx.android.synthetic.main.similar_item.view.*
+import kotlinx.android.synthetic.main.item_similar.view.*
 
 class SimilarAdapter(
     pictures: MutableList<CommonPic>,
@@ -23,14 +23,13 @@ class SimilarAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimilarViewHolder =
-        SimilarViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.similar_item, null))
+        SimilarViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_similar, null))
 
     override fun onBindViewHolder(holder: SimilarViewHolder, position: Int) {
         val picture = pictures?.get(position)
 
         holder.itemView.context.loadImage(
             picture?.url ?: "",
-            holder.itemView.context.resources.getDrawable(R.drawable.placeholder),
             holder.imageView,
             null
         )

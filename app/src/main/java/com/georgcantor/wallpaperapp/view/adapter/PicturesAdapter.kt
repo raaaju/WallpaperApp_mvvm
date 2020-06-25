@@ -33,7 +33,7 @@ class PicturesAdapter(private val tag: String) : RecyclerView.Adapter<PictureVie
 
     @SuppressLint("CheckResult")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.picture_item, null)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_picture, null)
         val viewHolder = PictureViewHolder(itemView)
 
         val publishSubject = PublishSubject.create<Int>()
@@ -49,13 +49,11 @@ class PicturesAdapter(private val tag: String) : RecyclerView.Adapter<PictureVie
                                 url = url,
                                 width = width,
                                 heght = heght,
-                                favorites = favorites,
                                 tags = tag,
-                                downloads = downloads,
                                 imageURL = imageURL,
                                 fullHDURL = fullHDURL,
-                                user = user,
-                                userImageURL = userImageURL
+                                id = id,
+                                videoId = videoId
                             )
                         )
                     }
@@ -81,7 +79,6 @@ class PicturesAdapter(private val tag: String) : RecyclerView.Adapter<PictureVie
 
         holder.itemView.context.loadImage(
             pic.url ?: "",
-            holder.itemView.context.resources.getDrawable(R.drawable.placeholder),
             holder.imageView,
             null
         )

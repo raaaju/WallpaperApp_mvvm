@@ -3,7 +3,7 @@ package com.georgcantor.wallpaperapp.repository
 import android.content.Context
 import android.os.Build
 import com.georgcantor.wallpaperapp.BuildConfig
-import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.BuildConfig.YOUTUBE_URL
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.remote.ApiService
 import com.georgcantor.wallpaperapp.util.applySchedulers
@@ -26,14 +26,11 @@ class ApiRepository(
                                 hit.webformatURL,
                                 hit.imageWidth,
                                 hit.imageHeight,
-                                hit.favorites,
                                 hit.tags,
-                                hit.downloads,
                                 hit.imageURL,
                                 hit.webformatURL,
-                                hit.user,
                                 hit.id,
-                                hit.userImageURL
+                                ""
                             )
                         )
                     }
@@ -66,14 +63,11 @@ class ApiRepository(
                                     urls?.small,
                                     it.width ?: 0,
                                     it.height ?: 0,
-                                    it.likes ?: (10..1000).random(),
                                     "",
-                                    (100..10000).random(),
                                     urls?.full,
                                     urls?.regular,
-                                    context.getString(R.string.user_unsplash),
                                     it.hashCode(),
-                                    urls?.thumb
+                                    ""
                                 )
                             )
                         }
@@ -92,4 +86,6 @@ class ApiRepository(
                     .applySchedulers()
             }
     }
+
+    fun getVideos(playlistId: String) = apiService.getVideos(YOUTUBE_URL, playlistId)
 }

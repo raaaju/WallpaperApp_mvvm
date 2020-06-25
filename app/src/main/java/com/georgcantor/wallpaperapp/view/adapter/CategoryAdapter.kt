@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.view.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.Category
@@ -25,7 +24,7 @@ class CategoryAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.category_item, null)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.item_category, null)
         val viewHolder = CategoryViewHolder(itemView)
 
         itemView.setOnClickListener {
@@ -41,7 +40,6 @@ class CategoryAdapter(
 
         context.loadImage(
             category.categoryUrl,
-            getDrawable(context, R.drawable.placeholder),
             holder.categoryImage,
             null
         )
