@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:itemTextAppearance">@style/menu_item_color</item>
     </style>
 
     <style name="AppTheme.Launcher" parent="AppTheme">
@@ -43,6 +44,10 @@
     <style name="NavigationViewTheme">
         <item name="android:listDivider">@color/colorDetailBackground</item>
         <item name="android:textColorSecondary">@color/off_white</item>
+    </style>
+
+    <style name="menu_item_color">
+        <item name="android:textColor">@color/drawer_text</item>
     </style>
 
 </resources>

@@ -10,7 +10,8 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.Constants.ARG_PLAYLIST_ID
 import com.georgcantor.wallpaperapp.util.openFragment
-import com.georgcantor.wallpaperapp.view.fragment.videos.full_screen.FullScreenFragment
+import com.georgcantor.wallpaperapp.view.fragment.videos.video.VideoFragment
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_videos.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -48,9 +49,10 @@ class VideosFragment : Fragment() {
             videos.observe(viewLifecycleOwner, Observer {
                 videos_recycler.setHasFixedSize(true)
                 videos_recycler.adapter = VideosAdapter(it) {
+                    activity?.appBar?.setExpanded(false)
                     (requireActivity() as AppCompatActivity).openFragment(
-                        FullScreenFragment.create(it),
-                        FullScreenFragment().getScopeName().value
+                        VideoFragment.create(it),
+                        VideoFragment().getScopeName().value
                     )
                 }
             })

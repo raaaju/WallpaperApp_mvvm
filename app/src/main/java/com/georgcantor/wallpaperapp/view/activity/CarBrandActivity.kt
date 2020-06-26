@@ -49,6 +49,9 @@ class CarBrandActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         menu.findItem(R.id.action_gallery).isVisible = false
+        menu.findItem(R.id.action_bmw_videos).isVisible = false
+        menu.findItem(R.id.action_audi_videos).isVisible = false
+        menu.findItem(R.id.action_mercedes_videos).isVisible = false
         return true
     }
 

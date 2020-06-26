@@ -17,6 +17,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
 import com.georgcantor.wallpaperapp.util.Constants.AUDI_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.BMW_VIDEOS
+import com.georgcantor.wallpaperapp.util.Constants.MERCEDES_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.RATING
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.util.openActivity
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.action_mercedes_videos -> {
                 toolbar.title = getString(R.string.videos)
-                openFragment(VideosFragment.create(AUDI_VIDEOS), getString(R.string.mercedes_benz_videos))
+                openFragment(VideosFragment.create(MERCEDES_VIDEOS), getString(R.string.mercedes_benz_videos))
             }
         }
         return super.onOptionsItemSelected(item)
