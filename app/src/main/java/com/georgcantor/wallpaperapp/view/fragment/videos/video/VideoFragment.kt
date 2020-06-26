@@ -44,7 +44,6 @@ class VideoFragment : Fragment() {
             addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
                     youTubePlayer.loadVideo(arguments?.get(ARG_PLAYLIST_ID) as String, 0f)
-
                 }
             })
 
@@ -65,8 +64,13 @@ class VideoFragment : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onPause() {
+        super.onPause()
+        player_view?.release()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         activity?.requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
         activity?.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
         requireActivity().navigation.visible()
