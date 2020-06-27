@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.view.fragment.videos.video
 
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import android.view.View.SYSTEM_UI_FLAG_VISIBLE
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.print.PrintHelper.ORIENTATION_LANDSCAPE
+import androidx.print.PrintHelper.ORIENTATION_PORTRAIT
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.Constants.ARG_PLAYLIST_ID
 import com.georgcantor.wallpaperapp.util.gone
@@ -49,16 +52,9 @@ class VideoFragment : Fragment() {
 
             getPlayerUiController()
                 .setFullScreenButtonClickListener(View.OnClickListener {
-                    if (isFullScreen()) {
-                        exitFullScreen()
-                        activity?.requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
-                        activity?.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
-                        activity?.actionBar?.show()
-                    } else {
-                        enterFullScreen()
-                        activity?.requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
-                        activity?.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
-                        activity?.actionBar?.hide()
+                    when (isFullScreen()) {
+                        true -> setPortraitMode()
+                        false -> setLandscapeMode()
                     }
                 })
         }
@@ -69,11 +65,39 @@ class VideoFragment : Fragment() {
         player_view?.release()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (newConfig.orientation) {
+            ORIENTATION_LANDSCAPE -> setPortraitMode()
+            ORIENTATION_PORTRAIT -> setLandscapeMode()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        activity?.requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
-        activity?.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
-        requireActivity().navigation.visible()
-        requireActivity().appBar.visible()
+        with(requireActivity()) {
+            requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
+            window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
+            navigation.visible()
+            appBar.visible()
+        }
+    }
+
+    private fun setPortraitMode() {
+        player_view?.exitFullScreen()
+        with(requireActivity()) {
+            requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
+            window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
+            actionBar?.show()
+        }
+    }
+
+    private fun setLandscapeMode() {
+        player_view?.enterFullScreen()
+        with(requireActivity()) {
+            requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
+            window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
+            actionBar?.hide()
+        }
     }
 }
