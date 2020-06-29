@@ -48,6 +48,7 @@ class MercedesFragment : Fragment() {
 
         val scrollListener = object : EndlessScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                PreferenceManager(requireContext()).saveInt(Constants.INDEX, page)
                 viewModel.getPictures(getString(R.string.mercedes_request), page)
             }
         }

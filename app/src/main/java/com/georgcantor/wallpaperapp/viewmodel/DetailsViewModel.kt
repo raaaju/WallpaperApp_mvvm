@@ -1,15 +1,12 @@
 package com.georgcantor.wallpaperapp.viewmodel
 
-import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.app.WallpaperManager
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.MenuItem
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.airbnb.lottie.LottieAnimationView
@@ -133,17 +130,6 @@ class DetailsViewModel(
             }
             .subscribeOn(Schedulers.io())
             .subscribe()
-    }
-
-    fun checkSavingPermission(permissionCheck: Int, activity: Activity) {
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            val requestCode = 102
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                requestCode
-            )
-        }
     }
 
     fun picInFavorites(url: String): Observable<Boolean> {

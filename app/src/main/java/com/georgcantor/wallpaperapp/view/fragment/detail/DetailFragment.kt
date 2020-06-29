@@ -113,19 +113,19 @@ class DetailFragment : Fragment() {
             }
         })
 
-//        zoomyBuilder = Zoomy.Builder(requireActivity())
-//            .target(image)
-//            .doubleTapListener {
-//                pic?.let {
-//                    viewModel.setFavoriteStatus(
-//                        it,
-//                        bottom_app_bar.menu.findItem(R.id.action_add_to_fav),
-//                        star_anim,
-//                        unstar_anim
-//                    )
-//                }
-//            }
-//        zoomyBuilder.register()
+        zoomyBuilder = Zoomy.Builder(requireActivity())
+            .target(image)
+            .doubleTapListener {
+                pic?.let {
+                    viewModel.setFavoriteStatus(
+                        it,
+                        bottom_app_bar.menu.findItem(R.id.action_add_to_fav),
+                        star_anim,
+                        unstar_anim
+                    )
+                }
+            }
+        zoomyBuilder.register()
 
         viewModel.isFabOpened.observe(viewLifecycleOwner, Observer { open ->
             fab.setOnClickListener {
@@ -158,7 +158,7 @@ class DetailFragment : Fragment() {
                     setWallAsync()
                 } else {
                     prefManager.saveBoolean(PREF_BOOLEAN, true)
-                    viewModel.checkSavingPermission(permissionCheck, requireActivity())
+                    checkSavingPermission(permissionCheck)
                 }
             } else {
                 context?.longToast(getString(R.string.no_internet))
@@ -205,7 +205,7 @@ class DetailFragment : Fragment() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<String>,
+        permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -228,15 +228,25 @@ class DetailFragment : Fragment() {
         }
     }
 
-//    override fun onDestroy() {
-//        try {
-//            activity?.unregisterReceiver(downloadReceiver)
-//        } catch (e: Exception) {
-//        }
-//        Zoomy.unregister(image)
-//        disposable.dispose()
-//        super.onDestroy()
-//    }
+    override fun onDestroy() {
+        try {
+            activity?.unregisterReceiver(downloadReceiver)
+        } catch (e: Exception) {
+        }
+        image?.let { Zoomy.unregister(it) }
+        disposable.dispose()
+        super.onDestroy()
+    }
+
+    private fun checkSavingPermission(permissionCheck: Int) {
+        try {
+            if (permissionCheck != PERMISSION_GRANTED) {
+                val requestCode = 102
+                requestPermissions(arrayOf(WRITE_EXTERNAL_STORAGE), requestCode)
+            }
+        } catch (e: IllegalStateException) {
+        }
+    }
 
     private val downloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -299,7 +309,6 @@ class DetailFragment : Fragment() {
                                 })
                         }
                         context?.longToast(getString(R.string.wallpaper_is_install))
-                        activity?.recreate()
                     }, {
                         context?.shortToast(getString(R.string.something_went_wrong))
                     })
@@ -317,13 +326,13 @@ class DetailFragment : Fragment() {
         if (permissionCheck == PERMISSION_GRANTED) {
             pic?.let { context?.saveImage(it.imageURL ?: "") }
         } else {
-            viewModel.checkSavingPermission(permissionCheck, requireActivity())
+            checkSavingPermission(permissionCheck)
         }
 
         context?.shortToast(getString(R.string.download_start))
         Handler().postDelayed({
             context?.shortToast(getString(R.string.down_complete))
-            progress_anim.hideAnimation()
+            progress_anim?.hideAnimation()
         }, 5000)
     }
 }

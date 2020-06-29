@@ -7,6 +7,7 @@ object Constants {
     const val IS_RATING_EXIST = "is_rating_exist"
     const val LAUNCHES = "launches"
     const val EXTRA_PIC = "picture"
+    const val INDEX = "index"
     const val PREF_BOOLEAN = "is_set_wall"
     const val MY_PREFS = "my_prefs"
     const val FULL_EXTRA = "full_extra"

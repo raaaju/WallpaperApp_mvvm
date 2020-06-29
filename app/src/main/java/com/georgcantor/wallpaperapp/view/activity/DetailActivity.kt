@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.Constants.INDEX
+import com.georgcantor.wallpaperapp.util.PreferenceManager
 import com.georgcantor.wallpaperapp.view.adapter.ViewPagerAdapter
 import com.georgcantor.wallpaperapp.view.fragment.detail.DetailFragment
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
@@ -25,7 +27,7 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel = getViewModel { parametersOf() }
 
-        viewModel.getPictures(pic.tags ?: "", 1)
+        viewModel.getPictures(pic.tags ?: "", PreferenceManager(this).getInt(INDEX))
 
         viewModel.pictures.observe(this, Observer { pics ->
             ViewPagerAdapter(supportFragmentManager).apply {
