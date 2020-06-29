@@ -19,7 +19,7 @@ val appModule = module {
 }
 
 val repositoryModule = module {
-    single { ApiRepository(get(), get()) }
+    single { ApiRepository(get()) }
 }
 
 val viewModelModule = module {

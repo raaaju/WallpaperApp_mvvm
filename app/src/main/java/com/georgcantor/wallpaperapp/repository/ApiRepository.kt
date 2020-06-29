@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.repository
 
-import android.content.Context
 import android.os.Build
 import com.georgcantor.wallpaperapp.BuildConfig
 import com.georgcantor.wallpaperapp.BuildConfig.YOUTUBE_URL
@@ -9,10 +8,7 @@ import com.georgcantor.wallpaperapp.model.remote.ApiService
 import com.georgcantor.wallpaperapp.util.applySchedulers
 import io.reactivex.Observable
 
-class ApiRepository(
-    private val context: Context,
-    private val apiService: ApiService
-) {
+class ApiRepository(private val apiService: ApiService) {
 
     fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         val pictures = ArrayList<CommonPic>()

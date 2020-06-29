@@ -128,12 +128,6 @@ fun LottieAnimationView.hideAnimation() {
     this.gone()
 }
 
-fun String.getImageNameFromUrl(): String {
-    val index = this.lastIndexOf("/")
-
-    return this.substring(index)
-}
-
 fun Context.shortToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 fun Context.longToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
