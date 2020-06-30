@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.model.local.Favorite
@@ -39,7 +40,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this)
 
-        gridLayoutManager = StaggeredGridLayoutManager(getScreenSize(), StaggeredGridLayoutManager.VERTICAL)
+        gridLayoutManager = StaggeredGridLayoutManager(getScreenSize(), VERTICAL)
 
         viewModel = getViewModel { parametersOf(this) }
     }

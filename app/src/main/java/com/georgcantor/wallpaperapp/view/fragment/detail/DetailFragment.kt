@@ -18,6 +18,8 @@ import android.provider.MediaStore
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
@@ -108,8 +110,9 @@ class DetailFragment : Fragment() {
         })
 
         viewModel.pictures.observe(viewLifecycleOwner, Observer {
+            similar_text.visibility = if (it.isNullOrEmpty()) GONE else VISIBLE
             similar_recycler.adapter = SimilarAdapter(it) {
-                context?.openActivity(DetailActivity::class.java) { putParcelable(Constants.EXTRA_PIC, it) }
+                context?.openActivity(DetailActivity::class.java) { putParcelable(EXTRA_PIC, it) }
             }
         })
 

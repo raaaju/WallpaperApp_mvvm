@@ -59,7 +59,7 @@ class ApiRepository(private val apiService: ApiService) {
                                     urls?.small,
                                     it.width ?: 0,
                                     it.height ?: 0,
-                                    "",
+                                    it.altDescription,
                                     urls?.full,
                                     urls?.regular,
                                     it.hashCode(),
