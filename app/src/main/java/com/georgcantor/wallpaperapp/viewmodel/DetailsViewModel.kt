@@ -19,7 +19,7 @@ import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.applySchedulers
 import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.showSingleAnimation
+import com.georgcantor.wallpaperapp.util.showSeveralAnimation
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -58,13 +58,13 @@ class DetailsViewModel(
                     dao.deleteByUrl(it)
                     activity.runOnUiThread {
                         menuItem.setIcon(R.drawable.ic_star_border)
-                        unStarAnimation.showSingleAnimation(1.5F)
+                        unStarAnimation.showSeveralAnimation(1.5F, 0)
                     }
                 } else {
                     addToFavorites(pic)
                     activity.runOnUiThread {
                         menuItem.setIcon(R.drawable.ic_star_red_24dp)
-                        starAnimation.showSingleAnimation(1F)
+                        starAnimation.showSeveralAnimation(1F, 0)
                     }
                 }
             }

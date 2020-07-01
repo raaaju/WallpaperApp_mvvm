@@ -12,6 +12,7 @@ object Constants {
     const val MY_PREFS = "my_prefs"
     const val FULL_EXTRA = "full_extra"
     const val IS_PORTRAIT = "is_portrait"
+    const val IS_SWIPE_SHOW = "is_swipe_show"
     const val REQUEST = "request"
     const val CATEGORIES = "categories"
     const val ARG_PLAYLIST_ID = "playlist_id"

@@ -20,6 +20,8 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +31,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
@@ -101,11 +102,11 @@ fun LottieAnimationView.showAnimation() {
     this.loop(true)
 }
 
-fun LottieAnimationView.showSingleAnimation(speed: Float) {
+fun LottieAnimationView.showSeveralAnimation(speed: Float, count: Int) {
     val animation = this
     this.visibility = View.VISIBLE
     this.playAnimation()
-    this.repeatCount = 0
+    this.repeatCount = count
     this.speed = speed
     this.addAnimatorListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(p0: Animator?) {
@@ -128,9 +129,19 @@ fun LottieAnimationView.hideAnimation() {
     this.gone()
 }
 
-fun Context.shortToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+val toasts = mutableListOf<Toast>()
 
-fun Context.longToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun Context.shortToast(message: String) {
+    val toast = Toast.makeText(this, message, LENGTH_SHORT)
+    toast.show()
+    toasts.add(toast)
+}
+
+fun Context.longToast(message: String) {
+    val toast = Toast.makeText(this, message, LENGTH_LONG)
+    toast.show()
+    toasts.add(toast)
+}
 
 fun Context.isNetworkAvailable(): Boolean {
     val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
@@ -189,14 +200,6 @@ fun Context.loadImage(
                     return false
                 }
             })
-            .into(view)
-}
-
-fun Context.loadCircleImage(url: String, view: ImageView) {
-    Glide.with(this)
-            .load(url)
-            .placeholder(R.drawable.memb)
-            .apply(RequestOptions.circleCropTransform())
             .into(view)
 }
 

@@ -31,6 +31,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
 import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.Constants.IS_SWIPE_SHOW
 import com.georgcantor.wallpaperapp.util.Constants.PREF_BOOLEAN
 import com.georgcantor.wallpaperapp.view.activity.DetailActivity
 import com.georgcantor.wallpaperapp.view.activity.FullScreenActivity
@@ -273,6 +274,9 @@ class DetailFragment : Fragment() {
 
         val filter = IntentFilter(ACTION_DOWNLOAD_COMPLETE)
         activity?.registerReceiver(downloadReceiver, filter)
+
+        val isSwipeShow = prefManager.getBoolean(IS_SWIPE_SHOW)
+        if (!isSwipeShow) swipe_anim.showSeveralAnimation(1F, 3)
     }
 
     private fun setWallAsync() {

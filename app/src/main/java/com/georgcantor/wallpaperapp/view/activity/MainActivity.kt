@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.ALL_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
 import com.georgcantor.wallpaperapp.util.Constants.AUDI_VIDEOS
@@ -21,10 +23,6 @@ import com.georgcantor.wallpaperapp.util.Constants.BMW_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.MERCEDES_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.RATING
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
-import com.georgcantor.wallpaperapp.util.openActivity
-import com.georgcantor.wallpaperapp.util.openFragment
-import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
@@ -250,6 +248,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onDestroy() {
         super.onDestroy()
         disposable.dispose()
+        toasts.map(Toast::cancel)
+        toasts.clear()
     }
 
     private fun goToGooglePlay() {
