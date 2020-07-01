@@ -10,6 +10,9 @@ import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
 import com.georgcantor.wallpaperapp.util.Constants.INDEX
 import com.georgcantor.wallpaperapp.util.Constants.IS_SWIPE_SHOW
 import com.georgcantor.wallpaperapp.util.PreferenceManager
+import com.georgcantor.wallpaperapp.util.isNetworkAvailable
+import com.georgcantor.wallpaperapp.util.longToast
+import com.georgcantor.wallpaperapp.util.showAnimation
 import com.georgcantor.wallpaperapp.view.adapter.ViewPagerAdapter
 import com.georgcantor.wallpaperapp.view.fragment.detail.DetailFragment
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
@@ -24,6 +27,11 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+
+        if (!this.isNetworkAvailable()) {
+            noInternetAnimationView.showAnimation()
+            longToast(getString(R.string.no_internet))
+        }
 
         val pic = intent.getParcelableExtra(EXTRA_PIC) as CommonPic
 

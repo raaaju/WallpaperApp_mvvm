@@ -29,8 +29,8 @@ class CarBrandActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (!this.isNetworkAvailable()) {
-            noInternetImageView.visible()
-            this.longToast(getString(R.string.no_internet))
+            noInternetAnimationView.showAnimation()
+            longToast(getString(R.string.no_internet))
         }
 
         brandTitle.text = intent.getStringExtra(REQUEST)

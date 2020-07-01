@@ -6,15 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <ImageView
-        android:id="@+id/no_internet_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/no_internet"
-        android:padding="60dp"
-        android:src="@drawable/nointernet"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noInternetAnimationView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="50dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_fileName="no_internet.json"
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView

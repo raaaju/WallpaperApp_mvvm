@@ -35,7 +35,7 @@ class BmwFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!requireContext().isNetworkAvailable()) {
-            noInternetImageView.visible()
+            noInternetAnimationView.showAnimation()
             context?.longToast(getString(R.string.no_internet))
         }
 

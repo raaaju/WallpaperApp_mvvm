@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,15 +8,16 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.activity.FavoriteActivity">
 
-    <ImageView
-        android:id="@+id/noInternetImageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/no_internet"
-        android:padding="60dp"
-        android:src="@drawable/nointernet"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noInternetAnimationView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_fileName="no_internet.json"
         tools:visibility="visible" />
 
     <com.google.android.material.appbar.AppBarLayout
