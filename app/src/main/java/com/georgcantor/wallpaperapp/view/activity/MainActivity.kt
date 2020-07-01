@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.Constants.ALL_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
 import com.georgcantor.wallpaperapp.util.Constants.AUDI_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.BMW_VIDEOS
@@ -145,6 +146,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_mercedes_videos -> {
                 toolbar.title = getString(R.string.videos)
                 openFragment(VideosFragment.create(MERCEDES_VIDEOS), getString(R.string.mercedes_benz_videos))
+            }
+            R.id.action_all_videos -> {
+                toolbar.title = getString(R.string.videos)
+                openFragment(VideosFragment.create(ALL_VIDEOS), getString(R.string.all_videos))
             }
         }
         return super.onOptionsItemSelected(item)

@@ -19,4 +19,5 @@ object Constants {
     const val BMW_VIDEOS = "PL49XWbU5C8KiFE_8NHAvExqfC-kNciIMu"
     const val AUDI_VIDEOS = "PL49XWbU5C8KgFcLlhQp8D7RCLW7WqaCHW"
     const val MERCEDES_VIDEOS = "PL49XWbU5C8KgHwRkXwqfjm0cjz-p7F3uP"
+    const val ALL_VIDEOS = "UUPOhQupz3MwGSIBG0OqVnAg"
 }

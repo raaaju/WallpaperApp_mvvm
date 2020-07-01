@@ -52,6 +52,7 @@ class CarBrandActivity : AppCompatActivity() {
         menu.findItem(R.id.action_bmw_videos).isVisible = false
         menu.findItem(R.id.action_audi_videos).isVisible = false
         menu.findItem(R.id.action_mercedes_videos).isVisible = false
+        menu.findItem(R.id.action_all_videos).isVisible = false
         return true
     }
 

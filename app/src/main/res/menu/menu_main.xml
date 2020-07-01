@@ -34,4 +34,10 @@
         android:title="@string/mercedes_benz_videos"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_all_videos"
+        android:icon="@drawable/ic_videos"
+        android:title="@string/all_videos"
+        app:showAsAction="never" />
+
 </menu>

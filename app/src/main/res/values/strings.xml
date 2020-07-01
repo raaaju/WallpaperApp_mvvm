@@ -117,4 +117,5 @@
     <string name="bmw_videos" translatable="false">BMW Videos</string>
     <string name="audi_videos" translatable="false">Audi Videos</string>
     <string name="mercedes_benz_videos" translatable="false">Mercedes-Benz Videos</string>
+    <string name="all_videos" translatable="false">All Videos</string>
 </resources>
