@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.Intent.*
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.Color.TRANSPARENT
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
@@ -17,6 +19,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -35,9 +38,17 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.util.Constants.BLACK
+import com.georgcantor.wallpaperapp.util.Constants.BLUE
+import com.georgcantor.wallpaperapp.util.Constants.GRAY
+import com.georgcantor.wallpaperapp.util.Constants.GREEN
+import com.georgcantor.wallpaperapp.util.Constants.RED
+import com.georgcantor.wallpaperapp.util.Constants.THEME_PREF
+import com.georgcantor.wallpaperapp.util.Constants.YELLOW
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.dialog_change_theme.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,6 +100,34 @@ fun Context.getScreenSize(): Int {
         Configuration.SCREENLAYOUT_SIZE_NORMAL -> 2
         Configuration.SCREENLAYOUT_SIZE_SMALL -> 2
         else -> 2
+    }
+}
+
+fun Context.showThemeDialog(function: () -> (Unit)) {
+    val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_change_theme, null)
+    val builder = AlertDialog.Builder(this).setView(dialogView)
+    val alertDialog = builder.show()
+
+    with(alertDialog) {
+        window?.setBackgroundDrawable(ColorDrawable(TRANSPARENT))
+
+        radio_group.setOnCheckedChangeListener { _, id ->
+            PreferenceManager(context).saveString(
+                THEME_PREF,
+                when (id) {
+                    R.id.radio_black -> BLACK
+                    R.id.radio_blue -> BLUE
+                    R.id.radio_gray -> GRAY
+                    R.id.radio_red -> RED
+                    R.id.radio_yellow -> YELLOW
+                    R.id.radio_green -> GREEN
+                    else -> ""
+                }
+            )
+        }
+
+        cancel_btn.setOnClickListener { dismiss() }
+        ok_btn.setOnClickListener { function() }
     }
 }
 

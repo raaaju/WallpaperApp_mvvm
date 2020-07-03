@@ -25,29 +25,89 @@
         </item>
     </style>
 
-    <style name="AppDetailTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorDetailPrimary</item>
-        <item name="colorPrimaryDark">@color/colorDetailPrimaryDark</item>
-        <item name="colorAccent">@color/colorDetailAccent</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ToolbarColoredBackArrow" parent="AppDetailTheme">
-        <item name="android:textColorSecondary">@color/up_button</item>
+    <style name="BottomNavigationBlack" parent="AppTheme">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="itemBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="NavigationViewTheme">
+    <style name="BottomNavigationBlue" parent="AppTheme">
+        <item name="android:background">@color/md_blue_500</item>
+        <item name="itemBackground">@color/md_blue_500</item>
+    </style>
+
+    <style name="BottomNavigationGray" parent="AppTheme">
+        <item name="android:background">@color/up_button</item>
+        <item name="itemBackground">@color/up_button</item>
+    </style>
+
+    <style name="BottomNavigationRed" parent="AppTheme">
+        <item name="android:background">@color/md_red_500</item>
+        <item name="itemBackground">@color/md_red_500</item>
+    </style>
+
+    <style name="BottomNavigationYellow" parent="AppTheme">
+        <item name="android:background">@color/md_yellow_A400</item>
+        <item name="itemBackground">@color/md_yellow_A400</item>
+    </style>
+
+    <style name="BottomNavigationGreen" parent="AppTheme">
+        <item name="android:background">@color/md_green_500</item>
+        <item name="itemBackground">@color/md_green_500</item>
+    </style>
+
+    <style name="NavigationViewTheme" parent="AppTheme">
         <item name="android:listDivider">@color/colorDetailBackground</item>
         <item name="android:textColorSecondary">@color/off_white</item>
     </style>
 
     <style name="menu_item_color">
         <item name="android:textColor">@color/drawer_text</item>
+    </style>
+
+    <style name="ThemeBlack" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationBlack</item>
+    </style>
+
+    <style name="ThemeBlue" parent="AppTheme">
+        <item name="colorPrimary">@color/md_blue_500</item>
+        <item name="colorPrimaryDark">@color/md_blue_700</item>
+        <item name="colorAccent">@color/colorDetailAccent</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationBlue</item>
+    </style>
+
+    <style name="ThemeGray" parent="AppTheme">
+        <item name="colorPrimary">@color/up_button</item>
+        <item name="colorPrimaryDark">@color/gray</item>
+        <item name="colorAccent">@color/off_white</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationGray</item>
+    </style>
+
+    <style name="ThemeRed" parent="AppTheme">
+        <item name="colorPrimary">@color/md_red_500</item>
+        <item name="colorPrimaryDark">@color/md_red_700</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationRed</item>
+    </style>
+
+    <style name="ThemeYellow" parent="AppTheme">
+        <item name="colorPrimary">@color/md_yellow_A400</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/off_white</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationYellow</item>
+    </style>
+
+    <style name="ThemeGreen" parent="AppTheme">
+        <item name="colorPrimary">@color/md_green_500</item>
+        <item name="colorPrimaryDark">@color/md_green_700</item>
+        <item name="colorAccent">@android:color/holo_green_light</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationGreen</item>
     </style>
 
 </resources>

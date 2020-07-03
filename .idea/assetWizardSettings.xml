@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/ondemand_video/baseline_ondemand_video_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/check_circle/baseline_check_circle_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,8 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_videos" />
+                            <entry key="color" value="0f00ff" />
+                            <entry key="outputName" value="ic_baseline_check_circle_24" />
                             <entry key="sourceFile" value="C:\Users\Alex\D:\AndroidProjects\moscow-longevity-android\C:\Users\Alex" />
                           </map>
                         </option>

@@ -16,9 +16,17 @@ object Constants {
     const val REQUEST = "request"
     const val CATEGORIES = "categories"
     const val ARG_PLAYLIST_ID = "playlist_id"
+    const val THEME_PREF = "theme_pref"
 
     const val BMW_VIDEOS = "PL49XWbU5C8KiFE_8NHAvExqfC-kNciIMu"
     const val AUDI_VIDEOS = "PL49XWbU5C8KgFcLlhQp8D7RCLW7WqaCHW"
     const val MERCEDES_VIDEOS = "PL49XWbU5C8KgHwRkXwqfjm0cjz-p7F3uP"
     const val ALL_VIDEOS = "UUPOhQupz3MwGSIBG0OqVnAg"
+
+    const val BLACK = "black"
+    const val BLUE = "blue"
+    const val GRAY = "gray"
+    const val RED = "red"
+    const val YELLOW = "yellow"
+    const val GREEN = "green"
 }

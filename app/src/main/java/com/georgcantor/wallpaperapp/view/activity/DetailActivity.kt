@@ -6,13 +6,16 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.data.CommonPic
+import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.util.Constants.BLACK
+import com.georgcantor.wallpaperapp.util.Constants.BLUE
 import com.georgcantor.wallpaperapp.util.Constants.EXTRA_PIC
+import com.georgcantor.wallpaperapp.util.Constants.GRAY
+import com.georgcantor.wallpaperapp.util.Constants.GREEN
 import com.georgcantor.wallpaperapp.util.Constants.INDEX
 import com.georgcantor.wallpaperapp.util.Constants.IS_SWIPE_SHOW
-import com.georgcantor.wallpaperapp.util.PreferenceManager
-import com.georgcantor.wallpaperapp.util.isNetworkAvailable
-import com.georgcantor.wallpaperapp.util.longToast
-import com.georgcantor.wallpaperapp.util.showAnimation
+import com.georgcantor.wallpaperapp.util.Constants.RED
+import com.georgcantor.wallpaperapp.util.Constants.YELLOW
 import com.georgcantor.wallpaperapp.view.adapter.ViewPagerAdapter
 import com.georgcantor.wallpaperapp.view.fragment.detail.DetailFragment
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
@@ -26,6 +29,19 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        theme.applyStyle(
+            when (PreferenceManager(this).getString(Constants.THEME_PREF)) {
+                BLACK -> R.style.ThemeBlack
+                BLUE -> R.style.ThemeBlue
+                GRAY -> R.style.ThemeGray
+                RED -> R.style.ThemeRed
+                YELLOW -> R.style.ThemeYellow
+                GREEN -> R.style.ThemeGreen
+                else -> 0
+            },
+            true
+        )
+
         setContentView(R.layout.activity_detail)
 
         if (!this.isNetworkAvailable()) {

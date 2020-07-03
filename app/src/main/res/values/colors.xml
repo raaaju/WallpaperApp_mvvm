@@ -14,4 +14,20 @@
     <color name="colorSearchHint">#FFFF</color>
     <color name="drawer_text">#FFFF</color>
     <color name="detail_background">#151515</color>
+
+    <color name="md_red_500">#970606</color>
+    <color name="md_red_700">#770404</color>
+    <color name="md_yellow_A400">#FBC02D</color>
+
+    <color name="md_green_500">#047204</color>
+    <color name="md_green_700">#035203</color>
+    <color name="md_pink_A400">#D32F2F</color>
+
+    <color name="md_blue_500">#070786</color>
+    <color name="md_blue_700">#04045E</color>
+    <color name="md_turquoise_A400">#00796B</color>
+
+    <color name="gray">#3A3A3A</color>
+    <color name="dark_gray">#232323</color>
+    <color name="md_green">#11655B</color>
 </resources>

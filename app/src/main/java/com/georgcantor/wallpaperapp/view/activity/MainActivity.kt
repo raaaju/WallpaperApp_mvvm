@@ -19,10 +19,17 @@ import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.ALL_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.APP_URL
 import com.georgcantor.wallpaperapp.util.Constants.AUDI_VIDEOS
+import com.georgcantor.wallpaperapp.util.Constants.BLACK
+import com.georgcantor.wallpaperapp.util.Constants.BLUE
 import com.georgcantor.wallpaperapp.util.Constants.BMW_VIDEOS
+import com.georgcantor.wallpaperapp.util.Constants.GRAY
+import com.georgcantor.wallpaperapp.util.Constants.GREEN
 import com.georgcantor.wallpaperapp.util.Constants.MERCEDES_VIDEOS
 import com.georgcantor.wallpaperapp.util.Constants.RATING
+import com.georgcantor.wallpaperapp.util.Constants.RED
 import com.georgcantor.wallpaperapp.util.Constants.REQUEST
+import com.georgcantor.wallpaperapp.util.Constants.THEME_PREF
+import com.georgcantor.wallpaperapp.util.Constants.YELLOW
 import com.georgcantor.wallpaperapp.view.fragment.AudiFragment
 import com.georgcantor.wallpaperapp.view.fragment.BmwFragment
 import com.georgcantor.wallpaperapp.view.fragment.CategoryFragment
@@ -56,6 +63,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        theme.applyStyle(
+            when (PreferenceManager(this).getString(THEME_PREF)) {
+                BLACK -> R.style.ThemeBlack
+                BLUE -> R.style.ThemeBlue
+                GRAY -> R.style.ThemeGray
+                RED -> R.style.ThemeRed
+                YELLOW -> R.style.ThemeYellow
+                GREEN -> R.style.ThemeGreen
+                else -> 0
+            },
+            true
+        )
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -155,52 +175,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_aston -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.aston))
-                }
-            }
-            R.id.nav_bentley -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.bentley))
-                }
-            }
-            R.id.nav_bugatti -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.bugatti))
-                }
-            }
-            R.id.nav_ferrari -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.ferrari))
-                }
-            }
-            R.id.nav_lambo -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.lamborghini))
-                }
-            }
-            R.id.nav_mclaren -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.mclaren))
-                }
-            }
-            R.id.nav_porsche -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.porsche))
-                }
-            }
-            R.id.nav_rolls -> {
-                openActivity(CarBrandActivity::class.java) {
-                    putString(REQUEST, getString(R.string.rolls))
-                }
-            }
-            R.id.nav_favorites -> {
-                openActivity(FavoriteActivity::class.java)
-            }
-            R.id.nav_rate_us -> {
-                viewModel.showRatingDialog()
-            }
+            R.id.nav_aston -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.aston)) }
+            R.id.nav_bentley -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.bentley)) }
+            R.id.nav_bugatti -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.bugatti)) }
+            R.id.nav_ferrari -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.ferrari)) }
+            R.id.nav_lambo -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.lamborghini)) }
+            R.id.nav_mclaren -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.mclaren)) }
+            R.id.nav_porsche -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.porsche)) }
+            R.id.nav_rolls -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.rolls)) }
+            R.id.nav_favorites -> openActivity(FavoriteActivity::class.java)
+            R.id.nav_rate_us -> viewModel.showRatingDialog()
+            R.id.nav_change_theme -> showThemeDialog(this::recreate)
         }
         drawerLayout.closeDrawer(GravityCompat.START)
 
