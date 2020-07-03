@@ -49,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
             longToast(getString(R.string.no_internet))
         }
 
-        val pic = intent.getParcelableExtra(EXTRA_PIC) as CommonPic
+        val pic = intent.getParcelableExtra<CommonPic>(EXTRA_PIC) as CommonPic
 
         viewModel = getViewModel { parametersOf() }
 
