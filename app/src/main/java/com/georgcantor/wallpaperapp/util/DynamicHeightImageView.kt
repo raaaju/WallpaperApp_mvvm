@@ -24,5 +24,4 @@ class DynamicHeightImageView : AppCompatImageView {
             setMeasuredDimension(width, height)
         }
     }
-
 }

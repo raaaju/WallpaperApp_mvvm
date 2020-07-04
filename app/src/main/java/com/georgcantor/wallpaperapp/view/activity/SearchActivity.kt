@@ -1,13 +1,16 @@
 package com.georgcantor.wallpaperapp.view.activity
 
-import android.Manifest
+import android.Manifest.permission.RECORD_AUDIO
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.speech.RecognizerIntent.ACTION_RECOGNIZE_SPEECH
+import android.speech.RecognizerIntent.EXTRA_PROMPT
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -65,7 +68,7 @@ class SearchActivity : AppCompatActivity() {
                 RED -> R.style.ThemeRed
                 YELLOW -> R.style.ThemeYellow
                 GREEN -> R.style.ThemeGreen
-                else -> 0
+                else -> R.style.ThemeBlack
             },
             true
         )
@@ -83,6 +86,7 @@ class SearchActivity : AppCompatActivity() {
         searchView.requestFocus()
         searchView.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchAnimationView?.hideAnimation()
                 hideKeyboard()
                 adapter.clearPictures()
                 search(searchView.text.toString().trim { it <= ' ' }, index)
@@ -204,9 +208,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO) != PERMISSION_GRANTED) {
                 requestAudioPermission()
             } else {
                 speak()
@@ -218,8 +220,8 @@ class SearchActivity : AppCompatActivity() {
 
     private fun speak() {
         try {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speak_something))
+            val intent = Intent(ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(EXTRA_PROMPT, getString(R.string.speak_something))
             startActivityForResult(intent, REQUEST_CODE)
         } catch (e: Exception) {
             shortToast(getString(R.string.something_went_wrong))
@@ -227,11 +229,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun requestAudioPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.RECORD_AUDIO),
-            PERMISSION_REQUEST_CODE
-        )
+        ActivityCompat.requestPermissions(this, arrayOf(RECORD_AUDIO), PERMISSION_REQUEST_CODE)
     }
 
     private fun search(search: String, index: Int) {
@@ -254,8 +252,6 @@ class SearchActivity : AppCompatActivity() {
                         shortToast(getString(R.string.not_found))
                     }
                 }, {
-                    searchAnimationView?.showAnimation()
-                    shortToast(getString(R.string.something_went_wrong))
                 })
         )
     }

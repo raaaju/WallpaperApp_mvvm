@@ -45,7 +45,7 @@ class FavoriteActivity : AppCompatActivity() {
                 RED -> R.style.ThemeRed
                 YELLOW -> R.style.ThemeYellow
                 GREEN -> R.style.ThemeGreen
-                else -> 0
+                else -> R.style.ThemeBlack
             },
             true
         )

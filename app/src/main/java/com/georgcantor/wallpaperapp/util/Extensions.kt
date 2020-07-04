@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.content.Intent.*
 import android.content.res.Configuration
@@ -11,13 +12,15 @@ import android.graphics.Bitmap
 import android.graphics.Color.TRANSPARENT
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.media.MediaScannerConnection
+import android.media.MediaScannerConnection.scanFile
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
+import android.os.Environment.DIRECTORY_PICTURES
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.provider.MediaStore.MediaColumns.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -57,16 +60,30 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
+val toasts = mutableListOf<Toast>()
+
+fun Context.shortToast(message: String) {
+    val toast = Toast.makeText(this, message, LENGTH_SHORT)
+    toast.show()
+    toasts.add(toast)
+}
+
+fun Context.longToast(message: String) {
+    val toast = Toast.makeText(this, message, LENGTH_LONG)
+    toast.show()
+    toasts.add(toast)
+}
+
 fun AppCompatActivity.openFragment(fragment: Fragment, tag: String) {
     val transaction = supportFragmentManager.beginTransaction()
     val lastIndex = supportFragmentManager.fragments.lastIndex
     val current = supportFragmentManager.fragments[lastIndex]
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) transaction.setCustomAnimations(
-            R.anim.pull_in_right,
-            R.anim.push_out_left,
-            R.anim.pull_in_left,
-            R.anim.push_out_right
+        R.anim.pull_in_right,
+        R.anim.push_out_left,
+        R.anim.pull_in_left,
+        R.anim.push_out_right
     )
 
     when {
@@ -131,6 +148,89 @@ fun Context.showThemeDialog(function: () -> (Unit)) {
     }
 }
 
+fun Context.isNetworkAvailable() = (getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager?)
+    ?.activeNetworkInfo?.isConnectedOrConnecting ?: false
+
+fun Context.showDialog(
+    message: CharSequence,
+    function: () -> (Unit)
+) {
+    AlertDialog.Builder(this)
+        .setMessage(message)
+        .setNegativeButton(R.string.no) { _, _ -> }
+        .setPositiveButton(R.string.yes) { _, _ -> function() }
+        .create()
+        .show()
+}
+
+fun Context.loadImage(
+    url: String,
+    view: ImageView,
+    animView: LottieAnimationView?
+) {
+    Glide.with(this)
+        .load(url)
+        .placeholder(R.drawable.placeholder)
+        .thumbnail(0.1F)
+        .listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any,
+                target: Target<Drawable>,
+                isFirstResource: Boolean
+            ): Boolean {
+                animView?.hideAnimation()
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable,
+                model: Any,
+                target: Target<Drawable>,
+                dataSource: DataSource,
+                isFirstResource: Boolean
+            ): Boolean {
+                animView?.hideAnimation()
+                return false
+            }
+        })
+        .into(view)
+}
+
+fun Context.saveImage(url: String) {
+    Glide.with(this)
+        .asBitmap()
+        .load(url)
+        .into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            bitmap.saveImageQ(this@saveImage)
+                        } else {
+                            bitmap.saveImage(this@saveImage)
+                        }
+                    }
+                }
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
+}
+
+fun Context.share(text: String?) {
+    val intent = Intent().apply {
+        type = "text/plain"
+        putExtra(EXTRA_TEXT, text)
+        putExtra(EXTRA_SUBJECT, getString(R.string.app_name))
+    }
+    try {
+        startActivity(createChooser(intent, getString(R.string.choose_share)))
+    } catch (e: ActivityNotFoundException) {
+        shortToast(getString(R.string.cant_share))
+    }
+}
+
 fun View.visible() { visibility = View.VISIBLE }
 
 fun View.gone() { visibility = View.GONE }
@@ -168,88 +268,14 @@ fun LottieAnimationView.hideAnimation() {
     this.gone()
 }
 
-val toasts = mutableListOf<Toast>()
-
-fun Context.shortToast(message: String) {
-    val toast = Toast.makeText(this, message, LENGTH_SHORT)
-    toast.show()
-    toasts.add(toast)
-}
-
-fun Context.longToast(message: String) {
-    val toast = Toast.makeText(this, message, LENGTH_LONG)
-    toast.show()
-    toasts.add(toast)
-}
-
-fun Context.isNetworkAvailable(): Boolean {
-    val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-
-    manager?.let {
-        val networkInfo = it.activeNetworkInfo
-        networkInfo?.let { info ->
-            if (info.isConnected) return true
-        }
-    }
-
-    return false
-}
-
-
-fun Context.showDialog(
-        message: CharSequence,
-        function: () -> (Unit)
-) {
-    AlertDialog.Builder(this)
-            .setMessage(message)
-            .setNegativeButton(R.string.no) { _, _ -> }
-            .setPositiveButton(R.string.yes) { _, _ -> function() }
-            .create()
-            .show()
-}
-
-fun Context.loadImage(
-        url: String,
-        view: ImageView,
-        animView: LottieAnimationView?
-) {
-    Glide.with(this)
-            .load(url)
-            .placeholder(R.drawable.placeholder)
-            .thumbnail(0.1F)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                ): Boolean {
-                    animView?.hideAnimation()
-                    return false
-                }
-
-                override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                ): Boolean {
-                    animView?.hideAnimation()
-                    return false
-                }
-            })
-            .into(view)
-}
-
 fun <T> Observable<T>.applySchedulers(): Observable<T> {
     return this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
 private fun Bitmap.saveImage(context: Context) {
-    val root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+    val root = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).toString()
     val myDir = File("$root/Wallpapers")
     myDir.mkdirs()
     val randomInt = (0..10000).random()
@@ -264,7 +290,7 @@ private fun Bitmap.saveImage(context: Context) {
     } catch (e: java.lang.Exception) {
         e.printStackTrace()
     }
-    MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null) { path, uri ->
+    scanFile(context, arrayOf(file.toString()), null) { path, uri ->
         Log.i("ExternalStorage", "Scanned $path:")
         Log.i("ExternalStorage", "-> uri=$uri")
     }
@@ -273,13 +299,13 @@ private fun Bitmap.saveImage(context: Context) {
 @RequiresApi(Build.VERSION_CODES.Q)
 fun Bitmap.saveImageQ(context: Context) {
     val values = contentValues()
-    values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + "Wallpapers")
-    values.put(MediaStore.Images.Media.IS_PENDING, true)
+    values.put(RELATIVE_PATH, "Pictures/" + "Wallpapers")
+    values.put(IS_PENDING, true)
 
-    val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+    val uri: Uri? = context.contentResolver.insert(EXTERNAL_CONTENT_URI, values)
     if (uri != null) {
         saveImageToStream(this, context.contentResolver.openOutputStream(uri))
-        values.put(MediaStore.Images.Media.IS_PENDING, false)
+        values.put(IS_PENDING, false)
         context.contentResolver.update(uri, values, null, null)
     }
 }
@@ -287,9 +313,9 @@ fun Bitmap.saveImageQ(context: Context) {
 @RequiresApi(Build.VERSION_CODES.Q)
 private fun contentValues(): ContentValues {
     val values = ContentValues()
-    values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
-    values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
+    values.put(MIME_TYPE, "image/png")
+    values.put(DATE_ADDED, System.currentTimeMillis() / 1000)
+    values.put(DATE_TAKEN, System.currentTimeMillis())
 
     return values
 }
@@ -302,39 +328,5 @@ private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-}
-
-fun Context.saveImage(url: String) {
-    Glide.with(this)
-        .asBitmap()
-        .load(url)
-        .into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    withContext(Dispatchers.IO) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            bitmap.saveImageQ(this@saveImage)
-                        } else {
-                            bitmap.saveImage(this@saveImage)
-                        }
-                    }
-                }
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
-}
-
-fun Context.share(text: String?) {
-    val intent = Intent().apply {
-        type = "text/plain"
-        putExtra(EXTRA_TEXT, text)
-        putExtra(EXTRA_SUBJECT, getString(R.string.app_name))
-    }
-    try {
-        startActivity(createChooser(intent, getString(R.string.choose_share)))
-    } catch (e: ActivityNotFoundException) {
-        shortToast(getString(R.string.cant_share))
     }
 }

@@ -22,5 +22,4 @@ interface FavDao {
 
     @Query("SELECT * FROM favorites")
     fun getAll(): List<Favorite>
-
 }

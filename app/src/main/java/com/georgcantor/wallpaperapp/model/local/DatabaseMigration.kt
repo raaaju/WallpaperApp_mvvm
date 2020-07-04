@@ -19,5 +19,4 @@ internal object DatabaseMigration {
             }
         }
     }
-
 }

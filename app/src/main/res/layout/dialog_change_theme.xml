@@ -14,7 +14,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/change_theme"
         android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_size_20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,8 @@
             android:buttonTint="@color/colorPrimaryDark"
             android:padding="@dimen/margin_8"
             android:text="Black"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_size_18" />
 
         <RadioButton
             android:id="@+id/radio_blue"
@@ -44,7 +45,8 @@
             android:buttonTint="@color/md_blue_700"
             android:padding="@dimen/margin_8"
             android:text="Blue"
-            android:textColor="@color/md_blue_700" />
+            android:textColor="@color/md_blue_700"
+            android:textSize="@dimen/text_size_18" />
 
         <RadioButton
             android:id="@+id/radio_gray"
@@ -53,7 +55,8 @@
             android:buttonTint="@color/dark_gray"
             android:padding="@dimen/margin_8"
             android:text="Gray"
-            android:textColor="@color/dark_gray" />
+            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/text_size_18" />
 
         <RadioButton
             android:id="@+id/radio_red"
@@ -62,7 +65,8 @@
             android:buttonTint="@color/md_red_700"
             android:padding="@dimen/margin_8"
             android:text="Red"
-            android:textColor="@color/md_red_700" />
+            android:textColor="@color/md_red_700"
+            android:textSize="@dimen/text_size_18" />
 
         <RadioButton
             android:id="@+id/radio_yellow"
@@ -71,7 +75,8 @@
             android:buttonTint="@color/md_yellow_A400"
             android:padding="@dimen/margin_8"
             android:text="Yellow"
-            android:textColor="@color/md_yellow_A400" />
+            android:textColor="@color/md_yellow_A400"
+            android:textSize="@dimen/text_size_18" />
 
         <RadioButton
             android:id="@+id/radio_green"
@@ -80,7 +85,8 @@
             android:buttonTint="@color/md_green_700"
             android:padding="@dimen/margin_8"
             android:text="Green"
-            android:textColor="@color/md_green_700" />
+            android:textColor="@color/md_green_700"
+            android:textSize="@dimen/text_size_18" />
     </RadioGroup>
 
     <TextView

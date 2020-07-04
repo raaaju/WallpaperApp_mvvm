@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.util.Constants.BLACK
 import com.georgcantor.wallpaperapp.util.Constants.BLUE
 import com.georgcantor.wallpaperapp.util.Constants.GRAY
 import com.georgcantor.wallpaperapp.util.Constants.GREEN
 import com.georgcantor.wallpaperapp.util.Constants.RED
+import com.georgcantor.wallpaperapp.util.Constants.REQUEST
 import com.georgcantor.wallpaperapp.util.Constants.YELLOW
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
@@ -38,7 +38,7 @@ class CarBrandActivity : AppCompatActivity() {
                 RED -> R.style.ThemeRed
                 YELLOW -> R.style.ThemeYellow
                 GREEN -> R.style.ThemeGreen
-                else -> 0
+                else -> R.style.ThemeBlack
             },
             true
         )

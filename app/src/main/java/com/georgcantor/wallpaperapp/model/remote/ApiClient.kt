@@ -1,7 +1,8 @@
 package com.georgcantor.wallpaperapp.model.remote
 
 import android.content.Context
-import com.georgcantor.wallpaperapp.BuildConfig
+import com.georgcantor.wallpaperapp.BuildConfig.BASE_URL
+import com.georgcantor.wallpaperapp.BuildConfig.DEBUG
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,10 +16,10 @@ object ApiClient {
 
     fun create(context: Context): ApiService {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        interceptor.level = if (DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
         val okHttpClient = OkHttpClient().newBuilder()
-            .addInterceptor(OfflineResponseCacheInterceptor(context))
+            .addInterceptor(CacheInterceptor(context))
             .addInterceptor(interceptor)
             .cache(Cache(File(context.cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
             .connectTimeout(20, TimeUnit.SECONDS)
@@ -27,7 +28,7 @@ object ApiClient {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)

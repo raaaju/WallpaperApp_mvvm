@@ -4,6 +4,7 @@
     <dimen name="card_elevation">8dp</dimen>
     <dimen name="card_elevation_small">4dp</dimen>
     <dimen name="text_padding_4">4dp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_20">20sp</dimen>
     <dimen name="text_size_24">24sp</dimen>
     <dimen name="nav_image_size">82dp</dimen>

@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.util
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.Constants.MY_PREFS
@@ -12,7 +13,7 @@ class PreferenceManager(context: Context) {
     private val gson = Gson()
     private var json = ""
 
-    private val prefs: SharedPreferences = context.getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences(MY_PREFS, MODE_PRIVATE)
 
     fun saveBoolean(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
 

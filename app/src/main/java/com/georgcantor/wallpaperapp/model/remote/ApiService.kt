@@ -1,6 +1,6 @@
 package com.georgcantor.wallpaperapp.model.remote
 
-import com.georgcantor.wallpaperapp.BuildConfig
+import com.georgcantor.wallpaperapp.BuildConfig.PIXABAY_KEY
 import com.georgcantor.wallpaperapp.model.data.pixabay.Pic
 import com.georgcantor.wallpaperapp.model.data.unsplash.UnsplashResponse
 import com.georgcantor.wallpaperapp.model.data.videos.VideoResponse
@@ -12,7 +12,7 @@ import retrofit2.http.Url
 
 interface ApiService {
 
-    @GET("?key=" + BuildConfig.PIXABAY_KEY)
+    @GET("?key=$PIXABAY_KEY")
     fun getPixabayPictures(
         @Query("q") query: String,
         @Query("page") index: Int
