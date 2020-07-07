@@ -144,7 +144,10 @@ fun Context.showThemeDialog(function: () -> (Unit)) {
         }
 
         cancel_btn.setOnClickListener { dismiss() }
-        ok_btn.setOnClickListener { function() }
+        ok_btn.setOnClickListener {
+            dismiss()
+            function()
+        }
     }
 }
 
