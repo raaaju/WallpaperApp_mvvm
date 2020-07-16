@@ -194,7 +194,6 @@ class SearchActivity : AppCompatActivity() {
             StaggeredGridLayoutManager.VERTICAL
         )
         searchRecyclerView.layoutManager = staggeredGridLayoutManager
-        searchRecyclerView.setHasFixedSize(true)
         adapter = PicturesAdapter(searchView.text.toString().trim { it <= ' ' })
         searchRecyclerView.adapter = adapter
 
