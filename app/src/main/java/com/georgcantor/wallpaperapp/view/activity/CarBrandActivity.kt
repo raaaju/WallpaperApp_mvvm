@@ -54,7 +54,7 @@ class CarBrandActivity : AppCompatActivity() {
 
         brandTitle.text = intent.getStringExtra(REQUEST)
 
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getViewModel()
         setupRecyclerView()
 
         refreshLayout.setOnRefreshListener {

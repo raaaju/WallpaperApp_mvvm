@@ -37,7 +37,6 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
 class SearchActivity : AppCompatActivity() {
 
@@ -79,7 +78,7 @@ class SearchActivity : AppCompatActivity() {
 
         manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getViewModel()
         createToolbar()
         initViews()
 

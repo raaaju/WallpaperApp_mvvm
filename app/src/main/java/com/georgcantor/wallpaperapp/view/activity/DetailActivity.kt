@@ -21,7 +21,6 @@ import com.georgcantor.wallpaperapp.view.fragment.detail.DetailFragment
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
 class DetailActivity : AppCompatActivity() {
 
@@ -51,7 +50,7 @@ class DetailActivity : AppCompatActivity() {
 
         val pic = intent.getParcelableExtra<CommonPic>(EXTRA_PIC) as CommonPic
 
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getViewModel()
 
         viewModel.getPictures(pic.tags ?: "", PreferenceManager(this).getInt(INDEX))
 
