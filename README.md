@@ -1,7 +1,7 @@
 # WallpaperApp
 App for viewing and downloading wallpapers
                                             
-[![Screenshot-20200715-182955-com-georgcantor-wallpaperapp.jpg](https://i.postimg.cc/bJZ6Lyff/Screenshot-20200715-182955-com-georgcantor-wallpaperapp.jpg)](https://postimg.cc/2bfFSf50)                                                                           [![Screenshot-20200715-182941-com-georgcantor-wallpaperapp.jpg](https://i.postimg.cc/Y9Tds5tG/Screenshot-20200715-182941-com-georgcantor-wallpaperapp.jpg)](https://postimg.cc/Kkr7Kskx)
+[![Screenshot-20200715-182827-com-georgcantor-wallpaperapp.jpg](https://i.postimg.cc/4ytWkW38/Screenshot-20200715-182827-com-georgcantor-wallpaperapp.jpg)](https://postimg.cc/jnxHyQPN)                                                                           [![Screenshot-20200715-183048-com-georgcantor-wallpaperapp.jpg](https://i.postimg.cc/Pf83w5Mm/Screenshot-20200715-183048-com-georgcantor-wallpaperapp.jpg)](https://postimg.cc/qg4xf0SR)
 
 
 
