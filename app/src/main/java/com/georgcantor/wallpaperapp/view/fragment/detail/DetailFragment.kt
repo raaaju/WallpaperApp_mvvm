@@ -112,9 +112,11 @@ class DetailFragment : Fragment() {
 
         viewModel.pictures.observe(viewLifecycleOwner, Observer {
             similar_text.visibility = if (it.isNullOrEmpty()) GONE else VISIBLE
-            similar_recycler.adapter = SimilarAdapter(it) {
+            val adapter = SimilarAdapter {
                 context?.openActivity(DetailActivity::class.java) { putParcelable(EXTRA_PIC, it) }
             }
+            similar_recycler.adapter = adapter
+            adapter.pictures = it
         })
 
         zoomyBuilder = Zoomy.Builder(requireActivity())
