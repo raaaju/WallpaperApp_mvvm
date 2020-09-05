@@ -38,13 +38,15 @@ import com.georgcantor.wallpaperapp.view.fragment.videos.VideosFragment
 import com.georgcantor.wallpaperapp.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -60,6 +62,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var audiFragment: Fragment
     private lateinit var categoryFragment: Fragment
     private lateinit var viewModel: MainViewModel
+    private lateinit var reviewManager: ReviewManager
+    private lateinit var reviewInfo: ReviewInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +83,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        viewModel = getViewModel { parametersOf(this) }
+        viewModel = getViewModel()
         viewModel.loadCategories()
+
+        reviewManager = ReviewManagerFactory.create(this)
+        val request = reviewManager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) reviewInfo = task.result
+        }
 
         updateAvailable.observe(this, Observer {
             if (it) showDialog(getString(R.string.update_dialog_message), ::goToGooglePlay)
@@ -134,6 +144,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         viewModel.checkNumberOfLaunches()
 
+        viewModel.isRateDialogShow.observe(this, Observer { show ->
+            if (show) showRatingDialog()
+        })
+
         RATING = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
     }
 
@@ -184,7 +198,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_porsche -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.porsche)) }
             R.id.nav_rolls -> openActivity(CarBrandActivity::class.java) { putString(REQUEST, getString(R.string.rolls)) }
             R.id.nav_favorites -> openActivity(FavoriteActivity::class.java)
-            R.id.nav_rate_us -> viewModel.showRatingDialog()
+            R.id.nav_rate_us -> showRatingDialog()
             R.id.nav_change_theme -> showThemeDialog(this::recreate)
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -235,6 +249,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         disposable.dispose()
         toasts.map(Toast::cancel)
         toasts.clear()
+    }
+
+    private fun showRatingDialog() {
+        if (::reviewInfo.isInitialized) {
+            reviewManager.launchReviewFlow(this, reviewInfo).addOnFailureListener {
+                longToast(it.message ?: "OnFailureListener")
+            }.addOnCompleteListener { result ->
+                result.exception?.message?.let(this::longToast)
+            }
+        }
     }
 
     private fun goToGooglePlay() {

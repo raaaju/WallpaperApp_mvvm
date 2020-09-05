@@ -5,7 +5,6 @@ import com.georgcantor.wallpaperapp.model.local.FavDatabase
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.repository.ApiRepository
 import com.georgcantor.wallpaperapp.util.PreferenceManager
-import com.georgcantor.wallpaperapp.view.activity.MainActivity
 import com.georgcantor.wallpaperapp.view.fragment.videos.VideosViewModel
 import com.georgcantor.wallpaperapp.viewmodel.*
 import org.koin.android.ext.koin.androidApplication
@@ -23,8 +22,8 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { (activity: MainActivity) ->
-        MainViewModel(androidApplication(), get(), get(), activity)
+    viewModel {
+        MainViewModel(androidApplication(), get(), get())
     }
     viewModel { (activity: Activity) ->
         FavoriteViewModel(activity, get())
