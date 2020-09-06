@@ -20,11 +20,11 @@ import com.georgcantor.wallpaperapp.view.adapter.ViewPagerAdapter
 import com.georgcantor.wallpaperapp.view.fragment.detail.DetailFragment
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by inject<SearchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +49,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val pic = intent.getParcelableExtra<CommonPic>(EXTRA_PIC) as CommonPic
-
-        viewModel = getViewModel()
 
         viewModel.getPictures(pic.tags ?: "", PreferenceManager(this).getInt(INDEX))
 

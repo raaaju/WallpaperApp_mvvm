@@ -14,7 +14,7 @@ import com.georgcantor.wallpaperapp.util.showAnimation
 import com.georgcantor.wallpaperapp.view.fragment.videos.video.VideoFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_videos.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 import org.koin.ext.getScopeName
 
 class VideosFragment : Fragment(R.layout.fragment_videos) {
@@ -27,12 +27,7 @@ class VideosFragment : Fragment(R.layout.fragment_videos) {
         }
     }
 
-    private lateinit var viewModel: VideosViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getViewModel()
-    }
+    private val viewModel by inject<VideosViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

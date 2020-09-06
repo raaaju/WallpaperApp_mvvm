@@ -1,7 +1,8 @@
 package com.georgcantor.wallpaperapp.view.activity
 
 import android.app.Activity
-import android.content.pm.ActivityInfo
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Bundle
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
@@ -19,9 +20,9 @@ class FullScreenActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen)
         requestedOrientation = if (intent.getBooleanExtra(IS_PORTRAIT, true)) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            SCREEN_ORIENTATION_PORTRAIT
         } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            SCREEN_ORIENTATION_LANDSCAPE
         }
 
         fullAnimationView.showAnimation()

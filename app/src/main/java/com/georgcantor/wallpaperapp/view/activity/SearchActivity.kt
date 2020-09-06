@@ -1,15 +1,12 @@
 package com.georgcantor.wallpaperapp.view.activity
 
 import android.Manifest.permission.RECORD_AUDIO
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.os.Bundle
-import android.speech.RecognizerIntent
-import android.speech.RecognizerIntent.ACTION_RECOGNIZE_SPEECH
-import android.speech.RecognizerIntent.EXTRA_PROMPT
+import android.speech.RecognizerIntent.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -35,7 +32,7 @@ import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.search_results.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 
 class SearchActivity : AppCompatActivity() {
 
@@ -48,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
     private val disposable = CompositeDisposable()
     private var index = 1
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by inject<SearchViewModel>()
     private lateinit var manager: InputMethodManager
     private lateinit var adapter: PicturesAdapter
     private lateinit var prefManager: PreferenceManager
@@ -77,7 +74,6 @@ class SearchActivity : AppCompatActivity() {
 
         manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        viewModel = getViewModel()
         createToolbar()
         initViews()
 
@@ -148,8 +144,8 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            val arrayList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            val arrayList = data.getStringArrayListExtra(EXTRA_RESULTS)
             arrayList?.toString()?.let { search(it, index) }
 
             val word = arrayList?.get(0)
@@ -173,9 +169,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun createToolbar() {
         setSupportActionBar(toolbarSearch)
-        if (supportActionBar != null) {
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-        }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbarSearch.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
         toolbarSearch.setNavigationOnClickListener {
             super.onBackPressed()

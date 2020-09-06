@@ -55,7 +55,6 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         linearLayoutManager = LinearLayoutManager(this)
-
         gridLayoutManager = StaggeredGridLayoutManager(getScreenSize(), VERTICAL)
 
         viewModel = getViewModel { parametersOf(this) }
