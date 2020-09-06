@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
+import androidx.core.view.GravityCompat.START
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -41,12 +41,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -56,12 +56,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val updateAvailable = MutableLiveData<Boolean>().apply { value = false }
     private val backPressedSubject = BehaviorSubject.createDefault(0L)
     private val disposable = CompositeDisposable()
+    private val viewModel by inject<MainViewModel>()
 
     private lateinit var mercedesFragment: Fragment
     private lateinit var bmwFragment: Fragment
     private lateinit var audiFragment: Fragment
     private lateinit var categoryFragment: Fragment
-    private lateinit var viewModel: MainViewModel
     private lateinit var reviewManager: ReviewManager
     private lateinit var reviewInfo: ReviewInfo
 
@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        viewModel = getViewModel()
         viewModel.loadCategories()
 
         reviewManager = ReviewManagerFactory.create(this)
@@ -201,43 +200,47 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_rate_us -> showRatingDialog()
             R.id.nav_change_theme -> showThemeDialog(this::recreate)
         }
-        drawerLayout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawer(START)
 
         return true
     }
 
     override fun onBackPressed() {
-        val stackEntryCount = supportFragmentManager.backStackEntryCount
-        if (stackEntryCount == 0) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                disposable.add(
-                    backPressedSubject
-                        .buffer(2, 1)
-                        .map { Pair(it[0], it[1]) }
-                        .map { (first, second) -> second - first < TimeUnit.SECONDS.toMillis(2) }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { canExit ->
-                            when (canExit) {
-                                true -> {
-                                    super.onBackPressed()
-                                    overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+        when (supportFragmentManager.backStackEntryCount) {
+            0 -> {
+                when {
+                    drawerLayout.isDrawerOpen(START) -> drawerLayout.closeDrawer(START)
+                    else -> {
+                        disposable.add(
+                            backPressedSubject
+                                .buffer(2, 1)
+                                .map { Pair(it[0], it[1]) }
+                                .map { (first, second) ->
+                                    second - first < TimeUnit.SECONDS.toMillis(2)
                                 }
-                                false -> shortToast(getString(R.string.press_back))
-                            }
-                        }
-                )
-
-                backPressedSubject.onNext(System.currentTimeMillis())
+                                .observeOn(mainThread())
+                                .subscribe { canExit ->
+                                    when (canExit) {
+                                        true -> {
+                                            super.onBackPressed()
+                                            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right)
+                                        }
+                                        false -> shortToast(getString(R.string.press_back))
+                                    }
+                                }
+                        )
+                        backPressedSubject.onNext(System.currentTimeMillis())
+                    }
+                }
             }
-        } else {
-            when {
-                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
-                else -> {
-                    try {
-                        super.onBackPressed()
-                    } catch (e: IllegalStateException) {
+            else -> {
+                when {
+                    drawerLayout.isDrawerOpen(START) -> drawerLayout.closeDrawer(START)
+                    else -> {
+                        try {
+                            super.onBackPressed()
+                        } catch (e: IllegalStateException) {
+                        }
                     }
                 }
             }

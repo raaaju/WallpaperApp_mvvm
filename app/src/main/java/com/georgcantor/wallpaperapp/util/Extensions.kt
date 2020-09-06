@@ -198,26 +198,24 @@ fun Context.loadImage(
         .into(view)
 }
 
-fun Context.saveImage(url: String) {
-    Glide.with(this)
-        .asBitmap()
-        .load(url)
-        .into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    withContext(Dispatchers.IO) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            bitmap.saveImageQ(this@saveImage)
-                        } else {
-                            bitmap.saveImage(this@saveImage)
-                        }
+fun Context.saveImage(url: String) = Glide.with(this)
+    .asBitmap()
+    .load(url)
+    .into(object : CustomTarget<Bitmap>() {
+        override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.IO) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        bitmap.saveImageQ(this@saveImage)
+                    } else {
+                        bitmap.saveImage(this@saveImage)
                     }
                 }
             }
+        }
 
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
-}
+        override fun onLoadCleared(placeholder: Drawable?) {}
+    })
 
 fun Context.share(text: String?) {
     val intent = Intent().apply {
@@ -312,20 +310,17 @@ fun Bitmap.saveImageQ(context: Context) {
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
-private fun contentValues(): ContentValues {
-    val values = ContentValues()
-    values.put(MIME_TYPE, "image/png")
-    values.put(DATE_ADDED, System.currentTimeMillis() / 1000)
-    values.put(DATE_TAKEN, System.currentTimeMillis())
-
-    return values
+private fun contentValues() = ContentValues().apply {
+    put(MIME_TYPE, "image/png")
+    put(DATE_ADDED, System.currentTimeMillis() / 1000)
+    put(DATE_TAKEN, System.currentTimeMillis())
 }
 
 private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
-    if (outputStream != null) {
+    outputStream?.let {
         try {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            outputStream.close()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            it.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }

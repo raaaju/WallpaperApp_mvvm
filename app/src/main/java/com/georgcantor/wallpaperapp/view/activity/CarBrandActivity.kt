@@ -19,14 +19,13 @@ import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_car_brand.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.android.ext.android.inject
 
 class CarBrandActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchViewModel
-    private lateinit var adapter: PicturesAdapter
+    private val viewModel by inject<SearchViewModel>()
     private val disposable = CompositeDisposable()
+    private lateinit var adapter: PicturesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +46,13 @@ class CarBrandActivity : AppCompatActivity() {
         setSupportActionBar(brandToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (!this.isNetworkAvailable()) {
+        if (!isNetworkAvailable()) {
             noInternetAnimationView.showAnimation()
             longToast(getString(R.string.no_internet))
         }
 
         brandTitle.text = intent.getStringExtra(REQUEST)
 
-        viewModel = getViewModel()
         setupRecyclerView()
 
         refreshLayout.setOnRefreshListener {

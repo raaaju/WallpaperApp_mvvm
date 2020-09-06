@@ -12,19 +12,15 @@ import com.georgcantor.wallpaperapp.util.Constants.INDEX
 import com.georgcantor.wallpaperapp.view.adapter.PicturesAdapter
 import com.georgcantor.wallpaperapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_common.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 
 class MercedesFragment : Fragment(R.layout.fragment_common) {
 
-    private lateinit var viewModel: SearchViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getViewModel()
-    }
+    private val viewModel by inject<SearchViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if (!requireContext().isNetworkAvailable()) {
             noInternetAnimationView.showAnimation()
             context?.longToast(getString(R.string.no_internet))

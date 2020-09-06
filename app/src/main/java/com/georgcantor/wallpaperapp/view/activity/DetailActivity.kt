@@ -43,7 +43,7 @@ class DetailActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_detail)
 
-        if (!this.isNetworkAvailable()) {
+        if (!isNetworkAvailable()) {
             noInternetAnimationView.showAnimation()
             longToast(getString(R.string.no_internet))
         }
