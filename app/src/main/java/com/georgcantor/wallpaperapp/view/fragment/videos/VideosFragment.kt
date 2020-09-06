@@ -1,9 +1,7 @@
 package com.georgcantor.wallpaperapp.view.fragment.videos
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,10 +15,9 @@ import com.georgcantor.wallpaperapp.view.fragment.videos.video.VideoFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_videos.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.ext.getScopeName
 
-class VideosFragment : Fragment() {
+class VideosFragment : Fragment(R.layout.fragment_videos) {
 
     companion object {
         fun create(id: String): VideosFragment {
@@ -36,12 +33,6 @@ class VideosFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_videos, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

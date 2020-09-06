@@ -40,7 +40,7 @@ class DetailsViewModel(
 
     val isFabOpened = MutableLiveData<Boolean>().apply { postValue(false) }
     val pictures = MutableLiveData<MutableList<CommonPic>>()
-    val isProgressVisible = MutableLiveData<Boolean>().apply { this.value = true }
+    val isProgressVisible = MutableLiveData<Boolean>().apply { value = true }
 
     fun setFabState(isOpened: Boolean) {
         isFabOpened.value = isOpened
@@ -85,33 +85,29 @@ class DetailsViewModel(
         )
     }
 
-    fun getBitmapAsync(pic: CommonPic): Observable<Bitmap?> {
-        return Observable.fromCallable {
-            var result: Bitmap? = null
-            try {
-                result = Glide.with(context)
-                    .asBitmap()
-                    .load(pic.imageURL)
-                    .submit()
-                    .get()
-            } catch (e: IOException) {
-            }
-            result
+    fun getBitmapAsync(pic: CommonPic) = Observable.fromCallable {
+        var result: Bitmap? = null
+        try {
+            result = Glide.with(context)
+                .asBitmap()
+                .load(pic.imageURL)
+                .submit()
+                .get()
+        } catch (e: IOException) {
         }
-            .applySchedulers()
+        result
     }
+        .applySchedulers()
 
-    fun getImageUri(bitmap: Bitmap): Observable<Uri> {
-        return Observable.fromCallable {
-            val bytes = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-            val path = MediaStore.Images.Media.insertImage(
-                context.contentResolver, bitmap, "Title", null
-            )
-            Uri.parse(path)
-        }
-            .applySchedulers()
+    fun getImageUri(bitmap: Bitmap) = Observable.fromCallable {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            context.contentResolver, bitmap, "Title", null
+        )
+        Uri.parse(path)
     }
+        .applySchedulers()
 
     fun setBitmapAsync(bitmap: Bitmap) {
         Single.fromCallable {
@@ -132,12 +128,8 @@ class DetailsViewModel(
             .subscribe()
     }
 
-    fun picInFavorites(url: String): Observable<Boolean> {
-        return Observable.fromCallable {
-            dao.getByUrl(url).isNotEmpty()
-        }
-            .applySchedulers()
-    }
+    fun picInFavorites(url: String) = Observable.fromCallable { dao.getByUrl(url).isNotEmpty() }
+        .applySchedulers()
 
     private fun addToFavorites(pic: CommonPic) {
         Observable.fromCallable {

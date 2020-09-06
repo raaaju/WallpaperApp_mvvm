@@ -2,7 +2,6 @@ package com.georgcantor.wallpaperapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.georgcantor.wallpaperapp.model.data.Category
 import com.georgcantor.wallpaperapp.util.Constants.CATEGORIES
 import com.georgcantor.wallpaperapp.util.PreferenceManager
 import io.reactivex.Observable
@@ -12,9 +11,7 @@ class CategoryViewModel(
     private val preferenceManager: PreferenceManager
 ) : AndroidViewModel(app) {
 
-    fun getSavedCategories(): Observable<ArrayList<Category>?> {
-        return Observable.fromCallable {
-            preferenceManager.getCategories(CATEGORIES)
-        }
+    fun getSavedCategories() = Observable.fromCallable {
+        preferenceManager.getCategories(CATEGORIES)
     }
 }

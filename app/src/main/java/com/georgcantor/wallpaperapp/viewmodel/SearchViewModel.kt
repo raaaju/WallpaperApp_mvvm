@@ -14,7 +14,7 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
     private val disposable = CompositeDisposable()
 
     val isSearchingActive = MutableLiveData<Boolean>()
-    val isProgressVisible = MutableLiveData<Boolean>().apply { this.value = true }
+    val isProgressVisible = MutableLiveData<Boolean>().apply { value = true }
     val pictures = MutableLiveData<MutableList<CommonPic>>()
 
     fun getPictures(request: String, index: Int) {
@@ -36,18 +36,14 @@ class SearchViewModel(private val apiRepository: ApiRepository) : ViewModel() {
         )
     }
 
-    fun getPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return Observable.merge(
-            apiRepository.getUnsplashPictures(request, index),
-            apiRepository.getPixabayPictures(request, index)
-        )
-            .applySchedulers()
-    }
+    fun getPics(request: String, index: Int) = Observable.merge(
+        apiRepository.getUnsplashPictures(request, index),
+        apiRepository.getPixabayPictures(request, index)
+    )
+        .applySchedulers()
 
-    fun getPixabayPictures(request: String, index: Int): Observable<ArrayList<CommonPic>> {
-        return apiRepository.getPixabayPictures(request, index)
+    fun getPixabayPictures(request: String, index: Int) = apiRepository.getPixabayPictures(request, index)
             .applySchedulers()
-    }
 
     fun searchPics(request: String, index: Int): Observable<ArrayList<CommonPic>> {
         isSearchingActive.value = true

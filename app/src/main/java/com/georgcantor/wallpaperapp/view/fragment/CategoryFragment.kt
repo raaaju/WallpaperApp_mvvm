@@ -1,9 +1,7 @@
 package com.georgcantor.wallpaperapp.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -16,9 +14,8 @@ import com.georgcantor.wallpaperapp.viewmodel.CategoryViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_common.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : Fragment(R.layout.fragment_common) {
 
     private lateinit var viewModel: CategoryViewModel
     private val disposable = CompositeDisposable()
@@ -27,12 +24,6 @@ class CategoryFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_common, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

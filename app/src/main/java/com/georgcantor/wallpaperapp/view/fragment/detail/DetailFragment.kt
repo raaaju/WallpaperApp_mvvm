@@ -16,11 +16,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -42,7 +40,7 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     companion object {
         fun create(pic: CommonPic): DetailFragment {
@@ -69,12 +67,6 @@ class DetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel { parametersOf(requireActivity()) }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_detail, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

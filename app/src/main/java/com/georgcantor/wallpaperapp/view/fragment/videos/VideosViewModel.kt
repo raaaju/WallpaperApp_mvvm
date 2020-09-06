@@ -12,7 +12,7 @@ class VideosViewModel(private val repository: ApiRepository) : ViewModel() {
 
     private val disposable = CompositeDisposable()
 
-    val isProgressVisible = MutableLiveData<Boolean>().apply { this.value = true }
+    val isProgressVisible = MutableLiveData<Boolean>().apply { value = true }
     val videos = MutableLiveData<List<CommonPic>>()
 
     fun getVideos(playlistId: String) {
