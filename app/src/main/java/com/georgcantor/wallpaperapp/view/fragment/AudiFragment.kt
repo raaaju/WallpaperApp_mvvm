@@ -3,7 +3,6 @@ package com.georgcantor.wallpaperapp.view.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
@@ -48,9 +47,9 @@ class AudiFragment : Fragment(R.layout.fragment_common) {
         }
 
         with(viewModel) {
-            pictures.observe(viewLifecycleOwner, Observer(adapter::setPictures))
+            pictures.observe(viewLifecycleOwner, adapter::setPictures)
 
-            isProgressVisible.observe(viewLifecycleOwner, Observer { visible ->
+            isProgressVisible.observe(viewLifecycleOwner, { visible ->
                 if (visible) animationView.showAnimation() else animationView.hideAnimation()
             })
 
