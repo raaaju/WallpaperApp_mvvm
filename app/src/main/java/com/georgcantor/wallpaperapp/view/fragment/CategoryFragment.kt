@@ -47,7 +47,7 @@ class CategoryFragment : Fragment(R.layout.fragment_common) {
                 .doFinally { animationView?.hideAnimation() }
                 .subscribe({
                     recyclerView.adapter =
-                        CategoryAdapter(requireContext(), it as MutableList<Category>) { category ->
+                        CategoryAdapter(it as MutableList<Category>) { category ->
                             requireActivity().openActivity(CarBrandActivity::class.java) {
                                 putString(REQUEST, category.categoryName)
                             }
