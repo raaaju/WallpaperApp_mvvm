@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ItemPictureBinding
 import com.georgcantor.wallpaperapp.model.response.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
@@ -20,7 +21,7 @@ class GalleryAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val picture = getItem(position)
         (holder as GalleryViewHolder).apply {
-            itemView.context.loadImage(picture?.url, binding.image)
+            itemView.context.loadImage(picture?.url, binding.image, null, R.color.gray)
             itemView.setOnClickListener { clickListener(picture) }
         }
     }
