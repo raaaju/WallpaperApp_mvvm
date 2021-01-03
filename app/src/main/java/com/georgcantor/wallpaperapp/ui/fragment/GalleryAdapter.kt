@@ -6,10 +6,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.databinding.ItemPictureBinding
-import com.georgcantor.wallpaperapp.model.response.pixabay.Hit
+import com.georgcantor.wallpaperapp.model.response.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
 
-class GalleryAdapter : PagingDataAdapter<Hit, RecyclerView.ViewHolder>(picComparator) {
+class GalleryAdapter : PagingDataAdapter<CommonPic, RecyclerView.ViewHolder>(picComparator) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(
         ItemPictureBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -18,19 +18,19 @@ class GalleryAdapter : PagingDataAdapter<Hit, RecyclerView.ViewHolder>(picCompar
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val picture = getItem(position)
         (holder as GalleryViewHolder).apply {
-            itemView.context.loadImage(picture?.webformatURL, binding.image)
+            itemView.context.loadImage(picture?.url, binding.image)
         }
     }
 
     class GalleryViewHolder(val binding: ItemPictureBinding) : RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        private val picComparator = object : DiffUtil.ItemCallback<Hit>() {
-            override fun areItemsTheSame(oldItem: Hit, newItem: Hit): Boolean {
-                return (oldItem.id == newItem.id) && (oldItem.user == newItem.user)
+        private val picComparator = object : DiffUtil.ItemCallback<CommonPic>() {
+            override fun areItemsTheSame(oldItem: CommonPic, newItem: CommonPic): Boolean {
+                return (oldItem.id == newItem.id) && (oldItem.url == newItem.url)
             }
 
-            override fun areContentsTheSame(oldItem: Hit, newItem: Hit) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: CommonPic, newItem: CommonPic) = oldItem == newItem
         }
     }
 }
