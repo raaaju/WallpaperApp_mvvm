@@ -5,15 +5,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.georgcantor.wallpaperapp.model.response.CommonPic
+import com.georgcantor.wallpaperapp.repository.PicPagingSource
 import com.georgcantor.wallpaperapp.repository.Repository
-import com.georgcantor.wallpaperapp.repository.paging.PixabayPagingSource
 import kotlinx.coroutines.flow.Flow
 
 class GalleryViewModel(private val repository: Repository) : ViewModel() {
 
     fun getPicListStream(query: String): Flow<PagingData<CommonPic>> {
         return Pager(PagingConfig(40)) {
-            PixabayPagingSource(repository, query)
+            PicPagingSource(repository, query)
         }.flow
     }
 }

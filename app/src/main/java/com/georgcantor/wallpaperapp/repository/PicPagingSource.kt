@@ -1,10 +1,9 @@
-package com.georgcantor.wallpaperapp.repository.paging
+package com.georgcantor.wallpaperapp.repository
 
 import androidx.paging.PagingSource
 import com.georgcantor.wallpaperapp.model.response.CommonPic
-import com.georgcantor.wallpaperapp.repository.Repository
 
-class PixabayPagingSource(
+class PicPagingSource(
     private val repository: Repository,
     private val query: String
 ) : PagingSource<Int, CommonPic>() {
@@ -12,7 +11,7 @@ class PixabayPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommonPic> {
         return try {
             val nextPage = params.key ?: 1
-            val response = repository.getPixabayPictures(query, nextPage)
+            val response = repository.getPictures(query, nextPage)
             LoadResult.Page(
                 response,
                 if (nextPage == 1) null else nextPage - 1,

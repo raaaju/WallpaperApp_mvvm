@@ -6,7 +6,7 @@ import com.georgcantor.wallpaperapp.model.response.CommonPic
 
 class Repository(private val service: ApiService) {
 
-    suspend fun getPixabayPictures(
+    suspend fun getPictures(
         query: String,
         page: Int
     ): List<CommonPic> {
