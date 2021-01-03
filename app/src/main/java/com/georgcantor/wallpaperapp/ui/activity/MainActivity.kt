@@ -7,6 +7,8 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityMainBinding
+import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
+import com.georgcantor.wallpaperapp.util.setVisibility
 import com.georgcantor.wallpaperapp.util.setupWithNavController
 import com.georgcantor.wallpaperapp.util.viewBinding
 
@@ -19,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         if (savedInstanceState == null) setupBottomNavigationBar()
+
+        getNetworkLiveData(applicationContext).observe(this){
+            binding.noInternetWarning.setVisibility(!it)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

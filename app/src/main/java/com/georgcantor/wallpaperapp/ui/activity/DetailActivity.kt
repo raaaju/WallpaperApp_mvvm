@@ -13,7 +13,6 @@ import com.georgcantor.wallpaperapp.util.viewBinding
 class DetailActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityDetailBinding::inflate)
-    private lateinit var zoomyBuilder: Zoomy.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +22,18 @@ class DetailActivity : AppCompatActivity() {
 
         loadImage(pic?.imageURL, binding.image, binding.progressBar, R.color.black)
 
-        zoomyBuilder = Zoomy.Builder(this).target(binding.image)
-        zoomyBuilder.register()
+        Zoomy.Builder(this).target(binding.image).apply {
+            register()
+        }
+
+        binding.bottomAppBar.setNavigationOnClickListener { onBackPressed() }
+        binding.bottomAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_share -> {}
+                R.id.action_download -> {}
+                R.id.action_add_to_fav -> {}
+            }
+            true
+        }
     }
 }

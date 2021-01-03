@@ -10,6 +10,8 @@ import android.os.Handler
 import android.os.Looper.getMainLooper
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast.LENGTH_SHORT
@@ -60,9 +62,13 @@ fun Context.loadImage(url: String?, view: ImageView, progressBar: ProgressBar?, 
 
 fun Context.shortToast(message: String) = makeText(this, message, LENGTH_SHORT).show()
 
-fun View.visible() { visibility = View.VISIBLE }
+fun View.setVisibility(visible: Boolean) {
+    visibility = if (visible) VISIBLE else GONE
+}
 
-fun View.gone() { visibility = View.GONE }
+fun View.visible() { visibility = VISIBLE }
+
+fun View.gone() { visibility = GONE }
 
 fun Long.runDelayed(action: () -> Unit) = Handler(getMainLooper())
     .postDelayed(action, TimeUnit.MILLISECONDS.toMillis(this))
