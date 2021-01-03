@@ -10,7 +10,7 @@ import com.georgcantor.wallpaperapp.model.response.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
 
 class GalleryAdapter(
-    private val clickListener: (CommonPic) -> Unit
+    private val clickListener: (CommonPic?) -> Unit
 ) : PagingDataAdapter<CommonPic, RecyclerView.ViewHolder>(picComparator) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(
@@ -21,7 +21,7 @@ class GalleryAdapter(
         val picture = getItem(position)
         (holder as GalleryViewHolder).apply {
             itemView.context.loadImage(picture?.url, binding.image)
-            itemView.setOnClickListener { clickListener(picture!!) }
+            itemView.setOnClickListener { clickListener(picture) }
         }
     }
 

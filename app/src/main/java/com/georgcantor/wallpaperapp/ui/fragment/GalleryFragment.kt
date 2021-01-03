@@ -1,6 +1,5 @@
 package com.georgcantor.wallpaperapp.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +9,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.FragmentGalleryBinding
 import com.georgcantor.wallpaperapp.ui.activity.DetailActivity
+import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
+import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,8 +26,8 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
         val request = (findNavController().currentDestination?.label).toString()
 
-        val galleryAdapter = GalleryAdapter {
-            startActivity(Intent(requireActivity(), DetailActivity::class.java))
+        val galleryAdapter = GalleryAdapter { pic ->
+            context?.startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
         }
 
         binding.picturesRecycler.apply {
