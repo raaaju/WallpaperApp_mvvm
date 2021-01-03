@@ -1,67 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.georgcantor.wallpaperapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission-sdk-23 android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_gelik"
+        android:icon="@drawable/bmw_icon"
         android:label="@string/app_name"
-        android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_gelik"
+        android:roundIcon="@drawable/bmw_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".ui.SplashActivity"
-            android:label="@string/app_name"
-            android:theme="@style/SplashTheme">
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.MainActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".ui.SearchActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".ui.AboutActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_about_the_app"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.FavoriteActivity"
-            android:configChanges="orientation|screenSize" />
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"
-                tools:replace="android:resource" />
-        </provider>
     </application>
 
 </manifest>
