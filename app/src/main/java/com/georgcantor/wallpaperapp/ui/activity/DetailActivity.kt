@@ -36,4 +36,9 @@ class DetailActivity : AppCompatActivity() {
             true
         }
     }
+
+    override fun onDestroy() {
+        Zoomy.unregister(binding.image)
+        super.onDestroy()
+    }
 }

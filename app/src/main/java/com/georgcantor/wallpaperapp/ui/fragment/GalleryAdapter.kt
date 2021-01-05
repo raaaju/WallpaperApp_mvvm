@@ -12,7 +12,7 @@ import com.georgcantor.wallpaperapp.util.loadImage
 
 class GalleryAdapter(
     private val clickListener: (CommonPic?) -> Unit
-) : PagingDataAdapter<CommonPic, RecyclerView.ViewHolder>(picComparator) {
+) : PagingDataAdapter<CommonPic, RecyclerView.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(
         ItemPictureBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,12 +29,10 @@ class GalleryAdapter(
     class GalleryViewHolder(val binding: ItemPictureBinding) : RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        private val picComparator = object : DiffUtil.ItemCallback<CommonPic>() {
-            override fun areItemsTheSame(oldItem: CommonPic, newItem: CommonPic): Boolean {
-                return (oldItem.id == newItem.id) && (oldItem.url == newItem.url)
-            }
+        object DiffCallback : DiffUtil.ItemCallback<CommonPic>() {
+            override fun areItemsTheSame(oldItem: CommonPic, newItem: CommonPic) = oldItem == newItem
 
-            override fun areContentsTheSame(oldItem: CommonPic, newItem: CommonPic) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: CommonPic, newItem: CommonPic) = oldItem.id == newItem.id
         }
     }
 }
