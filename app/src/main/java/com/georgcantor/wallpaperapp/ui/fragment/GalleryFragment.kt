@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.FragmentGalleryBinding
 import com.georgcantor.wallpaperapp.ui.activity.DetailActivity
@@ -31,7 +32,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         }
 
         binding.picturesRecycler.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
             adapter = galleryAdapter
         }
 

@@ -28,9 +28,7 @@ class CategoriesAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return categories.size
-    }
+    override fun getItemCount() = categories.size
 
     class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var categoryImage: ImageView = itemView.findViewById(R.id.categoryImageView)

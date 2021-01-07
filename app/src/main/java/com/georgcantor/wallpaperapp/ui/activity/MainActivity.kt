@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_search -> { }
+            R.id.action_search -> startActivity<SearchActivity>()
             R.id.action_gallery -> startActivity<CategoriesActivity>()
         }
         return super.onOptionsItemSelected(item)
