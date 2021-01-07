@@ -15,4 +15,9 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="NavigationViewTheme" parent="AppTheme">
+        <item name="android:listDivider">@color/gray</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
 </resources>
