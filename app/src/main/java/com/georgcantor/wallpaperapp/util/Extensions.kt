@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.util
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
@@ -23,6 +24,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.georgcantor.wallpaperapp.R
 import java.util.concurrent.TimeUnit
 
 inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
@@ -59,6 +61,19 @@ fun Context.loadImage(url: String?, view: ImageView, progressBar: ProgressBar?, 
             }
         })
         .into(view)
+
+fun Context.share(text: String?) {
+    val intent = Intent().apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, text)
+        putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+    }
+    try {
+        startActivity(Intent.createChooser(intent, getString(R.string.choose_share)))
+    } catch (e: ActivityNotFoundException) {
+        shortToast(getString(R.string.cant_share))
+    }
+}
 
 fun Context.shortToast(message: String) = makeText(this, message, LENGTH_SHORT).show()
 

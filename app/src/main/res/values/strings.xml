@@ -138,6 +138,7 @@
     <string name="email">cupsman1986@gmail.com</string>
     <string name="email_message">Email message goes here</string>
     <string name="message_choose_title">Send a message</string>
+    <string name="cant_share">Unable to share</string>
 
     <string-array name="categories_array">
         <item>Nature</item>

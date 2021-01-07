@@ -8,6 +8,7 @@ import com.georgcantor.wallpaperapp.databinding.ActivityDetailBinding
 import com.georgcantor.wallpaperapp.model.response.CommonPic
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.loadImage
+import com.georgcantor.wallpaperapp.util.share
 import com.georgcantor.wallpaperapp.util.viewBinding
 
 class DetailActivity : AppCompatActivity() {
@@ -29,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
         binding.bottomAppBar.setNavigationOnClickListener { onBackPressed() }
         binding.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.action_share -> {}
+                R.id.action_share -> share(pic?.imageURL)
                 R.id.action_download -> {}
                 R.id.action_add_to_fav -> {}
             }
