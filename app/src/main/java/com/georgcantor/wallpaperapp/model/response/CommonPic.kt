@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CommonPic(
-    val url: String?,
+    val url: String,
     val width: Int,
     val heght: Int,
     var tags: String?,

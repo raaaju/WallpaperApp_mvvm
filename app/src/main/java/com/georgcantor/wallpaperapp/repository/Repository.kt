@@ -16,7 +16,7 @@ class Repository(private val service: ApiService) {
 
         val listUnsplash = respUnsplash.body()?.results?.map {
             CommonPic(
-                it.urls?.small,
+                it.urls?.small ?: "",
                 it.width ?: 0,
                 it.height ?: 0,
                 it.altDescription,
@@ -29,7 +29,7 @@ class Repository(private val service: ApiService) {
 
         val listPixabay = respPixabay.body()?.hits?.map {
             CommonPic(
-                url = it.webformatURL,
+                url = it.webformatURL ?: "",
                 width = it.imageWidth,
                 heght = it.imageHeight,
                 tags = it.tags,
