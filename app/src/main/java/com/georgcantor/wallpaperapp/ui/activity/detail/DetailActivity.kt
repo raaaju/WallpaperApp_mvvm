@@ -25,8 +25,14 @@ class DetailActivity : AppCompatActivity() {
 
         loadImage(pic?.imageURL, binding.image, binding.progressBar, R.color.black)
 
-        Zoomy.Builder(this).target(binding.image).apply {
-            register()
+        Zoomy.Builder(this).target(binding.image).apply { register() }
+
+        viewModel.isFavorite(pic?.url)
+
+        viewModel.isFavorite.observe(this) {
+            binding.bottomAppBar.menu.findItem(R.id.action_add_to_fav).setIcon(
+                if (it) R.drawable.ic_star_red_24dp else R.drawable.ic_star_border
+            )
         }
 
         binding.bottomAppBar.setNavigationOnClickListener { onBackPressed() }
@@ -34,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.action_share -> share(pic?.imageURL)
                 R.id.action_download -> {}
-                R.id.action_add_to_fav -> viewModel.addToFavorites(pic)
+                R.id.action_add_to_fav -> viewModel.addOrRemoveFromFavorites(pic)
             }
             true
         }

@@ -12,7 +12,7 @@ interface FavDao {
     suspend fun insert(favorite: Favorite): Long
 
     @Query("DELETE FROM favorites WHERE url = :url")
-    suspend fun deleteByUrl(url: String)
+    suspend fun deleteByUrl(url: String?)
 
     @Query("DELETE FROM favorites")
     suspend fun deleteAll()
@@ -22,4 +22,7 @@ interface FavDao {
 
     @Query("SELECT * FROM favorites")
     suspend fun getAll(): List<Favorite>
+
+    @Query("SELECT EXISTS(SELECT * FROM favorites WHERE url = :url)")
+    suspend fun isFavorite(url: String?): Boolean
 }

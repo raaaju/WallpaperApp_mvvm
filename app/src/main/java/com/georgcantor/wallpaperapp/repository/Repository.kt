@@ -54,11 +54,13 @@ class Repository(
 
     suspend fun addToFavorites(favorite: Favorite) = dao.insert(favorite)
 
-    suspend fun deleteFromFavorites(url: String) = dao.deleteByUrl(url)
+    suspend fun removeFromFavorites(url: String?) = dao.deleteByUrl(url)
 
     suspend fun deleteAll() = dao.deleteAll()
 
     suspend fun getByUrl(url: String) = dao.getByUrl(url)
 
     suspend fun getFavorites() = dao.getAll()
+
+    suspend fun isFavorite(url: String?) = dao.isFavorite(url)
 }
