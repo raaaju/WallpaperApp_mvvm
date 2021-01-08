@@ -13,9 +13,7 @@ class FavoritesViewModel(private val repository: Repository) : ViewModel() {
 
     fun getFavorites() {
         viewModelScope.launch {
-            repository.getFavorites().apply {
-                if (this.isNotEmpty()) favorites.postValue(this)
-            }
+            favorites.postValue(repository.getFavorites())
         }
     }
 }
