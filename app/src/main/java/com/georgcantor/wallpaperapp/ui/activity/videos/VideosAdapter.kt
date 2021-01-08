@@ -11,7 +11,7 @@ import com.georgcantor.wallpaperapp.util.loadImage
 
 class VideosAdapter(
     private val videos: List<Item>,
-    private val clickListener: (Item) -> Unit
+    private val clickListener: (String?) -> Unit
 ) : RecyclerView.Adapter<VideosAdapter.VideosViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VideosViewHolder(
@@ -27,7 +27,7 @@ class VideosAdapter(
                 null,
                 R.color.gray
             )
-            itemView.setOnClickListener { clickListener(video) }
+            itemView.setOnClickListener { clickListener(video.snippet?.resourceId?.videoId) }
         }
     }
 

@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.videos.VideosActivity"></activity>
+
+        <activity
+            android:name=".ui.activity.videos.VideoActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ui.activity.videos.VideosActivity" />
         <activity android:name=".ui.activity.favorites.FavoritesActivity" />
         <activity android:name=".ui.activity.GalleryActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
@@ -34,6 +38,7 @@
         <activity
             android:name=".ui.activity.detail.DetailActivity"
             android:configChanges="orientation|screenSize" />
+
     </application>
 
 </manifest>

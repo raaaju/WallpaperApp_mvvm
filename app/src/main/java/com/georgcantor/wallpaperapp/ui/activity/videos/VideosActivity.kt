@@ -3,6 +3,8 @@ package com.georgcantor.wallpaperapp.ui.activity.videos
 import android.os.Bundle
 import com.georgcantor.wallpaperapp.databinding.ActivityVideosBinding
 import com.georgcantor.wallpaperapp.ui.activity.BaseActivity
+import com.georgcantor.wallpaperapp.util.Constants.ID_EXTRA
+import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +20,9 @@ class VideosActivity : BaseActivity() {
         viewModel.videos.observe(this) {
             binding.videosRecycler.apply {
                 setHasFixedSize(true)
-                adapter = VideosAdapter(it) {}
+                adapter = VideosAdapter(it) {
+                    startActivity<VideoActivity> { putExtra(ID_EXTRA, it) }
+                }
             }
         }
     }
