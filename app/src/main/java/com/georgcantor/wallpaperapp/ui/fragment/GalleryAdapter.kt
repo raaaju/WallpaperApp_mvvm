@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ItemPictureBinding
-import com.georgcantor.wallpaperapp.model.response.CommonPic
+import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.util.loadImage
 
 class GalleryAdapter(

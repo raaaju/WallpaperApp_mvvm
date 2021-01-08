@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.response.Category
+import com.georgcantor.wallpaperapp.model.remote.response.Category
 import com.georgcantor.wallpaperapp.repository.Repository
 import kotlinx.coroutines.launch
 

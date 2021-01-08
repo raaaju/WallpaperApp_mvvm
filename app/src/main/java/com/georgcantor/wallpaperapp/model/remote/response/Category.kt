@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.response
+package com.georgcantor.wallpaperapp.model.remote.response
 
 data class Category(
     var categoryName: String,

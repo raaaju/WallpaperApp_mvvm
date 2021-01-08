@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.georgcantor.wallpaperapp.R
-import com.georgcantor.wallpaperapp.model.response.Category
+import com.georgcantor.wallpaperapp.model.remote.response.Category
 import com.georgcantor.wallpaperapp.util.loadImage
 
 class CategoriesAdapter(

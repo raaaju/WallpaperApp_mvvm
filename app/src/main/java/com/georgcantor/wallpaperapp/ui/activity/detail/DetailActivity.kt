@@ -1,19 +1,21 @@
-package com.georgcantor.wallpaperapp.ui.activity
+package com.georgcantor.wallpaperapp.ui.activity.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityDetailBinding
-import com.georgcantor.wallpaperapp.model.response.CommonPic
+import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.share
 import com.georgcantor.wallpaperapp.util.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityDetailBinding::inflate)
+    private val viewModel: DetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.action_share -> share(pic?.imageURL)
                 R.id.action_download -> {}
-                R.id.action_add_to_fav -> {}
+                R.id.action_add_to_fav -> viewModel.addToFavorites(pic)
             }
             true
         }

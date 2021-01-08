@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.response.videos
+package com.georgcantor.wallpaperapp.model.remote.response.videos
 
 class Standard {
     var height: Long = 0

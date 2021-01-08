@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.georgcantor.wallpaperapp.model.response.CommonPic
+import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.repository.PicPagingSource
 import com.georgcantor.wallpaperapp.repository.Repository
 import kotlinx.coroutines.flow.Flow

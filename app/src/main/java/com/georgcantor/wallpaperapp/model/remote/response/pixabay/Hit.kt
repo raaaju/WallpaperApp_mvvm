@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model.response.pixabay
+package com.georgcantor.wallpaperapp.model.remote.response.pixabay
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

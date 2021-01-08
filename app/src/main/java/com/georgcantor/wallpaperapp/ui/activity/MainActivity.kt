@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityMainBinding
 import com.georgcantor.wallpaperapp.ui.activity.categories.CategoriesActivity
+import com.georgcantor.wallpaperapp.ui.activity.favorites.FavoritesActivity
+import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
 import com.georgcantor.wallpaperapp.util.setVisibility
 import com.georgcantor.wallpaperapp.util.setupWithNavController
@@ -76,15 +78,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_aston -> {}
-            R.id.nav_bentley -> {}
-            R.id.nav_bugatti -> {}
-            R.id.nav_ferrari -> {}
-            R.id.nav_lambo -> {}
-            R.id.nav_mclaren -> {}
-            R.id.nav_porsche -> {}
-            R.id.nav_rolls -> {}
-            R.id.nav_favorites-> {}
+            R.id.nav_aston -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.aston)) }
+            R.id.nav_bentley -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.bentley)) }
+            R.id.nav_bugatti -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.bugatti)) }
+            R.id.nav_ferrari -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.ferrari)) }
+            R.id.nav_lambo -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.lambo_walp)) }
+            R.id.nav_mclaren -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.mclaren)) }
+            R.id.nav_porsche -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.porsche)) }
+            R.id.nav_rolls -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.rolls)) }
+            R.id.nav_favorites-> startActivity<FavoritesActivity>()
             R.id.nav_rate_us -> {}
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)

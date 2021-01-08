@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.model
+package com.georgcantor.wallpaperapp.model.remote
 
 import android.content.Context
 import com.georgcantor.wallpaperapp.BuildConfig.BASE_URL

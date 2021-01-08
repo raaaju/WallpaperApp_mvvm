@@ -24,7 +24,7 @@ class CategoriesActivity : AppCompatActivity() {
             binding.recyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(this@CategoriesActivity, 2)
-                binding.recyclerView.adapter = CategoriesAdapter(it) {
+                adapter = CategoriesAdapter(it) {
                     startActivity<GalleryActivity> { putExtra(PIC_EXTRA, it.categoryName) }
                 }
             }

@@ -1,9 +1,9 @@
-package com.georgcantor.wallpaperapp.model
+package com.georgcantor.wallpaperapp.model.remote
 
 import com.georgcantor.wallpaperapp.BuildConfig.PIXABAY_KEY
-import com.georgcantor.wallpaperapp.model.response.pixabay.Pic
-import com.georgcantor.wallpaperapp.model.response.unsplash.UnsplashResponse
-import com.georgcantor.wallpaperapp.model.response.videos.VideoResponse
+import com.georgcantor.wallpaperapp.model.remote.response.pixabay.Pic
+import com.georgcantor.wallpaperapp.model.remote.response.unsplash.UnsplashResponse
+import com.georgcantor.wallpaperapp.model.remote.response.videos.VideoResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

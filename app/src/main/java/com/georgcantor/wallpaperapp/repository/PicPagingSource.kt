@@ -1,7 +1,7 @@
 package com.georgcantor.wallpaperapp.repository
 
 import androidx.paging.PagingSource
-import com.georgcantor.wallpaperapp.model.response.CommonPic
+import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 
 class PicPagingSource(
     private val repository: Repository,

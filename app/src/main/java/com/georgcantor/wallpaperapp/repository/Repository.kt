@@ -1,10 +1,15 @@
 package com.georgcantor.wallpaperapp.repository
 
 import com.georgcantor.wallpaperapp.BuildConfig.UNSPLASH_URL
-import com.georgcantor.wallpaperapp.model.ApiService
-import com.georgcantor.wallpaperapp.model.response.CommonPic
+import com.georgcantor.wallpaperapp.model.local.FavDao
+import com.georgcantor.wallpaperapp.model.local.Favorite
+import com.georgcantor.wallpaperapp.model.remote.ApiService
+import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 
-class Repository(private val service: ApiService) {
+class Repository(
+    private val service: ApiService,
+    private val dao: FavDao
+) {
 
     suspend fun getPictures(
         query: String,
@@ -46,4 +51,14 @@ class Repository(private val service: ApiService) {
 
         return list
     }
+
+    suspend fun addToFavorites(favorite: Favorite) = dao.insert(favorite)
+
+    suspend fun deleteFromFavorites(url: String) = dao.deleteByUrl(url)
+
+    suspend fun deleteAll() = dao.deleteAll()
+
+    suspend fun getByUrl(url: String) = dao.getByUrl(url)
+
+    suspend fun getFavorites() = dao.getAll()
 }
