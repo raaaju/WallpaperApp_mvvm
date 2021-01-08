@@ -8,28 +8,29 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@drawable/bmw_icon"
+        android:icon="@drawable/ic_gelik"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/bmw_icon"
+        android:roundIcon="@drawable/ic_gelik"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.favorites.FavoritesActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <activity android:name=".ui.activity.favorites.FavoritesActivity" />
         <activity android:name=".ui.activity.GalleryActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.categories.CategoriesActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.detail.DetailActivity"
             android:configChanges="orientation|screenSize" />
+
     </application>
 
 </manifest>

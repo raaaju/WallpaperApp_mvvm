@@ -1,18 +1,18 @@
 package com.georgcantor.wallpaperapp.ui.activity.detail
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityDetailBinding
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
+import com.georgcantor.wallpaperapp.ui.activity.BaseActivity
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.loadImage
 import com.georgcantor.wallpaperapp.util.share
 import com.georgcantor.wallpaperapp.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity() {
 
     private val binding by viewBinding(ActivityDetailBinding::inflate)
     private val viewModel: DetailViewModel by viewModel()

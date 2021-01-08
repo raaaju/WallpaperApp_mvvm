@@ -28,7 +28,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         val request = (findNavController().currentDestination?.label).toString()
 
         val galleryAdapter = GalleryAdapter { pic ->
-            context?.startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
+            requireActivity().startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
         }
 
         binding.picturesRecycler.apply {

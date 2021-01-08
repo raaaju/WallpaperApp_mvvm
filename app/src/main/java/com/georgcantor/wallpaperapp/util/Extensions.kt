@@ -27,8 +27,9 @@ import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
 import java.util.concurrent.TimeUnit
 
-inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
+inline fun <reified T : Activity> Activity.startActivity(block: Intent.() -> Unit = {}) {
     startActivity(Intent(this, T::class.java).apply(block))
+    overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
 }
 
 fun Context.isNetworkAvailable() = (getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager?)
