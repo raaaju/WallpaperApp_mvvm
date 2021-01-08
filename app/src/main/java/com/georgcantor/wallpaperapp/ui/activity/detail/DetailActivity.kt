@@ -44,6 +44,8 @@ class DetailActivity : BaseActivity() {
             }
             true
         }
+
+        binding.fab.setOnClickListener {  }
     }
 
     override fun onDestroy() {

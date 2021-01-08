@@ -16,4 +16,10 @@
         android:title="@string/gallery"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_videos"
+        android:icon="@drawable/ic_videos"
+        android:title="@string/videos"
+        app:showAsAction="ifRoom" />
+
 </menu>

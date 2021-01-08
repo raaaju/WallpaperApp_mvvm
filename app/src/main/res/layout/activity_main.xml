@@ -58,6 +58,6 @@
         android:theme="@style/NavigationViewTheme"
         app:headerLayout="@layout/nav_header_main"
         app:itemTextColor="@color/white"
-        app:menu="@menu/menu_main_drawer" />
+        app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

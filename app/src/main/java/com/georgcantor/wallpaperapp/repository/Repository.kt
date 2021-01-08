@@ -1,10 +1,12 @@
 package com.georgcantor.wallpaperapp.repository
 
 import com.georgcantor.wallpaperapp.BuildConfig.UNSPLASH_URL
+import com.georgcantor.wallpaperapp.BuildConfig.YOUTUBE_URL
 import com.georgcantor.wallpaperapp.model.local.FavDao
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.model.remote.ApiService
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
+import com.georgcantor.wallpaperapp.util.Constants.VIDEOS
 
 class Repository(
     private val service: ApiService,
@@ -51,6 +53,8 @@ class Repository(
 
         return list
     }
+
+    suspend fun getVideos() = service.getVideos(YOUTUBE_URL, VIDEOS)
 
     suspend fun addToFavorites(favorite: Favorite) = dao.insert(favorite)
 

@@ -12,6 +12,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityMainBinding
 import com.georgcantor.wallpaperapp.ui.activity.categories.CategoriesActivity
 import com.georgcantor.wallpaperapp.ui.activity.favorites.FavoritesActivity
+import com.georgcantor.wallpaperapp.ui.activity.videos.VideosActivity
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
 import com.georgcantor.wallpaperapp.util.setVisibility
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.action_search -> startActivity<SearchActivity>()
             R.id.action_gallery -> startActivity<CategoriesActivity>()
+            R.id.action_videos -> startActivity<VideosActivity>()
         }
         return super.onOptionsItemSelected(item)
     }
