@@ -25,6 +25,8 @@ class SearchActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         galleryAdapter = GalleryAdapter { pic ->
             startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }

@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_porsche -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.porsche)) }
             R.id.nav_rolls -> startActivity<GalleryActivity> { putExtra(PIC_EXTRA, getString(R.string.rolls)) }
             R.id.nav_favorites-> startActivity<FavoritesActivity>()
-            R.id.nav_rate_us -> {}
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

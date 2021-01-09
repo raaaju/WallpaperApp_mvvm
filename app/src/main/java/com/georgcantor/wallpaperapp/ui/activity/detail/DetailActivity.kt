@@ -49,8 +49,6 @@ class DetailActivity : BaseActivity() {
         binding.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_share -> share(pic?.imageURL)
-                R.id.action_download -> {
-                }
                 R.id.action_add_to_fav -> viewModel.addOrRemoveFromFavorites(pic)
             }
             true
