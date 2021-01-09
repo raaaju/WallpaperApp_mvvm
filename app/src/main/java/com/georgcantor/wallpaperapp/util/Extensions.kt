@@ -5,10 +5,13 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -25,11 +28,37 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 inline fun <reified T : Activity> Activity.startActivity(block: Intent.() -> Unit = {}) {
     startActivity(Intent(this, T::class.java).apply(block))
     overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left)
+}
+
+fun Activity.getImageUri(pic: CommonPic?): Uri {
+    val bitmap = getBitmap(pic)
+    val bytes = ByteArrayOutputStream()
+    bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+    val path = MediaStore.Images.Media.insertImage(
+        contentResolver, bitmap, "Title", null
+    )
+    return Uri.parse(path)
+}
+
+fun Activity.getBitmap(pic: CommonPic?): Bitmap? {
+    var bitmap: Bitmap? = null
+    try {
+        bitmap = Glide.with(this)
+            .asBitmap()
+            .load(pic?.imageURL)
+            .submit()
+            .get()
+    } catch (e: IOException) {
+    }
+    return bitmap
 }
 
 fun Context.isNetworkAvailable() = (getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager?)
