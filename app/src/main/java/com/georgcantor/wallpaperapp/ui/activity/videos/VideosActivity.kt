@@ -26,8 +26,10 @@ class VideosActivity : BaseActivity() {
         viewModel.videos.observe(this) {
             binding.videosRecycler.apply {
                 setHasFixedSize(true)
-                adapter = VideosAdapter(it) {
-                    startActivity<VideoActivity> { putExtra(ID_EXTRA, it) }
+                it?.let {
+                    adapter = VideosAdapter(it) {
+                        startActivity<VideoActivity> { putExtra(ID_EXTRA, it) }
+                    }
                 }
             }
         }
