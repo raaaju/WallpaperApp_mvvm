@@ -19,12 +19,16 @@ class GalleryActivity : BaseActivity() {
 
     private val binding by viewBinding(FragmentGalleryBinding::inflate)
     private val viewModel: GalleryViewModel by viewModel()
+    private val query by lazy { intent.getStringExtra(PIC_EXTRA) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = query
+        }
 
         val galleryAdapter = GalleryAdapter { pic ->
             startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
@@ -36,7 +40,7 @@ class GalleryActivity : BaseActivity() {
         }
 
         lifecycleScope.launch {
-            viewModel.getPicListStream(intent.getStringExtra(PIC_EXTRA) ?: "").collectLatest {
+            viewModel.getPicListStream(query).collectLatest {
                 galleryAdapter.submitData(it)
             }
         }

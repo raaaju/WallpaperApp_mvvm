@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivitySearchBinding
 import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryAdapter
@@ -25,8 +26,11 @@ class SearchActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setTitle(R.string.search)
+        }
 
         galleryAdapter = GalleryAdapter { pic ->
             startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
