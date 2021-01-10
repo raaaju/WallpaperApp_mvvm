@@ -24,6 +24,7 @@
     <string name="no">Нет</string>
     <string name="cancel">Отмена</string>
     <string name="add_to_favorites">Добавить в избранное</string>
+    <string name="favorites_empty">Избранного нет</string>
     <string name="share">Поделиться</string>
     <string name="choose_share">Выберите приложение</string>
     <string name="you_need_perm_toast">Чтобы сохранять изображения необходимо это разрешение</string>

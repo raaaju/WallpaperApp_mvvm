@@ -1,5 +1,7 @@
 package com.georgcantor.wallpaperapp.repository
 
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.N
 import com.georgcantor.wallpaperapp.BuildConfig.UNSPLASH_URL
 import com.georgcantor.wallpaperapp.BuildConfig.YOUTUBE_URL
 import com.georgcantor.wallpaperapp.model.local.FavDao
@@ -51,7 +53,9 @@ class Repository(
         listUnsplash?.let { list.addAll(it) }
         listPixabay?.let { list.addAll(it) }
 
-        return list
+        if (SDK_INT >= N) list.removeIf { it.id == 158703 || it.id == 158704 }
+
+        return list.shuffled()
     }
 
     suspend fun getVideos() = service.getVideos(YOUTUBE_URL, VIDEOS)

@@ -98,6 +98,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="add_to_favorites">Add to favorites</string>
+    <string name="favorites_empty">Favorites empty</string>
     <string name="share">Share</string>
     <string name="choose_share">Choose one</string>
     <string name="you_need_perm_toast">To save images you need this permission</string>

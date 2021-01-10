@@ -20,6 +20,7 @@
 
     <string name="del_from_fav_dialog">Von Favoriten entfernen?</string>
     <string name="delete_all">Alles löschen</string>
+    <string name="favorites_empty">Favoriten leer</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="choose_share">Auswählen</string>
