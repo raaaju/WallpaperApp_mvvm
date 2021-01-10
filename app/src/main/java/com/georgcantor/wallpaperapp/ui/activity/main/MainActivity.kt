@@ -1,4 +1,4 @@
-package com.georgcantor.wallpaperapp.ui.activity
+package com.georgcantor.wallpaperapp.ui.activity.main
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityMainBinding
+import com.georgcantor.wallpaperapp.ui.activity.GalleryActivity
+import com.georgcantor.wallpaperapp.ui.activity.SearchActivity
 import com.georgcantor.wallpaperapp.ui.activity.categories.CategoriesActivity
 import com.georgcantor.wallpaperapp.ui.activity.favorites.FavoritesActivity
 import com.georgcantor.wallpaperapp.ui.activity.videos.VideosActivity
@@ -20,11 +22,18 @@ import com.georgcantor.wallpaperapp.util.setupWithNavController
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import com.google.android.material.navigation.NavigationView
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
+    private val viewModel: MainViewModel by viewModel()
     private var currentNavController: LiveData<NavController>? = null
+    private lateinit var reviewManager: ReviewManager
+    private lateinit var reviewInfo: ReviewInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +42,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.navView.setNavigationItemSelectedListener(this)
         binding.navView.itemIconTintList = null
+
+        reviewManager = ReviewManagerFactory.create(this)
+        val request = reviewManager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                reviewInfo = task.result
+                viewModel.isRateDialogShow.observe(this) { show ->
+                    if (show) showInAppReview()
+                }
+            }
+        }
 
         getNetworkLiveData(applicationContext).observe(this) {
             binding.noInternetWarning.setVisibility(!it)
@@ -99,5 +119,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.drawerLayout.isDrawerOpen(START) -> binding.drawerLayout.closeDrawer(START)
             else -> super.onBackPressed()
         }
+    }
+
+    private fun showInAppReview() {
+        if (::reviewInfo.isInitialized) reviewManager.launchReviewFlow(this, reviewInfo)
     }
 }

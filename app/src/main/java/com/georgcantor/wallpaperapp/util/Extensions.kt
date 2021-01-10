@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -121,3 +122,17 @@ fun Long.runDelayed(action: () -> Unit) = Handler(getMainLooper())
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ) = lazy(LazyThreadSafetyMode.NONE) { bindingInflater.invoke(layoutInflater) }
+
+fun SharedPreferences.putAny(key: String, any: Any) {
+    when (any) {
+        is String -> edit().putString(key, any).apply()
+        is Int -> edit().putInt(key, any).apply()
+    }
+}
+
+fun SharedPreferences.getAny(type: Any, key: String): Any {
+    return when (type) {
+        is String -> getString(key, "") as Any
+        else -> getInt(key, 0)
+    }
+}
