@@ -9,6 +9,8 @@ import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryAdapter
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryViewModel
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
+import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
+import com.georgcantor.wallpaperapp.util.setVisibility
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -43,6 +45,10 @@ class GalleryActivity : BaseActivity() {
             viewModel.getPicListStream(query).collectLatest {
                 galleryAdapter.submitData(it)
             }
+        }
+
+        getNetworkLiveData(applicationContext).observe(this) {
+            binding.noInternetWarning.setVisibility(!it)
         }
     }
 }
