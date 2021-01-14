@@ -21,7 +21,7 @@ class GalleryAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val picture = getItem(position)
         (holder as GalleryViewHolder).apply {
-            itemView.context.loadImage(picture?.url, binding.image, null, R.color.gray)
+            picture?.url?.let { itemView.context.loadImage(it, binding.image, null, R.color.gray) }
             itemView.setOnClickListener { clickListener(picture) }
         }
     }

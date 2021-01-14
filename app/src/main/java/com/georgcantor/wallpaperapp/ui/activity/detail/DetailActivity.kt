@@ -33,7 +33,7 @@ class DetailActivity : BaseActivity() {
 
         pic = intent.getParcelableExtra(PIC_EXTRA) as CommonPic?
 
-        loadImage(pic?.imageURL, binding.image, binding.progressBar, R.color.black)
+        pic?.imageURL?.let { loadImage(it, binding.image, binding.progressBar, R.color.black) }
 
         Zoomy.Builder(this).target(binding.image).apply { register() }
 
@@ -49,6 +49,7 @@ class DetailActivity : BaseActivity() {
         binding.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_share -> share(pic?.imageURL)
+//                R.id.action_download -> share(pic?.imageURL)
                 R.id.action_add_to_fav -> viewModel.addOrRemoveFromFavorites(pic)
             }
             true
@@ -109,4 +110,24 @@ class DetailActivity : BaseActivity() {
             }
         }
     }
+
+//    private fun startDownloading() {
+//        if (!isNetworkAvailable()) {
+//            shortToast(getString(R.string.no_internet))
+//            return
+//        }
+//        progress_anim.showAnimation()
+//
+//        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+//            pic?.let { context?.saveImage(it.imageURL ?: "") }
+//        } else {
+//            checkSavingPermission(permissionCheck)
+//        }
+//
+//        context?.shortToast(getString(R.string.download_start))
+//        Handler().postDelayed({
+//            context?.shortToast(getString(R.string.down_complete))
+//            progress_anim?.hideAnimation()
+//        }, 5000)
+//    }
 }

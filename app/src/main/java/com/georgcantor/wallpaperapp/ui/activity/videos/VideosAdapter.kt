@@ -21,12 +21,14 @@ class VideosAdapter(
     override fun onBindViewHolder(holder: VideosViewHolder, position: Int) {
         val video = videos[position]
         with(holder) {
-            itemView.context.loadImage(
-                video.snippet?.thumbnails?.standard?.url,
-                image,
-                null,
-                R.color.gray
-            )
+            video.snippet?.thumbnails?.standard?.url?.let {
+                itemView.context.loadImage(
+                    it,
+                    image,
+                    null,
+                    R.color.gray
+                )
+            }
             itemView.setOnClickListener { clickListener(video.snippet?.resourceId?.videoId) }
         }
     }
