@@ -1,6 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.activity.detail
 
-import android.Manifest
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.WallpaperManager
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -26,6 +26,7 @@ class DetailActivity : BaseActivity() {
     private val viewModel: DetailViewModel by viewModel()
     private var pic: CommonPic? = null
     private var permissionCheck = 0
+    private var isSave = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,19 +50,18 @@ class DetailActivity : BaseActivity() {
         binding.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_share -> share(pic?.imageURL)
-//                R.id.action_download -> share(pic?.imageURL)
+                R.id.action_download -> {
+                    isSave = true
+                    checkPermissions()
+                }
                 R.id.action_add_to_fav -> viewModel.addOrRemoveFromFavorites(pic)
             }
             true
         }
 
         binding.fab.setOnClickListener {
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                setAsWallpaper()
-            } else {
-                requestPermission()
-            }
+            isSave = false
+            checkPermissions()
         }
     }
 
@@ -77,9 +77,24 @@ class DetailActivity : BaseActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            setAsWallpaper()
+            when (isSave) {
+                true -> saveImage()
+                false -> setAsWallpaper()
+            }
         } else {
             shortToast(getString(R.string.you_need_perm_toast))
+        }
+    }
+
+    private fun checkPermissions() {
+        permissionCheck = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            when (isSave) {
+                true -> saveImage()
+                false -> setAsWallpaper()
+            }
+        } else {
+            requestPermission()
         }
     }
 
@@ -89,7 +104,7 @@ class DetailActivity : BaseActivity() {
                 val requestCode = 102
                 ActivityCompat.requestPermissions(
                     this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    arrayOf(WRITE_EXTERNAL_STORAGE),
                     requestCode
                 )
             }
@@ -111,23 +126,11 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-//    private fun startDownloading() {
-//        if (!isNetworkAvailable()) {
-//            shortToast(getString(R.string.no_internet))
-//            return
-//        }
-//        progress_anim.showAnimation()
-//
-//        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-//            pic?.let { context?.saveImage(it.imageURL ?: "") }
-//        } else {
-//            checkSavingPermission(permissionCheck)
-//        }
-//
-//        context?.shortToast(getString(R.string.download_start))
-//        Handler().postDelayed({
-//            context?.shortToast(getString(R.string.down_complete))
-//            progress_anim?.hideAnimation()
-//        }, 5000)
-//    }
+    private fun saveImage() {
+        if (!isNetworkAvailable()) {
+            shortToast(getString(R.string.no_internet))
+            return
+        }
+        pic?.let { saveImage(it.imageURL ?: "", binding.progressBar) }
+    }
 }

@@ -117,7 +117,7 @@ fun Context.share(text: String?) {
 
 fun Context.shortToast(message: String) = makeText(this, message, LENGTH_SHORT).show()
 
-fun Context.saveImage(url: String) = Glide.with(this)
+fun Activity.saveImage(url: String, progressBar: ProgressBar) = Glide.with(this)
     .asBitmap()
     .load(url)
     .into(object : CustomTarget<Bitmap>() {
@@ -125,18 +125,23 @@ fun Context.saveImage(url: String) = Glide.with(this)
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.IO) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        bitmap.saveImageQ(this@saveImage)
+                        bitmap.saveImageQ(this@saveImage, progressBar)
                     } else {
-                        bitmap.saveImage(this@saveImage)
+                        bitmap.saveImage(this@saveImage, progressBar)
                     }
                 }
             }
         }
 
+        override fun onLoadStarted(placeholder: Drawable?) {
+            super.onLoadStarted(placeholder)
+            progressBar.visible()
+        }
+
         override fun onLoadCleared(placeholder: Drawable?) {}
     })
 
-private fun Bitmap.saveImage(context: Context) {
+private fun Bitmap.saveImage(activity: Activity, progressBar: ProgressBar) {
     val root = getExternalStoragePublicDirectory(DIRECTORY_PICTURES).toString()
     val myDir = File("$root/Wallpapers")
     myDir.mkdirs()
@@ -151,12 +156,16 @@ private fun Bitmap.saveImage(context: Context) {
         outputStream.close()
     } catch (e: java.lang.Exception) {
     }
-    MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null) { _, _ ->
+    MediaScannerConnection.scanFile(activity, arrayOf(file.toString()), null) { _, _ ->
+    }
+    activity.runOnUiThread {
+        progressBar.gone()
+        activity.shortToast(activity.getString(R.string.down_complete))
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
-fun Bitmap.saveImageQ(context: Context) {
+fun Bitmap.saveImageQ(activity: Activity, progressBar: ProgressBar) {
     val values = ContentValues().apply {
         put(MIME_TYPE, "image/png")
         put(DATE_ADDED, System.currentTimeMillis() / 1000)
@@ -165,11 +174,15 @@ fun Bitmap.saveImageQ(context: Context) {
         put(IS_PENDING, true)
     }
 
-    val uri: Uri? = context.contentResolver.insert(EXTERNAL_CONTENT_URI, values)
+    val uri: Uri? = activity.contentResolver.insert(EXTERNAL_CONTENT_URI, values)
     if (uri != null) {
-        saveImageToStream(context.contentResolver.openOutputStream(uri))
+        saveImageToStream(activity.contentResolver.openOutputStream(uri))
         values.put(IS_PENDING, false)
-        context.contentResolver.update(uri, values, null, null)
+        activity.contentResolver.update(uri, values, null, null)
+    }
+    activity.runOnUiThread {
+        progressBar.gone()
+        activity.shortToast(activity.getString(R.string.down_complete))
     }
 }
 
