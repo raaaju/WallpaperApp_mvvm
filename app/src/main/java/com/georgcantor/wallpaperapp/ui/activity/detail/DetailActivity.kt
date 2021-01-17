@@ -36,7 +36,9 @@ class DetailActivity : BaseActivity() {
 
         pic?.imageURL?.let { loadImage(it, binding.image, binding.progressBar, R.color.black) }
 
-        Zoomy.Builder(this).target(binding.image).apply { register() }
+        Zoomy.Builder(this)
+            .doubleTapListener { viewModel.addOrRemoveFromFavorites(pic) }
+            .target(binding.image).apply { register() }
 
         viewModel.isFavorite(pic?.url)
 

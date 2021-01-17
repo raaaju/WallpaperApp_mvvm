@@ -12,6 +12,7 @@
     <string name="download">Загрузить</string>
     <string name="user_name">фото предоставлено</string>
     <string name="type_and_search">Введите слово или фразу</string>
+    <string name="nothing_found">Ничего не найдено</string>
 
     <string name="down_wallpapers">Загружается из Wallpapers</string>
     <string name="download_start">Сохраняем изображение…</string>

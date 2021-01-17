@@ -91,6 +91,7 @@
 
     <string name="search">Search</string>
     <string name="type_and_search">Type and Search</string>
+    <string name="nothing_found">Nothing found</string>
     <string name="cancel">Cancel</string>
     <string name="favorites">Favorites</string>
     <string name="favorites_toolbar" translatable="false">Favorites</string>
