@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.ui.activity
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.georgcantor.wallpaperapp.databinding.FragmentGalleryBinding
@@ -34,6 +35,10 @@ class GalleryActivity : BaseActivity() {
 
         val galleryAdapter = GalleryAdapter { pic ->
             startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
+        }
+
+        galleryAdapter.addLoadStateListener {
+            binding.progressBar.setVisibility(it.source.refresh is LoadState.Loading)
         }
 
         binding.picturesRecycler.apply {
