@@ -1,12 +1,12 @@
 package com.georgcantor.wallpaperapp.ui.activity.categories
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.georgcantor.wallpaperapp.databinding.ActivityCategoriesBinding
 import com.georgcantor.wallpaperapp.ui.activity.BaseActivity
 import com.georgcantor.wallpaperapp.ui.activity.GalleryActivity
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
-import com.georgcantor.wallpaperapp.util.setVisibility
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +33,7 @@ class CategoriesActivity : BaseActivity() {
         }
 
         viewModel.progressIsVisible.observe(this) {
-            binding.progressBar.setVisibility(it)
+            binding.progressBar.isVisible = it
         }
     }
 }

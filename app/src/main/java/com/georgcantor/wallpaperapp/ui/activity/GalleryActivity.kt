@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.activity
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -11,7 +12,6 @@ import com.georgcantor.wallpaperapp.ui.fragment.GalleryAdapter
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryViewModel
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
-import com.georgcantor.wallpaperapp.util.setVisibility
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +38,7 @@ class GalleryActivity : BaseActivity() {
         }
 
         galleryAdapter.addLoadStateListener {
-            binding.progressBar.setVisibility(it.source.refresh is LoadState.Loading)
+            binding.progressBar.isVisible = it.source.refresh is LoadState.Loading
         }
 
         binding.picturesRecycler.apply {
@@ -53,7 +53,7 @@ class GalleryActivity : BaseActivity() {
         }
 
         getNetworkLiveData(applicationContext).observe(this) {
-            binding.noInternetWarning.setVisibility(!it)
+            binding.noInternetWarning.isVisible = !it
         }
     }
 }

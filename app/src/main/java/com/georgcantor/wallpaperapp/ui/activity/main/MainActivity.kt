@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat.START
+import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -16,9 +17,12 @@ import com.georgcantor.wallpaperapp.ui.activity.SearchActivity
 import com.georgcantor.wallpaperapp.ui.activity.categories.CategoriesActivity
 import com.georgcantor.wallpaperapp.ui.activity.favorites.FavoritesActivity
 import com.georgcantor.wallpaperapp.ui.activity.videos.VideosActivity
-import com.georgcantor.wallpaperapp.util.*
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
+import com.georgcantor.wallpaperapp.util.setupWithNavController
+import com.georgcantor.wallpaperapp.util.shortToast
+import com.georgcantor.wallpaperapp.util.startActivity
+import com.georgcantor.wallpaperapp.util.viewBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         getNetworkLiveData(applicationContext).observe(this) {
-            binding.noInternetWarning.setVisibility(!it)
+            binding.noInternetWarning.isVisible = !it
         }
     }
 
