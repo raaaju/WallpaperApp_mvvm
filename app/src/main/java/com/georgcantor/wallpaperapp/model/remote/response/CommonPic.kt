@@ -4,10 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class CommonPic(
+class CommonPic(
     val url: String,
     val width: Int,
-    val heght: Int,
+    val height: Int,
     var tags: String?,
     var imageURL: String?,
     var fullHDURL: String?,

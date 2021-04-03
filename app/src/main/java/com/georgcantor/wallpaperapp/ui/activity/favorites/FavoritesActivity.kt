@@ -44,7 +44,7 @@ class FavoritesActivity : BaseActivity() {
                             CommonPic(
                                 url = pic.url,
                                 width = pic.width,
-                                heght = pic.heght,
+                                height = pic.height,
                                 tags = pic.tags,
                                 imageURL = pic.imageURL,
                                 fullHDURL = pic.fullHDURL,

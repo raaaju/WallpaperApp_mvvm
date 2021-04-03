@@ -1,7 +1,5 @@
 package com.georgcantor.wallpaperapp.repository
 
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.N
 import com.georgcantor.wallpaperapp.BuildConfig.UNSPLASH_URL
 import com.georgcantor.wallpaperapp.BuildConfig.YOUTUBE_URL
 import com.georgcantor.wallpaperapp.model.local.FavDao
@@ -25,14 +23,14 @@ class Repository(
 
         val listUnsplash = respUnsplash.body()?.results?.map {
             CommonPic(
-                it.urls?.small ?: "",
-                it.width ?: 0,
-                it.height ?: 0,
-                it.altDescription,
-                it.urls?.full,
-                it.urls?.regular,
-                it.hashCode(),
-                ""
+                url = it.urls?.small ?: "",
+                width = it.width ?: 0,
+                height = it.height ?: 0,
+                tags = it.altDescription,
+                imageURL = it.urls?.full,
+                fullHDURL = it.urls?.regular,
+                id = it.hashCode(),
+                videoId = ""
             )
         }
 
@@ -40,7 +38,7 @@ class Repository(
             CommonPic(
                 url = it.webformatURL ?: "",
                 width = it.imageWidth,
-                heght = it.imageHeight,
+                height = it.imageHeight,
                 tags = it.tags,
                 imageURL = it.imageURL,
                 fullHDURL = it.webformatURL,
@@ -51,9 +49,7 @@ class Repository(
 
         val list = mutableListOf<CommonPic>()
         listUnsplash?.let { list.addAll(it) }
-        listPixabay?.let { list.addAll(it) }
-
-        if (SDK_INT >= N) list.removeIf { it.id == 158703 || it.id == 158704 }
+        listPixabay?.let { it.forEach { if (it.id != 158703 && it.id != 158704) list.add(it) } }
 
         return list.shuffled()
     }
