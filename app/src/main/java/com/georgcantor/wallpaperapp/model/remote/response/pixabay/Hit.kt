@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Hit(
+class Hit(
     var previewHeight: Int = 0,
     var likes: Int = 0,
     var favorites: Int = 0,
