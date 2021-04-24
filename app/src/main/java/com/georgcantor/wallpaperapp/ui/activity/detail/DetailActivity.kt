@@ -3,9 +3,9 @@ package com.georgcantor.wallpaperapp.ui.activity.detail
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.WallpaperManager
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.ablanco.zoomy.Zoomy
@@ -52,19 +52,13 @@ class DetailActivity : BaseActivity() {
         binding.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_share -> share(pic?.imageURL)
-                R.id.action_download -> {
-                    isSave = true
-                    checkPermissions()
-                }
+                R.id.action_download -> { isSave = true; checkPermissions() }
                 R.id.action_add_to_fav -> viewModel.addOrRemoveFromFavorites(pic)
             }
             true
         }
 
-        binding.fab.setOnClickListener {
-            isSave = false
-            checkPermissions()
-        }
+        binding.fab.setOnClickListener { isSave = false; checkPermissions() }
     }
 
     override fun onDestroy() {
@@ -78,11 +72,8 @@ class DetailActivity : BaseActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            when (isSave) {
-                true -> saveImage()
-                false -> setAsWallpaper()
-            }
+        if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
+            if (isSave) saveImage() else setAsWallpaper()
         } else {
             shortToast(getString(R.string.you_need_perm_toast))
         }
@@ -90,25 +81,14 @@ class DetailActivity : BaseActivity() {
 
     private fun checkPermissions() {
         permissionCheck = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            when (isSave) {
-                true -> saveImage()
-                false -> setAsWallpaper()
-            }
-        } else {
-            requestPermission()
-        }
+        if (permissionCheck == PERMISSION_GRANTED) if (isSave) saveImage() else setAsWallpaper()
+        else requestPermission()
     }
 
     private fun requestPermission() {
         try {
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                val requestCode = 102
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(WRITE_EXTERNAL_STORAGE),
-                    requestCode
-                )
+            if (permissionCheck != PERMISSION_GRANTED) {
+                requestPermissions(this, arrayOf(WRITE_EXTERNAL_STORAGE), 102)
             }
         } catch (e: IllegalStateException) {
         }
@@ -120,10 +100,7 @@ class DetailActivity : BaseActivity() {
             try {
                 startActivity(Intent(manager.getCropAndSetWallpaperIntent(getImageUri(pic))))
             } catch (e: Exception) {
-                val bitmap = getBitmap(pic)
-                withContext(Dispatchers.Main) {
-                    manager.setBitmap(bitmap)
-                }
+                withContext(Dispatchers.Main) { manager.setBitmap(getBitmap(pic)) }
             }
         }
     }
