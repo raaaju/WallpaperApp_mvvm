@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityFavoritesBinding
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.ui.activity.BaseActivity
 import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
-import com.georgcantor.wallpaperapp.util.Constants
+import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import com.google.gson.Gson
@@ -32,31 +30,16 @@ class FavoritesActivity : BaseActivity() {
         }
 
         viewModel.favorites.observe(this) { list ->
-            binding.picturesRecycler.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            }
-            val adapter = FavoritesAdapter {
-                val hitJson = it.hit
-                val pic = Gson().fromJson(hitJson, CommonPic::class.java)
-                startActivity<DetailActivity> {
-                    putExtra(
-                        Constants.PIC_EXTRA,
-                        CommonPic(
-                            url = pic.url,
-                            width = pic.width,
-                            height = pic.height,
-                            tags = pic.tags,
-                            imageURL = pic.imageURL,
-                            fullHDURL = pic.fullHDURL,
-                            id = pic.id,
-                            videoId = pic.videoId
-                        )
-                    )
+            FavoritesAdapter {
+                Gson().fromJson(it.hit, CommonPic::class.java).apply {
+                    startActivity<DetailActivity> {
+                        putExtra(PIC_EXTRA, CommonPic(url, width, height, tags, imageURL, fullHDURL, id, videoId))
+                    }
                 }
+            }.apply {
+                binding.picturesRecycler.adapter = this
+                submitList(list)
             }
-            binding.picturesRecycler.adapter = adapter
-            adapter.submitList(list)
         }
     }
 
