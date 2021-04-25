@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.georgcantor.wallpaperapp.databinding.FragmentGalleryBinding
 import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryAdapter
@@ -33,22 +31,19 @@ class GalleryActivity : BaseActivity() {
             title = query
         }
 
-        val galleryAdapter = GalleryAdapter { pic ->
+        val adapter = GalleryAdapter { pic ->
             startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
         }
 
-        galleryAdapter.addLoadStateListener {
+        adapter.addLoadStateListener {
             binding.progressBar.isVisible = it.source.refresh is LoadState.Loading
         }
 
-        binding.picturesRecycler.apply {
-            layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            adapter = galleryAdapter
-        }
+        binding.picturesRecycler.adapter = adapter
 
         lifecycleScope.launch {
             viewModel.getPicListStream(query).collectLatest {
-                galleryAdapter.submitData(it)
+                adapter.submitData(it)
             }
         }
 

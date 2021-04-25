@@ -129,5 +129,9 @@
         <item>Music</item>
         <item>Art</item>
         <item>Ocean</item>
+        <item>Winter</item>
+        <item>Dark</item>
+        <item>Cosmos</item>
+        <item>Games</item>
     </string-array>
 </resources>
