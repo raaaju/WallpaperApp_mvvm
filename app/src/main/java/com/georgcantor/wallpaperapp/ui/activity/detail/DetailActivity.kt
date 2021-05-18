@@ -34,8 +34,12 @@ class DetailActivity : BaseActivity() {
 
         pic = intent.getParcelableExtra(PIC_EXTRA) as CommonPic?
 
-        pic?.imageURL?.let { loadImage(it, binding.image, binding.progressBar, R.color.black) }
-
+        pic?.imageURL?.let {
+            loadImage(it, binding.image, binding.progressBar, R.color.black)
+        } ?: run {
+            pic?.url?.let { loadImage(it, binding.image, binding.progressBar, R.color.black) }
+        }
+        
         Zoomy.Builder(this)
             .doubleTapListener { viewModel.addOrRemoveFromFavorites(pic) }
             .target(binding.image).apply { register() }
