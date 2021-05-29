@@ -9,27 +9,20 @@ import com.georgcantor.wallpaperapp.repository.Repository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val repository: Repository) : ViewModel() {
+class DetailViewModel(private val repo: Repository) : ViewModel() {
 
     val isFavorite = MutableLiveData<Boolean>()
 
     fun isFavorite(url: String?) {
-        viewModelScope.launch {
-            isFavorite.postValue(repository.isFavorite(url))
-        }
+        viewModelScope.launch { isFavorite.postValue(repo.isFavorite(url)) }
     }
 
     fun addOrRemoveFromFavorites(pic: CommonPic?) {
         viewModelScope.launch {
-            when (isFavorite.value) {
-                true -> {
-                    repository.removeFromFavorites(pic?.url)
-                    isFavorite.postValue(false)
-                }
-                false -> {
-                    repository.addToFavorites(Favorite(pic?.url ?: "", Gson().toJson(pic)))
-                    isFavorite.postValue(true)
-                }
+            isFavorite.value?.also { favorite ->
+                isFavorite.postValue(!favorite)
+                if (favorite) repo.removeFromFavorites(pic?.url)
+                else repo.addToFavorites(Favorite(pic?.url ?: "", Gson().toJson(pic)))
             }
         }
     }

@@ -29,12 +29,10 @@ import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
-    private val viewModel: MainViewModel by viewModel()
     private var currentNavController: LiveData<NavController>? = null
     private var backButtonPressedTwice = false
     private lateinit var reviewManager: ReviewManager
@@ -53,9 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         request.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 reviewInfo = task.result
-                viewModel.isRateDialogShow.observe(this) { show ->
-                    if (show) showInAppReview()
-                }
+                if (::reviewInfo.isInitialized) reviewManager.launchReviewFlow(this, reviewInfo)
             }
         }
 
@@ -140,9 +136,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         }
-    }
-
-    private fun showInAppReview() {
-        if (::reviewInfo.isInitialized) reviewManager.launchReviewFlow(this, reviewInfo)
     }
 }

@@ -11,10 +11,13 @@
         android:id="@+id/pictures_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="2"
         tools:listitem="@layout/item_picture" />
 
     <TextView

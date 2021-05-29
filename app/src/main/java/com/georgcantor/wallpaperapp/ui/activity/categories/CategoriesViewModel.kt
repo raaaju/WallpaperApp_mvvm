@@ -8,6 +8,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.remote.response.Category
 import com.georgcantor.wallpaperapp.repository.Repository
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(
@@ -25,12 +26,16 @@ class CategoriesViewModel(
                 val pictures = mutableListOf<Category>()
 
                 with(repository) {
-                    getPictures(names[0], 1)[0].apply { pictures.add(Category(names[0], url)) }
-                    getPictures(names[1], 1)[0].apply { pictures.add(Category(names[1], url)) }
-                    getPictures(names[2], 1)[0].apply { pictures.add(Category(names[2], url)) }
-                    getPictures(names[3], 1)[0].apply { pictures.add(Category(names[3], url)) }
-                    getPictures(names[4], 1)[0].apply { pictures.add(Category(names[4], url)) }
-                    getPictures(names[5], 1)[0].apply { pictures.add(Category(names[5], url)) }
+                    async { getPictures(names[0], 1)[0].apply { pictures.add(Category(names[0], url)) } }
+                    async { getPictures(names[1], 1)[0].apply { pictures.add(Category(names[1], url)) } }
+                    async { getPictures(names[2], 1)[0].apply { pictures.add(Category(names[2], url)) } }
+                    async { getPictures(names[3], 1)[0].apply { pictures.add(Category(names[3], url)) } }
+                    async { getPictures(names[4], 1)[0].apply { pictures.add(Category(names[4], url)) } }
+                    async { getPictures(names[5], 1)[0].apply { pictures.add(Category(names[5], url)) } }
+                    async { getPictures(names[6], 1)[0].apply { pictures.add(Category(names[6], url)) } }
+                    async { getPictures(names[7], 1)[0].apply { pictures.add(Category(names[7], url)) } }
+                    async { getPictures(names[8], 1)[0].apply { pictures.add(Category(names[8], url)) } }
+                    async { getPictures(names[9], 1)[0].apply { pictures.add(Category(names[9], url)) } }
                 }
 
                 categories.postValue(pictures)

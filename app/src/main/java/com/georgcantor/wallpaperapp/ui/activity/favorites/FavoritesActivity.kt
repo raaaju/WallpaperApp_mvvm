@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityFavoritesBinding
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
@@ -31,29 +29,16 @@ class FavoritesActivity : BaseActivity() {
             setTitle(R.string.favorites_toolbar)
         }
 
-        viewModel.favorites.observe(this) {
-            binding.picturesRecycler.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-                adapter = FavoritesAdapter(it) {
-                    val hitJson = it.hit
-                    val pic = Gson().fromJson(hitJson, CommonPic::class.java)
+        viewModel.favorites.observe(this) { list ->
+            FavoritesAdapter {
+                Gson().fromJson(it.hit, CommonPic::class.java).apply {
                     startActivity<DetailActivity> {
-                        putExtra(
-                            PIC_EXTRA,
-                            CommonPic(
-                                url = pic.url,
-                                width = pic.width,
-                                height = pic.height,
-                                tags = pic.tags,
-                                imageURL = pic.imageURL,
-                                fullHDURL = pic.fullHDURL,
-                                id = pic.id,
-                                videoId = pic.videoId
-                            )
-                        )
+                        putExtra(PIC_EXTRA, CommonPic(url, width, height, tags, imageURL, fullHDURL, id, videoId))
                     }
                 }
+            }.apply {
+                binding.picturesRecycler.adapter = this
+                submitList(list)
             }
         }
     }

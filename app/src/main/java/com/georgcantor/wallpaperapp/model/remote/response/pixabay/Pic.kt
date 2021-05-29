@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Pic(
+class Pic(
     var totalHits: Int = 0,
     var hits: List<Hit>,
     private var total: Int = 0
