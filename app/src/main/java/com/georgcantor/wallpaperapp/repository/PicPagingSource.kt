@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.repository
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 
 class PicPagingSource(
@@ -20,5 +21,9 @@ class PicPagingSource(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, CommonPic>): Int? {
+        return null
     }
 }
