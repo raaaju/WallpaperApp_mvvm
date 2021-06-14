@@ -11,8 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment.DIRECTORY_PICTURES
 import android.os.Environment.getExternalStoragePublicDirectory
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.provider.MediaStore.MediaColumns.*
@@ -41,7 +39,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
-import java.util.concurrent.TimeUnit
 
 inline fun <reified T : Activity> Activity.startActivity(block: Intent.() -> Unit = {}) {
     startActivity(Intent(this, T::class.java).apply(block))
@@ -200,23 +197,6 @@ fun View.visible() { visibility = VISIBLE }
 
 fun View.gone() { visibility = GONE }
 
-fun Long.runDelayed(action: () -> Unit) = Handler(getMainLooper())
-    .postDelayed(action, TimeUnit.MILLISECONDS.toMillis(this))
-
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ) = lazy(LazyThreadSafetyMode.NONE) { bindingInflater.invoke(layoutInflater) }
-
-fun SharedPreferences.putAny(key: String, any: Any) {
-    when (any) {
-        is String -> edit().putString(key, any).apply()
-        is Int -> edit().putInt(key, any).apply()
-    }
-}
-
-fun SharedPreferences.getAny(type: Any, key: String): Any {
-    return when (type) {
-        is String -> getString(key, "") as Any
-        else -> getInt(key, 0)
-    }
-}
