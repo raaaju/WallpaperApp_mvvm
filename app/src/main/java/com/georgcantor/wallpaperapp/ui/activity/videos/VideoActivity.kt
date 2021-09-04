@@ -23,15 +23,12 @@ class VideoActivity : BaseActivity() {
         with(binding.playerView) {
             addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
-                    youTubePlayer.loadVideo(intent.getStringExtra(ID_EXTRA) ?: "", 0f)
+                    youTubePlayer.loadVideo(intent.getStringExtra(ID_EXTRA).orEmpty(), 0F)
                 }
             })
 
             getPlayerUiController().setFullScreenButtonClickListener {
-                when (isFullScreen()) {
-                    true -> setPortraitMode()
-                    false -> setLandscapeMode()
-                }
+                if (isFullScreen()) setPortraitMode() else setLandscapeMode()
             }
         }
     }

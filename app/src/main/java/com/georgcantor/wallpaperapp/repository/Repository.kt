@@ -22,7 +22,7 @@ class Repository(
             val respUnsplash = service.getUnsplashPictures(UNSPLASH_URL, query, page)
             val listUnsplash = respUnsplash.body()?.results?.map {
                 CommonPic(
-                    url = it.urls?.small ?: "",
+                    url = it.urls?.small.orEmpty(),
                     width = it.width ?: 0,
                     height = it.height ?: 0,
                     tags = it.altDescription,
@@ -39,7 +39,7 @@ class Repository(
             val respPixabay = service.getPixabayPictures(query, page)
             val listPixabay = respPixabay.body()?.hits?.map {
                 CommonPic(
-                    url = it.webformatURL ?: "",
+                    url = it.webformatURL.orEmpty(),
                     width = it.imageWidth,
                     height = it.imageHeight,
                     tags = it.tags,

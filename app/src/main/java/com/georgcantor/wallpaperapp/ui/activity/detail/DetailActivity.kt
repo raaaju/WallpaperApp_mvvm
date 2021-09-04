@@ -114,6 +114,6 @@ class DetailActivity : BaseActivity() {
             shortToast(getString(R.string.no_internet))
             return
         }
-        pic?.let { saveImage(it.imageURL ?: "", binding.progressBar) }
+        pic?.let { saveImage(it.imageURL.orEmpty(), binding.progressBar) }
     }
 }

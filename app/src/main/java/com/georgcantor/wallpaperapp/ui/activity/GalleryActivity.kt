@@ -20,7 +20,7 @@ class GalleryActivity : BaseActivity() {
 
     private val binding by viewBinding(FragmentGalleryBinding::inflate)
     private val viewModel: GalleryViewModel by viewModel()
-    private val query by lazy { intent.getStringExtra(PIC_EXTRA) ?: "" }
+    private val query by lazy { intent.getStringExtra(PIC_EXTRA).orEmpty() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -22,7 +22,7 @@ class DetailViewModel(private val repo: Repository) : ViewModel() {
             isFavorite.value?.also { favorite ->
                 isFavorite.postValue(!favorite)
                 if (favorite) repo.removeFromFavorites(pic?.url)
-                else repo.addToFavorites(Favorite(pic?.url ?: "", Gson().toJson(pic)))
+                else repo.addToFavorites(Favorite(pic?.url.orEmpty(), Gson().toJson(pic)))
             }
         }
     }

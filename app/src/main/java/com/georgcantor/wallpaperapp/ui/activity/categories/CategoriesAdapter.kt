@@ -19,13 +19,11 @@ class CategoriesAdapter(
         LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
     )
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) = with(holder) {
         val category = categories[position]
-        with(holder) {
-            categoryName.text = category.categoryName
-            itemView.context.loadImage(category.categoryUrl, categoryImage, null, R.color.gray)
-            itemView.setOnClickListener { clickListener(category) }
-        }
+        categoryName.text = category.categoryName
+        itemView.context.loadImage(category.categoryUrl, categoryImage, null, R.color.gray)
+        itemView.setOnClickListener { clickListener(category) }
     }
 
     override fun getItemCount() = categories.size
