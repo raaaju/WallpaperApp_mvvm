@@ -22,51 +22,15 @@
     <string name="user_name">image provided by</string>
     <string name="jpg" translatable="false">.jpg</string>
 
-    <string name="Animals" translatable="false">Animals</string>
-    <string name="animals" translatable="false">animals</string>
-    <string name="Textures" translatable="false">Textures</string>
-    <string name="textures" translatable="false">textures</string>
-    <string name="buildings" translatable="false">buildings</string>
-    <string name="Buildings" translatable="false">Buildings</string>
-    <string name="computer" translatable="false">computer</string>
-    <string name="Computer" translatable="false">Computer</string>
-    <string name="Education" translatable="false">Education</string>
-    <string name="education" translatable="false">education</string>
-    <string name="Fashion" translatable="false">Fashion</string>
-    <string name="fashion" translatable="false">fashion</string>
-    <string name="feelings" translatable="false">feelings</string>
-    <string name="Feelings" translatable="false">Feelings</string>
-    <string name="Food" translatable="false">Food</string>
-    <string name="food" translatable="false">food</string>
-    <string name="Health" translatable="false">Health</string>
-    <string name="health" translatable="false">health</string>
-    <string name="Music" translatable="false">Music</string>
-    <string name="music" translatable="false">music</string>
-    <string name="Nature" translatable="false">Nature</string>
-    <string name="nature" translatable="false">nature</string>
-    <string name="People" translatable="false">People</string>
-    <string name="people" translatable="false">people</string>
-    <string name="Places" translatable="false">Places</string>
-    <string name="places" translatable="false">places</string>
-    <string name="Religion" translatable="false">Religion</string>
-    <string name="religion" translatable="false">religion</string>
-    <string name="Technology" translatable="false">Technology</string>
-    <string name="science" translatable="false">science</string>
-    <string name="Science" translatable="false">Science</string>
-    <string name="Sports" translatable="false">Sports</string>
-    <string name="sports" translatable="false">sports</string>
-    <string name="Travel" translatable="false">Travel</string>
-    <string name="travel" translatable="false">travel</string>
-    <string name="videos" translatable="false">Videos</string>
-
     <string name="down_wallpapers">Download from Wallpapers</string>
     <string name="down_complete">Download Complete</string>
     <string name="set_wall_complete">Wallpaper setup complete</string>
     <string name="down" translatable="false">.jpg Download</string>
     <string name="widget">widget</string>
-    <string name="URI">URI:</string>
-    <string name="gallery">Gallery</string>
+    <string name="URI" translatable="false">URI:</string>
+    <string name="gallery" translatable="false">Gallery</string>
     <string name="gallery_toolbar" translatable="false">Gallery</string>
+    <string name="videos" translatable="false">Videos</string>
 
     <string name="aston" translatable="false">Aston Martin</string>
     <string name="audi_walp" translatable="false">Audi</string>
@@ -89,7 +53,7 @@
     <string name="rolls" translatable="false">Rolls-Royce</string>
     <string name="review" translatable="false">review</string>
 
-    <string name="search">Search</string>
+    <string name="search" translatable="false">Search</string>
     <string name="type_and_search">Type and Search</string>
     <string name="nothing_found">Nothing found</string>
     <string name="cancel">Cancel</string>
@@ -130,8 +94,10 @@
         <item>Art</item>
         <item>Ocean</item>
         <item>Winter</item>
+        <item>Animals</item>
         <item>Dark</item>
         <item>Cosmos</item>
+        <item>Sport</item>
         <item>Games</item>
     </string-array>
 </resources>

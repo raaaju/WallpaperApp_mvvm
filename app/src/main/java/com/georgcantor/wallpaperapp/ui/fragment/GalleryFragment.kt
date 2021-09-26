@@ -16,7 +16,6 @@ import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GalleryFragment : Fragment(R.layout.fragment_gallery) {
@@ -42,7 +41,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             adapter = galleryAdapter
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getPicListStream(request).collectLatest {
                 galleryAdapter.submitData(it)
             }

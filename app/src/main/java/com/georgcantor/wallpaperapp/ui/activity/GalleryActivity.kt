@@ -13,7 +13,6 @@ import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GalleryActivity : BaseActivity() {
@@ -41,7 +40,7 @@ class GalleryActivity : BaseActivity() {
 
         binding.picturesRecycler.adapter = adapter
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.getPicListStream(query).collectLatest {
                 adapter.submitData(it)
             }

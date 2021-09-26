@@ -28,7 +28,6 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -126,7 +125,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         } else {
                             backButtonPressedTwice = true
                             shortToast(getString(R.string.press_back))
-                            lifecycleScope.launch {
+                            lifecycleScope.launchWhenStarted {
                                 delay(2000)
                                 backButtonPressedTwice = false
                             }

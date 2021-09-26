@@ -8,7 +8,9 @@ import com.georgcantor.wallpaperapp.repository.Repository
 
 class GalleryViewModel(private val repository: Repository) : ViewModel() {
 
-    fun getPicListStream(query: String) = Pager(PagingConfig(40)) {
-        PicPagingSource(repository, query)
+    var q: String = ""
+
+    fun getPicListStream(query: String? = null) = Pager(PagingConfig(40)) {
+        PicPagingSource(repository, query ?: q)
     }.flow
 }

@@ -8,6 +8,7 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.remote.response.Category
 import com.georgcantor.wallpaperapp.repository.Repository
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -21,7 +22,7 @@ class CategoriesViewModel(
 
     init {
         if (app.baseContext.isNetworkAvailable()) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 val names = app.baseContext.resources.getStringArray(R.array.categories_array)
                 val pictures = mutableListOf<Category>()
 
@@ -36,6 +37,8 @@ class CategoriesViewModel(
                     async { getPictures(names[7], 1)[0].apply { pictures.add(Category(names[7], url)) } }
                     async { getPictures(names[8], 1)[0].apply { pictures.add(Category(names[8], url)) } }
                     async { getPictures(names[9], 1)[0].apply { pictures.add(Category(names[9], url)) } }
+                    async { getPictures(names[10], 1)[0].apply { pictures.add(Category(names[10], url)) } }
+                    async { getPictures(names[11], 1)[0].apply { pictures.add(Category(names[11], url)) } }
                 }
 
                 categories.postValue(pictures)
