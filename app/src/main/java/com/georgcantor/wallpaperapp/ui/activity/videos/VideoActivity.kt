@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.activity.videos
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
@@ -33,6 +34,15 @@ class VideoActivity : BaseActivity() {
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setLandscapeMode()
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setPortraitMode()
+        }
+    }
+
     override fun onDestroy() {
         binding.playerView.release()
         super.onDestroy()
@@ -42,13 +52,13 @@ class VideoActivity : BaseActivity() {
         binding.playerView.exitFullScreen()
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-        actionBar?.show()
+        supportActionBar?.show()
     }
 
     private fun setLandscapeMode() {
         binding.playerView.enterFullScreen()
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
+        supportActionBar?.hide()
     }
 }
