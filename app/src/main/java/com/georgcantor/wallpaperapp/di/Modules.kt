@@ -12,6 +12,7 @@ import com.georgcantor.wallpaperapp.ui.fragment.GalleryViewModel
 import com.georgcantor.wallpaperapp.util.Constants.MAIN_STORAGE
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val apiModule = module { single { ApiClient.create(get()) } }
@@ -22,6 +23,7 @@ val repositoryModule = module { single { Repository(get(), get()) } }
 
 val preferenceModule = module {
     single { androidApplication().getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE) }
+    single(named(MAIN_STORAGE)) { androidApplication().getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE) }
 }
 
 val viewModelModule = module(override = true) {

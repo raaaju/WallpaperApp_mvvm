@@ -24,6 +24,7 @@ import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -137,6 +138,20 @@ fun Activity.saveImage(url: String, progressBar: ProgressBar) = Glide.with(this)
 
         override fun onLoadCleared(placeholder: Drawable?) {}
     })
+
+fun SharedPreferences.putAny(key: String, any: Any) {
+    when (any) {
+        is String -> edit { putString(key, any) }
+        is Int -> edit { putInt(key, any) }
+        is Boolean -> edit { putBoolean(key, any) }
+    }
+}
+
+fun SharedPreferences.getAny(type: Any, key: String) = when (type) {
+    is String -> getString(key, "") as Any
+    is Int -> getInt(key, 0)
+    else -> getBoolean(key, false)
+}
 
 private fun Bitmap.saveImage(activity: Activity, progressBar: ProgressBar) {
     val root = getExternalStoragePublicDirectory(DIRECTORY_PICTURES).toString()

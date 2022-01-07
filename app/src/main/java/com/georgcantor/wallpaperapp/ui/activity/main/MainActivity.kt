@@ -1,5 +1,6 @@
 package com.georgcantor.wallpaperapp.ui.activity.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,21 +18,22 @@ import com.georgcantor.wallpaperapp.ui.activity.SearchActivity
 import com.georgcantor.wallpaperapp.ui.activity.categories.CategoriesActivity
 import com.georgcantor.wallpaperapp.ui.activity.favorites.FavoritesActivity
 import com.georgcantor.wallpaperapp.ui.activity.videos.VideosActivity
+import com.georgcantor.wallpaperapp.util.*
+import com.georgcantor.wallpaperapp.util.Constants.MAIN_STORAGE
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
-import com.georgcantor.wallpaperapp.util.setupWithNavController
-import com.georgcantor.wallpaperapp.util.shortToast
-import com.georgcantor.wallpaperapp.util.startActivity
-import com.georgcantor.wallpaperapp.util.viewBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.delay
+import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
+    private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var currentNavController: LiveData<NavController>? = null
     private var backButtonPressedTwice = false
     private lateinit var reviewManager: ReviewManager
@@ -45,17 +47,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.navView.setNavigationItemSelectedListener(this)
         binding.navView.itemIconTintList = null
 
-        reviewManager = ReviewManagerFactory.create(this)
-        val request = reviewManager.requestReviewFlow()
-        request.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                reviewInfo = task.result
-                if (::reviewInfo.isInitialized) reviewManager.launchReviewFlow(this, reviewInfo)
-            }
-        }
-
         getNetworkLiveData(applicationContext).observe(this) {
             binding.noInternetWarning.isVisible = !it
+        }
+
+        var openCounter: Int = preferences.getAny(0, OPEN_COUNT) as Int
+        if (openCounter >= 4) {
+            reviewManager = ReviewManagerFactory.create(this)
+            val request = reviewManager.requestReviewFlow()
+            request.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    reviewInfo = task.result
+                    if (::reviewInfo.isInitialized) reviewManager.launchReviewFlow(this, reviewInfo)
+                }
+            }
+        } else {
+            preferences.putAny(OPEN_COUNT, ++openCounter)
         }
     }
 
@@ -135,5 +142,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         }
+    }
+
+    companion object {
+        private const val OPEN_COUNT = "open_count"
     }
 }
