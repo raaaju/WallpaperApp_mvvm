@@ -8,7 +8,6 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.ablanco.zoomy.Zoomy
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityDetailBinding
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
@@ -39,10 +38,6 @@ class DetailActivity : BaseActivity() {
         } ?: run {
             pic?.url?.let { loadImage(it, binding.image, binding.progressBar, R.color.black) }
         }
-        
-        Zoomy.Builder(this)
-            .doubleTapListener { viewModel.addOrRemoveFromFavorites(pic) }
-            .target(binding.image).apply { register() }
 
         viewModel.isFavorite(pic?.url)
 
@@ -63,11 +58,6 @@ class DetailActivity : BaseActivity() {
         }
 
         binding.fab.setOnClickListener { isSave = false; checkPermissions() }
-    }
-
-    override fun onDestroy() {
-        Zoomy.unregister(binding.image)
-        super.onDestroy()
     }
 
     override fun onRequestPermissionsResult(
