@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.*
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
@@ -23,6 +25,7 @@ import android.widget.ProgressBar
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.viewbinding.ViewBinding
@@ -34,12 +37,16 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.georgcantor.wallpaperapp.R
+import com.georgcantor.wallpaperapp.databinding.DialogStandartBinding
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
+
+private const val DIALOG_WIDTH = 900
+private const val DIALOG_HEIGHT = 700
 
 inline fun <reified T : Activity> Activity.startActivity(block: Intent.() -> Unit = {}) {
     startActivity(Intent(this, T::class.java).apply(block))
@@ -114,6 +121,26 @@ fun Context.share(text: String?) {
 }
 
 fun Context.shortToast(message: String) = makeText(this, message, LENGTH_SHORT).show()
+
+fun Context.showDialog(
+    title: String,
+    message: String,
+    action: () -> (Unit)
+): View {
+    val binding = DialogStandartBinding.inflate(LayoutInflater.from(this))
+    val builder = AlertDialog.Builder(this).setView(binding.root)
+    val dialog = builder.show()
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.window?.setLayout(DIALOG_WIDTH, DIALOG_HEIGHT)
+    binding.textViewTitle.text = title
+    binding.textViewMessage.text = message
+    binding.buttonCancel.setOnClickListener { dialog.dismiss() }
+    binding.buttonSignOut.setOnClickListener {
+        action()
+        dialog.dismiss()
+    }
+    return binding.root
+}
 
 fun Activity.saveImage(url: String, progressBar: ProgressBar) = Glide.with(this)
     .asBitmap()

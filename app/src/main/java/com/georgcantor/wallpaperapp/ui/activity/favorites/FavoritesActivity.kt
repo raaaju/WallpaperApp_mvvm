@@ -10,6 +10,7 @@ import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.ui.activity.BaseActivity
 import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
+import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import com.google.gson.Gson
@@ -60,7 +61,12 @@ class FavoritesActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_remove_all) viewModel.deleteAll()
+        if (item.itemId == R.id.action_remove_all) {
+            showDialog(
+                getString(R.string.delete_all),
+                getString(R.string.remove_fav_dialog_message)
+            ) { viewModel.deleteAll() }
+        }
         return super.onOptionsItemSelected(item)
     }
 }
