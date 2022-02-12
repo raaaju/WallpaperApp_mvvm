@@ -22,15 +22,15 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val viewModel: GalleryViewModel by viewModel()
+    private val request by lazy { (findNavController().currentDestination?.label).toString() }
+    private val galleryAdapter by lazy {
+        GalleryAdapter { pic ->
+            requireActivity().startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)= with(binding) {
         super.onViewCreated(view, savedInstanceState)
-
-        val request = (findNavController().currentDestination?.label).toString()
-
-        val galleryAdapter = GalleryAdapter { pic ->
-            requireActivity().startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
-        }
 
         galleryAdapter.addLoadStateListener { state ->
             when (val stateRefresh = state.refresh) {
@@ -41,11 +41,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
                 is LoadState.NotLoading -> {
                     stateViewFlipper.setStateData()
                     if (galleryAdapter.itemCount == 0 && state.append.endOfPaginationReached) {
-                        stateViewFlipper.setEmptyStateWithTitles(
-                            getString(R.string.something_went_wrong),
-                            getString(R.string.something_went_wrong),
-                            getString(R.string.something_went_wrong)
-                        )
+                        stateViewFlipper.setEmptyState()
                     }
                 }
             }
@@ -56,12 +52,16 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             adapter = galleryAdapter
         }
 
+        getData()
+        stateViewFlipper.setEmptyMethod { getData() }
+        stateViewFlipper.setRetryMethod { getData() }
+    }
+
+    private fun getData() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getPicListStream(request).collectLatest {
                 galleryAdapter.submitData(it)
             }
         }
-        stateViewFlipper.setEmptyMethod {  }
-        stateViewFlipper.setRetryMethod {  }
     }
 }

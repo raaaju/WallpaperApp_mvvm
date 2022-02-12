@@ -122,7 +122,6 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     fun currentState() = state
 
-    /** Метод деактивирует определенное состояние и не обрабатывает его в changeState() */
     fun disableState(vararg states: State) {
         for (state in states) {
             if (stateIsDisabled(state)) continue
