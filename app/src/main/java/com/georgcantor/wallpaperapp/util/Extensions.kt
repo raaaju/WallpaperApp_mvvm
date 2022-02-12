@@ -36,12 +36,15 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.DialogStandartBinding
-import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
+import com.georgcantor.wallpaperapp.model.remote.response.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 inline fun <reified T : Activity> Activity.startActivity(block: Intent.() -> Unit = {}) {
     startActivity(Intent(this, T::class.java).apply(block))
@@ -235,3 +238,19 @@ fun View.gone() { visibility = GONE }
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ) = lazy(LazyThreadSafetyMode.NONE) { bindingInflater.invoke(layoutInflater) }
+
+fun Throwable.parseError(): ParsedError {
+    return when {
+        isNetworkError() -> NetworkError(
+            NETWORK_ERROR_CODE, NETWORK_ERROR_TITLE, NETWORK_ERROR_MESSAGE, NETWORK_ERROR_BUTTON
+        )
+        else -> return GeneralError(
+            DEFAULT_ERROR_CODE, DEFAULT_ERROR_TITLE, DEFAULT_ERROR_MESSAGE, DEFAULT_ERROR_BUTTON
+        )
+    }
+}
+
+private fun Throwable.isNetworkError() = when (this) {
+    is ConnectException, is UnknownHostException, is SocketTimeoutException -> true
+    else -> false
+}

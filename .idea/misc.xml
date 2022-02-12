@@ -10,8 +10,6 @@
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/activity_favorites.xml" value="0.3680555555555556" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/activity_main.xml" value="0.17953929539295393" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/activity_search.xml" value="0.2368659420289855" />
-        <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/activity_video.xml" value="0.35462962962962963" />
-        <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/dialog_standart.xml" value="0.35462962962962963" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/fragment_detail.xml" value="0.17299006323396568" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/fragment_gallery.xml" value="0.17953929539295393" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/item_category.xml" value="0.2368659420289855" />
@@ -22,6 +20,7 @@
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/view_state_loading.xml" value="0.3680555555555556" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/view_state_loading_top.xml" value="0.3680555555555556" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/view_text_with_right_arrow.xml" value="0.3680555555555556" />
+        <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/layout/view_text_with_rigth_arrow.xml" value="0.335" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.35462962962962963" />
         <entry key="..\:/AndroidProjects/WallpaperApp/app/src/main/res/menu/main_menu.xml" value="0.2111111111111111" />
       </map>
