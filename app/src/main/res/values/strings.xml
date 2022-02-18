@@ -9,6 +9,7 @@
     <string name="something_went_wrong">Something went wrong…</string>
     <string name="not_found">Nothing found:(</string>
     <string name="wallpaper_is_install">Setting wallpaper in progress…</string>
+    <string name="retry">Retry</string>
     <string name="navigation" translatable="false">navigation drawer</string>
     <string name="detail_image" translatable="false">detail image</string>
     <string name="category_item" translatable="false">Category item</string>

@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.georgcantor.wallpaperapp.databinding.FragmentGalleryBinding
+import com.georgcantor.wallpaperapp.model.remote.response.LoadableResult
 import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryAdapter
 import com.georgcantor.wallpaperapp.ui.fragment.GalleryViewModel
@@ -20,34 +21,48 @@ class GalleryActivity : BaseActivity() {
     private val binding by viewBinding(FragmentGalleryBinding::inflate)
     private val viewModel: GalleryViewModel by viewModel()
     private val query by lazy { intent.getStringExtra(PIC_EXTRA).orEmpty() }
+    private val adapter by lazy {
+        GalleryAdapter { startActivity<DetailActivity> { putExtra(PIC_EXTRA, it) } }
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) = with(binding) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(root)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             title = query
         }
 
-        val adapter = GalleryAdapter { pic ->
-            startActivity<DetailActivity> { putExtra(PIC_EXTRA, pic) }
+        adapter.addLoadStateListener { state ->
+            when (val stateRefresh = state.refresh) {
+                is LoadState.Error -> {
+                    stateViewFlipper.setStateFromResult(LoadableResult.failure<Unit>(stateRefresh.error))
+                }
+                is LoadState.Loading -> stateViewFlipper.setStateLoading()
+                is LoadState.NotLoading -> {
+                    stateViewFlipper.setStateData()
+                    if (adapter.itemCount == 0 && state.append.endOfPaginationReached) {
+                        stateViewFlipper.setEmptyState()
+                    }
+                }
+            }
         }
 
-        adapter.addLoadStateListener {
-            binding.progressBar.isVisible = it.source.refresh is LoadState.Loading
+        picturesRecycler.adapter = adapter
+        getData()
+        getNetworkLiveData(applicationContext).observe(this@GalleryActivity) {
+            noInternetWarning.isVisible = !it
         }
+        stateViewFlipper.setEmptyMethod { getData() }
+        stateViewFlipper.setRetryMethod { getData() }
+    }
 
-        binding.picturesRecycler.adapter = adapter
-
+    private fun getData() {
         lifecycleScope.launchWhenStarted {
             viewModel.getPicListStream(query).collectLatest {
                 adapter.submitData(it)
             }
-        }
-
-        getNetworkLiveData(applicationContext).observe(this) {
-            binding.noInternetWarning.isVisible = !it
         }
     }
 }

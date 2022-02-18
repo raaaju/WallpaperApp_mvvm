@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="StatefulMaterialButton">
+        <attr name="progressColor" format="color" />
+        <attr name="backgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="StateViewFlipper">
+        <attr name="loadingLayoutRes" format="reference" />
+        <attr name="errorLayoutRes" format="reference" />
+        <attr name="emptyLayoutRes" format="reference" />
+        <attr name="errorViewsColor" format="color" />
+        <!-- позволяет прибивать состояние ошибки к верху контейнера -->
+        <attr name="collapseStatesToTop" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="EmptyView">
+        <attr name="emptyAnimationSrc" format="reference" />
+        <attr name="emptyImageSrc" format="reference" />
+        <attr name="emptyTitle" format="reference" />
+        <attr name="emptyComment" format="reference" />
+        <attr name="emptyButton" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ArrowTextView">
+        <attr name="arrowTextViewText" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="EditCodeView">
+        <attr name="countItem" format="integer" />
+        <attr name="marginItem" format="dimension" />
+        <attr name="text_size" format="dimension" />
+        <attr name="charColor" format="color" />
+        <attr name="errorCharColor" format="color" />
+        <attr name="inputBorderColor" format="color" />
+        <attr name="itemSizeMax" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="DoubleTextView">
+        <attr name="textAppearance" format="reference" />
+        <attr name="descriptionText" format="string" />
+        <attr name="valueText" format="string" />
+        <attr name="textColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ReadMoreTextView">
+        <attr name="readMoreMaxLine" format="integer" />
+        <attr name="readMoreText" format="string|reference" />
+        <attr name="readMoreColor" format="color|reference" />
+        <attr name="readMoreEllipsize" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ListWithTitleView">
+        <attr name="visibleTextAll" format="boolean" />
+        <attr name="typePrice" format="enum">
+            <enum name="fullPrice" value="0" />
+            <enum name="shortPrice" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>

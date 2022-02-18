@@ -23,8 +23,6 @@ import com.georgcantor.wallpaperapp.util.Constants.MAIN_STORAGE
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
 import com.google.android.material.navigation.NavigationView
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.delay
 import org.koin.android.ext.android.inject
@@ -36,8 +34,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var currentNavController: LiveData<NavController>? = null
     private var backButtonPressedTwice = false
-    private lateinit var reviewManager: ReviewManager
-    private lateinit var reviewInfo: ReviewInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +49,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         var openCounter: Int = preferences.getAny(0, OPEN_COUNT) as Int
         if (openCounter >= 4) {
-            reviewManager = ReviewManagerFactory.create(this)
+            val reviewManager = ReviewManagerFactory.create(this)
             val request = reviewManager.requestReviewFlow()
             request.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    reviewInfo = task.result
-                    if (::reviewInfo.isInitialized) reviewManager.launchReviewFlow(this, reviewInfo)
+                    val reviewInfo = task.result
+                    reviewManager.launchReviewFlow(this, reviewInfo)
                 }
             }
         } else {
