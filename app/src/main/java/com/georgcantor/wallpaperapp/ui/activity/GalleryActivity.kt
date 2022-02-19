@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -13,13 +14,14 @@ import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class GalleryActivity : BaseActivity() {
 
     private val binding by viewBinding(FragmentGalleryBinding::inflate)
-    private val viewModel: GalleryViewModel by viewModel()
+    private val viewModel: GalleryViewModel by viewModels()
     private val query by lazy { intent.getStringExtra(PIC_EXTRA).orEmpty() }
     private val adapter by lazy {
         GalleryAdapter { startActivity<DetailActivity> { putExtra(PIC_EXTRA, it) } }

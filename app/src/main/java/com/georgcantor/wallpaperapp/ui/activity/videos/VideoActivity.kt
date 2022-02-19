@@ -10,7 +10,9 @@ import com.georgcantor.wallpaperapp.util.Constants.ID_EXTRA
 import com.georgcantor.wallpaperapp.util.viewBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VideoActivity : BaseActivity() {
 
     private val binding by viewBinding(ActivityVideoBinding::inflate)

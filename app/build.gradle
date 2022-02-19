@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -62,8 +63,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
     implementation "androidx.navigation:navigation-runtime-ktx:2.3.5"
 
-    implementation "org.koin:koin-android:2.1.6"
-    implementation "org.koin:koin-androidx-viewmodel:2.1.5"
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-compiler:2.38.1"
 
     implementation "androidx.paging:paging-runtime-ktx:3.1.0"
 
@@ -80,4 +81,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+}
+
+kapt {
+    correctErrorTypes = true
 }

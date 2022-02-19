@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavoritesViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class FavoritesViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     val favorites = MutableLiveData<List<Favorite>>()
     val isEmpty = MutableLiveData<Boolean>()

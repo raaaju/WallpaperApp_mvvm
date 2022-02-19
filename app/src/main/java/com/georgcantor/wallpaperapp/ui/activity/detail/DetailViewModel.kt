@@ -7,9 +7,12 @@ import com.georgcantor.wallpaperapp.model.local.Favorite
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.repository.Repository
 import com.google.gson.Gson
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(private val repo: Repository) : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val repo: Repository) : ViewModel() {
 
     val isFavorite = MutableLiveData<Boolean>()
 

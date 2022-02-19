@@ -1,6 +1,7 @@
 package com.georgcantor.wallpaperapp.ui.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -12,14 +13,15 @@ import com.georgcantor.wallpaperapp.ui.fragment.GalleryViewModel
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class SearchActivity : BaseActivity() {
 
     private val binding by viewBinding(ActivitySearchBinding::inflate)
-    private val viewModel: GalleryViewModel by viewModel()
+    private val viewModel: GalleryViewModel by viewModels()
     private lateinit var galleryAdapter: GalleryAdapter
     private var isFirstRequest = true
     private var isDelayed = false

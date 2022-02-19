@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.ui.activity.favorites
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityFavoritesBinding
@@ -14,12 +15,13 @@ import com.georgcantor.wallpaperapp.util.showDialog
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
 import com.google.gson.Gson
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesActivity : BaseActivity() {
 
     private val binding by viewBinding(ActivityFavoritesBinding::inflate)
-    private val viewModel: FavoritesViewModel by viewModel()
+    private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

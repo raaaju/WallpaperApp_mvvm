@@ -5,8 +5,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.georgcantor.wallpaperapp.repository.PicPagingSource
 import com.georgcantor.wallpaperapp.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class GalleryViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class GalleryViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     var q: String = ""
 
