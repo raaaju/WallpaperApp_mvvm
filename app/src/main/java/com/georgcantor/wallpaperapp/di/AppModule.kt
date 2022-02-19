@@ -2,6 +2,7 @@ package com.georgcantor.wallpaperapp.di
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import com.georgcantor.wallpaperapp.model.local.FavDatabase
 import com.georgcantor.wallpaperapp.model.remote.ApiClient
 import com.georgcantor.wallpaperapp.util.Constants.MAIN_STORAGE
@@ -26,5 +27,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesPreferences(@ApplicationContext context: Context) = context.getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE)
+    fun providesPreferences(@ApplicationContext context: Context): SharedPreferences = context.getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE)
 }
