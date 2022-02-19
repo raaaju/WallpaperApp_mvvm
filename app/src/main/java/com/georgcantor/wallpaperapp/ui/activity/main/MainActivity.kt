@@ -19,19 +19,19 @@ import com.georgcantor.wallpaperapp.ui.activity.categories.CategoriesActivity
 import com.georgcantor.wallpaperapp.ui.activity.favorites.FavoritesActivity
 import com.georgcantor.wallpaperapp.ui.activity.videos.VideosActivity
 import com.georgcantor.wallpaperapp.util.*
-import com.georgcantor.wallpaperapp.util.Constants.MAIN_STORAGE
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.NetworkUtils.getNetworkLiveData
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.review.ReviewManagerFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    @Inject lateinit var preferences: SharedPreferences
     private val binding by viewBinding(ActivityMainBinding::inflate)
-    private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var currentNavController: LiveData<NavController>? = null
     private var backButtonPressedTwice = false
 

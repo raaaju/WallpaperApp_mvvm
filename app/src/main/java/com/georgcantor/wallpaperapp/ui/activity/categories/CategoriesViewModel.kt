@@ -8,11 +8,14 @@ import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.model.remote.response.Category
 import com.georgcantor.wallpaperapp.repository.Repository
 import com.georgcantor.wallpaperapp.util.isNetworkAvailable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CategoriesViewModel(
+@HiltViewModel
+class CategoriesViewModel @Inject constructor(
     private val app: Application,
     private val repository: Repository
 ) : AndroidViewModel(app) {

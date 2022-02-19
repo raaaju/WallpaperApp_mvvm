@@ -9,8 +9,9 @@ import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
 import com.georgcantor.wallpaperapp.util.Constants.VIDEOS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class Repository(
+class Repository @Inject constructor(
     private val service: ApiService,
     private val dao: FavDao
 ) {

@@ -3,6 +3,7 @@ package com.georgcantor.wallpaperapp.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -15,13 +16,14 @@ import com.georgcantor.wallpaperapp.ui.activity.detail.DetailActivity
 import com.georgcantor.wallpaperapp.util.Constants.PIC_EXTRA
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private val binding by viewBinding(FragmentGalleryBinding::bind)
-    private val viewModel: GalleryViewModel by viewModel()
+    private val viewModel: GalleryViewModel by viewModels()
     private val request by lazy { (findNavController().currentDestination?.label).toString() }
     private val galleryAdapter by lazy {
         GalleryAdapter { pic ->

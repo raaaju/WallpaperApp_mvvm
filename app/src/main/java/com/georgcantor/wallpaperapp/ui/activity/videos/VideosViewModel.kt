@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.georgcantor.wallpaperapp.model.remote.response.videos.Item
 import com.georgcantor.wallpaperapp.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class VideosViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class VideosViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     val videos = MutableLiveData<List<Item>>()
 

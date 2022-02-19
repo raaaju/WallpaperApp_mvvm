@@ -3,8 +3,9 @@ package com.georgcantor.wallpaperapp.repository
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.georgcantor.wallpaperapp.model.remote.response.CommonPic
+import javax.inject.Inject
 
-class PicPagingSource(
+class PicPagingSource @Inject constructor(
     private val repository: Repository,
     private val query: String
 ) : PagingSource<Int, CommonPic>() {

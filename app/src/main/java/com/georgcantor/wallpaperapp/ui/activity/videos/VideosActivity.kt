@@ -1,18 +1,20 @@
 package com.georgcantor.wallpaperapp.ui.activity.videos
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.georgcantor.wallpaperapp.R
 import com.georgcantor.wallpaperapp.databinding.ActivityVideosBinding
 import com.georgcantor.wallpaperapp.ui.activity.BaseActivity
 import com.georgcantor.wallpaperapp.util.Constants.ID_EXTRA
 import com.georgcantor.wallpaperapp.util.startActivity
 import com.georgcantor.wallpaperapp.util.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VideosActivity : BaseActivity() {
 
     private val binding by viewBinding(ActivityVideosBinding::inflate)
-    private val viewModel: VideosViewModel by viewModel()
+    private val viewModel: VideosViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
