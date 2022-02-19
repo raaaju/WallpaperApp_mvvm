@@ -7,7 +7,7 @@ An android app for viewing and downloading cool wallpapers ad-free as well as co
 
 ## Built With 🛠
 * Written in [Kotlin](https://kotlinlang.org/) - The official and modern programming language for Android development.
-* [Koin](https://insert-koin.io/) - A lightweight dependency injection framework for Kotlin developers.
+* [Dagger Hilt](https://dagger.dev/hilt/) - A dependency injection library for Android.
 * [Coroutines](https://developer.android.com/kotlin/coroutines) -  "Light-weight threads" for asynchronous background operations.
 * [Retrofit2](https://square.github.io/retrofit/) - RESTful API and networking client for Android and Java.
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - A collections of libraries that help you design robust, testable and maintainable apps.
