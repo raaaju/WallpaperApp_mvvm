@@ -47,18 +47,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.noInternetWarning.isVisible = !it
         }
 
-        var openCounter: Int = preferences.getAny(0, OPEN_COUNT) as Int
-        if (openCounter >= 4) {
-            val reviewManager = ReviewManagerFactory.create(this)
-            val request = reviewManager.requestReviewFlow()
-            request.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val reviewInfo = task.result
-                    reviewManager.launchReviewFlow(this, reviewInfo)
+        if (this::preferences.isInitialized) {
+            var openCounter: Int = preferences.getAny(0, OPEN_COUNT) as Int
+            if (openCounter >= 4) {
+                val reviewManager = ReviewManagerFactory.create(this)
+                val request = reviewManager.requestReviewFlow()
+                request.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val reviewInfo = task.result
+                        reviewManager.launchReviewFlow(this, reviewInfo)
+                    }
                 }
+            } else {
+                preferences.putAny(OPEN_COUNT, ++openCounter)
             }
-        } else {
-            preferences.putAny(OPEN_COUNT, ++openCounter)
         }
     }
 
