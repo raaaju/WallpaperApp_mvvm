@@ -55,6 +55,7 @@
         android:layout_gravity="start"
         android:background="@color/black"
         android:fitsSystemWindows="true"
+        android:fontFamily="@font/montserrat"
         android:theme="@style/NavigationViewTheme"
         app:headerLayout="@layout/nav_header_main"
         app:itemTextColor="@color/white"
