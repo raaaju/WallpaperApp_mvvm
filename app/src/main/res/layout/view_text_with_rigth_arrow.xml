@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:fontFamily="@font/montserrat"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:paddingVertical="8dp"

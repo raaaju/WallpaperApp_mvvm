@@ -16,7 +16,7 @@ class Repository @Inject constructor(
     private val dao: FavDao
 ) {
 
-    suspend fun getPictures(query: String, page: Int): List<CommonPic> {
+    suspend fun getPics(query: String, page: Int): List<CommonPic> {
         val list = mutableListOf<CommonPic>()
 
         withContext(Dispatchers.IO) {

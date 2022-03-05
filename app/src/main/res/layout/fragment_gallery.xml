@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/black"
+            android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="@string/no_internet"
             android:textColor="@android:color/holo_red_dark"

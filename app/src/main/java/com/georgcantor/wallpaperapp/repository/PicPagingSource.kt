@@ -13,7 +13,7 @@ class PicPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommonPic> {
         return try {
             val nextPage = params.key ?: 1
-            val response = repository.getPictures(query, nextPage)
+            val response = repository.getPics(query, nextPage)
             LoadResult.Page(
                 response,
                 if (nextPage == 1) null else nextPage - 1,

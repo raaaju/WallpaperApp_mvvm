@@ -27,24 +27,24 @@ class CategoriesViewModel @Inject constructor(
         if (app.baseContext.isNetworkAvailable()) {
             viewModelScope.launch(Dispatchers.IO) {
                 val names = app.baseContext.resources.getStringArray(R.array.categories_array)
-                val pictures = mutableListOf<Category>()
+                val list = mutableListOf<Category>()
 
                 with(repository) {
-                    async { getPictures(names[0], 1)[0].apply { pictures.add(Category(names[0], url)) } }
-                    async { getPictures(names[1], 1)[0].apply { pictures.add(Category(names[1], url)) } }
-                    async { getPictures(names[2], 1)[0].apply { pictures.add(Category(names[2], url)) } }
-                    async { getPictures(names[3], 1)[0].apply { pictures.add(Category(names[3], url)) } }
-                    async { getPictures(names[4], 1)[0].apply { pictures.add(Category(names[4], url)) } }
-                    async { getPictures(names[5], 1)[0].apply { pictures.add(Category(names[5], url)) } }
-                    async { getPictures(names[6], 1)[0].apply { pictures.add(Category(names[6], url)) } }
-                    async { getPictures(names[7], 1)[0].apply { pictures.add(Category(names[7], url)) } }
-                    async { getPictures(names[8], 1)[0].apply { pictures.add(Category(names[8], url)) } }
-                    async { getPictures(names[9], 1)[0].apply { pictures.add(Category(names[9], url)) } }
-                    async { getPictures(names[10], 1)[0].apply { pictures.add(Category(names[10], url)) } }
-                    async { getPictures(names[11], 1)[0].apply { pictures.add(Category(names[11], url)) } }
+                    async { getPics(names.getOrNull(0).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[0], url)) } }
+                    async { getPics(names.getOrNull(1).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[1], url)) } }
+                    async { getPics(names.getOrNull(2).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[2], url)) } }
+                    async { getPics(names.getOrNull(3).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[3], url)) } }
+                    async { getPics(names.getOrNull(4).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[4], url)) } }
+                    async { getPics(names.getOrNull(5).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[5], url)) } }
+                    async { getPics(names.getOrNull(6).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[6], url)) } }
+                    async { getPics(names.getOrNull(7).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[7], url)) } }
+                    async { getPics(names.getOrNull(8).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[8], url)) } }
+                    async { getPics(names.getOrNull(9).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[9], url)) } }
+                    async { getPics(names.getOrNull(10).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[10], url)) } }
+                    async { getPics(names.getOrNull(11).orEmpty(), 1).getOrNull(0)?.apply { list.add(Category(names[11], url)) } }
                 }
 
-                categories.postValue(pictures)
+                categories.postValue(list)
                 progressIsVisible.postValue(false)
             }
         }
