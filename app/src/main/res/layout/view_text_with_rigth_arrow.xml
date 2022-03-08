@@ -29,6 +29,6 @@
         android:paddingVertical="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Открыть" />
+        tools:text="Retry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
