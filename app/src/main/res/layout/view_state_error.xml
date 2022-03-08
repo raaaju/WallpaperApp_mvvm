@@ -18,26 +18,23 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textErrorTitle"
+        style="@style/TextAppearance.Montserrat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/montserrat"
         android:text="@string/something_went_wrong"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textErrorRetryTitle"
+        style="@style/TextAppearance.Montserrat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/montserrat"
         android:text="@string/not_found"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textAlignment="center" />
 
     <com.georgcantor.wallpaperapp.util.view.ArrowTextView
         android:id="@+id/textViewErrorAction"

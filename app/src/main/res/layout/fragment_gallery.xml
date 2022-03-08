@@ -25,12 +25,12 @@
             app:spanCount="2"
             tools:listitem="@layout/item_picture" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/no_internet_warning"
+            style="@style/TextAppearance.Montserrat"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/black"
-            android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="@string/no_internet"
             android:textColor="@android:color/holo_red_dark"

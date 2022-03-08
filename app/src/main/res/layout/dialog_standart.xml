@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/textViewTitle"
+        style="@style/TextAppearance.Montserrat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:fontFamily="@font/montserrat"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -22,13 +22,12 @@
 
     <TextView
         android:id="@+id/textViewMessage"
+        style="@style/TextAppearance.Montserrat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="42dp"
-        android:fontFamily="@font/montserrat"
         android:textColor="@color/black"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/textViewTitle"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
