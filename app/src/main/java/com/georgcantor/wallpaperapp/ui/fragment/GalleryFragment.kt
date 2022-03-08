@@ -57,12 +57,14 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         getData()
         stateViewFlipper.setEmptyMethod { getData() }
         stateViewFlipper.setRetryMethod { getData() }
+        swipeRefreshLayout.setOnRefreshListener { getData() }
     }
 
     private fun getData() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getPicListStream(request).collectLatest {
                 galleryAdapter.submitData(it)
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }

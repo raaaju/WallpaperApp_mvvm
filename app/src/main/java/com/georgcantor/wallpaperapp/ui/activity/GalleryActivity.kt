@@ -58,12 +58,14 @@ class GalleryActivity : BaseActivity() {
         }
         stateViewFlipper.setEmptyMethod { getData() }
         stateViewFlipper.setRetryMethod { getData() }
+        swipeRefreshLayout.setOnRefreshListener { getData() }
     }
 
     private fun getData() {
         lifecycleScope.launchWhenStarted {
             viewModel.getPicListStream(query).collectLatest {
                 adapter.submitData(it)
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }
