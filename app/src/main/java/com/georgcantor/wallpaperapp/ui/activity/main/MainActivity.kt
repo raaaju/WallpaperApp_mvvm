@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> binding.drawerLayout.openDrawer(START)
             R.id.action_search -> startActivity<SearchActivity>()
             R.id.action_gallery -> startActivity<CategoriesActivity>()
             R.id.action_videos -> startActivity<VideosActivity>()
@@ -95,6 +96,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         controller.observe(this) { navController ->
             setupActionBarWithNavController(navController)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline)
         }
         currentNavController = controller
     }
