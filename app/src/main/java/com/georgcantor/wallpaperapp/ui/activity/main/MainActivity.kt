@@ -4,9 +4,11 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat.START
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -62,6 +64,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 preferences.putAny(OPEN_COUNT, ++openCounter)
             }
         }
+
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+
+            override fun onDrawerOpened(drawerView: View) {
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline)
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {}
+        })
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -74,9 +90,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = with(binding.drawerLayout) {
         when (item.itemId) {
-            android.R.id.home -> binding.drawerLayout.openDrawer(START)
+            android.R.id.home -> if (isDrawerOpen(START)) closeDrawer(START) else openDrawer(START)
             R.id.action_search -> startActivity<SearchActivity>()
             R.id.action_gallery -> startActivity<CategoriesActivity>()
             R.id.action_videos -> startActivity<VideosActivity>()

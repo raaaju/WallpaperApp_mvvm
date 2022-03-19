@@ -63,7 +63,7 @@ class GalleryActivity : BaseActivity() {
 
     private fun getData() {
         lifecycleScope.launchWhenStarted {
-            viewModel.getPicListStream(query).collectLatest {
+            viewModel.getPictures(query).collectLatest {
                 adapter.submitData(it)
                 binding.swipeRefreshLayout.isRefreshing = false
             }
