@@ -66,13 +66,13 @@ class SearchActivity : BaseActivity() {
         lifecycleScope.launchWhenStarted {
             if (isFirstRequest) {
                 isFirstRequest = false
-                viewModel.getPicListStream().collectLatest { galleryAdapter.submitData(it) }
+                viewModel.getPictures().collectLatest { galleryAdapter.submitData(it) }
             } else {
                 if (!isDelayed) {
                     isDelayed = true
                     delay(2000)
                     isDelayed = false
-                    viewModel.getPicListStream().collectLatest { galleryAdapter.submitData(it) }
+                    viewModel.getPictures().collectLatest { galleryAdapter.submitData(it) }
                 }
             }
         }

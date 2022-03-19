@@ -13,7 +13,7 @@ class GalleryViewModel @Inject constructor(private val repository: Repository) :
 
     var q: String = ""
 
-    fun getPicListStream(query: String? = null) = Pager(PagingConfig(40)) {
+    fun getPictures(query: String? = null) = Pager(PagingConfig(40)) {
         PicPagingSource(repository, query ?: q)
     }.flow
 }

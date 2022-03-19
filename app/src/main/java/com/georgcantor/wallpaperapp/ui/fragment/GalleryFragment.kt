@@ -62,7 +62,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun getData() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.getPicListStream(request).collectLatest {
+            viewModel.getPictures(request).collectLatest {
                 galleryAdapter.submitData(it)
                 binding.swipeRefreshLayout.isRefreshing = false
             }
