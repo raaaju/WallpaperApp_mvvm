@@ -17,6 +17,3 @@ An android app for viewing and downloading cool wallpapers ad-free as well as co
      * [Navigation](https://developer.android.com/guide/navigation) - Navigation refers to the interactions that allow users to navigate across, into, and back out from the different pieces of content within your app.
      * [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network.
 </br>
-
-## Download
-<a href="https://play.google.com/store/apps/details?id=com.georgcantor.wallpaperapp" target="_blank"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="80"/></a>     
